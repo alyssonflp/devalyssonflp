@@ -11,7 +11,7 @@ function typePassword() {
     const fullPass = "********";
     let i = 0;
     
-    if (!passInput) return; // Segurança caso o elemento sumiu
+    if (!passInput) return;
 
     const interval = setInterval(() => {
         passInput.value += fullPass[i]; 
@@ -20,15 +20,27 @@ function typePassword() {
         if (i >= fullPass.length) {
             clearInterval(interval);
             
-            // BUSCA PELOS ELEMENTOS DE STATUS E LOADER
+            // Ajustado para o seu CSS: boot-loader-bar
             const statusMsg = document.getElementById('login-status');
-            const loaderBar = document.getElementById('login-loader');
+            const loaderBar = document.querySelector('.boot-loader-bar');
             
             if (statusMsg) statusMsg.innerText = "Autenticando...";
-            if (loaderBar) loaderBar.style.display = "block";
             
-            // Inicia o boot após a simulação de autenticação
-            setTimeout(startBoot, 1200);
+            // Simula o carregamento da barra antes de entrar
+            if (loaderBar) {
+                let progress = 0;
+                const loadTimer = setInterval(() => {
+                    progress += 5;
+                    loaderBar.style.width = progress + "%";
+                    if (progress >= 100) {
+                        clearInterval(loadTimer);
+                        setTimeout(startBoot, 500);
+                    }
+                }, 50);
+            } else {
+                // Se não achar a barra, vai direto para não travar
+                setTimeout(startBoot, 1000);
+            }
         }
     }, 120);
 }
@@ -98,20 +110,20 @@ function openBio() {
         if (bioRes) {
             bioRes.innerHTML = `
             <div style="text-align:center; margin-top:10px;">
-                <h1 class="profile-name">Alysson Felipe</h1>
-                <p style="color:var(--accent); font-weight:bold; font-size:14px; margin-bottom:15px;">> ADS | UI/UX Designer | IoT & IA</p>
+                <h1 class="main-name">Alysson Felipe</h1>
+                <p class="ads-text">> ADS | UI/UX Designer | IoT & IA</p>
                 
                 <div class="social-links">
-                    <a href="https://github.com/alyssonflp" target="_blank" class="github"><i class="fab fa-github"></i></a>
-                    <a href="https://linkedin.com/in/alyssonfelipe" target="_blank" class="linkedin"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://instagram.com/alysson.dev" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://github.com/alyssonflp" target="_blank" class="social-icon fa-github"><i class="fab fa-github"></i></a>
+                    <a href="https://linkedin.com/in/alyssonfelipe" target="_blank" class="social-icon fa-linkedin"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://instagram.com/alysson.dev" target="_blank" class="social-icon fa-instagram"><i class="fab fa-instagram"></i></a>
                 </div>
 
                 <p style="text-align:left; opacity:0.8; margin: 20px 0; font-size:14px; line-height:1.6;">
                     Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de tecnologia para criar sistemas inteligentes e interfaces funcionais.
                 </p>
 
-                <a href="./assets/cv-alysson.pdf" download class="cv-btn">
+                <a href="./assets/cv-alysson.pdf" download class="cv-btn" style="opacity:1;">
                     CURRICULO <i class="fas fa-download"></i>
                 </a>
             </div>`;
@@ -169,9 +181,9 @@ function openContact() {
         if (contactRes) {
             contactRes.innerHTML = `
                 <form id="email-form" action="https://formspree.io/f/xbdaajro" method="POST" style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
-                    <input type="email" name="email" placeholder="Seu e-mail" required style="background: rgba(255,255,255,0.05); border: 1px solid #333; color: white; padding: 8px;">
-                    <textarea name="message" placeholder="Sua mensagem..." required style="background: rgba(255,255,255,0.05); border: 1px solid #333; color: white; padding: 8px; height: 80px;"></textarea>
-                    <button type="submit" style="background: var(--accent); color: white; padding: 10px; border: none; cursor: pointer; font-weight: bold;">ENVIAR</button>
+                    <input type="email" name="email" class="terminal-input" placeholder="Seu e-mail" required>
+                    <textarea name="message" class="terminal-input" placeholder="Sua mensagem..." required style="height: 80px;"></textarea>
+                    <button type="submit" class="terminal-btn">ENVIAR</button>
                 </form><div id="success-output"></div>`;
 
             const form = document.getElementById('email-form');
@@ -186,7 +198,7 @@ function openContact() {
      \\___ \\| |  | | |    |  __|  \\___ \\\\___ \\| |  | |
      ____) | |__| | |____| |____ ____) |___) | |__| |
     |_____/ \\____/ \\_____|______|_____/_____/ \\____/ </b>`;
-                    document.getElementById('success-output').innerHTML = `<pre class="ascii-success">${art}\n\n[ MENSAGEM ENVIADA COM SUCESSO ]</pre>`;
+                    document.getElementById('success-output').innerHTML = `<pre class="ascii-success" style="color:var(--accent);">${art}\n\n[ MENSAGEM ENVIADA COM SUCESSO ]</pre>`;
                     form.style.display = 'none';
                 }
             };
@@ -198,7 +210,6 @@ function closeWin() {
     if (win) win.style.display = 'none'; 
 }
 
-// Background Neural
 const canvas = document.getElementById('neural-canvas');
 if (canvas) {
     const ctx = canvas.getContext('2d');
@@ -209,7 +220,7 @@ if (canvas) {
     for(let i=0; i<30; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5});
     function anim() {
         ctx.clearRect(0,0,canvas.width,canvas.height); 
-        ctx.fillStyle = 'rgba(59,130,246,0.15)';
+        ctx.fillStyle = 'rgba(147, 51, 234, 0.15)'; // Ajustado para roxo
         pts.forEach(p => {
             p.x+=p.vx; p.y+=p.vy;
             if(p.x<0||p.x>canvas.width) p.vx*=-1; 
