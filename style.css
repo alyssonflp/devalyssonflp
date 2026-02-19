@@ -9,7 +9,6 @@
     --border: #333333;
     --accent: #3b82f6;
     --input-bg: rgba(255, 255, 255, 0.1);
-    --highlight: #22d3ee;
 }
 
 @media (prefers-color-scheme: light) {
@@ -24,14 +23,13 @@
         --border: #d0d0d0;
         --accent: #2563eb;
         --input-bg: rgba(0, 0, 0, 0.05);
-        --highlight: #0891b2;
     }
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 body { background: var(--bg-site); color: var(--text-main); height: 100vh; overflow: hidden; font-family: 'Segoe UI', system-ui, sans-serif; }
 
-/* Login e Boot */
+/* Login & Hello */
 #login-screen { position: fixed; inset: 0; z-index: 5000; background: var(--bg-login); display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease; }
 .login-box { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 350px; text-align: center; }
 .login-avatar { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--accent); object-fit: cover; margin-bottom: 15px; }
@@ -44,7 +42,7 @@ body { background: var(--bg-site); color: var(--text-main); height: 100vh; overf
 #hello-screen { position: fixed; inset: 0; z-index: 4500; background: var(--bg-hello); display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s; }
 .hello-text { font-size: clamp(24px, 8vw, 38px); color: var(--text-hello); letter-spacing: 8px; font-family: 'Courier New', monospace; font-weight: 200; }
 
-/* Estrutura da Janela */
+/* Window */
 .window { position: fixed; z-index: 2000; top: 45%; left: 50%; transform: translate(-50%, -50%); width: 94vw; max-width: 600px; height: 80vh; max-height: 520px; background: var(--bg-window); border: 1px solid var(--border); border-radius: 12px; display: none; flex-direction: column; backdrop-filter: blur(15px); box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
 .win-header { background: var(--border); padding: 12px 15px; display: flex; align-items: center; border-radius: 12px 12px 0 0; position: relative; }
 .dots { display: flex; gap: 8px; position: absolute; left: 15px; }
@@ -55,8 +53,46 @@ body { background: var(--bg-site); color: var(--text-main); height: 100vh; overf
 #win-title { width: 100%; text-align: center; font-size: 13px; color: var(--text-main); font-family: 'Segoe UI', sans-serif; font-weight: 500; opacity: 0.8; }
 .win-body { flex: 1; padding: 25px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; }
 
-/* Nome com Degradê ROXO e AZUL */
+/* --- NOVAS MUDANÇAS APLICADAS --- */
+
+/* Nome em Degradê Roxo -> Azul */
 .profile-name { 
-    font-size: clamp(26px, 7vw, 32px); 
+    font-size: clamp(24px, 7vw, 32px); 
     font-weight: 800; 
-    background: linear-gradient(90deg, #9333ea, #
+    background: linear-gradient(95deg, #9333ea 0%, #3b82f6 100%); 
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent; 
+    font-family: 'Segoe UI', sans-serif; 
+    letter-spacing: -1px;
+    margin-bottom: 5px;
+}
+
+/* Redes Sociais Cores Originais e Arredondadas */
+.social-links { margin-top: 25px; display: flex; justify-content: center; gap: 15px; }
+.social-links a { 
+    width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 20px; text-decoration: none; transition: 0.3s;
+}
+.social-links a.github { background: #24292e; }
+.social-links a.linkedin { background: #0077b5; }
+.social-links a.instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%); }
+.social-links a:hover { transform: translateY(-5px); filter: brightness(1.2); }
+
+/* Botão CV Pílula e Menor */
+.cv-btn { 
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; 
+    padding: 8px 20px; background: var(--accent); color: #fff; 
+    text-decoration: none; border-radius: 30px; font-weight: 600; 
+    font-family: 'Segoe UI', sans-serif; font-size: 12px; transition: 0.3s; 
+}
+.cv-btn:hover { filter: brightness(1.1); transform: scale(1.05); }
+
+/* Arte de Sucesso */
+.ascii-success { color: #27c93f; font-weight: 900; line-height: 1.2; margin-top: 20px; font-size: 8px; white-space: pre; text-align: center; }
+
+/* Canvas & Dock */
+#neural-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity 1s; }
+.dock-wrap { position: fixed; bottom: 20px; width: 100%; display: flex; justify-content: center; z-index: 3000; pointer-events: none; }
+.dock { display: flex; gap: 15px; padding: 10px 20px; background: var(--bg-dock); border-radius: 40px; border: 1px solid var(--border); backdrop-filter: blur(20px); pointer-events: auto; }
+.dock-i { font-size: 28px; cursor: pointer; transition: 0.2s; color: var(--text-main); }
+.dock-i:hover { transform: scale(1.2) translateY(-5px); color: var(--accent); }
