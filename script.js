@@ -1,8 +1,17 @@
 const win = document.getElementById('main-terminal');
 const content = document.getElementById('content');
 const title = document.getElementById('win-title');
+const beep = document.getElementById('beep-sound');
 
 window.onload = () => { setTimeout(typePassword, 800); };
+
+function playBeep() {
+    if (beep) {
+        beep.volume = 0.2; // Volume baixo para não assustar
+        beep.currentTime = 0;
+        beep.play().catch(e => console.log("Áudio bloqueado pelo browser até interação."));
+    }
+}
 
 function typePassword() {
     const passInput = document.getElementById('pass-input');
@@ -41,6 +50,7 @@ function startBoot() {
                 void dock.offsetWidth;
                 dock.style.opacity = '1';
                 canvas.style.opacity = '1';
+                playBeep(); // SOM TOCA AQUI AO ABRIR O TERMINAL
                 openBio(); 
             }, 500);
         }, 1200);
@@ -121,7 +131,6 @@ function openProject() {
 
 function closeWin() { win.style.display = 'none'; }
 
-// CANVAS NEURAL ESTÁVEL
 const canvas = document.getElementById('neural-canvas');
 const ctx = canvas.getContext('2d');
 let pts = [];
