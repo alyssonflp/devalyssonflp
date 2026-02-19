@@ -2,6 +2,9 @@ const win = document.getElementById('main-terminal');
 const content = document.getElementById('content');
 const title = document.getElementById('win-title');
 
+// SUA CHAVE DE API GEMINI
+const GEMINI_API_KEY = 'AIzaSyDD77zZy_silv-QWLy3t6rh0al3AwvOxYE'; 
+
 window.onload = () => { setTimeout(typePassword, 800); };
 
 function typePassword() {
@@ -60,11 +63,11 @@ function typeTerminal(element, html, speed, callback) {
     }, speed);
 }
 
+// Seções principais
 function openBio() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (profile)";
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="bio-cmd"></span></div><div id="bio-res"></div>`;
-    
     typeTerminal(document.getElementById('bio-cmd'), "./profile.sh", 50, () => {
         document.getElementById('bio-res').innerHTML = `
             <div style="text-align:center; margin-top:20px;">
@@ -114,24 +117,71 @@ function openProject() {
     });
 }
 
+// SEÇÃO IA (ICONE CEREBRO)
+function openAI() {
+    win.style.display = 'flex';
+    title.innerText = "alyssonfelipe@root: ~ (ai_core)";
+    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="ai-cmd"></span></div><div id="ai-res" style="margin-top:15px;"></div>`;
+    
+    typeTerminal(document.getElementById('ai-cmd'), "./initialize_ai_assistant.sh", 40, () => {
+        document.getElementById('ai-res').innerHTML = `
+            <div class="p-4 border border-cyan-800 bg-cyan-950/20 rounded-lg">
+                <p style="color:#22d3ee; font-weight:bold; margin-bottom:10px;">[ ASSISTENTE VIRTUAL ALYSSON ]</p>
+                <p style="font-size:11px; margin-bottom:15px; opacity:0.7;">Pergunte algo sobre minha carreira ou tecnologia.</p>
+                <div class="flex gap-2">
+                    <input type="text" id="ai-input" class="terminal-input flex-1" placeholder="Digite aqui..." style="margin:0">
+                    <button onclick="askAI()" class="terminal-btn" style="margin:0; background:#22d3ee; color:#000; border-radius:4px;">ASK</button>
+                </div>
+                <div id="ai-response-display" style="margin-top:20px; min-height:40px;"></div>
+            </div>
+        `;
+        document.getElementById('ai-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') askAI(); });
+    });
+}
+
+async function askAI() {
+    const input = document.getElementById('ai-input');
+    const display = document.getElementById('ai-response-display');
+    const prompt = input.value;
+    if(!prompt) return;
+
+    display.innerHTML = "<span class='cursor'></span> Pensando...";
+    input.value = "";
+
+    try {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: `Você é o assistente virtual do Alysson Felipe, estudante de ADS. Responda de forma curta e profissional: ${prompt}` }] }]
+            })
+        });
+        const data = await response.json();
+        const aiText = data.candidates[0].content.parts[0].text;
+        typeTerminal(display, `<span style="color:#22d3ee">> IA:</span> ${aiText}`, 15);
+    } catch (err) {
+        display.innerText = "> Erro na conexão com o núcleo de IA.";
+    }
+}
+
+// SEÇÃO CONTATO (ICONE ENVELOPE)
 function openContact() {
     win.style.display = 'flex';
-    title.innerText = "alyssonfelipe@root: ~ (contact_form)";
-    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="contact-cmd"></span></div><div id="contact-res" style="margin-top:15px;"></div><span class="cursor"></span>`;
+    title.innerText = "alyssonfelipe@root: ~ (mail_service)";
+    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="contact-cmd"></span></div><div id="contact-res" style="margin-top:15px;"></div>`;
     
-    typeTerminal(document.getElementById('contact-cmd'), "./enviar_mensagem.sh", 40, () => {
+    typeTerminal(document.getElementById('contact-cmd'), "./send_mail.sh", 40, () => {
         document.getElementById('contact-res').innerHTML = `
-            <p style="color:var(--accent); margin-bottom:10px;">> Iniciando protocolo de comunicação...</p>
             <form id="email-form" action="https://formspree.io/f/xbdaajro" method="POST" class="terminal-form">
+                <p style="color:var(--accent); font-weight:bold; margin-bottom:15px;">[ FORMULÁRIO DE CONTATO DIRETO ]</p>
                 <input type="text" name="_gotcha" style="display:none">
-                
                 <label>NOME:</label>
-                <input type="text" name="name" class="terminal-input" placeholder="Seu nome completo" required>
-                <label>EMAIL DE CONTATO:</label>
+                <input type="text" name="name" class="terminal-input" placeholder="Seu nome" required>
+                <label>EMAIL:</label>
                 <input type="email" name="_replyto" class="terminal-input" placeholder="seu@email.com" required>
                 <label>MENSAGEM:</label>
-                <textarea name="message" class="terminal-input" rows="3" placeholder="Escreva sua mensagem aqui..." required></textarea>
-                <button type="submit" class="terminal-btn">EXECUTAR ENVIO</button>
+                <textarea name="message" class="terminal-input" rows="3" placeholder="Sua mensagem aqui..." required></textarea>
+                <button type="submit" class="terminal-btn">ENVIAR AGORA</button>
             </form>
             <div id="success-output"></div>
         `;
@@ -141,42 +191,24 @@ function openContact() {
             e.preventDefault();
             const btn = form.querySelector('button');
             const output = document.getElementById('success-output');
-            btn.innerText = "ENVIANDO...";
-            btn.disabled = true;
-
-            const formData = new FormData(form);
-            const response = await fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: { 'Accept': 'application/json' }
-            });
+            btn.innerText = "ENVIANDO..."; btn.disabled = true;
+            const response = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
 
             if (response.ok) {
-                const asciiArt = `
-<b>      _____ _    _  _____ ______  _____ _____  ____  
+                const asciiArt = `<b>
+      _____ _    _  _____ ______  _____ _____  ____  
      / ____| |  | |/ ____|  ____|/ ____/ ____|/ __ \\ 
     | (___ | |  | | |    | |__  | (___| (___ | |  | |
      \\___ \\| |  | | |    |  __|  \\___ \\\\___ \\| |  | |
      ____) | |__| | |____| |____ ____) |___) | |__| |
     |_____/ \\____/ \\_____|______|_____/_____/ \\____/ </b>
-    
-    <b>[ SISTEMA: MENSAGEM ENVIADA COM SUCESSO ]</b>`;
-
+    <br>[ SISTEMA: MENSAGEM ENVIADA COM SUCESSO ]`;
                 output.innerHTML = `<pre class="ascii-success">${asciiArt}</pre>`;
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Enviado!',
-                    text: 'Obrigado pelo contato.',
-                    background: '#1a1a1a',
-                    color: '#fff',
-                    timer: 2000,
-                    showConfirmButton: false
-                });
+                Swal.fire({ icon: 'success', title: 'Sucesso!', background: '#1a1a1a', color: '#fff', timer: 2000, showConfirmButton: false });
                 form.style.display = 'none';
             } else {
-                Swal.fire({ icon: 'error', title: 'Erro', text: 'Falha no envio.', background: '#1a1a1a', color: '#fff' });
-                btn.innerText = "TENTAR NOVAMENTE";
-                btn.disabled = false;
+                Swal.fire({ icon: 'error', title: 'Erro no envio', background: '#1a1a1a', color: '#fff' });
+                btn.innerText = "TENTAR NOVAMENTE"; btn.disabled = false;
             }
         };
     });
@@ -184,6 +216,7 @@ function openContact() {
 
 function closeWin() { win.style.display = 'none'; }
 
+// Background Canvas
 const canvas = document.getElementById('neural-canvas');
 const ctx = canvas.getContext('2d');
 let pts = [];
