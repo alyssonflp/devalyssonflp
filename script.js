@@ -2,9 +2,6 @@ const win = document.getElementById('main-terminal');
 const content = document.getElementById('content');
 const title = document.getElementById('win-title');
 
-// SUA CHAVE DE API GEMINI
-const GEMINI_API_KEY = 'AIzaSyDD77zZy_silv-QWLy3t6rh0al3AwvOxYE'; 
-
 window.onload = () => { setTimeout(typePassword, 800); };
 
 function typePassword() {
@@ -68,22 +65,30 @@ function openBio() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (profile)";
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="bio-cmd"></span></div><div id="bio-res"></div>`;
+    
     typeTerminal(document.getElementById('bio-cmd'), "./profile.sh", 50, () => {
         document.getElementById('bio-res').innerHTML = `
             <div style="text-align:center; margin-top:20px;">
-                <h1 class="main-name">Alysson Felipe</h1>
-                <p id="ads-target" style="font-weight:bold; font-size:14px; margin-bottom:15px; color:var(--accent);"></p>
-                <div id="bio-typing" style="text-align:left; opacity:0.9;"></div>
-                <span class="cursor"></span>
-                <div class="social-links">
+                <h1 id="name-target" class="main-name"></h1>
+                <p id="ads-target" style="font-weight:bold; font-size:14px; margin-bottom:10px; color:var(--accent);"></p>
+                
+                <div class="social-links" style="opacity: 1;">
                     <a href="https://instagram.com/alysson.dev" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
                     <a href="https://linkedin.com/in/alyssonfelipe" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i></a>
                     <a href="https://github.com/alyssonfelipe" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
                 </div>
+
+                <div id="bio-typing" style="text-align:left; opacity:0.9;"></div>
+                <span class="cursor"></span>
+                <br>
                 <a href="./assets/cv-alysson.pdf" download class="cv-btn"><i class="fas fa-file-download"></i> Download CV</a>
             </div>`;
-        typeTerminal(document.getElementById('ads-target'), "> ADS | UI/UX Designer | IoT & IA", 25, () => {
-            typeTerminal(document.getElementById('bio-typing'), "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de IA e IoT para criar sistemas inteligentes.", 10);
+
+        // Ajuste 5: Nome com efeito de digitação encadeado
+        typeTerminal(document.getElementById('name-target'), "Alysson Felipe", 60, () => {
+            typeTerminal(document.getElementById('ads-target'), "> ADS | UI/UX Designer | IoT & IA", 25, () => {
+                typeTerminal(document.getElementById('bio-typing'), "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de IA e IoT para criar sistemas inteligentes.", 10);
+            });
         });
     });
 }
@@ -117,54 +122,6 @@ function openProject() {
     });
 }
 
-// SEÇÃO IA (ICONE CEREBRO)
-function openAI() {
-    win.style.display = 'flex';
-    title.innerText = "alyssonfelipe@root: ~ (ai_core)";
-    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="ai-cmd"></span></div><div id="ai-res" style="margin-top:15px;"></div>`;
-    
-    typeTerminal(document.getElementById('ai-cmd'), "./initialize_ai_assistant.sh", 40, () => {
-        document.getElementById('ai-res').innerHTML = `
-            <div class="p-4 border border-cyan-800 bg-cyan-950/20 rounded-lg">
-                <p style="color:#22d3ee; font-weight:bold; margin-bottom:10px;">[ ASSISTENTE VIRTUAL ALYSSON ]</p>
-                <p style="font-size:11px; margin-bottom:15px; opacity:0.7;">Pergunte algo sobre minha carreira ou tecnologia.</p>
-                <div class="flex gap-2">
-                    <input type="text" id="ai-input" class="terminal-input flex-1" placeholder="Digite aqui..." style="margin:0">
-                    <button onclick="askAI()" class="terminal-btn" style="margin:0; background:#22d3ee; color:#000; border-radius:4px;">ASK</button>
-                </div>
-                <div id="ai-response-display" style="margin-top:20px; min-height:40px;"></div>
-            </div>
-        `;
-        document.getElementById('ai-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') askAI(); });
-    });
-}
-
-async function askAI() {
-    const input = document.getElementById('ai-input');
-    const display = document.getElementById('ai-response-display');
-    const prompt = input.value;
-    if(!prompt) return;
-
-    display.innerHTML = "<span class='cursor'></span> Pensando...";
-    input.value = "";
-
-    try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: `Você é o assistente virtual do Alysson Felipe, estudante de ADS. Responda de forma curta e profissional: ${prompt}` }] }]
-            })
-        });
-        const data = await response.json();
-        const aiText = data.candidates[0].content.parts[0].text;
-        typeTerminal(display, `<span style="color:#22d3ee">> IA:</span> ${aiText}`, 15);
-    } catch (err) {
-        display.innerText = "> Erro na conexão com o núcleo de IA.";
-    }
-}
-
-// SEÇÃO CONTATO (ICONE ENVELOPE)
 function openContact() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (mail_service)";
