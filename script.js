@@ -2,20 +2,33 @@ const win = document.getElementById('main-terminal');
 const content = document.getElementById('content');
 const title = document.getElementById('win-title');
 
-// Arte ASCII do teu Nome em Bloco (Negrito)
 const nameAscii = `
-  █████╗ ██╗  ██╗   ██╗███████╗███████╗ ██████╗ ███╗   ██╗
-  ██╔══██╗██║  ╚██╗ ██╔╝██╔════╝██╔════╝██╔═══██╗████╗  ██║
-  ███████║██║   ╚████╔╝ ███████╗███████╗██║   ██║██╔██╗ ██║
-  ██╔══██║██║    ╚██╔╝  ╚════██║╚════██║██║   ██║██║╚██╗██║
-  ██║  ██║███████╗██║   ███████║███████║╚██████╔╝██║ ╚████║
-  ╚═╝  ╚═╝╚══════╝╚═╝   ╚══════╝╚══════╝ ╚═════╝ ╚═╝  ╚═══╝
+██████╗ ██╗  ██╗   ██╗███████╗███████╗ ██████╗ ███╗   ██╗
+██╔══██╗██║  ╚██╗ ██╔╝██╔════╝██╔════╝██╔═══██╗████╗  ██║
+███████║██║   ╚████╔╝ ███████╗███████╗██║   ██║██╔██╗ ██║
+██╔══██║██║    ╚██╔╝  ╚════██║╚════██║██║   ██║██║╚██╗██║
+██║  ██║███████╗██║   ███████║███████║╚██████╔╝██║ ╚████║
+╚═╝  ╚═╝╚══════╝╚═╝   ╚══════╝╚══════╝ ╚═════╝ ╚═╝  ╚═══╝
 `;
+
+// Função principal de digitação
+function typeEffect(element, text, speed = 10, callback) {
+    let i = 0;
+    function typing() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
+            i++;
+            setTimeout(typing, speed);
+        } else if (callback) {
+            callback();
+        }
+    }
+    typing();
+}
 
 function openBio() {
     win.style.display = 'flex';
     title.innerText = "profile.sh";
-    
     content.innerHTML = `
         <div style="text-align:center">
             <div class="insta-glow">
@@ -24,7 +37,7 @@ function openBio() {
             <pre id="ascii-target" class="ascii-art"></pre>
             <p id="ads-target" style="color:var(--accent); font-weight:bold; font-size:14px; margin-bottom:10px;"></p>
             <div id="bio-typing" style="text-align:left; line-height:1.5; opacity:0.9;"></div>
-            <span id="main-cursor" class="cursor"></span>
+            <span class="cursor"></span>
         </div>
     `;
 
@@ -36,64 +49,74 @@ function openBio() {
     const adsTarget = document.getElementById('ads-target');
     const bioTarget = document.getElementById('bio-typing');
 
-    function step1_Ascii() {
+    function step1() {
         if (i < nameAscii.length) {
             asciiTarget.innerHTML += nameAscii.charAt(i);
-            i++;
-            setTimeout(step1_Ascii, 2); // Mais rápido por ser arte grande
-        } else {
-            i = 0;
-            step2_Ads();
-        }
+            i++; setTimeout(step1, 1);
+        } else { i = 0; step2(); }
     }
-
-    function step2_Ads() {
+    function step2() {
         if (i < adsText.length) {
             adsTarget.innerHTML += adsText.charAt(i);
-            i++;
-            setTimeout(step2_Ads, 30);
-        } else {
-            i = 0;
-            step3_Bio();
-        }
+            i++; setTimeout(step2, 20);
+        } else { i = 0; step3(); }
     }
-
-    function step3_Bio() {
-        if (i < bioDescription.length) {
-            bioTarget.innerHTML += bioDescription.charAt(i) === "\n" ? "<br>" : bioDescription.charAt(i);
-            i++;
-            setTimeout(step3_Bio, 15);
-        }
+    function step3() {
+        typeEffect(bioTarget, bioDescription, 15);
     }
-
-    setTimeout(step1_Ascii, 300);
-}
-
-function typeSimple(element, text) {
-    let i = 0;
-    element.innerHTML = "";
-    function t() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
-            i++;
-            setTimeout(t, 20);
-        }
-    }
-    t();
+    setTimeout(step1, 300);
 }
 
 function openEdu() {
     win.style.display = 'flex';
     title.innerText = "education.sh";
-    content.innerHTML = `<span id="edu-typing"></span><span class="cursor"></span>`;
-    typeSimple(document.getElementById('edu-typing'), ">> INSTITUIÇÃO: Unicesumar\n>> CURSO: Análise e Desenv. de Sistemas (ADS)\n>> FOCO: UI/UX, IoT e IA\n>> STATUS: Estudante Ativo");
+    content.innerHTML = `<div id="edu-content" style="line-height:1.6;"></div><span class="cursor"></span>`;
+    
+    const eduTarget = document.getElementById('edu-content');
+    
+    // O comando sendo "digitado" primeiro
+    const commandLine = "alyssonfelipe@root:~$ cat education.sh\n\n";
+    const fullEduText = `[ EDUCAÇÃO ]\n\n` +
+        `• FACULDADE ESTÁCIO\n` +
+        `  Tecnólogo em Análise e Desenvolvimento de Sistemas\n` +
+        `  Situação: Cursando (1º Período) | Previsão: 2027\n\n` +
+        `• MICROCAMP CURITIBA\n` +
+        `  Informática Avançada (Windows, Linux, HW, SW, Redes, Firewall)\n` +
+        `  Status: Concluído\n\n` +
+        `• COLÉGIO ESTADUAL ARNALDO FAIVRO BUSATO\n` +
+        `  Ensino Médio | Status: Concluído\n\n` +
+        `[ QUALIFICAÇÕES & EXTRA ]\n\n` +
+        `- Design & Web: Photoshop, Identidade Visual, WordPress (SEO/SEM).\n` +
+        `- Sistemas Inteligentes: IA/IoT, Reconhecimento Facial e Hardware.\n` +
+        `- Office: Pacote completo (Excel, Word, PPT).\n` +
+        `- Idiomas: Inglês (Nível A1).`;
+
+    // Digita o prompt em negrito e depois o conteúdo
+    eduTarget.innerHTML = `<strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> `;
+    
+    let j = 18; // Pula o prompt já escrito
+    const cmd = "cat education.sh\n\n";
+    let k = 0;
+
+    function typeCommand() {
+        if (k < cmd.length) {
+            eduTarget.innerHTML += cmd.charAt(k) === "\n" ? "<br>" : cmd.charAt(k);
+            k++; setTimeout(typeCommand, 50);
+        } else {
+            typeEffect(eduTarget, fullEduText, 8);
+        }
+    }
+    typeCommand();
 }
 
 function openProject() {
     win.style.display = 'flex';
     title.innerText = "projects.log";
-    content.innerHTML = `<span id="proj-typing"></span><span class="cursor"></span>`;
-    typeSimple(document.getElementById('proj-typing'), ">> PROJETO: FLOW HUB\n>> TIPO: SaaS de Gestão\n>> LINK: https://flow-hub.shop");
+    content.innerHTML = `<div id="proj-content"></div><span class="cursor"></span>`;
+    const projTarget = document.getElementById('proj-content');
+    projTarget.innerHTML = `<strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> list-projects --active\n\n`;
+    const text = ">> PROJETO: FLOW HUB\n>> TIPO: SaaS de Gestão Inteligente\n>> LINK: https://flow-hub.shop\n>> STATUS: Online";
+    setTimeout(() => typeEffect(projTarget, text, 20), 500);
 }
 
 function closeWin() { win.style.display = 'none'; }
