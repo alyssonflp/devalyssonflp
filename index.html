@@ -16,14 +16,14 @@
             </div>
             <h2 class="login-username">alyssonfelipe</h2>
             <div class="login-field">
-                <input type="password" value="********" readonly>
-                <div class="login-loader"></div>
+                <input type="password" id="pass-input" readonly>
+                <div class="login-loader" id="login-loader" style="display: none;"></div>
             </div>
-            <p class="login-status">Iniciando...</p>
+            <p class="login-status" id="login-status">Aguardando credenciais...</p>
         </div>
     </div>
 
-    <div id="hello-screen" style="display: none; opacity: 0;">
+    <div id="hello-screen">
         <h1 class="hello-text">Hello World</h1>
     </div>
 
@@ -41,7 +41,7 @@
         <div class="win-body" id="content"></div>
     </div>
 
-    <div class="dock-wrap" style="display: none; opacity: 0;" id="dock-main">
+    <div class="dock-wrap" id="dock-main" style="display: none; opacity: 0;">
         <nav class="dock">
             <div class="dock-i text-blue-500" onclick="openBio()"><i class="fas fa-user-circle"></i></div>
             <div class="dock-i text-purple-500" onclick="openEdu()"><i class="fas fa-graduation-cap"></i></div>
