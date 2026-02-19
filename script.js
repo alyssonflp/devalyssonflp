@@ -2,14 +2,16 @@ const win = document.getElementById('main-terminal');
 const content = document.getElementById('content');
 const title = document.getElementById('win-title');
 
-// ASCII Art customizada com o seu nome (Reduzida para caber no mobile)
-const nameAscii = `
-   A L Y S S O N 
-   F E L I P E
-   ───────────
+// ADS | UI/UX em ASCII Art
+const roleAscii = `
+     _   ___  ____  
+    /_\\ |   \\/ ___| 
+   / _ \\| |) \\___ \\ 
+  /_/ \\_\\___/|____/ 
+  | UI / UX DESIGN |
 `;
 
-function typeEffect(element, text, speed = 20) {
+function typeEffect(element, text, speed = 15, callback) {
     let i = 0;
     element.innerHTML = "";
     function typing() {
@@ -17,6 +19,8 @@ function typeEffect(element, text, speed = 20) {
             element.innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
             i++;
             setTimeout(typing, speed);
+        } else if (callback) {
+            callback();
         }
     }
     typing();
@@ -30,39 +34,25 @@ function openBio() {
             <div class="insta-glow">
                 <img src="./imagens/alysson.png" class="profile-img" onerror="this.src='./Imagens/alysson.png';">
             </div>
-            <pre class="ascii-art">${nameAscii}</pre>
-            <div id="bio-typing" style="margin-top:10px;"></div>
+            <pre class="ascii-art">${roleAscii}</pre>
+            <p style="color:var(--accent); font-weight:bold; font-size:16px; margin-bottom:10px;">Alysson Felipe</p>
+            <div id="bio-typing" style="text-align:left; line-height:1.5; opacity:0.9;"></div>
             <span class="cursor"></span>
         </div>
     `;
     
-    const bioText = ">> ADS | UI/UX Designer | IoT & IA\n\nApaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando Análise e Desenvolvimento de Sistemas, aplico IA e IoT para criar sistemas inteligentes e interfaces que conectam, do protótipo à implementação.";
+    const bioDescription = "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando Análise e Desenvolvimento de Sistemas, aplico IA e IoT para criar sistemas inteligentes e interfaces que conectam, do protótipo à implementação.";
     
-    // Pequeno delay para começar a digitação após abrir a janela
     setTimeout(() => {
-        const target = document.getElementById('bio-typing');
-        let i = 0;
-        function bioType() {
-            if (i < bioText.length) {
-                if (bioText.substring(i, i+33) === "ADS | UI/UX Designer | IoT & IA") {
-                    target.innerHTML += `<strong style="color:#3b82f6">ADS | UI/UX Designer | IoT & IA</strong>`;
-                    i += 33;
-                } else {
-                    target.innerHTML += bioText.charAt(i) === "\n" ? "<br>" : bioText.charAt(i);
-                    i++;
-                }
-                setTimeout(bioType, 15);
-            }
-        }
-        bioType();
-    }, 300);
+        typeEffect(document.getElementById('bio-typing'), bioDescription);
+    }, 500);
 }
 
 function openEdu() {
     win.style.display = 'flex';
     title.innerText = "education.sh";
     content.innerHTML = `<span id="edu-typing"></span><span class="cursor"></span>`;
-    const text = ">> ACESSANDO CARTEIRA...\n>> NOME: ALYSSON FELIPE\n>> CURSO: Análise e Desenv. de Sistemas\n>> FOCO: IA, IoT e UX Design\n>> STATUS: Em evolução constante...";
+    const text = ">> INSTITUIÇÃO: Unicesumar\n>> CURSO: Análise e Desenv. de Sistemas (ADS)\n>> FOCO: UI/UX, IoT e IA\n>> STATUS: Estudante Ativo";
     typeEffect(document.getElementById('edu-typing'), text);
 }
 
@@ -70,13 +60,13 @@ function openProject() {
     win.style.display = 'flex';
     title.innerText = "projects.log";
     content.innerHTML = `<span id="proj-typing"></span><span class="cursor"></span>`;
-    const text = ">> PROJETO: FLOW HUB\n>> TIPO: SaaS de Gestão\n>> LINK: https://flow-hub.shop\n\n[ Clique no link para abrir ]";
+    const text = ">> PROJETO: FLOW HUB\n>> TIPO: SaaS de Gestão\n>> LINK: https://flow-hub.shop";
     typeEffect(document.getElementById('proj-typing'), text);
 }
 
 function closeWin() { win.style.display = 'none'; }
 
-// Canvas
+// Canvas Neural de Fundo
 const canvas = document.getElementById('neural-canvas');
 const ctx = canvas.getContext('2d');
 let pts = [];
