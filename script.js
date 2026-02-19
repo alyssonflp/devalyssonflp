@@ -14,7 +14,6 @@ function typePassword() {
         passInput.value += fullPass[i]; i++;
         if (i >= fullPass.length) {
             clearInterval(interval);
-            // Inicia animação da barra de progresso após "digitar" a senha
             let pct = 0;
             const bootInterval = setInterval(() => {
                 pct += 2;
@@ -48,7 +47,7 @@ function startBoot() {
                 document.getElementById('neural-canvas').style.opacity = '1';
                 openBio(); 
             }, 600);
-        }, 1800); 
+        }, 2000); 
     }, 500);
 }
 
