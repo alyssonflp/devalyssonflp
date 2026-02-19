@@ -20,13 +20,9 @@ function typePassword() {
         if (i >= fullPass.length) {
             clearInterval(interval);
             
-            // Ajustado para o seu CSS: boot-loader-bar
-            const statusMsg = document.getElementById('login-status');
-            const loaderBar = document.querySelector('.boot-loader-bar');
+            // Sincronizado com o ID do seu HTML: boot-progress
+            const loaderBar = document.getElementById('boot-progress');
             
-            if (statusMsg) statusMsg.innerText = "Autenticando...";
-            
-            // Simula o carregamento da barra antes de entrar
             if (loaderBar) {
                 let progress = 0;
                 const loadTimer = setInterval(() => {
@@ -38,7 +34,6 @@ function typePassword() {
                     }
                 }, 50);
             } else {
-                // Se não achar a barra, vai direto para não travar
                 setTimeout(startBoot, 1000);
             }
         }
@@ -146,6 +141,7 @@ function openEdu() {
                  `• Ferramentas de Escritório: Pacote Office completo<br>` +
                  `• Idiomas: Inglês nível A1.`;
 
+    // Atualizado para ./education.sh com efeito de digitação no comando e no conteúdo
     typeTerminal(document.getElementById('edu-cmd'), "./education.sh", 40, () => {
         const eduRes = document.getElementById('edu-res');
         if (eduRes) typeTerminal(eduRes, data, 10); 
@@ -220,7 +216,7 @@ if (canvas) {
     for(let i=0; i<30; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5});
     function anim() {
         ctx.clearRect(0,0,canvas.width,canvas.height); 
-        ctx.fillStyle = 'rgba(147, 51, 234, 0.15)'; // Ajustado para roxo
+        ctx.fillStyle = 'rgba(147, 51, 234, 0.15)'; 
         pts.forEach(p => {
             p.x+=p.vx; p.y+=p.vy;
             if(p.x<0||p.x>canvas.width) p.vx*=-1; 
