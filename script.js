@@ -2,8 +2,29 @@ const win = document.getElementById('main-terminal');
 const content = document.getElementById('content');
 const title = document.getElementById('win-title');
 
-// BOOT SEQUÊNCIA
-window.onload = () => { setTimeout(startBoot, 1200); };
+// INICIALIZAÇÃO COM EFEITO NA SENHA
+window.onload = () => {
+    setTimeout(typePassword, 800);
+};
+
+function typePassword() {
+    const passInput = document.getElementById('pass-input');
+    const status = document.getElementById('login-status');
+    const loader = document.getElementById('login-loader');
+    const fullPass = "********";
+    let i = 0;
+
+    const interval = setInterval(() => {
+        passInput.value += fullPass[i];
+        i++;
+        if (i >= fullPass.length) {
+            clearInterval(interval);
+            status.innerText = "Verificando credenciais...";
+            loader.style.display = "block";
+            setTimeout(startBoot, 1000); // Entra após "digitar"
+        }
+    }, 150);
+}
 
 function startBoot() {
     const loginScreen = document.getElementById('login-screen');
@@ -11,26 +32,28 @@ function startBoot() {
     const dock = document.getElementById('dock-main');
     const canvas = document.getElementById('neural-canvas');
 
-    if(loginScreen) loginScreen.style.opacity = '0';
+    loginScreen.style.opacity = '0';
     setTimeout(() => {
-        if(loginScreen) loginScreen.style.display = 'none';
-        if(helloScreen) {
-            helloScreen.style.display = 'flex';
-            void helloScreen.offsetWidth;
-            helloScreen.style.opacity = '1';
-        }
+        loginScreen.style.display = 'none';
+        helloScreen.style.display = 'flex';
+        void helloScreen.offsetWidth;
+        helloScreen.style.opacity = '1';
+        
         setTimeout(() => {
-            if(helloScreen) helloScreen.style.opacity = '0';
+            helloScreen.style.opacity = '0';
             setTimeout(() => {
-                if(helloScreen) helloScreen.style.display = 'none';
-                if(dock) { dock.style.display = 'flex'; void dock.offsetWidth; dock.style.opacity = '1'; }
-                if(canvas) canvas.style.opacity = '1';
+                helloScreen.style.display = 'none';
+                dock.style.display = 'flex';
+                void dock.offsetWidth;
+                dock.style.opacity = '1';
+                canvas.style.opacity = '1';
                 openBio(); 
             }, 500);
-        }, 1000);
-    }, 400);
+        }, 1200);
+    }, 500);
 }
 
+// TERMINAL LOGIC
 function typeTerminal(element, html, speed, callback) {
     let i = 0;
     element.innerHTML = "";
@@ -61,7 +84,6 @@ function openBio() {
     title.innerText = "profile.sh";
     content.innerHTML = `
         <div style="text-align:center">
-            <div class="insta-glow"><img src="./imagens/alysson.png" class="profile-img" onerror="this.src='https://ui-avatars.com/api/?name=Alysson+Felipe';"></div>
             <pre id="ascii-target" class="ascii-art"></pre>
             <p id="ads-target" style="font-weight:bold; font-size:14px; margin-bottom:10px;"></p>
             <div id="bio-typing" style="text-align:left; opacity:0.9;"></div>
@@ -87,19 +109,7 @@ function openEdu() {
     win.style.display = 'flex';
     title.innerText = "education.sh";
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="edu-cmd"></span></div><div id="edu-res" style="margin-top:15px;"></div><span class="cursor"></span>`;
-    const data = `<strong>[ FORMAÇÃO ACADÊMICA ]</strong><br><br>
-• <strong>FACULDADE ESTÁCIO</strong><br>
-  Tecnólogo em Análise e Desenvolvimento de Sistemas<br>
-  Status: Cursando | Previsão: 2027<br><br>
-• <strong>MICROCAMP CURITIBA</strong><br>
-  Informática Avançada: Windows, Linux, Redes e Firewall<br><br>
-• <strong>COLÉGIO ESTADUAL ARNALDO FAIVRO BUSATO</strong><br>
-  Ensino Médio Concluído<br><br>
-<strong>[ QUALIFICAÇÕES ADICIONAIS ]</strong><br>
-- Design Gráfico (Photoshop & Illustrator)<br>
-- Desenvolvimento Web (WordPress & HTML/CSS)<br>
-- Hardware & Redes`;
-
+    const data = `<strong>[ FORMAÇÃO ACADÊMICA ]</strong><br><br>• <strong>ESTÁCIO</strong><br>ADS (Cursando) | Previsão: 2027<br><br>• <strong>MICROCAMP</strong><br>Informática Avançada: Linux, Redes e Firewall`;
     typeTerminal(document.getElementById('edu-cmd'), "cat education.sh", 40, () => {
         setTimeout(() => typeTerminal(document.getElementById('edu-res'), data, 5), 100);
     });
@@ -109,16 +119,7 @@ function openExp() {
     win.style.display = 'flex';
     title.innerText = "experiences.sh";
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="exp-cmd"></span></div><div id="exp-res" style="margin-top:15px;"></div><span class="cursor"></span>`;
-    const data = `<strong>[ EXPERIÊNCIAS PROFISSIONAIS ]</strong><br><br>
-• <strong>ALUARTS ESQUADRIAS</strong> – Pinhais, PR<br>
-  <strong>Aux. Administrativo & Marketing Digital</strong> | 2020 – 2024<br>
-  Gestão de tráfego, design de materiais e suporte administrativo.<br><br>
-• <strong>MUNDIAL MARCAS</strong> – Curitiba, PR<br>
-  <strong>Web Designer</strong> | 2015 – 2017<br>
-  Criação de sites institucionais e manutenção de plataformas.<br><br>
-• <strong>OMAR CALÇADOS</strong> – Curitiba, PR<br>
-  <strong>Consultor de Vendas</strong> | 2013 – 2014`;
-
+    const data = `<strong>[ EXPERIÊNCIAS ]</strong><br><br>• <strong>ALUARTS</strong><br>Marketing Digital & ADM<br><br>• <strong>MUNDIAL MARCAS</strong><br>Web Designer`;
     typeTerminal(document.getElementById('exp-cmd'), "cat experiences.sh", 40, () => {
         setTimeout(() => typeTerminal(document.getElementById('exp-res'), data, 5), 100);
     });
@@ -128,19 +129,14 @@ function openProject() {
     win.style.display = 'flex';
     title.innerText = "projects.log";
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="proj-cmd"></span></div><div id="proj-res" style="margin-top:15px;"></div><span class="cursor"></span>`;
-    const data = `>> <strong>PROJETO:</strong> FLOW HUB<br>
->> <strong>DESCRIÇÃO:</strong> Plataforma integrada para gestão de fluxos.<br>
->> <strong>URL:</strong> <a href="https://flow-hub.shop" target="_blank" style="color:var(--accent)">https://flow-hub.shop</a><br><br>
->> <strong>STATUS:</strong> Ativo / Em Produção`;
-    
     typeTerminal(document.getElementById('proj-cmd'), "./list_projects.sh", 40, () => {
-        setTimeout(() => typeTerminal(document.getElementById('proj-res'), data, 10), 100);
+        setTimeout(() => typeTerminal(document.getElementById('proj-res'), `>> <strong>FLOW HUB</strong><br>>> URL: <a href='https://flow-hub.shop' target='_blank'>flow-hub.shop</a>`, 10), 100);
     });
 }
 
 function closeWin() { win.style.display = 'none'; }
 
-// CANVAS NEURAL
+// NEURAL CANVAS
 const canvas = document.getElementById('neural-canvas');
 const ctx = canvas.getContext('2d');
 let pts = [];
@@ -149,7 +145,7 @@ window.onresize = res; res();
 for(let i=0; i<25; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5});
 function anim() {
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle = 'rgba(59,130,246,0.2)';
+    ctx.fillStyle = 'rgba(59,130,246,0.15)';
     pts.forEach(p => {
         p.x+=p.vx; p.y+=p.vy;
         if(p.x<0||p.x>canvas.width) p.vx*=-1; if(p.y<0||p.y>canvas.height) p.vy*=-1;
