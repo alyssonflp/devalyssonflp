@@ -45,7 +45,7 @@ body {
 .max { background: #27c93f !important; }
 #win-title { margin-left: 15px; font-size: 11px; opacity: 0.6; font-family: monospace; }
 
-.win-body { flex: 1; padding: 25px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 13px; }
+.win-body { flex: 1; padding: 25px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 12px; }
 
 .insta-glow {
     display: inline-block; padding: 3px; border-radius: 50%;
@@ -54,15 +54,15 @@ body {
 }
 .profile-img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--bg-window); object-fit: cover; }
 
-/* ASCII MAIS EVIDENTE */
+/* NOME EM ASCII ESTILO "PINTURA" (BOLD TOTAL) */
 .ascii-art { 
-    font-size: 5.5px !important; 
-    line-height: 1.2; 
+    font-size: 5px !important; 
+    line-height: 1.1; 
     color: var(--accent); 
-    margin: 10px 0; 
+    margin: 12px 0; 
     white-space: pre; 
     text-align: center; 
-    font-weight: 900 !important; /* Negrito extra */
+    font-weight: 900 !important;
 }
 
 .dock-wrap { position: fixed; bottom: 30px; width: 100%; display: flex; justify-content: center; z-index: 3000; }
