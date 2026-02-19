@@ -65,13 +65,19 @@ function openBio() {
     typeTerminal(document.getElementById('bio-cmd'), "./profile.sh", 50, () => {
         document.getElementById('bio-res').innerHTML = `
             <div style="text-align:center; margin-top:20px;">
-                <h1 style="font-size: 24px; color: #3b82f6; font-weight: bold;">Alysson Felipe</h1>
-                <p style="margin-bottom: 15px;">ADS | UI/UX Designer | Desenvolvedor</p>
-                <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
-                    <a href="https://github.com/alyssonflp" target="_blank" style="font-size: 20px;"><i class="fab fa-github"></i></a>
-                    <a href="https://linkedin.com/in/alyssonfelipe" target="_blank" style="font-size: 20px;"><i class="fab fa-linkedin"></i></a>
+                <h1 style="font-size: 24px; color: #3b82f6; font-weight: bold; margin-bottom: 5px;">Alysson Felipe</h1>
+                <p style="font-weight:bold; font-size:14px; margin-bottom:15px; color:#22d3ee;">> ADS | UI/UX Designer | IoT & IA</p>
+                <div style="text-align:left; opacity:0.9; margin-bottom: 20px; line-height: 1.5;">
+                    Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de tecnologia para criar sistemas inteligentes.
                 </div>
-                <p style="text-align: left; opacity: 0.8;">Apaixonado por tecnologia e design, focado em criar soluções que unem estética e funcionalidade.</p>
+                <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
+                    <a href="https://github.com/alyssonflp" target="_blank" style="font-size: 20px; color: white;"><i class="fab fa-github"></i></a>
+                    <a href="https://linkedin.com/in/alyssonfelipe" target="_blank" style="font-size: 20px; color: white;"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://instagram.com/alysson.dev" target="_blank" style="font-size: 20px; color: white;"><i class="fab fa-instagram"></i></a>
+                </div>
+                <a href="./assets/cv-alysson.pdf" download style="padding: 8px 15px; border: 1px solid #3b82f6; color: #3b82f6; text-decoration: none; border-radius: 4px; font-size: 13px; font-weight: bold;">
+                    <i class="fas fa-file-download"></i> Download CV
+                </a>
             </div>`;
     });
 }
@@ -79,27 +85,30 @@ function openBio() {
 function openEdu() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (education)";
-    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="edu-cmd"></span></div><div id="edu-res"></div>`;
+    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="edu-cmd"></span></div><div id="edu-res" style="margin-top:15px; line-height:1.6;"></div>`;
+    
+    const data = `<strong>[EDUCAÇÃO]</strong><br><br>FACULDADE ESTÁCIO<br>Tecnólogo em Análise e Desenvolvimento de Sistemas - Cursando (1º Período)<br>Previsão de conclusão: 2026<br><br>MICROCAMP CURITIBA<br>Curso de Informática Avançada<br>Conteúdo: Windows, Linux, Hardware, Software, Redes e Firewall<br>Concluído<br><br>COLÉGIO ESTADUAL ARNALDO FAIVRO BUSATO<br>Ensino Médio<br>Concluído<br><br><strong>[QUALIFICAÇÕES E ATIVIDADES COMPLEMENTARES]</strong><br><br>Design & Web: Domínio em Photoshop, criação de identidades visuais e desenvolvimento de sites em WordPress com foco em SEO/SEM.<br><br>Sistemas Inteligentes (IA/IoT): Experiência prática na implementação de sistemas de reconhecimento facial e integração de hardware.<br><br>Ferramentas de Escritório: Pacote Office completo (Word, Excel e PowerPoint).<br><br>Idiomas: Inglês nível A1.`;
+
     typeTerminal(document.getElementById('edu-cmd'), "cat education.txt", 40, () => {
-        document.getElementById('edu-res').innerHTML = `<br>• ESTÁCIO: ADS (2027)<br>• MICROCAMP: Linux & Redes`;
+        document.getElementById('edu-res').innerHTML = data;
     });
 }
 
 function openExp() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (experiences)";
-    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="exp-cmd"></span></div><div id="exp-res"></div>`;
+    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="exp-cmd"></span></div><div id="exp-res" style="margin-top:15px;"></div>`;
     typeTerminal(document.getElementById('exp-cmd'), "ls -la /career", 40, () => {
-        document.getElementById('exp-res').innerHTML = `<br>• ALUARTS: Mkt Digital & ADM<br>• MUNDIAL MARCAS: Web Designer`;
+        document.getElementById('exp-res').innerHTML = `• ALUARTS: Mkt Digital & ADM<br>• MUNDIAL MARCAS: Web Designer`;
     });
 }
 
 function openProject() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (projects)";
-    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="proj-cmd"></span></div><div id="proj-res"></div>`;
+    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="proj-cmd"></span></div><div id="proj-res" style="margin-top:15px;"></div>`;
     typeTerminal(document.getElementById('proj-cmd'), "./list_projects.sh", 40, () => {
-        document.getElementById('proj-res').innerHTML = `<br>>> FLOW HUB: <a href='https://flow-hub.shop' target='_blank' style='color:#3b82f6'>flow-hub.shop</a>`;
+        document.getElementById('proj-res').innerHTML = `>> FLOW HUB: <a href='https://flow-hub.shop' target='_blank' style='color:#3b82f6'>flow-hub.shop</a>`;
     });
 }
 
@@ -141,7 +150,6 @@ function openContact() {
 
 function closeWin() { win.style.display = 'none'; }
 
-// Canvas Background
 const canvas = document.getElementById('neural-canvas');
 const ctx = canvas.getContext('2d');
 let pts = [];
