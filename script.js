@@ -2,8 +2,8 @@ const win = document.getElementById('main-terminal');
 const content = document.getElementById('content');
 const title = document.getElementById('win-title');
 
-// SUA CHAVE DE API GEMINI
-const GEMINI_API_KEY = 'AIzaSyDD77zZy_silv-QWLy3t6rh0al3AwvOxYE'; 
+// SUA CHAVE DE API ATUALIZADA
+const GEMINI_API_KEY = 'AIzaSyBWC90SM1ITe6Qh9QwsWiz5xuVFg4NxMZU'; 
 
 window.onload = () => { setTimeout(typePassword, 800); };
 
@@ -117,16 +117,16 @@ function openProject() {
     });
 }
 
-// SEÇÃO IA (ICONE CEREBRO)
+// SEÇÃO JARVIS
 function openAI() {
     win.style.display = 'flex';
-    title.innerText = "alyssonfelipe@root: ~ (ai_core)";
+    title.innerText = "alyssonfelipe@root: ~ (jarvis_core)";
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="ai-cmd"></span></div><div id="ai-res" style="margin-top:15px;"></div>`;
     
-    typeTerminal(document.getElementById('ai-cmd'), "./initialize_ai_assistant.sh", 40, () => {
+    typeTerminal(document.getElementById('ai-cmd'), "./initialize_jarvis.sh", 40, () => {
         document.getElementById('ai-res').innerHTML = `
             <div class="p-4 border border-cyan-800 bg-cyan-950/20 rounded-lg">
-                <p style="color:#22d3ee; font-weight:bold; margin-bottom:10px;">[ ASSISTENTE VIRTUAL ALYSSON ]</p>
+                <p style="color:#22d3ee; font-weight:bold; margin-bottom:10px;">[ J.A.R.V.I.S. ONLINE ]</p>
                 <p style="font-size:11px; margin-bottom:15px; opacity:0.7;">Pergunte algo sobre minha carreira ou tecnologia.</p>
                 <div class="flex gap-2">
                     <input type="text" id="ai-input" class="terminal-input flex-1" placeholder="Digite aqui..." style="margin:0">
@@ -149,22 +149,23 @@ async function askAI() {
     input.value = "";
 
     try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+        // URL CORRIGIDA PARA V1 (ESTÁVEL)
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                contents: [{ parts: [{ text: `Você é o assistente virtual do Alysson Felipe, estudante de ADS. Responda de forma curta e profissional: ${prompt}` }] }]
+                contents: [{ parts: [{ text: `Você é o J.A.R.V.I.S., assistente virtual do Alysson Felipe. Responda de forma curta, técnica e profissional: ${prompt}` }] }]
             })
         });
         const data = await response.json();
         const aiText = data.candidates[0].content.parts[0].text;
-        typeTerminal(display, `<span style="color:#22d3ee">> IA:</span> ${aiText}`, 15);
+        typeTerminal(display, `<span style="color:#22d3ee">> JARVIS:</span> ${aiText}`, 15);
     } catch (err) {
-        display.innerText = "> Erro na conexão com o núcleo de IA.";
+        display.innerText = "> Erro na conexão com o núcleo JARVIS.";
     }
 }
 
-// SEÇÃO CONTATO (ICONE ENVELOPE)
+// SEÇÃO CONTATO
 function openContact() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (mail_service)";
