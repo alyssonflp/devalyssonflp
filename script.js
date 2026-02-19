@@ -11,11 +11,11 @@ function typePassword() {
     const fullPass = "********";
     let i = 0;
     const interval = setInterval(() => {
-        passInput.value += fullPass[i]; i++;
+        if(passInput) passInput.value += fullPass[i]; i++;
         if (i >= fullPass.length) {
             clearInterval(interval);
-            status.innerText = "Autenticando...";
-            loader.style.display = "block";
+            if(status) status.innerText = "Autenticando...";
+            if(loader) loader.style.display = "block";
             setTimeout(startBoot, 1000);
         }
     }, 120);
@@ -27,18 +27,22 @@ function startBoot() {
     const dock = document.getElementById('dock-main');
     const canvas = document.getElementById('neural-canvas');
 
-    loginScreen.style.opacity = '0';
+    if(loginScreen) loginScreen.style.opacity = '0';
     setTimeout(() => {
-        loginScreen.style.display = 'none';
-        helloScreen.style.display = 'flex';
-        helloScreen.style.opacity = '1';
+        if(loginScreen) loginScreen.style.display = 'none';
+        if(helloScreen) {
+            helloScreen.style.display = 'flex';
+            helloScreen.style.opacity = '1';
+        }
         setTimeout(() => {
-            helloScreen.style.opacity = '0';
+            if(helloScreen) helloScreen.style.opacity = '0';
             setTimeout(() => {
-                helloScreen.style.display = 'none';
-                dock.style.display = 'flex';
-                dock.style.opacity = '1';
-                canvas.style.opacity = '1';
+                if(helloScreen) helloScreen.style.display = 'none';
+                if(dock) {
+                    dock.style.display = 'flex';
+                    dock.style.opacity = '1';
+                }
+                if(canvas) canvas.style.opacity = '1';
                 openBio(); 
             }, 500);
         }, 1200);
@@ -46,6 +50,7 @@ function startBoot() {
 }
 
 function typeTerminal(element, html, speed, callback) {
+    if(!element) return;
     let i = 0; element.innerHTML = "";
     const timer = setInterval(() => {
         if (html.charAt(i) === '<') {
@@ -53,33 +58,34 @@ function typeTerminal(element, html, speed, callback) {
             element.innerHTML += html.substring(i, endTag + 1);
             i = endTag + 1;
         } else { element.innerHTML += html.charAt(i); i++; }
-        content.scrollTop = content.scrollHeight;
+        if(content) content.scrollTop = content.scrollHeight;
         if (i >= html.length) { clearInterval(timer); if (callback) callback(); }
     }, speed);
 }
 
 function openBio() {
+    if(!win) return;
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (profile)";
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="bio-cmd"></span></div><div id="bio-res"></div>`;
     typeTerminal(document.getElementById('bio-cmd'), "./profile.sh", 50, () => {
         document.getElementById('bio-res').innerHTML = `
-            <div style="text-align:center; margin-top:20px;">
-                <h1 style="font-size: 24px; color: #3b82f6; font-weight: bold; margin-bottom: 5px;">Alysson Felipe</h1>
-                <p style="font-weight:bold; font-size:14px; margin-bottom:10px; color:#22d3ee;">> ADS | UI/UX Designer | IoT & IA</p>
+            <div class="profile-container">
+                <h1 class="profile-name">Alysson Felipe</h1>
+                <p class="profile-tag">> ADS | UI/UX Designer | IoT & IA</p>
                 
-                <div style="display: flex; justify-content: center; gap: 25px; margin-bottom: 15px;">
-                    <a href="https://github.com/alyssonflp" target="_blank" style="font-size: 22px; color: white;"><i class="fab fa-github"></i></a>
-                    <a href="https://linkedin.com/in/alyssonfelipe" target="_blank" style="font-size: 22px; color: white;"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://instagram.com/alysson.dev" target="_blank" style="font-size: 22px; color: white;"><i class="fab fa-instagram"></i></a>
+                <div class="social-links">
+                    <a href="https://github.com/alyssonflp" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://linkedin.com/in/alyssonfelipe" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://instagram.com/alysson.dev" target="_blank"><i class="fab fa-instagram"></i></a>
                 </div>
 
-                <div style="text-align:left; opacity:0.9; margin-bottom: 25px; line-height: 1.5; font-size: 13px;">
+                <div class="profile-desc">
                     Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de tecnologia para criar sistemas inteligentes e interfaces funcionais.
                 </div>
 
-                <div style="display: flex; justify-content: center; width: 100%;">
-                    <a href="./assets/cv-alysson.pdf" download style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; border: 1px solid #3b82f6; color: #3b82f6; text-decoration: none; border-radius: 4px; font-size: 13px; font-weight: bold; transition: 0.3s;">
+                <div style="display: flex; justify-content: center;">
+                    <a href="./assets/cv-alysson.pdf" download class="btn-cv">
                         CURRICULO.PDF <i class="fas fa-download"></i>
                     </a>
                 </div>
@@ -146,23 +152,24 @@ function openContact() {
      ____) | |__| | |____| |____ ____) |___) | |__| |
     |_____/ \\____/ \\_____|______|_____/_____/ \\____/ </b>
     <br>[ SISTEMA: MENSAGEM ENVIADA ]`;
-                document.getElementById('success-output').innerHTML = `<pre style="font-size: 7px; color: #3b82f6; margin-top: 15px;">${asciiArt}</pre>`;
+                document.getElementById('success-output').innerHTML = `<pre class="ascii-success">${asciiArt}</pre>`;
                 form.style.display = 'none';
             }
         };
     });
 }
 
-function closeWin() { win.style.display = 'none'; }
+function closeWin() { if(win) win.style.display = 'none'; }
 
 const canvas = document.getElementById('neural-canvas');
-const ctx = canvas.getContext('2d');
+const ctx = canvas ? canvas.getContext('2d') : null;
 let pts = [];
-const res = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+const res = () => { if(canvas) { canvas.width = window.innerWidth; canvas.height = window.innerHeight; } };
 window.addEventListener('resize', res);
 res();
-for(let i=0; i<30; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5});
+for(let i=0; i<30; i++) pts.push({x:Math.random()*window.innerWidth, y:Math.random()*window.innerHeight, vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5});
 function anim() {
+    if(!ctx || !canvas) return;
     ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle = 'rgba(59,130,246,0.15)';
     pts.forEach(p => {
         p.x+=p.vx; p.y+=p.vy;
