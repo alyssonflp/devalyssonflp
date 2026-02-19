@@ -11,36 +11,28 @@ const nameAscii = `
 ╚═╝  ╚═╝╚══════╝╚═╝   ╚══════╝╚══════╝ ╚═════╝ ╚═╝  ╚═══╝
 `;
 
-function typeEffect(element, htmlText, speed = 10, callback) {
+// Função que digita sem quebrar as tags HTML e sem apagar o que já existe
+function typeHTML(element, html, speed, callback) {
     let i = 0;
-    element.innerHTML = "";
-    // Criamos um array de partes para lidar com o HTML
-    const parts = htmlText.split(/(<[^>]*>)/g);
-    let partIdx = 0;
-    let charIdx = 0;
-
-    function typing() {
-        if (partIdx < parts.length) {
-            if (parts[partIdx].startsWith("<")) {
-                element.innerHTML += parts[partIdx];
-                partIdx++;
-                typing();
-            } else {
-                if (charIdx < parts[partIdx].length) {
-                    element.innerHTML += parts[partIdx].charAt(charIdx);
-                    charIdx++;
-                    setTimeout(typing, speed);
-                } else {
-                    partIdx++;
-                    charIdx = 0;
-                    typing();
-                }
+    const interval = setInterval(() => {
+        if (html.charAt(i) === '<') {
+            let tag = '';
+            while (html.charAt(i) !== '>') {
+                tag += html.charAt(i);
+                i++;
             }
-        } else if (callback) {
-            callback();
+            tag += '>';
+            element.innerHTML += tag;
+            i++;
+        } else {
+            element.innerHTML += html.charAt(i);
+            i++;
         }
-    }
-    typing();
+        if (i >= html.length) {
+            clearInterval(interval);
+            if (callback) callback();
+        }
+    }, speed);
 }
 
 function openBio() {
@@ -58,24 +50,23 @@ function openBio() {
         </div>
     `;
 
-    const adsText = "> ADS | UI/UX Designer | IoT & IA";
-    const bioDescription = "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando Análise e Desenvolvimento de Sistemas, aplico IA e IoT para criar sistemas inteligentes e interfaces que conectam, do protótipo à implementação.";
-
     let i = 0;
+    const asciiTarget = document.getElementById('ascii-target');
+    const adsTarget = document.getElementById('ads-target');
+    const adsText = "> ADS | UI/UX Designer | IoT & IA";
+    const bioText = "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando Análise e Desenvolvimento de Sistemas, aplico IA e IoT para criar sistemas inteligentes e interfaces que conectam, do protótipo à implementação.";
+
     function step1() {
         if (i < nameAscii.length) {
-            document.getElementById('ascii-target').innerHTML += nameAscii.charAt(i);
+            asciiTarget.innerHTML += nameAscii.charAt(i);
             i++; setTimeout(step1, 1);
         } else { i = 0; step2(); }
     }
     function step2() {
         if (i < adsText.length) {
-            document.getElementById('ads-target').innerHTML += adsText.charAt(i);
-            i++; setTimeout(step2, 20);
-        } else { i = 0; step3(); }
-    }
-    function step3() {
-        typeEffect(document.getElementById('bio-typing'), bioDescription, 15);
+            adsTarget.innerHTML += adsText.charAt(i);
+            i++; setTimeout(step2, 30);
+        } else { i = 0; typeHTML(document.getElementById('bio-typing'), bioText, 15); }
     }
     setTimeout(step1, 300);
 }
@@ -83,67 +74,45 @@ function openBio() {
 function openEdu() {
     win.style.display = 'flex';
     title.innerText = "education.sh";
-    content.innerHTML = `<div id="edu-content" style="line-height:1.6;"></div><span class="cursor"></span>`;
+    // Mantemos o root fixo e criamos um container para o output
+    content.innerHTML = `
+        <div><strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> cat education.sh</div>
+        <div id="edu-output" style="margin-top:15px; line-height:1.6;"></div>
+        <span class="cursor"></span>
+    `;
     
-    const eduTarget = document.getElementById('edu-content');
-    eduTarget.innerHTML = `<strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> `;
-
-    const fullEduText = `[ EDUCAÇÃO ]\n\n` +
-        `• <strong>FACULDADE ESTÁCIO</strong>\n` +
-        `  Tecnólogo em Análise e Desenvolvimento de Sistemas\n` +
-        `  Situação: Cursando (1º Período) | Previsão: 2027\n\n` +
-        `• <strong>MICROCAMP CURITIBA</strong>\n` +
-        `  Informática Avançada (Windows, Linux, HW, SW, Redes, Firewall)\n` +
-        `  Status: Concluído\n\n` +
-        `• <strong>COLÉGIO ESTADUAL ARNALDO FAIVRO BUSATO</strong>\n` +
-        `  Ensino Médio | Status: Concluído\n\n` +
-        `[ QUALIFICAÇÕES & EXTRA ]\n\n` +
-        `- <strong>Design & Web:</strong> Domínio em Photoshop, identidades visuais e WordPress.\n` +
-        `- <strong>Sistemas Inteligentes:</strong> IA/IoT, reconhecimento facial e hardware.\n` +
-        `- <strong>Ferramentas de Escritório:</strong> Pacote Office completo.\n` +
+    const output = document.getElementById('edu-output');
+    const eduData = 
+        `<strong>[ EDUCAÇÃO ]</strong><br><br>` +
+        `• <strong>FACULDADE ESTÁCIO</strong><br>` +
+        `  Tecnólogo em Análise e Desenvolvimento de Sistemas<br>` +
+        `  Situação: Cursando (1º Período) | Previsão: 2027<br><br>` +
+        `• <strong>MICROCAMP CURITIBA</strong><br>` +
+        `  Informática Avançada (Windows, Linux, Redes e Firewall)<br>` +
+        `  Status: Concluído<br><br>` +
+        `• <strong>COLÉGIO ARNALDO FAIVRO BUSATO</strong><br>` +
+        `  Ensino Médio | Status: Concluído<br><br>` +
+        `<strong>[ QUALIFICAÇÕES ]</strong><br><br>` +
+        `- <strong>Design & Web:</strong> Photoshop, ID Visual e WordPress.<br>` +
+        `- <strong>Sistemas Inteligentes:</strong> IA/IoT e Hardware.<br>` +
+        `- <strong>Ferramentas:</strong> Pacote Office completo.<br>` +
         `- <strong>Idiomas:</strong> Inglês nível A1.`;
 
-    let k = 0;
-    const cmd = "cat education.sh\n\n";
-    function typeCommand() {
-        if (k < cmd.length) {
-            eduTarget.innerHTML += cmd.charAt(k) === "\n" ? "<br>" : cmd.charAt(k);
-            k++; setTimeout(typeCommand, 50);
-        } else {
-            typeEffect(eduTarget, fullEduText, 5);
-        }
-    }
-    typeCommand();
+    setTimeout(() => typeHTML(output, eduData, 5), 500);
 }
 
 function openProject() {
     win.style.display = 'flex';
     title.innerText = "projects.log";
-    content.innerHTML = `<div id="proj-content"></div><span class="cursor"></span>`;
-    const target = document.getElementById('proj-content');
-    target.innerHTML = `<strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> `;
+    content.innerHTML = `
+        <div><strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> ./list_projects.sh</div>
+        <div id="proj-output" style="margin-top:15px;"></div>
+        <span class="cursor"></span>
+    `;
+    const output = document.getElementById('proj-output');
+    const text = `>> <strong>PROJETO:</strong> FLOW HUB<br>>> <strong>STATUS:</strong> ONLINE<br>>> <strong>URL:</strong> https://flow-hub.shop`;
     
-    const text = "list-projects --active\n\n>> <strong>PROJETO:</strong> FLOW HUB\n>> <strong>TIPO:</strong> SaaS de Gestão\n>> <strong>LINK:</strong> https://flow-hub.shop";
-    typeEffect(target, text, 20);
+    setTimeout(() => typeHTML(output, text, 20), 500);
 }
 
 function closeWin() { win.style.display = 'none'; }
-
-// Canvas
-const canvas = document.getElementById('neural-canvas');
-const ctx = canvas.getContext('2d');
-let pts = [];
-const res = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
-window.onresize = res; res();
-for(let i=0; i<25; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, vx:(Math.random()-0.5)*0.4, vy:(Math.random()-0.5)*0.4});
-function anim() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle = 'rgba(59,130,246,0.2)';
-    pts.forEach(p => {
-        p.x+=p.vx; p.y+=p.vy;
-        if(p.x<0||p.x>canvas.width) p.vx*=-1; if(p.y<0||p.y>canvas.height) p.vy*=-1;
-        ctx.beginPath(); ctx.arc(p.x,p.y,2,0,Math.PI*2); ctx.fill();
-    });
-    requestAnimationFrame(anim);
-}
-anim();
