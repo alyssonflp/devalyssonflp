@@ -11,14 +11,31 @@ const nameAscii = `
 ╚═╝  ╚═╝╚══════╝╚═╝   ╚══════╝╚══════╝ ╚═════╝ ╚═╝  ╚═══╝
 `;
 
-// Função principal de digitação
-function typeEffect(element, text, speed = 10, callback) {
+function typeEffect(element, htmlText, speed = 10, callback) {
     let i = 0;
+    element.innerHTML = "";
+    // Criamos um array de partes para lidar com o HTML
+    const parts = htmlText.split(/(<[^>]*>)/g);
+    let partIdx = 0;
+    let charIdx = 0;
+
     function typing() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
-            i++;
-            setTimeout(typing, speed);
+        if (partIdx < parts.length) {
+            if (parts[partIdx].startsWith("<")) {
+                element.innerHTML += parts[partIdx];
+                partIdx++;
+                typing();
+            } else {
+                if (charIdx < parts[partIdx].length) {
+                    element.innerHTML += parts[partIdx].charAt(charIdx);
+                    charIdx++;
+                    setTimeout(typing, speed);
+                } else {
+                    partIdx++;
+                    charIdx = 0;
+                    typing();
+                }
+            }
         } else if (callback) {
             callback();
         }
@@ -45,24 +62,20 @@ function openBio() {
     const bioDescription = "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando Análise e Desenvolvimento de Sistemas, aplico IA e IoT para criar sistemas inteligentes e interfaces que conectam, do protótipo à implementação.";
 
     let i = 0;
-    const asciiTarget = document.getElementById('ascii-target');
-    const adsTarget = document.getElementById('ads-target');
-    const bioTarget = document.getElementById('bio-typing');
-
     function step1() {
         if (i < nameAscii.length) {
-            asciiTarget.innerHTML += nameAscii.charAt(i);
+            document.getElementById('ascii-target').innerHTML += nameAscii.charAt(i);
             i++; setTimeout(step1, 1);
         } else { i = 0; step2(); }
     }
     function step2() {
         if (i < adsText.length) {
-            adsTarget.innerHTML += adsText.charAt(i);
+            document.getElementById('ads-target').innerHTML += adsText.charAt(i);
             i++; setTimeout(step2, 20);
         } else { i = 0; step3(); }
     }
     function step3() {
-        typeEffect(bioTarget, bioDescription, 15);
+        typeEffect(document.getElementById('bio-typing'), bioDescription, 15);
     }
     setTimeout(step1, 300);
 }
@@ -73,37 +86,31 @@ function openEdu() {
     content.innerHTML = `<div id="edu-content" style="line-height:1.6;"></div><span class="cursor"></span>`;
     
     const eduTarget = document.getElementById('edu-content');
-    
-    // O comando sendo "digitado" primeiro
-    const commandLine = "alyssonfelipe@root:~$ cat education.sh\n\n";
+    eduTarget.innerHTML = `<strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> `;
+
     const fullEduText = `[ EDUCAÇÃO ]\n\n` +
-        `• FACULDADE ESTÁCIO\n` +
+        `• <strong>FACULDADE ESTÁCIO</strong>\n` +
         `  Tecnólogo em Análise e Desenvolvimento de Sistemas\n` +
         `  Situação: Cursando (1º Período) | Previsão: 2027\n\n` +
-        `• MICROCAMP CURITIBA\n` +
+        `• <strong>MICROCAMP CURITIBA</strong>\n` +
         `  Informática Avançada (Windows, Linux, HW, SW, Redes, Firewall)\n` +
         `  Status: Concluído\n\n` +
-        `• COLÉGIO ESTADUAL ARNALDO FAIVRO BUSATO\n` +
+        `• <strong>COLÉGIO ESTADUAL ARNALDO FAIVRO BUSATO</strong>\n` +
         `  Ensino Médio | Status: Concluído\n\n` +
         `[ QUALIFICAÇÕES & EXTRA ]\n\n` +
-        `- Design & Web: Photoshop, Identidade Visual, WordPress (SEO/SEM).\n` +
-        `- Sistemas Inteligentes: IA/IoT, Reconhecimento Facial e Hardware.\n` +
-        `- Office: Pacote completo (Excel, Word, PPT).\n` +
-        `- Idiomas: Inglês (Nível A1).`;
+        `- <strong>Design & Web:</strong> Domínio em Photoshop, identidades visuais e WordPress.\n` +
+        `- <strong>Sistemas Inteligentes:</strong> IA/IoT, reconhecimento facial e hardware.\n` +
+        `- <strong>Ferramentas de Escritório:</strong> Pacote Office completo.\n` +
+        `- <strong>Idiomas:</strong> Inglês nível A1.`;
 
-    // Digita o prompt em negrito e depois o conteúdo
-    eduTarget.innerHTML = `<strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> `;
-    
-    let j = 18; // Pula o prompt já escrito
-    const cmd = "cat education.sh\n\n";
     let k = 0;
-
+    const cmd = "cat education.sh\n\n";
     function typeCommand() {
         if (k < cmd.length) {
             eduTarget.innerHTML += cmd.charAt(k) === "\n" ? "<br>" : cmd.charAt(k);
             k++; setTimeout(typeCommand, 50);
         } else {
-            typeEffect(eduTarget, fullEduText, 8);
+            typeEffect(eduTarget, fullEduText, 5);
         }
     }
     typeCommand();
@@ -113,15 +120,16 @@ function openProject() {
     win.style.display = 'flex';
     title.innerText = "projects.log";
     content.innerHTML = `<div id="proj-content"></div><span class="cursor"></span>`;
-    const projTarget = document.getElementById('proj-content');
-    projTarget.innerHTML = `<strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> list-projects --active\n\n`;
-    const text = ">> PROJETO: FLOW HUB\n>> TIPO: SaaS de Gestão Inteligente\n>> LINK: https://flow-hub.shop\n>> STATUS: Online";
-    setTimeout(() => typeEffect(projTarget, text, 20), 500);
+    const target = document.getElementById('proj-content');
+    target.innerHTML = `<strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> `;
+    
+    const text = "list-projects --active\n\n>> <strong>PROJETO:</strong> FLOW HUB\n>> <strong>TIPO:</strong> SaaS de Gestão\n>> <strong>LINK:</strong> https://flow-hub.shop";
+    typeEffect(target, text, 20);
 }
 
 function closeWin() { win.style.display = 'none'; }
 
-// Canvas Neural
+// Canvas
 const canvas = document.getElementById('neural-canvas');
 const ctx = canvas.getContext('2d');
 let pts = [];
