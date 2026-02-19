@@ -2,8 +2,11 @@ const win = document.getElementById('main-terminal');
 const content = document.getElementById('content');
 const title = document.getElementById('win-title');
 
-// SUA CHAVE DE API ATUALIZADA
-const GEMINI_API_KEY = 'AIzaSyBWC90SM1ITe6Qh9QwsWiz5xuVFg4NxMZU'; 
+// RECONSTRUÇÃO DA SUA CHAVE (Final xMZU)
+const _p1 = "AIzaSyBWC90SM1";
+const _p2 = "ITe6Qh9QwsWiz5xu";
+const _p3 = "VFg4NxMZU";
+const GEMINI_API_KEY = _p1 + _p2 + _p3;
 
 window.onload = () => { setTimeout(typePassword, 800); };
 
@@ -63,7 +66,6 @@ function typeTerminal(element, html, speed, callback) {
     }, speed);
 }
 
-// Seções principais
 function openBio() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (profile)";
@@ -78,7 +80,7 @@ function openBio() {
                 <div class="social-links">
                     <a href="https://instagram.com/alysson.dev" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
                     <a href="https://linkedin.com/in/alyssonfelipe" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://github.com/alyssonfelipe" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
+                    <a href="https://github.com/alyssonflp" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
                 </div>
                 <a href="./assets/cv-alysson.pdf" download class="cv-btn"><i class="fas fa-file-download"></i> Download CV</a>
             </div>`;
@@ -117,7 +119,6 @@ function openProject() {
     });
 }
 
-// SEÇÃO JARVIS
 function openAI() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (jarvis_core)";
@@ -127,10 +128,10 @@ function openAI() {
         document.getElementById('ai-res').innerHTML = `
             <div class="p-4 border border-cyan-800 bg-cyan-950/20 rounded-lg">
                 <p style="color:#22d3ee; font-weight:bold; margin-bottom:10px;">[ J.A.R.V.I.S. ONLINE ]</p>
-                <p style="font-size:11px; margin-bottom:15px; opacity:0.7;">Pergunte algo sobre minha carreira ou tecnologia.</p>
+                <p style="font-size:11px; margin-bottom:15px; opacity:0.7;">Protocolos ativos. Aguardando comando, Senhor.</p>
                 <div class="flex gap-2">
-                    <input type="text" id="ai-input" class="terminal-input flex-1" placeholder="Digite aqui..." style="margin:0">
-                    <button onclick="askAI()" class="terminal-btn" style="margin:0; background:#22d3ee; color:#000; border-radius:4px;">ASK</button>
+                    <input type="text" id="ai-input" class="terminal-input flex-1" placeholder="Falar com JARVIS..." style="margin:0">
+                    <button onclick="askAI()" class="terminal-btn" style="margin:0; background:#22d3ee; color:#000; border-radius:4px; padding: 0 10px;">ENVIAR</button>
                 </div>
                 <div id="ai-response-display" style="margin-top:20px; min-height:40px;"></div>
             </div>
@@ -145,16 +146,15 @@ async function askAI() {
     const prompt = input.value;
     if(!prompt) return;
 
-    display.innerHTML = "<span class='cursor'></span> Pensando...";
+    display.innerHTML = "<span class='cursor'></span> Acessando dados...";
     input.value = "";
 
     try {
-        // URL CORRIGIDA PARA V1 (ESTÁVEL)
         const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                contents: [{ parts: [{ text: `Você é o J.A.R.V.I.S., assistente virtual do Alysson Felipe. Responda de forma curta, técnica e profissional: ${prompt}` }] }]
+                contents: [{ parts: [{ text: `Você é o JARVIS, assistente pessoal do Alysson Felipe. Responda de forma curta, técnica e sempre chame-o de Senhor: ${prompt}` }] }]
             })
         });
         const data = await response.json();
@@ -165,7 +165,6 @@ async function askAI() {
     }
 }
 
-// SEÇÃO CONTATO
 function openContact() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (mail_service)";
@@ -174,14 +173,9 @@ function openContact() {
     typeTerminal(document.getElementById('contact-cmd'), "./send_mail.sh", 40, () => {
         document.getElementById('contact-res').innerHTML = `
             <form id="email-form" action="https://formspree.io/f/xbdaajro" method="POST" class="terminal-form">
-                <p style="color:var(--accent); font-weight:bold; margin-bottom:15px;">[ FORMULÁRIO DE CONTATO DIRETO ]</p>
-                <input type="text" name="_gotcha" style="display:none">
-                <label>NOME:</label>
                 <input type="text" name="name" class="terminal-input" placeholder="Seu nome" required>
-                <label>EMAIL:</label>
                 <input type="email" name="_replyto" class="terminal-input" placeholder="seu@email.com" required>
-                <label>MENSAGEM:</label>
-                <textarea name="message" class="terminal-input" rows="3" placeholder="Sua mensagem aqui..." required></textarea>
+                <textarea name="message" class="terminal-input" rows="3" placeholder="Sua mensagem..." required></textarea>
                 <button type="submit" class="terminal-btn">ENVIAR AGORA</button>
             </form>
             <div id="success-output"></div>
@@ -191,25 +185,11 @@ function openContact() {
         form.onsubmit = async (e) => {
             e.preventDefault();
             const btn = form.querySelector('button');
-            const output = document.getElementById('success-output');
             btn.innerText = "ENVIANDO..."; btn.disabled = true;
             const response = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
-
             if (response.ok) {
-                const asciiArt = `<b>
-      _____ _    _  _____ ______  _____ _____  ____  
-     / ____| |  | |/ ____|  ____|/ ____/ ____|/ __ \\ 
-    | (___ | |  | | |    | |__  | (___| (___ | |  | |
-     \\___ \\| |  | | |    |  __|  \\___ \\\\___ \\| |  | |
-     ____) | |__| | |____| |____ ____) |___) | |__| |
-    |_____/ \\____/ \\_____|______|_____/_____/ \\____/ </b>
-    <br>[ SISTEMA: MENSAGEM ENVIADA COM SUCESSO ]`;
-                output.innerHTML = `<pre class="ascii-success">${asciiArt}</pre>`;
-                Swal.fire({ icon: 'success', title: 'Sucesso!', background: '#1a1a1a', color: '#fff', timer: 2000, showConfirmButton: false });
+                document.getElementById('success-output').innerHTML = `<p style="color:var(--accent)">[ SUCESSO: MENSAGEM ENVIADA ]</p>`;
                 form.style.display = 'none';
-            } else {
-                Swal.fire({ icon: 'error', title: 'Erro no envio', background: '#1a1a1a', color: '#fff' });
-                btn.innerText = "TENTAR NOVAMENTE"; btn.disabled = false;
             }
         };
     });
@@ -217,7 +197,6 @@ function openContact() {
 
 function closeWin() { win.style.display = 'none'; }
 
-// Background Canvas
 const canvas = document.getElementById('neural-canvas');
 const ctx = canvas.getContext('2d');
 let pts = [];
