@@ -10,7 +10,6 @@
     --accent: #9333ea;
 }
 
-/* Fix Modo Adaptativo para Android/iOS */
 @media (prefers-color-scheme: light) {
     :root {
         --bg-site: #f0f0f5;
@@ -33,24 +32,34 @@ body { background: var(--bg-site); color: var(--text-main); height: 100vh; width
 .login-avatar { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--accent); margin-bottom: 12px; }
 .login-username { font-size: 18px; font-weight: 600; margin-bottom: 15px; color: var(--text-main); }
 
-/* Pílula com gap reduzido */
-.login-field { 
-    background: rgba(128, 128, 128, 0.1);
-    border-radius: 30px; 
-    padding: 8px 15px; 
-    width: 160px; 
-    border: 1px solid var(--border);
-    margin-bottom: 15px; 
-}
+.login-field { background: rgba(128, 128, 128, 0.1); border-radius: 30px; padding: 8px 15px; width: 160px; border: 1px solid var(--border); margin-bottom: 15px; }
 .login-field input { background: transparent; border: none; color: var(--text-main); text-align: center; letter-spacing: 4px; outline: none; font-size: 16px; width: 100%; }
 
-/* Barra de carregamento */
 .boot-loader-container { width: 120px; height: 3px; background: rgba(128,128,128,0.2); border-radius: 10px; overflow: hidden; }
 .boot-loader-bar { width: 0%; height: 100%; background: var(--accent); transition: width 0.1s linear; }
 
-/* Hello World Centralizado e Grande */
-#hello-screen { position: fixed; inset: 0; z-index: 4500; background: var(--bg-hello); display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.5s; }
-.hello-text { font-size: clamp(32px, 12vw, 60px); color: var(--text-hello); letter-spacing: 10px; font-family: 'Courier New', monospace; font-weight: 300; text-align: center; width: 100%; }
+/* Hello Screen ASCII Centralizado */
+#hello-screen { 
+    position: fixed; 
+    inset: 0; 
+    z-index: 4500; 
+    background: var(--bg-hello); 
+    display: none; 
+    align-items: center; 
+    justify-content: center; 
+    opacity: 0; 
+    transition: opacity 0.5s; 
+}
+
+.hello-ascii { 
+    font-family: 'Courier New', monospace; 
+    font-size: clamp(6px, 1.5vw, 12px); /* Responsivo para não quebrar no celular */
+    color: var(--text-hello); 
+    line-height: 1.2;
+    text-align: center;
+    white-space: pre; 
+    font-weight: bold;
+}
 
 .window { position: fixed; z-index: 2000; top: 45%; left: 50%; transform: translate(-50%, -50%); width: 94vw; max-width: 600px; height: 80vh; max-height: 520px; background: var(--bg-window); border: 1px solid var(--border); border-radius: 35px; display: none; flex-direction: column; backdrop-filter: blur(15px); overflow: hidden; }
 .win-header { background: var(--border); padding: 15px 20px; display: flex; align-items: center; }
@@ -61,7 +70,7 @@ body { background: var(--bg-site); color: var(--text-main); height: 100vh; width
 .win-body { flex: 1; padding: 25px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; }
 
 .main-name { font-size: clamp(24px, 7vw, 32px); font-weight: 800; background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.ads-text { font-weight: bold; font-size: 14px; color: var(--text-main) !important; opacity: 1; margin-bottom: 5px; }
+.ads-text { font-weight: bold; font-size: 14px; color: var(--text-main) !important; margin-bottom: 5px; }
 
 .social-links { margin: 5px 0 15px 0; display: flex; justify-content: center; gap: 25px; }
 .social-icon { font-size: 24px; opacity: 0; }
