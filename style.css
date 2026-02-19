@@ -1,46 +1,64 @@
-* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-body { height: 100vh; width: 100vw; font-family: 'Courier New', monospace; }
+:root {
+    /* Modo Dark (Padrão) */
+    --bg-main: #050505;
+    --bg-window: rgba(15, 15, 15, 0.98);
+    --text-main: #ffffff;
+    --text-dim: #888888;
+    --border: #333333;
+}
 
-#neural-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+/* Modo Light Automático (Detecta configuração do celular) */
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg-main: #f0f2f5;
+        --bg-window: rgba(255, 255, 255, 0.95);
+        --text-main: #1a1a1a;
+        --text-dim: #555555;
+        --border: #cccccc;
+    }
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body { 
+    background: var(--bg-main); 
+    color: var(--text-main);
+    height: 100vh; width: 100vw; 
+    overflow: hidden; 
+    transition: background 0.3s ease;
+}
 
 /* JANELA TERMINAL */
 .window {
     position: fixed; z-index: 2000; top: 45%; left: 50%;
     transform: translate(-50%, -50%); width: 92vw; max-width: 450px;
-    min-height: 350px; background: rgba(10, 10, 10, 0.98);
-    border: 1px solid #333; border-radius: 12px; display: none;
-    flex-direction: column; box-shadow: 0 0 50px rgba(0,0,0,1);
+    min-height: 380px; background: var(--bg-window);
+    border: 1px solid var(--border); border-radius: 12px; display: none;
+    flex-direction: column; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
 }
 
-.win-header { background: #1a1a1a; padding: 12px; display: flex; align-items: center; border-radius: 12px 12px 0 0; border-bottom: 1px solid #333; }
+.win-header { background: var(--border); padding: 12px; display: flex; align-items: center; border-radius: 12px 12px 0 0; }
 .dots { display: flex; gap: 8px; }
 .dot { width: 12px; height: 12px; border-radius: 50%; }
-.close { background: #ff5f56; cursor: pointer; }
-.min { background: #ffbd2e; }
-.max { background: #27c93f; }
-#win-title { margin-left: 15px; font-size: 10px; color: #666; text-transform: uppercase; }
 
-.win-body { flex: 1; padding: 25px; overflow-y: auto; font-size: 13px; color: #fff; line-height: 1.4; }
+.win-body { flex: 1; padding: 25px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 13px; }
 
-/* COMPONENTES INTERNOS */
+/* BIO: FOTO NA PASTA IMAGENS + INSTA GLOW */
 .insta-glow {
-    display: inline-block; padding: 3px; border-radius: 50%;
+    display: inline-block; padding: 4px; border-radius: 50%;
     background: linear-gradient(45deg, #f09433, #dc2743, #bc1888);
-    margin-bottom: 15px; box-shadow: 0 0 15px rgba(220,39,67,0.4);
+    margin-bottom: 10px;
 }
-.profile-img { width: 90px; height: 90px; border-radius: 50%; border: 3px solid #0a0a0a; object-fit: cover; }
-.ascii-art { font-size: 5px; line-height: 1; color: #3b82f6; margin: 10px 0; }
-.cursor { display: inline-block; width: 8px; height: 15px; background: #3b82f6; animation: blink 1s infinite; vertical-align: middle; }
-@keyframes blink { 50% { opacity: 0; } }
+.profile-img { 
+    width: 100px; height: 100px; border-radius: 50%; 
+    border: 3px solid var(--bg-window); object-fit: cover; 
+}
 
-/* DOCK */
+/* DOCK FIXA */
 .dock-wrap { position: fixed; bottom: 30px; width: 100%; display: flex; justify-content: center; z-index: 3000; }
-.dock { display: flex; gap: 20px; padding: 12px 25px; background: rgba(20,20,20,0.85); backdrop-filter: blur(20px); border-radius: 40px; border: 1px solid rgba(255,255,255,0.1); }
-.dock-i { font-size: 32px; cursor: pointer; transition: transform 0.2s; }
-.dock-i:active { transform: scale(0.85); }
-
-/* Cores da Dock */
-.blue { color: #60a5fa; }
-.purple { color: #c084fc; }
-.orange { color: #fb923c; }
-.green { color: #22c55e; }
+.dock { 
+    display: flex; gap: 20px; padding: 12px 25px; 
+    background: rgba(120, 120, 120, 0.1); backdrop-filter: blur(20px); 
+    border-radius: 40px; border: 1px solid var(--border); 
+}
+.dock-i { font-size: 32px; cursor: pointer; transition: 0.2s; }
