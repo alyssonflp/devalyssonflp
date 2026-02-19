@@ -2,8 +2,10 @@ const win = document.getElementById('main-terminal');
 const content = document.getElementById('content');
 const title = document.getElementById('win-title');
 
+// Inicialização automática
 window.onload = () => { setTimeout(typePassword, 800); };
 
+// Simulação de login
 function typePassword() {
     const passInput = document.getElementById('pass-input');
     const status = document.getElementById('login-status');
@@ -47,6 +49,7 @@ function startBoot() {
     }, 500);
 }
 
+// Mecanismo de digitação do terminal
 function typeTerminal(element, html, speed, callback) {
     let i = 0; element.innerHTML = "";
     const timer = setInterval(() => {
@@ -60,6 +63,7 @@ function typeTerminal(element, html, speed, callback) {
     }, speed);
 }
 
+// Seções do Terminal
 function openBio() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (profile)";
@@ -72,18 +76,13 @@ function openBio() {
                 <p id="ads-target" style="font-weight:bold; font-size:14px; margin-bottom:15px; color:var(--accent);"></p>
                 <div id="bio-typing" style="text-align:left; opacity:0.9;"></div>
                 <span class="cursor"></span>
-
                 <div class="social-links">
                     <a href="https://instagram.com/alysson.dev" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
                     <a href="https://linkedin.com/in/alyssonfelipe" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i></a>
                     <a href="https://github.com/alyssonfelipe" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
                 </div>
-
-                <a href="./assets/cv-alysson.pdf" download class="cv-btn">
-                    <i class="fas fa-file-download"></i> Download CV
-                </a>
+                <a href="./assets/cv-alysson.pdf" download class="cv-btn"><i class="fas fa-file-download"></i> Download CV</a>
             </div>`;
-        
         typeTerminal(document.getElementById('ads-target'), "> ADS | UI/UX Designer | IoT & IA", 25, () => {
             typeTerminal(document.getElementById('bio-typing'), "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de IA e IoT para criar sistemas inteligentes.", 10);
         });
@@ -119,6 +118,7 @@ function openProject() {
     });
 }
 
+// Função de Contato com Validação ASCII
 function openContact() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (contact_form)";
@@ -130,22 +130,20 @@ function openContact() {
             <form id="email-form" action="https://formspree.io/f/xbdaajro" method="POST" class="terminal-form">
                 <label>NOME:</label>
                 <input type="text" name="name" class="terminal-input" placeholder="Seu nome completo" required>
-                
                 <label>EMAIL DE CONTATO:</label>
                 <input type="email" name="_replyto" class="terminal-input" placeholder="seu@email.com" required>
-                
                 <label>MENSAGEM:</label>
                 <textarea name="message" class="terminal-input" rows="3" placeholder="Escreva sua mensagem aqui..." required></textarea>
-                
                 <button type="submit" class="terminal-btn">EXECUTAR ENVIO</button>
             </form>
+            <div id="success-output"></div>
         `;
 
         const form = document.getElementById('email-form');
         form.onsubmit = async (e) => {
             e.preventDefault();
             const btn = form.querySelector('button');
-            const originalText = btn.innerText;
+            const output = document.getElementById('success-output');
             btn.innerText = "ENVIANDO...";
             btn.disabled = true;
 
@@ -157,26 +155,30 @@ function openContact() {
             });
 
             if (response.ok) {
+                const asciiArt = `
+<b>      _____ _    _  _____ ______  _____ _____  ____  
+     / ____| |  | |/ ____|  ____|/ ____/ ____|/ __ \\ 
+    | (___ | |  | | |    | |__  | (___| (___ | |  | |
+     \\___ \\| |  | | |    |  __|  \\___ \\\\___ \\| |  | |
+     ____) | |__| | |____| |____ ____) |___) | |__| |
+    |_____/ \\____/ \\_____|______|_____/_____/ \\____/ </b>
+    
+    <b>[ SISTEMA: MENSAGEM ENVIADA COM SUCESSO ]</b>`;
+
+                output.innerHTML = `<pre class="ascii-success">${asciiArt}</pre>`;
                 Swal.fire({
                     icon: 'success',
-                    title: 'Mensagem Enviada!',
-                    text: 'O Alysson entrará em contato em breve.',
+                    title: 'Enviado!',
+                    text: 'Obrigado pelo contato.',
                     background: '#1a1a1a',
                     color: '#fff',
-                    confirmButtonColor: '#3b82f6'
+                    timer: 2000,
+                    showConfirmButton: false
                 });
-                form.reset();
-                btn.innerText = originalText;
-                btn.disabled = false;
+                form.style.display = 'none';
             } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Falha no Sistema',
-                    text: 'Houve um erro no envio. Tente novamente mais tarde.',
-                    background: '#1a1a1a',
-                    color: '#fff'
-                });
-                btn.innerText = originalText;
+                Swal.fire({ icon: 'error', title: 'Erro', text: 'Falha no envio.', background: '#1a1a1a', color: '#fff' });
+                btn.innerText = "TENTAR NOVAMENTE";
                 btn.disabled = false;
             }
         };
@@ -185,6 +187,7 @@ function openContact() {
 
 function closeWin() { win.style.display = 'none'; }
 
+// Background Neural Canvas
 const canvas = document.getElementById('neural-canvas');
 const ctx = canvas.getContext('2d');
 let pts = [];
