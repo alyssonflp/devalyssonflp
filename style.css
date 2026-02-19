@@ -29,7 +29,6 @@
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 body { background: var(--bg-site); color: var(--text-main); height: 100vh; overflow: hidden; font-family: 'Segoe UI', system-ui, sans-serif; }
 
-/* Login Styles */
 #login-screen { position: fixed; inset: 0; z-index: 5000; background: var(--bg-login); display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease; }
 .login-box { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 350px; text-align: center; }
 .login-avatar { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--accent); object-fit: cover; margin-bottom: 15px; }
@@ -39,11 +38,9 @@ body { background: var(--bg-site); color: var(--text-main); height: 100vh; overf
 .login-loader { width: 16px; height: 16px; border: 2px solid var(--accent); border-top: 2px solid transparent; border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Hello Screen */
 #hello-screen { position: fixed; inset: 0; z-index: 4500; background: var(--bg-hello); display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s; }
 .hello-text { font-size: clamp(24px, 8vw, 38px); color: var(--text-hello); letter-spacing: 8px; font-family: 'Courier New', monospace; font-weight: 200; }
 
-/* Window Styles */
 .window { position: fixed; z-index: 2000; top: 45%; left: 50%; transform: translate(-50%, -50%); width: 94vw; max-width: 600px; height: 80vh; max-height: 520px; background: var(--bg-window); border: 1px solid var(--border); border-radius: 12px; display: none; flex-direction: column; backdrop-filter: blur(15px); box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
 .win-header { background: var(--border); padding: 12px 15px; display: flex; align-items: center; border-radius: 12px 12px 0 0; position: relative; }
 .dots { display: flex; gap: 8px; position: absolute; left: 15px; }
@@ -54,7 +51,6 @@ body { background: var(--bg-site); color: var(--text-main); height: 100vh; overf
 #win-title { width: 100%; text-align: center; font-size: 13px; color: var(--text-main); font-family: 'Segoe UI', sans-serif; font-weight: 500; opacity: 0.8; }
 .win-body { flex: 1; padding: 25px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; }
 
-/* Bio Content Styles */
 .main-name { font-size: clamp(24px, 7vw, 32px); font-weight: 800; margin-bottom: 5px; background: linear-gradient(135deg, #3b82f6 0%, #9333ea 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'Segoe UI', sans-serif; letter-spacing: -1px; }
 .social-links { margin-top: 25px; display: flex; justify-content: center; gap: 25px; opacity: 0; animation: fadeIn 0.5s forwards 0.5s; }
 .social-icon { font-size: 24px; color: var(--text-main); transition: 0.3s; }
@@ -62,7 +58,6 @@ body { background: var(--bg-site); color: var(--text-main); height: 100vh; overf
 .cv-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; padding: 10px 22px; background: var(--accent); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-family: 'Segoe UI', sans-serif; transition: 0.3s; opacity: 0; animation: fadeIn 0.5s forwards 0.8s; }
 .cv-btn:hover { filter: brightness(1.1); transform: scale(1.02); }
 
-/* Form & Success Styles */
 .terminal-form { margin-top: 15px; display: flex; flex-direction: column; gap: 10px; }
 .terminal-form label { font-weight: bold; font-size: 11px; color: var(--accent); }
 .terminal-input { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text-main); padding: 8px 12px; font-family: 'Courier New', monospace; outline: none; border-radius: 4px; font-size: 14px; }
@@ -76,7 +71,6 @@ body { background: var(--bg-site); color: var(--text-main); height: 100vh; overf
 .cursor { display: inline-block; width: 7px; height: 14px; background: var(--accent); animation: blink 1s infinite; vertical-align: middle; }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* Canvas & Dock */
 #neural-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity 1s; }
 .dock-wrap { position: fixed; bottom: 20px; width: 100%; display: flex; justify-content: center; z-index: 3000; pointer-events: none; }
 .dock { display: flex; gap: clamp(8px, 3vw, 15px); padding: 10px 20px; background: var(--bg-dock); border-radius: 40px; border: 1px solid var(--border); backdrop-filter: blur(20px); pointer-events: auto; }
