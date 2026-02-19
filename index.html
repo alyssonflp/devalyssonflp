@@ -2,33 +2,30 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alysson Felipe | Portfolio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <canvas id="neural-canvas"></canvas>
+
     <div id="login-screen">
         <div class="login-box">
-            <div class="login-avatar-wrapper">
-                <img src="./imagens/alysson.png" class="login-avatar" alt="Alysson" onerror="this.src='https://ui-avatars.com/api/?name=Alysson+Felipe&background=3b82f6&color=fff';">
-            </div>
-            <h2 class="login-username">alyssonfelipe</h2>
+            <img src="https://github.com/alyssonflp.png" alt="Avatar" class="login-avatar">
+            <div class="login-username">alyssonfelipe</div>
             <div class="login-field">
                 <input type="password" id="pass-input" readonly>
-                <div class="login-loader" id="login-loader" style="display: none;"></div>
+                <div id="login-loader" class="login-loader" style="display:none;"></div>
             </div>
-            <p class="login-status" id="login-status">Aguardando credenciais...</p>
+            <div id="login-status" style="margin-top:10px; font-size:12px; opacity:0.7;">Aguardando credenciais...</div>
         </div>
     </div>
 
     <div id="hello-screen">
-        <h1 class="hello-text">Hello World</h1>
+        <div class="hello-text">HELLO WORLD</div>
     </div>
-
-    <canvas id="neural-canvas"></canvas>
 
     <div id="main-terminal" class="window">
         <div class="win-header">
@@ -37,20 +34,20 @@
                 <div class="dot min"></div>
                 <div class="dot max"></div>
             </div>
-            <span id="win-title">alyssonfelipe@root:~</span>
+            <div id="win-title">alyssonfelipe@root: ~</div>
         </div>
-        <div class="win-body" id="content"></div>
+        <div class="win-body" id="content">
+            </div>
     </div>
 
-    <div class="dock-wrap" id="dock-main" style="display: none; opacity: 0;">
-        <nav class="dock">
-            <div class="dock-i text-blue-500" onclick="openBio()" title="Bio"><i class="fas fa-user-circle"></i></div>
-            <div class="dock-i text-purple-500" onclick="openEdu()" title="Educação"><i class="fas fa-graduation-cap"></i></div>
-            <div class="dock-i text-yellow-500" onclick="openExp()" title="Experiência"><i class="fas fa-briefcase"></i></div>
-            <div class="dock-i text-orange-500" onclick="openProject()" title="Projetos"><i class="fas fa-code"></i></div>
-            <div class="dock-i text-red-500" onclick="openContact()" title="Enviar E-mail"><i class="fas fa-envelope"></i></div>
-            <a href="https://wa.me/5541999207848" target="_blank" class="dock-i text-green-500"><i class="fab fa-whatsapp"></i></a>
-        </nav>
+    <div class="dock-wrap" id="dock-main" style="display:none; opacity:0;">
+        <div class="dock">
+            <div class="dock-i" onclick="openBio()" title="Profile"><i class="fas fa-user-circle"></i></div>
+            <div class="dock-i" onclick="openEdu()" title="Education"><i class="fas fa-graduation-cap"></i></div>
+            <div class="dock-i" onclick="openExp()" title="Experience"><i class="fas fa-briefcase"></i></div>
+            <div class="dock-i" onclick="openProject()" title="Projects"><i class="fas fa-code"></i></div>
+            <div class="dock-i" onclick="openContact()" title="Contact"><i class="fas fa-envelope"></i></div>
+        </div>
     </div>
 
     <script src="script.js"></script>
