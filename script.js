@@ -2,10 +2,8 @@ const win = document.getElementById('main-terminal');
 const content = document.getElementById('content');
 const title = document.getElementById('win-title');
 
-// SEQUÊNCIA ACELERADA
-window.onload = () => {
-    setTimeout(startBoot, 1200); // 1.2 segundos no login
-};
+// BOOT SEQUÊNCIA
+window.onload = () => { setTimeout(startBoot, 1200); };
 
 function startBoot() {
     const loginScreen = document.getElementById('login-screen');
@@ -13,39 +11,29 @@ function startBoot() {
     const dock = document.getElementById('dock-main');
     const canvas = document.getElementById('neural-canvas');
 
-    loginScreen.style.opacity = '0';
+    if(loginScreen) loginScreen.style.opacity = '0';
     setTimeout(() => {
-        loginScreen.style.display = 'none';
-        helloScreen.style.display = 'flex';
-        setTimeout(() => { helloScreen.style.opacity = '1'; }, 50);
-        
+        if(loginScreen) loginScreen.style.display = 'none';
+        if(helloScreen) {
+            helloScreen.style.display = 'flex';
+            void helloScreen.offsetWidth;
+            helloScreen.style.opacity = '1';
+        }
         setTimeout(() => {
-            helloScreen.style.opacity = '0';
+            if(helloScreen) helloScreen.style.opacity = '0';
             setTimeout(() => {
-                helloScreen.style.display = 'none';
-                dock.style.display = 'flex';
-                setTimeout(() => { 
-                    dock.style.opacity = '1'; 
-                    canvas.style.opacity = '1';
-                    openBio(); 
-                }, 50);
-            }, 400); // Transição de saída do Hello World mais rápida
-        }, 1000); // 1 segundo no Hello World
+                if(helloScreen) helloScreen.style.display = 'none';
+                if(dock) { dock.style.display = 'flex'; void dock.offsetWidth; dock.style.opacity = '1'; }
+                if(canvas) canvas.style.opacity = '1';
+                openBio(); 
+            }, 500);
+        }, 1000);
     }, 400);
 }
 
-// CONTEÚDO DO TERMINAL
-const nameAscii = `
-██████╗ ██╗  ██╗   ██╗███████╗███████╗ ██████╗ ███╗   ██╗
-██╔══██╗██║  ╚██╗ ██╔╝██╔════╝██╔════╝██╔═══██╗████╗  ██║
-███████║██║   ╚████╔╝ ███████╗███████╗██║   ██║██╔██╗ ██║
-██╔══██║██║    ╚██╔╝  ╚════██║╚════██║██║   ██║██║╚██╗██║
-██║  ██║███████╗██║   ███████║███████║╚██████╔╝██║ ╚████║
-╚═╝  ╚═╝╚══════╝╚═╝   ╚══════╝╚══════╝ ╚═════╝ ╚═╝  ╚═══╝
-`;
-
 function typeTerminal(element, html, speed, callback) {
     let i = 0;
+    element.innerHTML = "";
     const timer = setInterval(() => {
         if (html.charAt(i) === '<') {
             let endTag = html.indexOf('>', i);
@@ -60,28 +48,35 @@ function typeTerminal(element, html, speed, callback) {
     }, speed);
 }
 
+const nameAscii = `
+██████╗ ██╗  ██╗   ██╗███████╗███████╗ ██████╗ ███╗   ██╗
+██╔══██╗██║  ╚██╗ ██╔╝██╔════╝██╔════╝██╔═══██╗████╗  ██║
+███████║██║   ╚████╔╝ ███████╗███████╗██║   ██║██╔██╗ ██║
+██╔══██║██║    ╚██╔╝  ╚════██║╚════██║██║   ██║██║╚██╗██║
+██║  ██║███████╗██║   ███████║███████║╚██████╔╝██║ ╚████║
+╚═╝  ╚═╝╚══════╝╚═╝   ╚══════╝╚══════╝ ╚═════╝ ╚═╝  ╚═══╝`;
+
 function openBio() {
     win.style.display = 'flex';
     title.innerText = "profile.sh";
     content.innerHTML = `
         <div style="text-align:center">
-            <div style="margin-bottom:10px;"><img src="./imagens/alysson.png" class="profile-img" onerror="this.src='https://ui-avatars.com/api/?name=Alysson+Felipe&background=3b82f6&color=fff';"></div>
+            <div class="insta-glow"><img src="./imagens/alysson.png" class="profile-img" onerror="this.src='https://ui-avatars.com/api/?name=Alysson+Felipe';"></div>
             <pre id="ascii-target" class="ascii-art"></pre>
-            <p id="ads-target" style="color:var(--accent); font-weight:bold; font-size:13px;"></p>
+            <p id="ads-target" style="font-weight:bold; font-size:14px; margin-bottom:10px;"></p>
             <div id="bio-typing" style="text-align:left; opacity:0.9;"></div>
             <span class="cursor"></span>
-        </div>
-    `;
-    const adsText = "> ADS | UI/UX Designer | IoT & IA";
-    const bioText = "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS, aplico IA e IoT para criar sistemas inteligentes.";
+        </div>`;
+    
     let i = 0;
+    const asciiTarget = document.getElementById('ascii-target');
     function drawAscii() {
         if (i < nameAscii.length) {
-            document.getElementById('ascii-target').innerHTML += nameAscii.charAt(i);
+            asciiTarget.innerHTML += nameAscii.charAt(i);
             i++; setTimeout(drawAscii, 1);
         } else {
-            typeTerminal(document.getElementById('ads-target'), adsText, 25, () => {
-                typeTerminal(document.getElementById('bio-typing'), bioText, 10);
+            typeTerminal(document.getElementById('ads-target'), "> ADS | UI/UX Designer | IoT & IA", 25, () => {
+                typeTerminal(document.getElementById('bio-typing'), "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de IA e IoT para criar sistemas inteligentes e interfaces que conectam pessoas.", 10);
             });
         }
     }
@@ -91,36 +86,61 @@ function openBio() {
 function openEdu() {
     win.style.display = 'flex';
     title.innerText = "education.sh";
-    content.innerHTML = `<div><strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> <span id="edu-cmd"></span></div><div id="edu-res" style="margin-top:15px;"></div><span class="cursor"></span>`;
-    const data = `<strong>[ EDUCAÇÃO ]</strong><br><br>• <strong>ESTÁCIO</strong><br>ADS (Cursando) | Previsão: 2027<br><br>• <strong>MICROCAMP CURITIBA</strong><br><strong>Informática Avançada:</strong> Windows, Linux, Redes e Firewall`;
+    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="edu-cmd"></span></div><div id="edu-res" style="margin-top:15px;"></div><span class="cursor"></span>`;
+    const data = `<strong>[ FORMAÇÃO ACADÊMICA ]</strong><br><br>
+• <strong>FACULDADE ESTÁCIO</strong><br>
+  Tecnólogo em Análise e Desenvolvimento de Sistemas<br>
+  Status: Cursando | Previsão: 2027<br><br>
+• <strong>MICROCAMP CURITIBA</strong><br>
+  Informática Avançada: Windows, Linux, Redes e Firewall<br><br>
+• <strong>COLÉGIO ESTADUAL ARNALDO FAIVRO BUSATO</strong><br>
+  Ensino Médio Concluído<br><br>
+<strong>[ QUALIFICAÇÕES ADICIONAIS ]</strong><br>
+- Design Gráfico (Photoshop & Illustrator)<br>
+- Desenvolvimento Web (WordPress & HTML/CSS)<br>
+- Hardware & Redes`;
+
     typeTerminal(document.getElementById('edu-cmd'), "cat education.sh", 40, () => {
-        setTimeout(() => typeTerminal(document.getElementById('edu-res'), data, 5), 150);
+        setTimeout(() => typeTerminal(document.getElementById('edu-res'), data, 5), 100);
     });
 }
 
 function openExp() {
     win.style.display = 'flex';
     title.innerText = "experiences.sh";
-    content.innerHTML = `<div><strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> <span id="exp-cmd"></span></div><div id="exp-res" style="margin-top:15px;"></div><span class="cursor"></span>`;
-    const data = `<strong>[ EXPERIÊNCIAS ]</strong><br><br>• <strong>ALUARTS</strong> (2020-2024)<br><strong>Marketing Digital & ADM</strong><br><br>• <strong>MUNDIAL MARCAS</strong> (2015-2017)<br><strong>Web Designer</strong>`;
+    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="exp-cmd"></span></div><div id="exp-res" style="margin-top:15px;"></div><span class="cursor"></span>`;
+    const data = `<strong>[ EXPERIÊNCIAS PROFISSIONAIS ]</strong><br><br>
+• <strong>ALUARTS ESQUADRIAS</strong> – Pinhais, PR<br>
+  <strong>Aux. Administrativo & Marketing Digital</strong> | 2020 – 2024<br>
+  Gestão de tráfego, design de materiais e suporte administrativo.<br><br>
+• <strong>MUNDIAL MARCAS</strong> – Curitiba, PR<br>
+  <strong>Web Designer</strong> | 2015 – 2017<br>
+  Criação de sites institucionais e manutenção de plataformas.<br><br>
+• <strong>OMAR CALÇADOS</strong> – Curitiba, PR<br>
+  <strong>Consultor de Vendas</strong> | 2013 – 2014`;
+
     typeTerminal(document.getElementById('exp-cmd'), "cat experiences.sh", 40, () => {
-        setTimeout(() => typeTerminal(document.getElementById('exp-res'), data, 5), 150);
+        setTimeout(() => typeTerminal(document.getElementById('exp-res'), data, 5), 100);
     });
 }
 
 function openProject() {
     win.style.display = 'flex';
     title.innerText = "projects.log";
-    content.innerHTML = `<div><strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> <span id="proj-cmd"></span></div><div id="proj-res" style="margin-top:15px;"></div><span class="cursor"></span>`;
-    const text = `>> <strong>PROJETO:</strong> FLOW HUB<br>>> <strong>URL:</strong> https://flow-hub.shop`;
+    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="proj-cmd"></span></div><div id="proj-res" style="margin-top:15px;"></div><span class="cursor"></span>`;
+    const data = `>> <strong>PROJETO:</strong> FLOW HUB<br>
+>> <strong>DESCRIÇÃO:</strong> Plataforma integrada para gestão de fluxos.<br>
+>> <strong>URL:</strong> <a href="https://flow-hub.shop" target="_blank" style="color:var(--accent)">https://flow-hub.shop</a><br><br>
+>> <strong>STATUS:</strong> Ativo / Em Produção`;
+    
     typeTerminal(document.getElementById('proj-cmd'), "./list_projects.sh", 40, () => {
-        setTimeout(() => typeTerminal(document.getElementById('proj-res'), text, 15), 150);
+        setTimeout(() => typeTerminal(document.getElementById('proj-res'), data, 10), 100);
     });
 }
 
 function closeWin() { win.style.display = 'none'; }
 
-// Canvas Neural
+// CANVAS NEURAL
 const canvas = document.getElementById('neural-canvas');
 const ctx = canvas.getContext('2d');
 let pts = [];
