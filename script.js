@@ -2,57 +2,56 @@ const win = document.getElementById('main-terminal');
 const content = document.getElementById('content');
 const title = document.getElementById('win-title');
 
-const roleAscii = `
-     _   ___  ____  
-    /_\\ |   \\/ ___| 
-   / _ \\| |) \\___ \\ 
-  /_/ \\_\\___/|____/ 
-  | UI / UX DESIGN |
+// Arte ASCII do teu Nome em Bloco (Negrito)
+const nameAscii = `
+  █████╗ ██╗  ██╗   ██╗███████╗███████╗ ██████╗ ███╗   ██╗
+  ██╔══██╗██║  ╚██╗ ██╔╝██╔════╝██╔════╝██╔═══██╗████╗  ██║
+  ███████║██║   ╚████╔╝ ███████╗███████╗██║   ██║██╔██╗ ██║
+  ██╔══██║██║    ╚██╔╝  ╚════██║╚════██║██║   ██║██║╚██╗██║
+  ██║  ██║███████╗██║   ███████║███████║╚██████╔╝██║ ╚████║
+  ╚═╝  ╚═╝╚══════╝╚═╝   ╚══════╝╚══════╝ ╚═════╝ ╚═╝  ╚═══╝
 `;
 
 function openBio() {
     win.style.display = 'flex';
     title.innerText = "profile.sh";
     
-    // Prepara o container vazio
     content.innerHTML = `
         <div style="text-align:center">
             <div class="insta-glow">
                 <img src="./imagens/alysson.png" class="profile-img" onerror="this.src='./Imagens/alysson.png';">
             </div>
             <pre id="ascii-target" class="ascii-art"></pre>
-            <p id="name-target" style="color:var(--accent); font-weight:bold; font-size:18px; margin-bottom:10px;"></p>
+            <p id="ads-target" style="color:var(--accent); font-weight:bold; font-size:14px; margin-bottom:10px;"></p>
             <div id="bio-typing" style="text-align:left; line-height:1.5; opacity:0.9;"></div>
             <span id="main-cursor" class="cursor"></span>
         </div>
     `;
 
-    const nameText = "> Alysson Felipe";
+    const adsText = "> ADS | UI/UX Designer | IoT & IA";
     const bioDescription = "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando Análise e Desenvolvimento de Sistemas, aplico IA e IoT para criar sistemas inteligentes e interfaces que conectam, do protótipo à implementação.";
 
     let i = 0;
     const asciiTarget = document.getElementById('ascii-target');
-    const nameTarget = document.getElementById('name-target');
+    const adsTarget = document.getElementById('ads-target');
     const bioTarget = document.getElementById('bio-typing');
-    const cursor = document.getElementById('main-cursor');
 
-    // Função de Digitação Sequencial
     function step1_Ascii() {
-        if (i < roleAscii.length) {
-            asciiTarget.innerHTML += roleAscii.charAt(i);
+        if (i < nameAscii.length) {
+            asciiTarget.innerHTML += nameAscii.charAt(i);
             i++;
-            setTimeout(step1_Ascii, 5);
+            setTimeout(step1_Ascii, 2); // Mais rápido por ser arte grande
         } else {
             i = 0;
-            step2_Name();
+            step2_Ads();
         }
     }
 
-    function step2_Name() {
-        if (i < nameText.length) {
-            nameTarget.innerHTML += nameText.charAt(i);
+    function step2_Ads() {
+        if (i < adsText.length) {
+            adsTarget.innerHTML += adsText.charAt(i);
             i++;
-            setTimeout(step2_Name, 30);
+            setTimeout(step2_Ads, 30);
         } else {
             i = 0;
             step3_Bio();
@@ -67,11 +66,9 @@ function openBio() {
         }
     }
 
-    // Inicia o processo
     setTimeout(step1_Ascii, 300);
 }
 
-// Funções de apoio para os outros botões
 function typeSimple(element, text) {
     let i = 0;
     element.innerHTML = "";
