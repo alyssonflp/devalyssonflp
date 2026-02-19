@@ -2,7 +2,6 @@ const win = document.getElementById('main-terminal');
 const content = document.getElementById('content');
 const title = document.getElementById('win-title');
 
-// ADS | UI/UX em ASCII Art
 const roleAscii = `
      _   ___  ____  
     /_\\ |   \\/ ___| 
@@ -11,62 +10,98 @@ const roleAscii = `
   | UI / UX DESIGN |
 `;
 
-function typeEffect(element, text, speed = 15, callback) {
-    let i = 0;
-    element.innerHTML = "";
-    function typing() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
-            i++;
-            setTimeout(typing, speed);
-        } else if (callback) {
-            callback();
-        }
-    }
-    typing();
-}
-
 function openBio() {
     win.style.display = 'flex';
     title.innerText = "profile.sh";
+    
+    // Prepara o container vazio
     content.innerHTML = `
         <div style="text-align:center">
             <div class="insta-glow">
                 <img src="./imagens/alysson.png" class="profile-img" onerror="this.src='./Imagens/alysson.png';">
             </div>
-            <pre class="ascii-art">${roleAscii}</pre>
-            <p style="color:var(--accent); font-weight:bold; font-size:16px; margin-bottom:10px;">Alysson Felipe</p>
+            <pre id="ascii-target" class="ascii-art"></pre>
+            <p id="name-target" style="color:var(--accent); font-weight:bold; font-size:18px; margin-bottom:10px;"></p>
             <div id="bio-typing" style="text-align:left; line-height:1.5; opacity:0.9;"></div>
-            <span class="cursor"></span>
+            <span id="main-cursor" class="cursor"></span>
         </div>
     `;
-    
+
+    const nameText = "> Alysson Felipe";
     const bioDescription = "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando Análise e Desenvolvimento de Sistemas, aplico IA e IoT para criar sistemas inteligentes e interfaces que conectam, do protótipo à implementação.";
-    
-    setTimeout(() => {
-        typeEffect(document.getElementById('bio-typing'), bioDescription);
-    }, 500);
+
+    let i = 0;
+    const asciiTarget = document.getElementById('ascii-target');
+    const nameTarget = document.getElementById('name-target');
+    const bioTarget = document.getElementById('bio-typing');
+    const cursor = document.getElementById('main-cursor');
+
+    // Função de Digitação Sequencial
+    function step1_Ascii() {
+        if (i < roleAscii.length) {
+            asciiTarget.innerHTML += roleAscii.charAt(i);
+            i++;
+            setTimeout(step1_Ascii, 5);
+        } else {
+            i = 0;
+            step2_Name();
+        }
+    }
+
+    function step2_Name() {
+        if (i < nameText.length) {
+            nameTarget.innerHTML += nameText.charAt(i);
+            i++;
+            setTimeout(step2_Name, 30);
+        } else {
+            i = 0;
+            step3_Bio();
+        }
+    }
+
+    function step3_Bio() {
+        if (i < bioDescription.length) {
+            bioTarget.innerHTML += bioDescription.charAt(i) === "\n" ? "<br>" : bioDescription.charAt(i);
+            i++;
+            setTimeout(step3_Bio, 15);
+        }
+    }
+
+    // Inicia o processo
+    setTimeout(step1_Ascii, 300);
+}
+
+// Funções de apoio para os outros botões
+function typeSimple(element, text) {
+    let i = 0;
+    element.innerHTML = "";
+    function t() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
+            i++;
+            setTimeout(t, 20);
+        }
+    }
+    t();
 }
 
 function openEdu() {
     win.style.display = 'flex';
     title.innerText = "education.sh";
     content.innerHTML = `<span id="edu-typing"></span><span class="cursor"></span>`;
-    const text = ">> INSTITUIÇÃO: Unicesumar\n>> CURSO: Análise e Desenv. de Sistemas (ADS)\n>> FOCO: UI/UX, IoT e IA\n>> STATUS: Estudante Ativo";
-    typeEffect(document.getElementById('edu-typing'), text);
+    typeSimple(document.getElementById('edu-typing'), ">> INSTITUIÇÃO: Unicesumar\n>> CURSO: Análise e Desenv. de Sistemas (ADS)\n>> FOCO: UI/UX, IoT e IA\n>> STATUS: Estudante Ativo");
 }
 
 function openProject() {
     win.style.display = 'flex';
     title.innerText = "projects.log";
     content.innerHTML = `<span id="proj-typing"></span><span class="cursor"></span>`;
-    const text = ">> PROJETO: FLOW HUB\n>> TIPO: SaaS de Gestão\n>> LINK: https://flow-hub.shop";
-    typeEffect(document.getElementById('proj-typing'), text);
+    typeSimple(document.getElementById('proj-typing'), ">> PROJETO: FLOW HUB\n>> TIPO: SaaS de Gestão\n>> LINK: https://flow-hub.shop");
 }
 
 function closeWin() { win.style.display = 'none'; }
 
-// Canvas Neural de Fundo
+// Canvas Neural
 const canvas = document.getElementById('neural-canvas');
 const ctx = canvas.getContext('2d');
 let pts = [];
