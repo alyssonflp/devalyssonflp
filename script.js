@@ -11,12 +11,10 @@ const nameAscii = `
 ╚═╝  ╚═╝╚══════╝╚═╝   ╚══════╝╚══════╝ ╚═════╝ ╚═╝  ╚═══╝
 `;
 
-// FUNÇÃO MESTRE DE DIGITAÇÃO: Suporta HTML e não apaga o anterior
 function typeTerminal(element, html, speed, callback) {
     let i = 0;
     const timer = setInterval(() => {
         if (html.charAt(i) === '<') {
-            // Se encontrar uma tag HTML (como <strong> ou <br>), pula para o final dela para não quebrar o código
             let endTag = html.indexOf('>', i);
             element.innerHTML += html.substring(i, endTag + 1);
             i = endTag + 1;
@@ -24,10 +22,7 @@ function typeTerminal(element, html, speed, callback) {
             element.innerHTML += html.charAt(i);
             i++;
         }
-        
-        // Auto-scroll para acompanhar a digitação
         content.scrollTop = content.scrollHeight;
-
         if (i >= html.length) {
             clearInterval(timer);
             if (callback) callback();
@@ -49,7 +44,6 @@ function openBio() {
             <span class="cursor"></span>
         </div>
     `;
-
     const adsText = "> ADS | UI/UX Designer | IoT & IA";
     const bioText = "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando Análise e Desenvolvimento de Sistemas, aplico IA e IoT para criar sistemas inteligentes e interfaces que conectam, do protótipo à implementação.";
 
@@ -71,65 +65,67 @@ function openBio() {
 function openEdu() {
     win.style.display = 'flex';
     title.innerText = "education.sh";
-    
-    // 1. Define o prompt inicial (root)
     content.innerHTML = `
-        <div><strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> <span id="cmd-span"></span></div>
-        <div id="edu-output" style="margin-top:15px; line-height:1.6;"></div>
+        <div><strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> <span id="cmd-edu"></span></div>
+        <div id="edu-output" style="margin-top:15px;"></div>
         <span class="cursor"></span>
     `;
-    
-    const cmdSpan = document.getElementById('cmd-span');
-    const output = document.getElementById('edu-output');
-
-    // 2. Texto formatado com <strong> para os títulos
     const eduData = 
         `<strong>[ EDUCAÇÃO ]</strong><br><br>` +
         `• <strong>FACULDADE ESTÁCIO</strong><br>` +
-        `  Tecnólogo em Análise e Desenvolvimento de Sistemas<br>` +
-        `  Situação: Cursando (1º Período) | Previsão: 2027<br><br>` +
+        `  Tecnólogo em ADS | Cursando (1º Período) | Previsão: 2027<br><br>` +
         `• <strong>MICROCAMP CURITIBA</strong><br>` +
-        `  Informática Avançada (Windows, Linux, Redes e Firewall)<br>` +
-        `  Status: Concluído<br><br>` +
+        `  <strong>Informática Avançada:</strong> Windows, Linux, Redes e Firewall<br><br>` +
         `• <strong>COLÉGIO ARNALDO FAIVRO BUSATO</strong><br>` +
-        `  Ensino Médio | Status: Concluído<br><br>` +
+        `  Ensino Médio | Concluído<br><br>` +
         `<strong>[ QUALIFICAÇÕES ]</strong><br><br>` +
         `- <strong>Design & Web:</strong> Photoshop, ID Visual e WordPress.<br>` +
         `- <strong>Sistemas Inteligentes:</strong> IA/IoT e Hardware.<br>` +
         `- <strong>Ferramentas:</strong> Pacote Office completo.<br>` +
         `- <strong>Idiomas:</strong> Inglês nível A1.`;
 
-    // 3. Execução sequencial: Primeiro digita o comando, depois o resultado
-    typeTerminal(cmdSpan, "cat education.sh", 50, () => {
-        setTimeout(() => {
-            typeTerminal(output, eduData, 5);
-        }, 200);
+    typeTerminal(document.getElementById('cmd-edu'), "cat education.sh", 50, () => {
+        setTimeout(() => typeTerminal(document.getElementById('edu-output'), eduData, 5), 200);
+    });
+}
+
+function openExp() {
+    win.style.display = 'flex';
+    title.innerText = "experiences.sh";
+    content.innerHTML = `
+        <div><strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> <span id="cmd-exp"></span></div>
+        <div id="exp-output" style="margin-top:15px;"></div>
+        <span class="cursor"></span>
+    `;
+    const expData = 
+        `<strong>[ EXPERIÊNCIAS ]</strong><br><br>` +
+        `• <strong>ALUARTS ESQUADRIAS</strong> – Pinhais, PR<br>` +
+        `  <strong>Aux. Administrativo & Marketing Digital</strong> | 2020 – 2024<br>` +
+        `  - Atuação estratégica em Marketing Digital e processos administrativos.<br><br>` +
+        `• <strong>MUNDIAL MARCAS</strong> – Curitiba, PR<br>` +
+        `  <strong>Web Designer</strong> | 2015 – 2017<br>` +
+        `  - Elaboração de conceitos visuais e identidades visuais.<br><br>` +
+        `• <strong>OMAR CALÇADOS</strong> – Curitiba, PR<br>` +
+        `  <strong>Consultor de Vendas</strong> | 2013 – 2014<br>` +
+        `  - Estudo de mercado e estratégias de venda.`;
+
+    typeTerminal(document.getElementById('cmd-exp'), "cat experiences.sh", 50, () => {
+        setTimeout(() => typeTerminal(document.getElementById('exp-output'), expData, 5), 200);
     });
 }
 
 function openProject() {
     win.style.display = 'flex';
     title.innerText = "projects.log";
-    content.innerHTML = `
-        <div><strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> <span id="cmd-proj"></span></div>
-        <div id="proj-output" style="margin-top:15px;"></div>
-        <span class="cursor"></span>
-    `;
-    
-    const cmdProj = document.getElementById('cmd-proj');
-    const output = document.getElementById('proj-output');
+    content.innerHTML = `<div><strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> <span id="cmd-proj"></span></div><div id="proj-output" style="margin-top:15px;"></div><span class="cursor"></span>`;
     const text = `>> <strong>PROJETO:</strong> FLOW HUB<br>>> <strong>STATUS:</strong> ONLINE<br>>> <strong>URL:</strong> https://flow-hub.shop`;
-    
-    typeTerminal(cmdProj, "./list_projects.sh", 50, () => {
-        setTimeout(() => {
-            typeTerminal(output, text, 20);
-        }, 200);
+    typeTerminal(document.getElementById('cmd-proj'), "./list_projects.sh", 50, () => {
+        setTimeout(() => typeTerminal(document.getElementById('proj-output'), text, 20), 200);
     });
 }
 
 function closeWin() { win.style.display = 'none'; }
 
-// Canvas Neural (Otimizado)
 const canvas = document.getElementById('neural-canvas');
 const ctx = canvas.getContext('2d');
 let pts = [];
