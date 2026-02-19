@@ -1,20 +1,20 @@
 :root {
-    /* MODO DARK */
     --bg-site: #050505;
     --bg-window: rgba(15, 15, 15, 0.98);
     --bg-dock: rgba(25, 25, 25, 0.8);
     --text-main: #ffffff;
     --border: #333333;
+    --accent: #3b82f6; /* Azul Tech */
 }
 
 @media (prefers-color-scheme: light) {
     :root {
-        /* MODO LIGHT */
         --bg-site: #f4f4f9;
         --bg-window: rgba(255, 255, 255, 0.98);
         --bg-dock: rgba(230, 230, 230, 0.85);
         --text-main: #1a1a1a;
         --border: #d0d0d0;
+        --accent: #2563eb;
     }
 }
 
@@ -28,11 +28,10 @@ body {
 
 #neural-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
 
-/* TERMINAL WINDOW */
 .window {
     position: fixed; z-index: 2000; top: 45%; left: 50%;
     transform: translate(-50%, -50%); width: 92vw; max-width: 450px;
-    min-height: 380px; background: var(--bg-window);
+    min-height: 400px; background: var(--bg-window);
     border: 1px solid var(--border); border-radius: 12px; display: none;
     flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
     backdrop-filter: blur(10px);
@@ -48,16 +47,14 @@ body {
 
 .win-body { flex: 1; padding: 25px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 13px; }
 
-/* BIO COMPONENTS */
 .insta-glow {
     display: inline-block; padding: 3px; border-radius: 50%;
     background: linear-gradient(45deg, #f09433, #dc2743, #bc1888);
     margin-bottom: 15px;
 }
-.profile-img { width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--bg-window); object-fit: cover; }
-.ascii-art { font-size: 4px !important; line-height: 1; color: #3b82f6; margin: 10px 0; white-space: pre; }
+.profile-img { width: 85px; height: 85px; border-radius: 50%; border: 3px solid var(--bg-window); object-fit: cover; }
+.ascii-art { font-size: 4px !important; line-height: 1.1; color: var(--accent); margin: 10px 0; white-space: pre; text-align: center; font-weight: bold; }
 
-/* DOCK */
 .dock-wrap { position: fixed; bottom: 30px; width: 100%; display: flex; justify-content: center; z-index: 3000; }
 .dock { 
     display: flex; gap: 22px; padding: 12px 28px; 
@@ -66,8 +63,10 @@ body {
 }
 .dock-i { font-size: 32px; cursor: pointer; transition: 0.2s; }
 
-/* CORES DOS ICONES (FORÇADAS) */
 .text-blue-500 { color: #3b82f6 !important; }
 .text-purple-500 { color: #a855f7 !important; }
 .text-orange-500 { color: #f97316 !important; }
 .text-green-500 { color: #22c55e !important; }
+
+.cursor { display: inline-block; width: 8px; height: 15px; background: var(--accent); animation: blink 1s infinite; vertical-align: middle; }
+@keyframes blink { 50% { opacity: 0; } }
