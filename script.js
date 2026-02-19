@@ -79,36 +79,9 @@ function openBio() {
 function openEdu() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (education)";
-    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="edu-cmd"></span></div><div id="edu-res" style="margin-top:15px; line-height:1.6; white-space: pre-wrap;"></div>`;
-    
-    const data = `<strong>[EDUCAÇÃO]</strong>
-
-FACULDADE ESTÁCIO
-Tecnólogo em Análise e Desenvolvimento de Sistemas - Cursando (1º Período)
-Previsão de conclusão: 2026
-
-MICROCAMP CURITIBA
-Curso de Informática Avançada
-Conteúdo: Windows, Linux, Hardware, Software, Redes e Firewall
-Concluído
-
-COLÉGIO ESTADUAL ARNALDO FAIVRO BUSATO
-Ensino Médio
-Concluído
-
-<strong>[QUALIFICAÇÕES E ATIVIDADES COMPLEMENTARES]</strong>
-
-Design & Web: Domínio em Photoshop, criação de identidades visuais e desenvolvimento de sites em WordPress com foco em SEO/SEM.
-
-Sistemas Inteligentes (IA/IoT): Experiência prática na implementação de sistemas de reconhecimento facial e integração de hardware.
-
-Ferramentas de Escritório: Pacote Office completo (Word, Excel e PowerPoint).
-
-Idiomas: Inglês nível A1.`;
-
+    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="edu-cmd"></span></div><div id="edu-res"></div>`;
     typeTerminal(document.getElementById('edu-cmd'), "cat education.txt", 40, () => {
-        // Usamos innerHTML direto aqui para evitar que a função de digitação quebre com textos longos
-        document.getElementById('edu-res').innerHTML = data.replace(/\\n/g, '<br>');
+        document.getElementById('edu-res').innerHTML = `<br>• ESTÁCIO: ADS (2027)<br>• MICROCAMP: Linux & Redes`;
     });
 }
 
@@ -151,15 +124,15 @@ function openContact() {
             btn.innerText = "ENVIANDO..."; btn.disabled = true;
             const response = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
             if (response.ok) {
-                const asciiArt = \`<b>
+                const asciiArt = `<b>
       _____ _    _  _____ ______  _____ _____  ____  
      / ____| |  | |/ ____|  ____|/ ____/ ____|/ __ \\ 
     | (___ | |  | | |    | |__  | (___| (___ | |  | |
      \\___ \\| |  | | |    |  __|  \\___ \\\\___ \\| |  | |
      ____) | |__| | |____| |____ ____) |___) | |__| |
     |_____/ \\____/ \\_____|______|_____/_____/ \\____/ </b>
-    <br>[ SISTEMA: MENSAGEM ENVIADA ]\`;
-                document.getElementById('success-output').innerHTML = \`<pre style="font-size: 7px; color: #3b82f6; margin-top: 15px;">\${asciiArt}</pre>\`;
+    <br>[ SISTEMA: MENSAGEM ENVIADA ]`;
+                document.getElementById('success-output').innerHTML = `<pre style="font-size: 7px; color: #3b82f6; margin-top: 15px;">${asciiArt}</pre>`;
                 form.style.display = 'none';
             }
         };
