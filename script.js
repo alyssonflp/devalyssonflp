@@ -2,51 +2,76 @@ const win = document.getElementById('main-terminal');
 const content = document.getElementById('content');
 const title = document.getElementById('win-title');
 
-const asciiArt = `
-   ██████╗ ███████╗██╗   ██╗
-   ██╔══██╗██╔════╝██║   ██║
-   ██║  ██║█████╗  ██║   ██║
-   ██║  ██║██╔══╝  ╚██╗ ██╔╝
-   ██████╔╝███████╗ ╚████╔╝ 
-   ╚═════╝ ╚══════╝  ╚═══╝  
+// ASCII Art customizada com o seu nome (Reduzida para caber no mobile)
+const nameAscii = `
+   A L Y S S O N 
+   F E L I P E
+   ───────────
 `;
+
+function typeEffect(element, text, speed = 20) {
+    let i = 0;
+    element.innerHTML = "";
+    function typing() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
+            i++;
+            setTimeout(typing, speed);
+        }
+    }
+    typing();
+}
 
 function openBio() {
     win.style.display = 'flex';
-    title.innerText = "alysson.bio";
+    title.innerText = "profile.sh";
     content.innerHTML = `
         <div style="text-align:center">
             <div class="insta-glow">
                 <img src="./imagens/alysson.png" class="profile-img" onerror="this.src='./Imagens/alysson.png';">
             </div>
-            <pre class="ascii-art">${asciiArt}</pre>
-            <p class="text-blue-500" style="font-weight:bold; margin-top:5px;">> ALYSSON FELIPE</p>
-            <p style="font-size:12px; margin-top:5px; opacity:0.8;">Software Engineer</p>
+            <pre class="ascii-art">${nameAscii}</pre>
+            <div id="bio-typing" style="margin-top:10px;"></div>
+            <span class="cursor"></span>
         </div>
     `;
+    
+    const bioText = ">> ADS | UI/UX Designer | IoT & IA\n\nApaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando Análise e Desenvolvimento de Sistemas, aplico IA e IoT para criar sistemas inteligentes e interfaces que conectam, do protótipo à implementação.";
+    
+    // Pequeno delay para começar a digitação após abrir a janela
+    setTimeout(() => {
+        const target = document.getElementById('bio-typing');
+        let i = 0;
+        function bioType() {
+            if (i < bioText.length) {
+                if (bioText.substring(i, i+33) === "ADS | UI/UX Designer | IoT & IA") {
+                    target.innerHTML += `<strong style="color:#3b82f6">ADS | UI/UX Designer | IoT & IA</strong>`;
+                    i += 33;
+                } else {
+                    target.innerHTML += bioText.charAt(i) === "\n" ? "<br>" : bioText.charAt(i);
+                    i++;
+                }
+                setTimeout(bioType, 15);
+            }
+        }
+        bioType();
+    }, 300);
 }
 
-async function openEdu() {
+function openEdu() {
     win.style.display = 'flex';
-    title.innerText = "formacao.sh";
-    content.innerHTML = `<span id="typing" style="color:var(--text-main)"></span><span class="cursor" style="display:inline-block; width:8px; height:15px; background:#3b82f6; animation:blink 1s infinite"></span>`;
-    const text = ">> ACESSANDO CARTEIRA...\n>> ID: 2024-ENG\n>> NOME: ALYSSON FELIPE\n>> CURSO: Eng. de Software\n>> STATUS: Formação em curso";
-    let i = 0;
-    const target = document.getElementById('typing');
-    function type() {
-        if (i < text.length) {
-            target.innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
-            i++;
-            setTimeout(type, 30);
-        }
-    }
-    type();
+    title.innerText = "education.sh";
+    content.innerHTML = `<span id="edu-typing"></span><span class="cursor"></span>`;
+    const text = ">> ACESSANDO CARTEIRA...\n>> NOME: ALYSSON FELIPE\n>> CURSO: Análise e Desenv. de Sistemas\n>> FOCO: IA, IoT e UX Design\n>> STATUS: Em evolução constante...";
+    typeEffect(document.getElementById('edu-typing'), text);
 }
 
 function openProject() {
     win.style.display = 'flex';
-    title.innerText = "projetos.log";
-    content.innerHTML = `<p class="text-orange-500">> PROJETO: FLOW HUB</p><p style="margin:10px 0; font-size:12px;">SaaS de gestão inteligente.</p><a href="https://flow-hub.shop" target="_blank" style="color:#3b82f6;">[ ABRIR ]</a>`;
+    title.innerText = "projects.log";
+    content.innerHTML = `<span id="proj-typing"></span><span class="cursor"></span>`;
+    const text = ">> PROJETO: FLOW HUB\n>> TIPO: SaaS de Gestão\n>> LINK: https://flow-hub.shop\n\n[ Clique no link para abrir ]";
+    typeEffect(document.getElementById('proj-typing'), text);
 }
 
 function closeWin() { win.style.display = 'none'; }
@@ -57,10 +82,10 @@ const ctx = canvas.getContext('2d');
 let pts = [];
 const res = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
 window.onresize = res; res();
-for(let i=0; i<30; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5});
+for(let i=0; i<25; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, vx:(Math.random()-0.5)*0.4, vy:(Math.random()-0.5)*0.4});
 function anim() {
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle = 'rgba(59,130,246,0.3)';
+    ctx.fillStyle = 'rgba(59,130,246,0.2)';
     pts.forEach(p => {
         p.x+=p.vx; p.y+=p.vy;
         if(p.x<0||p.x>canvas.width) p.vx*=-1; if(p.y<0||p.y>canvas.height) p.vy*=-1;
