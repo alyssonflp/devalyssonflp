@@ -1,21 +1,20 @@
 :root {
-    /* Modo Dark (Padrão) */
+    /* MODO DARK */
     --bg-site: #050505;
     --bg-window: rgba(15, 15, 15, 0.98);
-    --bg-dock: rgba(30, 30, 30, 0.8);
+    --bg-dock: rgba(25, 25, 25, 0.8);
     --text-main: #ffffff;
     --border: #333333;
-    --shadow: rgba(0,0,0,0.8);
 }
 
 @media (prefers-color-scheme: light) {
     :root {
-        --bg-site: #f0f2f5;
+        /* MODO LIGHT */
+        --bg-site: #f4f4f9;
         --bg-window: rgba(255, 255, 255, 0.98);
-        --bg-dock: rgba(220, 220, 220, 0.8);
+        --bg-dock: rgba(230, 230, 230, 0.85);
         --text-main: #1a1a1a;
-        --border: #dddddd;
-        --shadow: rgba(0,0,0,0.1);
+        --border: #d0d0d0;
     }
 }
 
@@ -24,45 +23,50 @@ body {
     background-color: var(--bg-site) !important; 
     color: var(--text-main);
     height: 100vh; width: 100vw; overflow: hidden;
-    transition: all 0.3s ease;
+    transition: background 0.4s ease;
 }
 
-/* TERMINAL */
+#neural-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+
+/* TERMINAL WINDOW */
 .window {
     position: fixed; z-index: 2000; top: 45%; left: 50%;
     transform: translate(-50%, -50%); width: 92vw; max-width: 450px;
     min-height: 380px; background: var(--bg-window);
     border: 1px solid var(--border); border-radius: 12px; display: none;
-    flex-direction: column; box-shadow: 0 20px 50px var(--shadow);
+    flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
 }
 
-/* BOTÕES DE FECHAR/MINIMIZAR (CORRIGIDOS) */
 .win-header { background: var(--border); padding: 12px; display: flex; align-items: center; border-radius: 12px 12px 0 0; }
 .dots { display: flex; gap: 8px; }
-.dot { width: 12px; height: 12px; border-radius: 50%; display: block !important; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
 .close { background: #ff5f56 !important; cursor: pointer; }
 .min { background: #ffbd2e !important; }
 .max { background: #27c93f !important; }
+#win-title { margin-left: 15px; font-size: 11px; opacity: 0.6; font-family: monospace; }
 
-/* ASCII ART (TAMANHO AJUSTADO) */
-.ascii-art { 
-    font-size: 4px !important; /* Menor para não quebrar */
-    line-height: 1; 
-    color: #3b82f6; 
-    margin: 10px 0;
-    text-align: center;
+.win-body { flex: 1; padding: 25px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 13px; }
+
+/* BIO COMPONENTS */
+.insta-glow {
+    display: inline-block; padding: 3px; border-radius: 50%;
+    background: linear-gradient(45deg, #f09433, #dc2743, #bc1888);
+    margin-bottom: 15px;
 }
+.profile-img { width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--bg-window); object-fit: cover; }
+.ascii-art { font-size: 4px !important; line-height: 1; color: #3b82f6; margin: 10px 0; white-space: pre; }
 
-/* DOCK E ÍCONES COLORIDOS */
+/* DOCK */
 .dock-wrap { position: fixed; bottom: 30px; width: 100%; display: flex; justify-content: center; z-index: 3000; }
 .dock { 
-    display: flex; gap: 20px; padding: 12px 25px; 
+    display: flex; gap: 22px; padding: 12px 28px; 
     background: var(--bg-dock); backdrop-filter: blur(20px); 
     border-radius: 40px; border: 1px solid var(--border); 
 }
 .dock-i { font-size: 32px; cursor: pointer; transition: 0.2s; }
 
-/* Cores forçadas para os ícones */
+/* CORES DOS ICONES (FORÇADAS) */
 .text-blue-500 { color: #3b82f6 !important; }
 .text-purple-500 { color: #a855f7 !important; }
 .text-orange-500 { color: #f97316 !important; }
