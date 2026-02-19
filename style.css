@@ -1,57 +1,103 @@
+:root {
+    --bg-site: #050505;
+    --bg-login: radial-gradient(circle, #1a1a1a 0%, #050505 100%);
+    --bg-hello: #000000;
+    --text-hello: #ffffff;
+    --bg-window: rgba(15, 15, 15, 0.98);
+    --bg-dock: rgba(25, 25, 25, 0.8);
+    --text-main: #ffffff;
+    --border: #333333;
+    --accent: #3b82f6;
+    --input-bg: rgba(255, 255, 255, 0.1);
+}
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Alysson Felipe | Portfolio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div id="login-screen">
-        <div class="login-box">
-            <div class="login-avatar-wrapper">
-                <img src="./imagens/alysson.png" class="login-avatar" onerror="this.src='https://ui-avatars.com/api/?name=Alysson+Felipe&background=3b82f6&color=fff';">
-            </div>
-            <h2 class="login-username">alyssonfelipe</h2>
-            <div class="login-field">
-                <input type="password" id="pass-input" readonly>
-                <div class="login-loader" id="login-loader" style="display: none;"></div>
-            </div>
-            <p class="login-status" id="login-status">Aguardando credenciais...</p>
-        </div>
-    </div>
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg-site: #f4f4f9;
+        --bg-login: radial-gradient(circle, #ffffff 0%, #e0e0e0 100%);
+        --bg-hello: #ffffff;
+        --text-hello: #000000;
+        --bg-window: rgba(255, 255, 255, 0.98);
+        --bg-dock: rgba(230, 230, 230, 0.85);
+        --text-main: #1a1a1a;
+        --border: #d0d0d0;
+        --accent: #2563eb;
+        --input-bg: rgba(0, 0, 0, 0.05);
+    }
+}
 
-    <div id="hello-screen">
-        <h1 class="hello-text">Hello World</h1>
-    </div>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg-site); color: var(--text-main); height: 100vh; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
 
-    <canvas id="neural-canvas"></canvas>
+#login-screen { position: fixed; inset: 0; z-index: 5000; background: var(--bg-login); display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease; }
+.login-box { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 350px; }
+.login-avatar { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--accent); object-fit: cover; margin-bottom: 15px; }
+.login-username { font-size: 20px; font-weight: 600; margin-bottom: 20px; color: var(--text-main); }
+.login-field { background: var(--input-bg); border-radius: 25px; display: flex; align-items: center; padding: 8px 20px; border: 1px solid var(--border); width: 240px; }
+.login-field input { background: transparent; border: none; color: var(--text-main); flex: 1; text-align: center; letter-spacing: 4px; outline: none; font-size: 18px; }
+.login-loader { width: 16px; height: 16px; border: 2px solid var(--accent); border-top: 2px solid transparent; border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-    <div id="main-terminal" class="window">
-        <div class="win-header">
-            <div class="dots">
-                <div class="dot close" onclick="closeWin()"></div>
-                <div class="dot min"></div>
-                <div class="dot max"></div>
-            </div>
-            <span id="win-title">alyssonfelipe@root:~</span>
-        </div>
-        <div class="win-body" id="content"></div>
-    </div>
+#hello-screen { position: fixed; inset: 0; z-index: 4500; background: var(--bg-hello); display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s; }
+.hello-text { font-size: 38px; color: var(--text-hello); letter-spacing: 8px; font-family: 'Courier New', monospace; font-weight: 200; }
 
-    <div class="dock-wrap" id="dock-main" style="display: none; opacity: 0;">
-        <nav class="dock">
-            <div class="dock-i text-blue-500" onclick="openBio()"><i class="fas fa-user-circle"></i></div>
-            <div class="dock-i text-purple-500" onclick="openEdu()"><i class="fas fa-graduation-cap"></i></div>
-            <div class="dock-i text-yellow-500" onclick="openExp()"><i class="fas fa-briefcase"></i></div>
-            <div class="dock-i text-orange-500" onclick="openProject()"><i class="fas fa-code"></i></div>
-            <a href="https://wa.me/5541999207848" target="_blank" class="dock-i text-green-500"><i class="fab fa-whatsapp"></i></a>
-        </nav>
-    </div>
+.window { position: fixed; z-index: 2000; top: 45%; left: 50%; transform: translate(-50%, -50%); width: 94vw; max-width: 600px; min-height: 480px; background: var(--bg-window); border: 1px solid var(--border); border-radius: 12px; display: none; flex-direction: column; backdrop-filter: blur(15px); }
+.win-header { background: var(--border); padding: 10px 15px; display: flex; align-items: center; border-radius: 12px 12px 0 0; }
+#win-title { margin-left: 15px; font-size: 13px; color: var(--text-main); font-family: 'Segoe UI', sans-serif; font-weight: 500; }
+.win-body { flex: 1; padding: 25px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 12.5px; line-height: 1.6; }
 
-    <script src="script.js"></script>
-</body>
-</html>
+/* TÍTULO PREMIUM ALYSSON FELIPE */
+.main-name {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 5px;
+    background: linear-gradient(135deg, #3b82f6 0%, #9333ea 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Segoe UI', sans-serif;
+    letter-spacing: -1px;
+}
+
+/* REDES SOCIAIS E CV */
+.social-links {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    opacity: 0;
+    animation: fadeIn 0.8s forwards 1.5s;
+}
+.social-icon {
+    font-size: 24px;
+    color: var(--text-main);
+    transition: 0.3s;
+}
+.social-icon:hover { color: var(--accent); transform: translateY(-3px); }
+
+.cv-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-family: 'Segoe UI', sans-serif;
+    transition: 0.3s;
+    opacity: 0;
+    animation: fadeIn 0.8s forwards 1.8s;
+}
+.cv-btn:hover { filter: brightness(1.2); transform: scale(1.05); }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.cursor { display: inline-block; width: 7px; height: 14px; background: var(--accent); animation: blink 1s infinite; vertical-align: middle; }
+@keyframes blink { 50% { opacity: 0; } }
+
+#neural-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0; transition: opacity 1s; }
+.dock-wrap { position: fixed; bottom: 25px; width: 100%; display: flex; justify-content: center; z-index: 3000; transition: opacity 0.5s; }
+.dock { display: flex; gap: 20px; padding: 12px 25px; background: var(--bg-dock); border-radius: 40px; border: 1px solid var(--border); backdrop-filter: blur(20px); }
+.dock-i { font-size: 30px; cursor: pointer; transition: 0.2s; }
