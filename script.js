@@ -79,38 +79,36 @@ function openBio() {
 function openEdu() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (education)";
-    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="edu-cmd"></span></div><div id="edu-res" style="margin-top:15px; line-height:1.6;"></div><span class="cursor"></span>`;
+    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="edu-cmd"></span></div><div id="edu-res" style="margin-top:15px; line-height:1.6; white-space: pre-wrap;"></div>`;
     
-    const data = `
-        <strong>[EDUCAÇÃO]</strong><br><br>
-        FACULDADE ESTÁCIO<br>
-        Tecnólogo em Análise e Desenvolvimento de Sistemas - Cursando (1º Período)<br>
-        Previsão de conclusão: 2026<br><br>
-        
-        MICROCAMP CURITIBA<br>
-        Curso de Informática Avançada<br>
-        Conteúdo: Windows, Linux, Hardware, Software, Redes e Firewall<br>
-        Concluído<br><br>
-        
-        COLÉGIO ESTADUAL ARNALDO FAIVRO BUSATO<br>
-        Ensino Médio<br>
-        Concluído<br><br>
-        
-        <strong>[QUALIFICAÇÕES E ATIVIDADES COMPLEMENTARES]</strong><br><br>
-        Design & Web: Domínio em Photoshop, criação de identidades visuais e desenvolvimento de sites em WordPress com foco em SEO/SEM.<br><br>
-        
-        Sistemas Inteligentes (IA/IoT): Experiência prática na implementação de sistemas de reconhecimento facial e integração de hardware.<br><br>
-        
-        Ferramentas de Escritório: Pacote Office completo (Word, Excel e PowerPoint).<br><br>
-        
-        Idiomas: Inglês nível A1.
-    `;
+    const data = `<strong>[EDUCAÇÃO]</strong>
 
-    typeTerminal(document.getElementById('edu-cmd'), "cat education.sh", 40, () => {
-        setTimeout(() => {
-            const resElement = document.getElementById('edu-res');
-            typeTerminal(resElement, data, 2);
-        }, 100);
+FACULDADE ESTÁCIO
+Tecnólogo em Análise e Desenvolvimento de Sistemas - Cursando (1º Período)
+Previsão de conclusão: 2026
+
+MICROCAMP CURITIBA
+Curso de Informática Avançada
+Conteúdo: Windows, Linux, Hardware, Software, Redes e Firewall
+Concluído
+
+COLÉGIO ESTADUAL ARNALDO FAIVRO BUSATO
+Ensino Médio
+Concluído
+
+<strong>[QUALIFICAÇÕES E ATIVIDADES COMPLEMENTARES]</strong>
+
+Design & Web: Domínio em Photoshop, criação de identidades visuais e desenvolvimento de sites em WordPress com foco em SEO/SEM.
+
+Sistemas Inteligentes (IA/IoT): Experiência prática na implementação de sistemas de reconhecimento facial e integração de hardware.
+
+Ferramentas de Escritório: Pacote Office completo (Word, Excel e PowerPoint).
+
+Idiomas: Inglês nível A1.`;
+
+    typeTerminal(document.getElementById('edu-cmd'), "cat education.txt", 40, () => {
+        // Usamos innerHTML direto aqui para evitar que a função de digitação quebre com textos longos
+        document.getElementById('edu-res').innerHTML = data.replace(/\\n/g, '<br>');
     });
 }
 
@@ -153,15 +151,15 @@ function openContact() {
             btn.innerText = "ENVIANDO..."; btn.disabled = true;
             const response = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
             if (response.ok) {
-                const asciiArt = `<b>
+                const asciiArt = \`<b>
       _____ _    _  _____ ______  _____ _____  ____  
      / ____| |  | |/ ____|  ____|/ ____/ ____|/ __ \\ 
     | (___ | |  | | |    | |__  | (___| (___ | |  | |
      \\___ \\| |  | | |    |  __|  \\___ \\\\___ \\| |  | |
      ____) | |__| | |____| |____ ____) |___) | |__| |
     |_____/ \\____/ \\_____|______|_____/_____/ \\____/ </b>
-    <br>[ SISTEMA: MENSAGEM ENVIADA ]`;
-                document.getElementById('success-output').innerHTML = `<pre style="font-size: 7px; color: #3b82f6; margin-top: 15px;">${asciiArt}</pre>`;
+    <br>[ SISTEMA: MENSAGEM ENVIADA ]\`;
+                document.getElementById('success-output').innerHTML = \`<pre style="font-size: 7px; color: #3b82f6; margin-top: 15px;">\${asciiArt}</pre>\`;
                 form.style.display = 'none';
             }
         };
