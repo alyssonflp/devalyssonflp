@@ -11,25 +11,25 @@ const nameAscii = `
 ╚═╝  ╚═╝╚══════╝╚═╝   ╚══════╝╚══════╝ ╚═════╝ ╚═╝  ╚═══╝
 `;
 
-// Função que digita sem quebrar as tags HTML e sem apagar o que já existe
-function typeHTML(element, html, speed, callback) {
+// FUNÇÃO MESTRE DE DIGITAÇÃO: Suporta HTML e não apaga o anterior
+function typeTerminal(element, html, speed, callback) {
     let i = 0;
-    const interval = setInterval(() => {
+    const timer = setInterval(() => {
         if (html.charAt(i) === '<') {
-            let tag = '';
-            while (html.charAt(i) !== '>') {
-                tag += html.charAt(i);
-                i++;
-            }
-            tag += '>';
-            element.innerHTML += tag;
-            i++;
+            // Se encontrar uma tag HTML (como <strong> ou <br>), pula para o final dela para não quebrar o código
+            let endTag = html.indexOf('>', i);
+            element.innerHTML += html.substring(i, endTag + 1);
+            i = endTag + 1;
         } else {
             element.innerHTML += html.charAt(i);
             i++;
         }
+        
+        // Auto-scroll para acompanhar a digitação
+        content.scrollTop = content.scrollHeight;
+
         if (i >= html.length) {
-            clearInterval(interval);
+            clearInterval(timer);
             if (callback) callback();
         }
     }, speed);
@@ -50,23 +50,20 @@ function openBio() {
         </div>
     `;
 
-    let i = 0;
-    const asciiTarget = document.getElementById('ascii-target');
-    const adsTarget = document.getElementById('ads-target');
     const adsText = "> ADS | UI/UX Designer | IoT & IA";
     const bioText = "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando Análise e Desenvolvimento de Sistemas, aplico IA e IoT para criar sistemas inteligentes e interfaces que conectam, do protótipo à implementação.";
 
+    let i = 0;
     function step1() {
         if (i < nameAscii.length) {
-            asciiTarget.innerHTML += nameAscii.charAt(i);
+            document.getElementById('ascii-target').innerHTML += nameAscii.charAt(i);
             i++; setTimeout(step1, 1);
-        } else { i = 0; step2(); }
-    }
-    function step2() {
-        if (i < adsText.length) {
-            adsTarget.innerHTML += adsText.charAt(i);
-            i++; setTimeout(step2, 30);
-        } else { i = 0; typeHTML(document.getElementById('bio-typing'), bioText, 15); }
+        } else { 
+            i = 0; 
+            typeTerminal(document.getElementById('ads-target'), adsText, 30, () => {
+                typeTerminal(document.getElementById('bio-typing'), bioText, 15);
+            });
+        }
     }
     setTimeout(step1, 300);
 }
@@ -74,14 +71,18 @@ function openBio() {
 function openEdu() {
     win.style.display = 'flex';
     title.innerText = "education.sh";
-    // Mantemos o root fixo e criamos um container para o output
+    
+    // 1. Define o prompt inicial (root)
     content.innerHTML = `
-        <div><strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> cat education.sh</div>
+        <div><strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> <span id="cmd-span"></span></div>
         <div id="edu-output" style="margin-top:15px; line-height:1.6;"></div>
         <span class="cursor"></span>
     `;
     
+    const cmdSpan = document.getElementById('cmd-span');
     const output = document.getElementById('edu-output');
+
+    // 2. Texto formatado com <strong> para os títulos
     const eduData = 
         `<strong>[ EDUCAÇÃO ]</strong><br><br>` +
         `• <strong>FACULDADE ESTÁCIO</strong><br>` +
@@ -98,21 +99,51 @@ function openEdu() {
         `- <strong>Ferramentas:</strong> Pacote Office completo.<br>` +
         `- <strong>Idiomas:</strong> Inglês nível A1.`;
 
-    setTimeout(() => typeHTML(output, eduData, 5), 500);
+    // 3. Execução sequencial: Primeiro digita o comando, depois o resultado
+    typeTerminal(cmdSpan, "cat education.sh", 50, () => {
+        setTimeout(() => {
+            typeTerminal(output, eduData, 5);
+        }, 200);
+    });
 }
 
 function openProject() {
     win.style.display = 'flex';
     title.innerText = "projects.log";
     content.innerHTML = `
-        <div><strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> ./list_projects.sh</div>
+        <div><strong style="color:var(--accent)">alyssonfelipe@root:~$</strong> <span id="cmd-proj"></span></div>
         <div id="proj-output" style="margin-top:15px;"></div>
         <span class="cursor"></span>
     `;
+    
+    const cmdProj = document.getElementById('cmd-proj');
     const output = document.getElementById('proj-output');
     const text = `>> <strong>PROJETO:</strong> FLOW HUB<br>>> <strong>STATUS:</strong> ONLINE<br>>> <strong>URL:</strong> https://flow-hub.shop`;
     
-    setTimeout(() => typeHTML(output, text, 20), 500);
+    typeTerminal(cmdProj, "./list_projects.sh", 50, () => {
+        setTimeout(() => {
+            typeTerminal(output, text, 20);
+        }, 200);
+    });
 }
 
 function closeWin() { win.style.display = 'none'; }
+
+// Canvas Neural (Otimizado)
+const canvas = document.getElementById('neural-canvas');
+const ctx = canvas.getContext('2d');
+let pts = [];
+const res = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+window.onresize = res; res();
+for(let i=0; i<25; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, vx:(Math.random()-0.5)*0.4, vy:(Math.random()-0.5)*0.4});
+function anim() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = 'rgba(59,130,246,0.2)';
+    pts.forEach(p => {
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0||p.x>canvas.width) p.vx*=-1; if(p.y<0||p.y>canvas.height) p.vy*=-1;
+        ctx.beginPath(); ctx.arc(p.x,p.y,2,0,Math.PI*2); ctx.fill();
+    });
+    requestAnimationFrame(anim);
+}
+anim();
