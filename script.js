@@ -79,7 +79,6 @@ function openBio() {
     });
 }
 
-// SEÇÃO EDUCATION ATUALIZADA CONFORME SOLICITADO
 function openEdu() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (education)";
@@ -95,9 +94,9 @@ function openEdu() {
                  `• Ferramentas de Escritório: Pacote Office completo<br>` +
                  `• Idiomas: Inglês nível A1.`;
 
-    typeTerminal(document.getElementById('edu-cmd'), "cat education.txt", 40, () => {
+    // Alterado de cat education.txt para ./education.sh
+    typeTerminal(document.getElementById('edu-cmd'), "./education.sh", 40, () => {
         const eduRes = document.getElementById('edu-res');
-        // Efeito de digitação no conteúdo do arquivo
         typeTerminal(eduRes, data, 10); 
     });
 }
@@ -153,7 +152,6 @@ function openContact() {
 
 function closeWin() { win.style.display = 'none'; }
 
-// Background Neural
 const canvas = document.getElementById('neural-canvas');
 const ctx = canvas.getContext('2d');
 let pts = [];
