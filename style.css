@@ -23,6 +23,7 @@ body {
     background-color: var(--bg-site) !important; 
     color: var(--text-main);
     height: 100vh; width: 100vw; overflow: hidden;
+    font-family: 'Courier New', monospace;
 }
 
 #neural-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
@@ -30,7 +31,7 @@ body {
 .window {
     position: fixed; z-index: 2000; top: 45%; left: 50%;
     transform: translate(-50%, -50%); width: 94vw; max-width: 480px;
-    min-height: 450px; max-height: 85vh; background: var(--bg-window);
+    min-height: 450px; background: var(--bg-window);
     border: 1px solid var(--border); border-radius: 12px; display: none;
     flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
     backdrop-filter: blur(15px);
@@ -43,9 +44,17 @@ body {
 .min { background: #ffbd2e !important; }
 .max { background: #27c93f !important; }
 
-.win-body { flex: 1; padding: 20px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 11.5px; line-height: 1.6; }
+/* TÍTULO SEM NEGRITO E MAIS DISCRETO */
+#win-title { 
+    margin-left: 15px; 
+    font-size: 11px; 
+    font-weight: 400 !important; /* Remove negrito */
+    opacity: 0.8;
+}
 
-/* NEGRITO REALÇADO */
+.win-body { flex: 1; padding: 20px; overflow-y: auto; font-size: 11.5px; line-height: 1.6; }
+
+/* NEGRITO APENAS PARA CONTEÚDO ESPECÍFICO */
 strong { font-weight: 900 !important; color: var(--text-main); }
 
 .insta-glow {
@@ -60,6 +69,7 @@ strong { font-weight: 900 !important; color: var(--text-main); }
 .dock-wrap { position: fixed; bottom: 25px; width: 100%; display: flex; justify-content: center; z-index: 3000; }
 .dock { display: flex; gap: 20px; padding: 12px 25px; background: var(--bg-dock); backdrop-filter: blur(20px); border-radius: 40px; border: 1px solid var(--border); }
 .dock-i { font-size: 30px; cursor: pointer; transition: 0.2s; }
+.dock-i:hover { transform: scale(1.2) translateY(-10px); }
 
 .text-blue-500 { color: #3b82f6 !important; }
 .text-purple-500 { color: #a855f7 !important; }
