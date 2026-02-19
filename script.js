@@ -119,9 +119,72 @@ function openProject() {
     });
 }
 
+function openContact() {
+    win.style.display = 'flex';
+    title.innerText = "alyssonfelipe@root: ~ (contact_form)";
+    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="contact-cmd"></span></div><div id="contact-res" style="margin-top:15px;"></div><span class="cursor"></span>`;
+    
+    typeTerminal(document.getElementById('contact-cmd'), "./enviar_mensagem.sh", 40, () => {
+        document.getElementById('contact-res').innerHTML = `
+            <p style="color:var(--accent); margin-bottom:10px;">> Iniciando protocolo de comunicação...</p>
+            <form id="email-form" action="https://formspree.io/f/xbdaajro" method="POST" class="terminal-form">
+                <label>NOME:</label>
+                <input type="text" name="name" class="terminal-input" placeholder="Seu nome completo" required>
+                
+                <label>EMAIL DE CONTATO:</label>
+                <input type="email" name="_replyto" class="terminal-input" placeholder="seu@email.com" required>
+                
+                <label>MENSAGEM:</label>
+                <textarea name="message" class="terminal-input" rows="3" placeholder="Escreva sua mensagem aqui..." required></textarea>
+                
+                <button type="submit" class="terminal-btn">EXECUTAR ENVIO</button>
+            </form>
+        `;
+
+        const form = document.getElementById('email-form');
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = form.querySelector('button');
+            const originalText = btn.innerText;
+            btn.innerText = "ENVIANDO...";
+            btn.disabled = true;
+
+            const formData = new FormData(form);
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
+
+            if (response.ok) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Mensagem Enviada!',
+                    text: 'O Alysson entrará em contato em breve.',
+                    background: '#1a1a1a',
+                    color: '#fff',
+                    confirmButtonColor: '#3b82f6'
+                });
+                form.reset();
+                btn.innerText = originalText;
+                btn.disabled = false;
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Falha no Sistema',
+                    text: 'Houve um erro no envio. Tente novamente mais tarde.',
+                    background: '#1a1a1a',
+                    color: '#fff'
+                });
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
+        };
+    });
+}
+
 function closeWin() { win.style.display = 'none'; }
 
-// CANVAS NEURAL ESTÁVEL
 const canvas = document.getElementById('neural-canvas');
 const ctx = canvas.getContext('2d');
 let pts = [];
