@@ -1,30 +1,137 @@
-// ... (mantenha o início do script igual ao anterior)
+const win = document.getElementById('main-terminal');
+const content = document.getElementById('content');
+const title = document.getElementById('win-title');
 
+// SUA NOVA CHAVE DE API GEMINI VINCULADA AO PROJETO
+const GEMINI_API_KEY = 'AIzaSyBWC90SM1ITe6Qh9QwsWiz5xuVFg4NxMZU'; 
+
+window.onload = () => { setTimeout(typePassword, 800); };
+
+function typePassword() {
+    const passInput = document.getElementById('pass-input');
+    const status = document.getElementById('login-status');
+    const loader = document.getElementById('login-loader');
+    const fullPass = "********";
+    let i = 0;
+    const interval = setInterval(() => {
+        passInput.value += fullPass[i]; i++;
+        if (i >= fullPass.length) {
+            clearInterval(interval);
+            status.innerText = "Autenticando...";
+            loader.style.display = "block";
+            setTimeout(startBoot, 1000);
+        }
+    }, 120);
+}
+
+function startBoot() {
+    const loginScreen = document.getElementById('login-screen');
+    const helloScreen = document.getElementById('hello-screen');
+    const dock = document.getElementById('dock-main');
+    const canvas = document.getElementById('neural-canvas');
+
+    loginScreen.style.opacity = '0';
+    setTimeout(() => {
+        loginScreen.style.display = 'none';
+        helloScreen.style.display = 'flex';
+        void helloScreen.offsetWidth;
+        helloScreen.style.opacity = '1';
+        setTimeout(() => {
+            helloScreen.style.opacity = '0';
+            setTimeout(() => {
+                helloScreen.style.display = 'none';
+                dock.style.display = 'flex';
+                void dock.offsetWidth;
+                dock.style.opacity = '1';
+                canvas.style.opacity = '1';
+                openBio(); 
+            }, 500);
+        }, 1200);
+    }, 500);
+}
+
+function typeTerminal(element, html, speed, callback) {
+    let i = 0; element.innerHTML = "";
+    const timer = setInterval(() => {
+        if (html.charAt(i) === '<') {
+            let endTag = html.indexOf('>', i);
+            element.innerHTML += html.substring(i, endTag + 1);
+            i = endTag + 1;
+        } else { element.innerHTML += html.charAt(i); i++; }
+        content.scrollTop = content.scrollHeight;
+        if (i >= html.length) { clearInterval(timer); if (callback) callback(); }
+    }, speed);
+}
+
+function openBio() {
+    win.style.display = 'flex';
+    title.innerText = "alyssonfelipe@root: ~ (profile)";
+    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="bio-cmd"></span></div><div id="bio-res"></div>`;
+    typeTerminal(document.getElementById('bio-cmd'), "./profile.sh", 50, () => {
+        document.getElementById('bio-res').innerHTML = `
+            <div style="text-align:center; margin-top:20px;">
+                <h1 class="main-name">Alysson Felipe</h1>
+                <p id="ads-target" style="font-weight:bold; font-size:14px; margin-bottom:15px; color:var(--accent);"></p>
+                <div id="bio-typing" style="text-align:left; opacity:0.9;"></div>
+                <span class="cursor"></span>
+                <div class="social-links">
+                    <a href="https://instagram.com/alysson.dev" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="https://linkedin.com/in/alyssonfelipe" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/alyssonfelipe" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
+                </div>
+                <a href="./assets/cv-alysson.pdf" download class="cv-btn"><i class="fas fa-file-download"></i> Download CV</a>
+            </div>`;
+        typeTerminal(document.getElementById('ads-target'), "> ADS | UI/UX Designer | IoT & IA", 25, () => {
+            typeTerminal(document.getElementById('bio-typing'), "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de IA e IoT para criar sistemas inteligentes.", 10);
+        });
+    });
+}
+
+function openEdu() {
+    win.style.display = 'flex';
+    title.innerText = "alyssonfelipe@root: ~ (education)";
+    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="edu-cmd"></span></div><div id="edu-res" style="margin-top:15px;"></div><span class="cursor"></span>`;
+    const data = `<strong>[ FORMAÇÃO ]</strong><br><br>• ESTÁCIO: ADS (2027)<br>• MICROCAMP: Linux & Redes`;
+    typeTerminal(document.getElementById('edu-cmd'), "cat education.sh", 40, () => {
+        setTimeout(() => typeTerminal(document.getElementById('edu-res'), data, 5), 100);
+    });
+}
+
+function openExp() {
+    win.style.display = 'flex';
+    title.innerText = "alyssonfelipe@root: ~ (experiences)";
+    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="exp-cmd"></span></div><div id="exp-res" style="margin-top:15px;"></div><span class="cursor"></span>`;
+    const data = `<strong>[ EXPERIÊNCIAS ]</strong><br><br>• ALUARTS: Mkt Digital & ADM<br>• MUNDIAL MARCAS: Web Designer`;
+    typeTerminal(document.getElementById('exp-cmd'), "cat experiences.sh", 40, () => {
+        setTimeout(() => typeTerminal(document.getElementById('exp-res'), data, 5), 100);
+    });
+}
+
+function openProject() {
+    win.style.display = 'flex';
+    title.innerText = "alyssonfelipe@root: ~ (projects)";
+    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="proj-cmd"></span></div><div id="proj-res" style="margin-top:15px;"></div><span class="cursor"></span>`;
+    typeTerminal(document.getElementById('proj-cmd'), "./list_projects.sh", 40, () => {
+        setTimeout(() => typeTerminal(document.getElementById('proj-res'), `>> FLOW HUB: <a href='https://flow-hub.shop' target='_blank' style='color:var(--accent)'>flow-hub.shop</a>`, 10), 100);
+    });
+}
+
+// SEÇÃO IA (BRAIN ICON)
 function openAI() {
     win.style.display = 'flex';
-    title.innerText = `PROTOCOLO_${IA_NAME}_ATIVO`;
-    content.innerHTML = `<div><strong>root@alysson:~$</strong> <span id="ai-cmd"></span></div><div id="ai-res" style="margin-top:15px;"></div>`;
+    title.innerText = "alyssonfelipe@root: ~ (ai_core)";
+    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="ai-cmd"></span></div><div id="ai-res" style="margin-top:15px;"></div>`;
     
-    typeTerminal(document.getElementById('ai-cmd'), `init --protocol ${IA_NAME.toLowerCase()}`, 40, () => {
+    typeTerminal(document.getElementById('ai-cmd'), "./initialize_ai_assistant.sh", 40, () => {
         document.getElementById('ai-res').innerHTML = `
-            <div class="jarvis-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                    <span style="color:var(--accent); font-weight: 800; font-size: 14px; letter-spacing: 2px;">${IA_NAME} INTERFACE</span>
-                    <span style="font-size: 10px; color: var(--accent-2);">STATUS: ONLINE</span>
+            <div class="p-4 border border-cyan-800 bg-cyan-950/20 rounded-lg">
+                <p style="color:#22d3ee; font-weight:bold; margin-bottom:10px;">[ NÚCLEO IA ALYSSON ]</p>
+                <p style="font-size:11px; margin-bottom:15px; opacity:0.7;">Olá! Sou a inteligência artificial do portfólio. Como posso ajudar?</p>
+                <div class="flex gap-2">
+                    <input type="text" id="ai-input" class="terminal-input flex-1" placeholder="Pergunte sobre tecnologia..." style="margin:0">
+                    <button onclick="askAI()" class="terminal-btn" style="margin:0; background:#22d3ee; color:#000; border-radius:4px; padding: 0 15px;">ASK</button>
                 </div>
-                
-                <p style="font-size: 12px; margin-bottom: 20px; color: #b4b4b4; line-height: 1.4;">
-                    Bem-vindo, Senhor. Os sistemas estão operando em 100%. Deseja consultar algum dado do portfólio?
-                </p>
-
-                <div class="flex flex-col gap-3">
-                    <input type="text" id="ai-input" class="terminal-input" placeholder="Digite seu comando aqui...">
-                    <button onclick="askAI()" class="terminal-btn">PERGUNTAR</button>
-                </div>
-                
-                <div id="ai-response-display" style="margin-top:25px; min-height:60px; font-size: 14px; color: #fff; border-left: 2px solid var(--accent); padding-left: 15px;">
-                    <span style="opacity: 0.5;">Aguardando entrada de dados...</span>
-                </div>
+                <div id="ai-response-display" style="margin-top:20px; min-height:40px;"></div>
             </div>
         `;
         document.getElementById('ai-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') askAI(); });
@@ -37,7 +144,7 @@ async function askAI() {
     const prompt = input.value;
     if(!prompt) return;
 
-    display.innerHTML = `<div class="typing-loader"></div> <span style="color:var(--accent-2)">Processando...</span>`;
+    display.innerHTML = "<span class='cursor'></span> [ CONSULTANDO REDE NEURAL... ]";
     input.value = "";
 
     try {
@@ -46,18 +153,86 @@ async function askAI() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 contents: [{
-                    parts: [{ text: `Você é o ${IA_NAME}, assistente de Alysson Felipe. Use tom elegante e técnico. Se for algo fora do portfólio, foque na carreira dele. Pergunta: ${prompt}` }]
+                    parts: [{ text: `Você é o assistente virtual do Alysson Felipe (estudante de ADS na Estácio). Responda de forma curta, inteligente e com vocabulário tecnológico. Pergunta: ${prompt}` }]
                 }]
             })
         });
 
         const data = await response.json();
-        const aiText = data.candidates[0].content.parts[0].text;
-        
-        display.innerHTML = "";
-        typeTerminal(display, `<strong style="color:var(--accent)">${IA_NAME}:</strong> ${aiText}`, 15);
 
+        if (data.error) {
+            display.innerHTML = `<span style="color:#ff5f56">> SISTEMA:</span> Chave em processo de ativação. Tente em 1 minuto.`;
+            return;
+        }
+
+        if (data.candidates && data.candidates[0].content.parts[0].text) {
+            const aiText = data.candidates[0].content.parts[0].text;
+            typeTerminal(display, `<span style="color:#22d3ee">> IA:</span> ${aiText}`, 15);
+        }
     } catch (err) {
-        display.innerHTML = `<span style="color:#ff4b2b">ERRO: Falha na sincronização com o mainframe.</span>`;
+        display.innerHTML = `<span style="color:#ff5f56">> SISTEMA:</span> Falha na conexão. Verifique o servidor.`;
     }
 }
+
+// SEÇÃO CONTATO (ENVELOPE ICON)
+function openContact() {
+    win.style.display = 'flex';
+    title.innerText = "alyssonfelipe@root: ~ (mail_service)";
+    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="contact-cmd"></span></div><div id="contact-res" style="margin-top:15px;"></div>`;
+    
+    typeTerminal(document.getElementById('contact-cmd'), "./send_mail.sh", 40, () => {
+        document.getElementById('contact-res').innerHTML = `
+            <form id="email-form" action="https://formspree.io/f/xbdaajro" method="POST" class="terminal-form">
+                <p style="color:var(--accent); font-weight:bold; margin-bottom:15px;">[ FORMULÁRIO DE CONTATO ]</p>
+                <input type="text" name="_gotcha" style="display:none">
+                <label>NOME:</label>
+                <input type="text" name="name" class="terminal-input" placeholder="Seu nome" required>
+                <label>EMAIL:</label>
+                <input type="email" name="_replyto" class="terminal-input" placeholder="seu@email.com" required>
+                <label>MENSAGEM:</label>
+                <textarea name="message" class="terminal-input" rows="3" placeholder="Sua mensagem..." required></textarea>
+                <button type="submit" class="terminal-btn">ENVIAR AGORA</button>
+            </form>
+            <div id="success-output"></div>
+        `;
+
+        const form = document.getElementById('email-form');
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = form.querySelector('button');
+            const output = document.getElementById('success-output');
+            btn.innerText = "ENVIANDO..."; btn.disabled = true;
+            const response = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
+
+            if (response.ok) {
+                output.innerHTML = `<pre class="ascii-success"><b>[ MENSAGEM ENVIADA ]</b></pre>`;
+                Swal.fire({ icon: 'success', title: 'Sucesso!', background: '#1a1a1a', color: '#fff', timer: 2000, showConfirmButton: false });
+                form.style.display = 'none';
+            } else {
+                Swal.fire({ icon: 'error', title: 'Erro', background: '#1a1a1a', color: '#fff' });
+                btn.innerText = "TENTAR NOVAMENTE"; btn.disabled = false;
+            }
+        };
+    });
+}
+
+function closeWin() { win.style.display = 'none'; }
+
+// Neural Background
+const canvas = document.getElementById('neural-canvas');
+const ctx = canvas.getContext('2d');
+let pts = [];
+const res = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+window.addEventListener('resize', res);
+res();
+for(let i=0; i<30; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5});
+function anim() {
+    ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle = 'rgba(59,130,246,0.15)';
+    pts.forEach(p => {
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0||p.x>canvas.width) p.vx*=-1; if(p.y<0||p.y>canvas.height) p.vy*=-1;
+        ctx.beginPath(); ctx.arc(p.x,p.y,2,0,Math.PI*2); ctx.fill();
+    });
+    requestAnimationFrame(anim);
+}
+anim();
