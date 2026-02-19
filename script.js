@@ -2,10 +2,8 @@ const win = document.getElementById('main-terminal');
 const content = document.getElementById('content');
 const title = document.getElementById('win-title');
 
-// Inicialização automática
 window.onload = () => { setTimeout(typePassword, 800); };
 
-// Simulação de login
 function typePassword() {
     const passInput = document.getElementById('pass-input');
     const status = document.getElementById('login-status');
@@ -49,7 +47,6 @@ function startBoot() {
     }, 500);
 }
 
-// Mecanismo de digitação do terminal
 function typeTerminal(element, html, speed, callback) {
     let i = 0; element.innerHTML = "";
     const timer = setInterval(() => {
@@ -63,7 +60,6 @@ function typeTerminal(element, html, speed, callback) {
     }, speed);
 }
 
-// Seções do Terminal
 function openBio() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (profile)";
@@ -118,7 +114,6 @@ function openProject() {
     });
 }
 
-// Função de Contato com Validação ASCII
 function openContact() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (contact_form)";
@@ -128,6 +123,8 @@ function openContact() {
         document.getElementById('contact-res').innerHTML = `
             <p style="color:var(--accent); margin-bottom:10px;">> Iniciando protocolo de comunicação...</p>
             <form id="email-form" action="https://formspree.io/f/xbdaajro" method="POST" class="terminal-form">
+                <input type="text" name="_gotcha" style="display:none">
+                
                 <label>NOME:</label>
                 <input type="text" name="name" class="terminal-input" placeholder="Seu nome completo" required>
                 <label>EMAIL DE CONTATO:</label>
@@ -187,7 +184,6 @@ function openContact() {
 
 function closeWin() { win.style.display = 'none'; }
 
-// Background Neural Canvas
 const canvas = document.getElementById('neural-canvas');
 const ctx = canvas.getContext('2d');
 let pts = [];
