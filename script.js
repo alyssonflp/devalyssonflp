@@ -2,37 +2,64 @@ const win = document.getElementById('main-terminal');
 const content = document.getElementById('content');
 const title = document.getElementById('win-title');
 
-window.onload = () => { setTimeout(typePassword, 800); };
+window.onload = () => { 
+    setTimeout(typePassword, 800); 
+};
 
 function typePassword() {
     const passInput = document.getElementById('pass-input');
     const fullPass = "********";
     let i = 0;
+    
+    if (!passInput) return; // Segurança caso o elemento sumiu
+
     const interval = setInterval(() => {
-        if(passInput) passInput.value += fullPass[i]; i++;
+        passInput.value += fullPass[i]; 
+        i++;
+        
         if (i >= fullPass.length) {
             clearInterval(interval);
-            document.getElementById('login-status').innerText = "Autenticando...";
-            document.getElementById('login-loader').style.display = "block";
-            setTimeout(startBoot, 1000);
+            
+            // BUSCA PELOS ELEMENTOS DE STATUS E LOADER
+            const statusMsg = document.getElementById('login-status');
+            const loaderBar = document.getElementById('login-loader');
+            
+            if (statusMsg) statusMsg.innerText = "Autenticando...";
+            if (loaderBar) loaderBar.style.display = "block";
+            
+            // Inicia o boot após a simulação de autenticação
+            setTimeout(startBoot, 1200);
         }
     }, 120);
 }
 
 function startBoot() {
-    document.getElementById('login-screen').style.opacity = '0';
+    const loginScreen = document.getElementById('login-screen');
+    const helloScreen = document.getElementById('hello-screen');
+    
+    if (loginScreen) loginScreen.style.opacity = '0';
+    
     setTimeout(() => {
-        document.getElementById('login-screen').style.display = 'none';
-        const hello = document.getElementById('hello-screen');
-        hello.style.display = 'flex';
-        hello.style.opacity = '1';
+        if (loginScreen) loginScreen.style.display = 'none';
+        if (helloScreen) {
+            helloScreen.style.display = 'flex';
+            helloScreen.style.opacity = '1';
+        }
+        
         setTimeout(() => {
-            hello.style.opacity = '0';
+            if (helloScreen) helloScreen.style.opacity = '0';
             setTimeout(() => {
-                hello.style.display = 'none';
-                document.getElementById('dock-main').style.display = 'flex';
-                document.getElementById('dock-main').style.opacity = '1';
-                document.getElementById('neural-canvas').style.opacity = '1';
+                if (helloScreen) helloScreen.style.display = 'none';
+                
+                const dock = document.getElementById('dock-main');
+                const canvas = document.getElementById('neural-canvas');
+                
+                if (dock) {
+                    dock.style.display = 'flex';
+                    dock.style.opacity = '1';
+                }
+                if (canvas) canvas.style.opacity = '1';
+                
                 openBio(); 
             }, 500);
         }, 1200);
@@ -40,24 +67,36 @@ function startBoot() {
 }
 
 function typeTerminal(element, html, speed, callback) {
-    let i = 0; element.innerHTML = "";
+    if (!element) return;
+    let i = 0; 
+    element.innerHTML = "";
     const timer = setInterval(() => {
         if (html.charAt(i) === '<') {
             let endTag = html.indexOf('>', i);
             element.innerHTML += html.substring(i, endTag + 1);
             i = endTag + 1;
-        } else { element.innerHTML += html.charAt(i); i++; }
-        content.scrollTop = content.scrollHeight;
-        if (i >= html.length) { clearInterval(timer); if (callback) callback(); }
+        } else { 
+            element.innerHTML += html.charAt(i); 
+            i++; 
+        }
+        if (content) content.scrollTop = content.scrollHeight;
+        if (i >= html.length) { 
+            clearInterval(timer); 
+            if (callback) callback(); 
+        }
     }, speed);
 }
 
 function openBio() {
+    if (!win || !content) return;
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (profile)";
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="bio-cmd"></span></div><div id="bio-res"></div>`;
+    
     typeTerminal(document.getElementById('bio-cmd'), "./profile.sh", 50, () => {
-        document.getElementById('bio-res').innerHTML = `
+        const bioRes = document.getElementById('bio-res');
+        if (bioRes) {
+            bioRes.innerHTML = `
             <div style="text-align:center; margin-top:10px;">
                 <h1 class="profile-name">Alysson Felipe</h1>
                 <p style="color:var(--accent); font-weight:bold; font-size:14px; margin-bottom:15px;">> ADS | UI/UX Designer | IoT & IA</p>
@@ -76,6 +115,7 @@ function openBio() {
                     CURRICULO <i class="fas fa-download"></i>
                 </a>
             </div>`;
+        }
     });
 }
 
@@ -94,10 +134,9 @@ function openEdu() {
                  `• Ferramentas de Escritório: Pacote Office completo<br>` +
                  `• Idiomas: Inglês nível A1.`;
 
-    // Alterado de cat education.txt para ./education.sh
     typeTerminal(document.getElementById('edu-cmd'), "./education.sh", 40, () => {
         const eduRes = document.getElementById('edu-res');
-        typeTerminal(eduRes, data, 10); 
+        if (eduRes) typeTerminal(eduRes, data, 10); 
     });
 }
 
@@ -106,7 +145,8 @@ function openExp() {
     title.innerText = "alyssonfelipe@root: ~ (experiences)";
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="exp-cmd"></span></div><div id="exp-res" style="margin-top:15px;"></div>`;
     typeTerminal(document.getElementById('exp-cmd'), "ls -la /career", 40, () => {
-        document.getElementById('exp-res').innerHTML = `• ALUARTS: Mkt Digital<br>• MUNDIAL MARCAS: Web Designer`;
+        const expRes = document.getElementById('exp-res');
+        if (expRes) expRes.innerHTML = `• ALUARTS: Mkt Digital<br>• MUNDIAL MARCAS: Web Designer`;
     });
 }
 
@@ -115,7 +155,8 @@ function openProject() {
     title.innerText = "alyssonfelipe@root: ~ (projects)";
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="proj-cmd"></span></div><div id="proj-res" style="margin-top:15px;"></div>`;
     typeTerminal(document.getElementById('proj-cmd'), "./list_projects.sh", 40, () => {
-        document.getElementById('proj-res').innerHTML = `>> FLOW HUB: <a href='https://flow-hub.shop' target='_blank' style='color:var(--accent)'>flow-hub.shop</a>`;
+        const projRes = document.getElementById('proj-res');
+        if (projRes) projRes.innerHTML = `>> FLOW HUB: <a href='https://flow-hub.shop' target='_blank' style='color:var(--accent)'>flow-hub.shop</a>`;
     });
 }
 
@@ -124,47 +165,60 @@ function openContact() {
     title.innerText = "alyssonfelipe@root: ~ (mail_service)";
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="contact-cmd"></span></div><div id="contact-res"></div>`;
     typeTerminal(document.getElementById('contact-cmd'), "./send_mail.sh", 40, () => {
-        document.getElementById('contact-res').innerHTML = `
-            <form id="email-form" action="https://formspree.io/f/xbdaajro" method="POST" style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
-                <input type="email" name="email" placeholder="Seu e-mail" required style="background: rgba(255,255,255,0.05); border: 1px solid #333; color: white; padding: 8px;">
-                <textarea name="message" placeholder="Sua mensagem..." required style="background: rgba(255,255,255,0.05); border: 1px solid #333; color: white; padding: 8px; height: 80px;"></textarea>
-                <button type="submit" style="background: var(--accent); color: white; padding: 10px; border: none; cursor: pointer; font-weight: bold;">ENVIAR</button>
-            </form><div id="success-output"></div>`;
+        const contactRes = document.getElementById('contact-res');
+        if (contactRes) {
+            contactRes.innerHTML = `
+                <form id="email-form" action="https://formspree.io/f/xbdaajro" method="POST" style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                    <input type="email" name="email" placeholder="Seu e-mail" required style="background: rgba(255,255,255,0.05); border: 1px solid #333; color: white; padding: 8px;">
+                    <textarea name="message" placeholder="Sua mensagem..." required style="background: rgba(255,255,255,0.05); border: 1px solid #333; color: white; padding: 8px; height: 80px;"></textarea>
+                    <button type="submit" style="background: var(--accent); color: white; padding: 10px; border: none; cursor: pointer; font-weight: bold;">ENVIAR</button>
+                </form><div id="success-output"></div>`;
 
-        const form = document.getElementById('email-form');
-        form.onsubmit = async (e) => {
-            e.preventDefault();
-            const response = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
-            if (response.ok) {
-                const art = `<b>
+            const form = document.getElementById('email-form');
+            form.onsubmit = async (e) => {
+                e.preventDefault();
+                const response = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
+                if (response.ok) {
+                    const art = `<b>
       _____ _    _  _____ ______  _____ _____  ____  
      / ____| |  | |/ ____|  ____|/ ____/ ____|/ __ \\ 
     | (___ | |  | | |    | |__  | (___| (___ | |  | |
      \\___ \\| |  | | |    |  __|  \\___ \\\\___ \\| |  | |
      ____) | |__| | |____| |____ ____) |___) | |__| |
     |_____/ \\____/ \\_____|______|_____/_____/ \\____/ </b>`;
-                document.getElementById('success-output').innerHTML = `<pre class="ascii-success">${art}\n\n[ MENSAGEM ENVIADA COM SUCESSO ]</pre>`;
-                form.style.display = 'none';
-            }
-        };
+                    document.getElementById('success-output').innerHTML = `<pre class="ascii-success">${art}\n\n[ MENSAGEM ENVIADA COM SUCESSO ]</pre>`;
+                    form.style.display = 'none';
+                }
+            };
+        }
     });
 }
 
-function closeWin() { win.style.display = 'none'; }
+function closeWin() { 
+    if (win) win.style.display = 'none'; 
+}
 
+// Background Neural
 const canvas = document.getElementById('neural-canvas');
-const ctx = canvas.getContext('2d');
-let pts = [];
-const res = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
-window.addEventListener('resize', res); res();
-for(let i=0; i<30; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5});
-function anim() {
-    ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle = 'rgba(59,130,246,0.15)';
-    pts.forEach(p => {
-        p.x+=p.vx; p.y+=p.vy;
-        if(p.x<0||p.x>canvas.width) p.vx*=-1; if(p.y<0||p.y>canvas.height) p.vy*=-1;
-        ctx.beginPath(); ctx.arc(p.x,p.y,2,0,Math.PI*2); ctx.fill();
-    });
-    requestAnimationFrame(anim);
+if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let pts = [];
+    const res = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+    window.addEventListener('resize', res); 
+    res();
+    for(let i=0; i<30; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5});
+    function anim() {
+        ctx.clearRect(0,0,canvas.width,canvas.height); 
+        ctx.fillStyle = 'rgba(59,130,246,0.15)';
+        pts.forEach(p => {
+            p.x+=p.vx; p.y+=p.vy;
+            if(p.x<0||p.x>canvas.width) p.vx*=-1; 
+            if(p.y<0||p.y>canvas.height) p.vy*=-1;
+            ctx.beginPath(); 
+            ctx.arc(p.x,p.y,2,0,Math.PI*2); 
+            ctx.fill();
+        });
+        requestAnimationFrame(anim);
+    }
+    anim();
 }
-anim();
