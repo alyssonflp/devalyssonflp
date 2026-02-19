@@ -71,7 +71,7 @@ function openBio() {
     
     typeTerminal(document.getElementById('bio-cmd'), "./profile.sh", 50, () => {
         document.getElementById('bio-res').innerHTML = `
-            <div style="text-align:center; margin-top:15px;">
+            <div style="text-align:center; margin-top:15px; display:flex; flex-direction:column; align-items:center;">
                 <h1 id="name-typing" class="main-name"></h1>
                 <p id="ads-target" class="ads-text"></p>
                 <div id="social-container" class="social-links">
@@ -81,9 +81,7 @@ function openBio() {
                 </div>
                 <div id="bio-typing" style="text-align:left; opacity:0.9; margin-top:10px;"></div>
                 <span id="bio-cursor" class="cursor" style="display:none;"></span>
-                <div id="btn-container">
-                    <a id="download-btn" href="./assets/cv-alysson.pdf" download class="cv-btn"><i class="fas fa-file-download"></i> Download CV</a>
-                </div>
+                <a id="download-btn" href="./assets/cv-alysson.pdf" download class="cv-btn"><i class="fas fa-file-download"></i> Download CV</a>
             </div>`;
 
         typeTerminal(document.getElementById('name-typing'), "Alysson Felipe", 60, () => {
@@ -108,10 +106,13 @@ function openContact() {
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="contact-cmd"></span></div><div id="contact-res"></div>`;
     typeTerminal(document.getElementById('contact-cmd'), "./send_mail.sh", 40, () => {
         document.getElementById('contact-res').innerHTML = `
-            <form id="email-form" action="https://formspree.io/f/xbdaajro" method="POST" class="terminal-form" style="margin-top:15px; display:flex; flex-direction:column; gap:10px;">
+            <form id="email-form" action="https://formspree.io/f/xbdaajro" method="POST" class="terminal-form" style="margin-top:20px; display:flex; flex-direction:column; gap:12px;">
+                <input type="text" name="_gotcha" class="h-pot">
+                
                 <input type="text" name="name" class="terminal-input" placeholder="SEU NOME" required>
                 <input type="email" name="email" class="terminal-input" placeholder="SEU EMAIL" required>
-                <textarea name="message" class="terminal-input" rows="3" placeholder="MENSAGEM..." required></textarea>
+                <textarea name="message" class="terminal-input" rows="3" placeholder="MENSAGEM..." style="border-radius:20px;" required></textarea>
+                
                 <button type="submit" class="terminal-btn">ENVIAR</button>
             </form><div id="success-output"></div>`;
 
@@ -119,8 +120,16 @@ function openContact() {
         form.onsubmit = async (e) => {
             e.preventDefault();
             const btn = form.querySelector('button');
+            const originalText = btn.innerText;
             btn.innerText = "ENVIANDO...";
-            const response = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
+            btn.disabled = true;
+
+            const response = await fetch(form.action, { 
+                method: 'POST', 
+                body: new FormData(form), 
+                headers: { 'Accept': 'application/json' } 
+            });
+
             if (response.ok) {
                 const asciiArt = `<b>
       _____ _    _  _____ ______  _____ _____  ____  
@@ -130,9 +139,13 @@ function openContact() {
      ____) | |__| | |____| |____ ____) |___) | |__| |
     |_____/ \\____/ \\_____|______|_____/_____/ \\____/ </b>
     <br>[ SUCESSO NO ENVIO ]`;
-                document.getElementById('success-output').innerHTML = `<pre class="ascii-success">${asciiArt}</pre>`;
+                document.getElementById('success-output').innerHTML = `<pre style="color:#27c93f; font-size:9px; text-align:center; margin-top:20px;">${asciiArt}</pre>`;
                 form.style.display = 'none';
-                Swal.fire({ icon: 'success', title: 'Enviado!', background: '#1a1a1a', color: '#fff' });
+                Swal.fire({ icon: 'success', title: 'Mensagem Enviada!', background: '#1a1a1a', color: '#fff', confirmButtonColor: '#9333ea' });
+            } else {
+                btn.innerText = originalText;
+                btn.disabled = false;
+                Swal.fire({ icon: 'error', title: 'Erro ao enviar', text: 'Tente novamente mais tarde.', background: '#1a1a1a', color: '#fff' });
             }
         };
     });
