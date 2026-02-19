@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <canvas id="neural-canvas"></canvas>
 
     <div id="login-screen">
@@ -19,7 +18,7 @@
                 <input type="password" id="pass-input" readonly>
                 <div id="login-loader" class="login-loader" style="display:none;"></div>
             </div>
-            <div id="login-status" style="margin-top:10px; font-size:12px; opacity:0.7;">Aguardando credenciais...</div>
+            <div id="login-status" style="margin-top:10px; font-size:12px; opacity:0.7;">Aguardando...</div>
         </div>
     </div>
 
@@ -36,17 +35,16 @@
             </div>
             <div id="win-title">alyssonfelipe@root: ~</div>
         </div>
-        <div class="win-body" id="content">
-            </div>
+        <div class="win-body" id="content"></div>
     </div>
 
     <div class="dock-wrap" id="dock-main" style="display:none; opacity:0;">
         <div class="dock">
-            <div class="dock-i" onclick="openBio()" title="Profile"><i class="fas fa-user-circle"></i></div>
-            <div class="dock-i" onclick="openEdu()" title="Education"><i class="fas fa-graduation-cap"></i></div>
-            <div class="dock-i" onclick="openExp()" title="Experience"><i class="fas fa-briefcase"></i></div>
-            <div class="dock-i" onclick="openProject()" title="Projects"><i class="fas fa-code"></i></div>
-            <div class="dock-i" onclick="openContact()" title="Contact"><i class="fas fa-envelope"></i></div>
+            <div class="dock-i" onclick="openBio()"><i class="fas fa-user-circle"></i></div>
+            <div class="dock-i" onclick="openEdu()"><i class="fas fa-graduation-cap"></i></div>
+            <div class="dock-i" onclick="openExp()"><i class="fas fa-briefcase"></i></div>
+            <div class="dock-i" onclick="openProject()"><i class="fas fa-code"></i></div>
+            <div class="dock-i" onclick="openContact()"><i class="fas fa-envelope"></i></div>
         </div>
     </div>
 
