@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Alysson Felipe | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-black overflow-hidden">
+
+    <canvas id="neural-canvas"></canvas>
+
+    <div id="main-terminal" class="window">
+        <div class="win-header">
+            <div class="dots">
+                <div class="dot close" onclick="closeWin()"></div>
+                <div class="dot min"></div>
+                <div class="dot max"></div>
+            </div>
+            <span id="win-title">bash --profile</span>
+        </div>
+        <div class="win-body" id="content"></div>
+    </div>
+
+    <div class="dock-wrap">
+        <nav class="dock">
+            <div class="dock-i blue" onclick="openBio()"><i class="fas fa-user-circle"></i></div>
+            <div class="dock-i purple" onclick="openEdu()"><i class="fas fa-terminal"></i></div>
+            <div class="dock-i orange" onclick="openProject()"><i class="fas fa-folder-open"></i></div>
+            <a href="https://wa.me/5541999207848" target="_blank" class="dock-i green"><i class="fab fa-whatsapp"></i></a>
+        </nav>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
