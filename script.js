@@ -6,26 +6,39 @@ window.onload = () => { setTimeout(typePassword, 800); };
 
 function typePassword() {
     const passInput = document.getElementById('pass-input');
+    const progress = document.getElementById('boot-progress');
     const fullPass = "********";
     let i = 0;
+    
     const interval = setInterval(() => {
         passInput.value += fullPass[i]; i++;
         if (i >= fullPass.length) {
             clearInterval(interval);
-            document.getElementById('login-status').innerText = "Autenticando...";
-            document.getElementById('login-loader').style.display = "block";
-            setTimeout(startBoot, 1000);
+            // Inicia animação da barra de progresso após "digitar" a senha
+            let pct = 0;
+            const bootInterval = setInterval(() => {
+                pct += 2;
+                progress.style.width = pct + "%";
+                if (pct >= 100) {
+                    clearInterval(bootInterval);
+                    startBoot();
+                }
+            }, 20);
         }
     }, 120);
 }
 
 function startBoot() {
-    document.getElementById('login-screen').style.opacity = '0';
+    const login = document.getElementById('login-screen');
+    const hello = document.getElementById('hello-screen');
+    
+    login.style.opacity = '0';
     setTimeout(() => {
-        document.getElementById('login-screen').style.display = 'none';
-        const hello = document.getElementById('hello-screen');
+        login.style.display = 'none';
         hello.style.display = 'flex';
-        setTimeout(() => { hello.style.opacity = '1'; }, 50);
+        void hello.offsetWidth;
+        hello.style.opacity = '1';
+        
         setTimeout(() => {
             hello.style.opacity = '0';
             setTimeout(() => {
@@ -34,8 +47,8 @@ function startBoot() {
                 document.getElementById('dock-main').style.opacity = '1';
                 document.getElementById('neural-canvas').style.opacity = '1';
                 openBio(); 
-            }, 500);
-        }, 1200);
+            }, 600);
+        }, 1800); 
     }, 500);
 }
 
@@ -59,7 +72,7 @@ function openBio() {
     
     typeTerminal(document.getElementById('bio-cmd'), "./profile.sh", 50, () => {
         document.getElementById('bio-res').innerHTML = `
-            <div style="text-align:center; margin-top:20px;">
+            <div style="text-align:center; margin-top:15px;">
                 <h1 id="name-typing" class="main-name"></h1>
                 <p id="ads-target" class="ads-text"></p>
                 <div id="social-container" class="social-links">
@@ -67,29 +80,24 @@ function openBio() {
                     <a id="s-2" href="https://linkedin.com/in/alyssonfelipe" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i></a>
                     <a id="s-3" href="https://github.com/alyssonfelipe" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
                 </div>
-                <div id="bio-typing" style="text-align:left; opacity:0.9; margin-top:15px;"></div>
+                <div id="bio-typing" style="text-align:left; opacity:0.9; margin-top:10px;"></div>
                 <span id="bio-cursor" class="cursor" style="display:none;"></span>
-                <div id="btn-container" style="margin-top:20px;">
+                <div id="btn-container">
                     <a id="download-btn" href="./assets/cv-alysson.pdf" download class="cv-btn"><i class="fas fa-file-download"></i> Download CV</a>
                 </div>
             </div>`;
 
         typeTerminal(document.getElementById('name-typing'), "Alysson Felipe", 60, () => {
-            typeTerminal(document.getElementById('ads-target'), "> ADS | UI/UX Designer | IoT & IA", 25, () => {
-                
-                // Animação Ícones (Cima -> Baixo)
-                setTimeout(() => { document.getElementById('s-1').style.animation = "slideDown 0.5s forwards"; }, 200);
-                setTimeout(() => { document.getElementById('s-2').style.animation = "slideDown 0.5s forwards"; }, 400);
+            typeTerminal(document.getElementById('ads-target'), "> ADS | UI/UX Designer | IoT & IA", 20, () => {
+                setTimeout(() => { document.getElementById('s-1').style.animation = "slideDown 0.4s forwards"; }, 100);
+                setTimeout(() => { document.getElementById('s-2').style.animation = "slideDown 0.4s forwards"; }, 250);
                 setTimeout(() => { 
-                    document.getElementById('s-3').style.animation = "slideDown 0.5s forwards";
-                    
-                    // Inicia Bio
+                    document.getElementById('s-3').style.animation = "slideDown 0.4s forwards";
                     document.getElementById('bio-cursor').style.display = 'inline-block';
-                    typeTerminal(document.getElementById('bio-typing'), "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de IA e IoT para criar sistemas inteligentes.", 10, () => {
-                        // Animação Download (Baixo -> Cima)
+                    typeTerminal(document.getElementById('bio-typing'), "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de IA e IoT para criar sistemas inteligentes.", 8, () => {
                         document.getElementById('download-btn').style.animation = "slideUp 0.6s forwards";
                     });
-                }, 600);
+                }, 400);
             });
         });
     });
@@ -101,8 +109,7 @@ function openContact() {
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="contact-cmd"></span></div><div id="contact-res"></div>`;
     typeTerminal(document.getElementById('contact-cmd'), "./send_mail.sh", 40, () => {
         document.getElementById('contact-res').innerHTML = `
-            <form id="email-form" action="https://formspree.io/f/xbdaajro" method="POST" class="terminal-form">
-                <p style="color:#22d3ee; font-weight:bold;">[ FORMULÁRIO DE CONTATO ]</p>
+            <form id="email-form" action="https://formspree.io/f/xbdaajro" method="POST" class="terminal-form" style="margin-top:15px; display:flex; flex-direction:column; gap:10px;">
                 <input type="text" name="name" class="terminal-input" placeholder="SEU NOME" required>
                 <input type="email" name="email" class="terminal-input" placeholder="SEU EMAIL" required>
                 <textarea name="message" class="terminal-input" rows="3" placeholder="MENSAGEM..." required></textarea>
@@ -161,7 +168,6 @@ function openProject() {
 
 function closeWin() { win.style.display = 'none'; }
 
-// Canvas Anim
 const canvas = document.getElementById('neural-canvas');
 const ctx = canvas.getContext('2d');
 let pts = [];
