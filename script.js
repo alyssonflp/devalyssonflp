@@ -85,7 +85,7 @@ function openBio() {
             </div>`;
         
         typeTerminal(document.getElementById('ads-target'), "> ADS | UI/UX Designer | IoT & IA", 25, () => {
-            typeTerminal(document.getElementById('bio-typing'), "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de IA e IoT para criar sistemas inteligentes e interfaces que conectam pessoas.", 10);
+            typeTerminal(document.getElementById('bio-typing'), "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de IA e IoT para criar sistemas inteligentes.", 10);
         });
     });
 }
@@ -121,11 +121,13 @@ function openProject() {
 
 function closeWin() { win.style.display = 'none'; }
 
+// CANVAS NEURAL ESTÁVEL
 const canvas = document.getElementById('neural-canvas');
 const ctx = canvas.getContext('2d');
 let pts = [];
 const res = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
-window.onresize = res; res();
+window.addEventListener('resize', res);
+res();
 for(let i=0; i<30; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5});
 function anim() {
     ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle = 'rgba(59,130,246,0.15)';
