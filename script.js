@@ -60,7 +60,6 @@ function typeTerminal(element, html, speed, callback) {
     }, speed);
 }
 
-// Seções principais
 function openBio() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (profile)";
@@ -69,25 +68,49 @@ function openBio() {
     typeTerminal(document.getElementById('bio-cmd'), "./profile.sh", 50, () => {
         document.getElementById('bio-res').innerHTML = `
             <div style="text-align:center; margin-top:20px;">
-                <h1 id="name-target" class="main-name"></h1>
-                <p id="ads-target" style="font-weight:bold; font-size:14px; margin-bottom:10px; color:var(--accent);"></p>
+                <h1 id="name-typing" class="main-name"></h1>
+                <p id="ads-target" style="font-weight:bold; font-size:14px; color:#22d3ee;"></p>
                 
-                <div class="social-links" style="opacity: 1;">
-                    <a href="https://instagram.com/alysson.dev" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
-                    <a href="https://linkedin.com/in/alyssonfelipe" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://github.com/alyssonfelipe" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
+                <div id="social-container" class="social-links">
+                    <a id="s-1" href="https://instagram.com/alysson.dev" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a id="s-2" href="https://linkedin.com/in/alyssonfelipe" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                    <a id="s-3" href="https://github.com/alyssonfelipe" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
                 </div>
 
-                <div id="bio-typing" style="text-align:left; opacity:0.9;"></div>
-                <span class="cursor"></span>
+                <div id="bio-typing" style="text-align:left; opacity:0.9; margin-top:15px;"></div>
+                <span id="bio-cursor" class="cursor" style="display:none;"></span>
                 <br>
-                <a href="./assets/cv-alysson.pdf" download class="cv-btn"><i class="fas fa-file-download"></i> Download CV</a>
+                <div id="btn-container" style="display:none;">
+                    <a href="./assets/cv-alysson.pdf" download class="cv-btn"><i class="fas fa-file-download"></i> Download CV</a>
+                </div>
             </div>`;
 
-        // Ajuste 5: Nome com efeito de digitação encadeado
-        typeTerminal(document.getElementById('name-target'), "Alysson Felipe", 60, () => {
+        // Sequência Rigorosa: Nome -> Ads -> Ícones (um por um) -> Bio -> Botão
+        typeTerminal(document.getElementById('name-typing'), "Alysson Felipe", 60, () => {
             typeTerminal(document.getElementById('ads-target'), "> ADS | UI/UX Designer | IoT & IA", 25, () => {
-                typeTerminal(document.getElementById('bio-typing'), "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de IA e IoT para criar sistemas inteligentes.", 10);
+                
+                // Efeito de "digitação" (aparição sequencial) nos ícones
+                const showIcon = (id, delay, next) => {
+                    setTimeout(() => {
+                        const el = document.getElementById(id);
+                        el.style.opacity = "1";
+                        el.style.animation = "fadeIn 0.4s forwards";
+                        if(next) next();
+                    }, delay);
+                };
+
+                showIcon('s-1', 200, () => {
+                    showIcon('s-2', 200, () => {
+                        showIcon('s-3', 200, () => {
+                            // Após ícones, inicia a Bio
+                            document.getElementById('bio-cursor').style.display = 'inline-block';
+                            typeTerminal(document.getElementById('bio-typing'), "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de IA e IoT para criar sistemas inteligentes.", 10, () => {
+                                document.getElementById('btn-container').style.display = 'block';
+                                document.getElementById('btn-container').style.animation = 'fadeIn 0.5s forwards';
+                            });
+                        });
+                    });
+                });
             });
         });
     });
@@ -118,7 +141,7 @@ function openProject() {
     title.innerText = "alyssonfelipe@root: ~ (projects)";
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="proj-cmd"></span></div><div id="proj-res" style="margin-top:15px;"></div><span class="cursor"></span>`;
     typeTerminal(document.getElementById('proj-cmd'), "./list_projects.sh", 40, () => {
-        setTimeout(() => typeTerminal(document.getElementById('proj-res'), `>> FLOW HUB: <a href='https://flow-hub.shop' target='_blank' style='color:var(--accent)'>flow-hub.shop</a>`, 10), 100);
+        setTimeout(() => typeTerminal(document.getElementById('proj-res'), `>> FLOW HUB: <a href='https://flow-hub.shop' target='_blank' style='color:#22d3ee'>flow-hub.shop</a>`, 10), 100);
     });
 }
 
@@ -130,15 +153,12 @@ function openContact() {
     typeTerminal(document.getElementById('contact-cmd'), "./send_mail.sh", 40, () => {
         document.getElementById('contact-res').innerHTML = `
             <form id="email-form" action="https://formspree.io/f/xbdaajro" method="POST" class="terminal-form">
-                <p style="color:var(--accent); font-weight:bold; margin-bottom:15px;">[ FORMULÁRIO DE CONTATO DIRETO ]</p>
+                <p style="color:#22d3ee; font-weight:bold; margin-bottom:15px;">[ FORMULÁRIO DE CONTATO DIRETO ]</p>
                 <input type="text" name="_gotcha" style="display:none">
-                <label>NOME:</label>
-                <input type="text" name="name" class="terminal-input" placeholder="Seu nome" required>
-                <label>EMAIL:</label>
-                <input type="email" name="_replyto" class="terminal-input" placeholder="seu@email.com" required>
-                <label>MENSAGEM:</label>
-                <textarea name="message" class="terminal-input" rows="3" placeholder="Sua mensagem aqui..." required></textarea>
-                <button type="submit" class="terminal-btn">ENVIAR AGORA</button>
+                <input type="text" name="name" class="terminal-input" placeholder="SEU NOME" required>
+                <input type="email" name="_replyto" class="terminal-input" placeholder="SEU EMAIL" required>
+                <textarea name="message" class="terminal-input" rows="3" placeholder="SUA MENSAGEM..." required></textarea>
+                <button type="submit" class="terminal-btn">ENVIAR MENSAGEM</button>
             </form>
             <div id="success-output"></div>
         `;
@@ -152,6 +172,7 @@ function openContact() {
             const response = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
 
             if (response.ok) {
+                // ASCII RESTAURADO CONFORME SOLICITADO
                 const asciiArt = `<b>
       _____ _    _  _____ ______  _____ _____  ____  
      / ____| |  | |/ ____|  ____|/ ____/ ____|/ __ \\ 
@@ -173,7 +194,7 @@ function openContact() {
 
 function closeWin() { win.style.display = 'none'; }
 
-// Background Canvas
+// Background Canvas (Cores harmônicas com o novo degradê)
 const canvas = document.getElementById('neural-canvas');
 const ctx = canvas.getContext('2d');
 let pts = [];
@@ -182,7 +203,7 @@ window.addEventListener('resize', res);
 res();
 for(let i=0; i<30; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5});
 function anim() {
-    ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle = 'rgba(59,130,246,0.15)';
+    ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle = 'rgba(34,211,238,0.15)';
     pts.forEach(p => {
         p.x+=p.vx; p.y+=p.vy;
         if(p.x<0||p.x>canvas.width) p.vx*=-1; if(p.y<0||p.y>canvas.height) p.vy*=-1;
