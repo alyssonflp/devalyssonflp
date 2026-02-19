@@ -1,64 +1,69 @@
 :root {
     /* Modo Dark (Padrão) */
-    --bg-main: #050505;
+    --bg-site: #050505;
     --bg-window: rgba(15, 15, 15, 0.98);
+    --bg-dock: rgba(30, 30, 30, 0.8);
     --text-main: #ffffff;
-    --text-dim: #888888;
     --border: #333333;
+    --shadow: rgba(0,0,0,0.8);
 }
 
-/* Modo Light Automático (Detecta configuração do celular) */
 @media (prefers-color-scheme: light) {
     :root {
-        --bg-main: #f0f2f5;
-        --bg-window: rgba(255, 255, 255, 0.95);
+        --bg-site: #f0f2f5;
+        --bg-window: rgba(255, 255, 255, 0.98);
+        --bg-dock: rgba(220, 220, 220, 0.8);
         --text-main: #1a1a1a;
-        --text-dim: #555555;
-        --border: #cccccc;
+        --border: #dddddd;
+        --shadow: rgba(0,0,0,0.1);
     }
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 body { 
-    background: var(--bg-main); 
+    background-color: var(--bg-site) !important; 
     color: var(--text-main);
-    height: 100vh; width: 100vw; 
-    overflow: hidden; 
-    transition: background 0.3s ease;
+    height: 100vh; width: 100vw; overflow: hidden;
+    transition: all 0.3s ease;
 }
 
-/* JANELA TERMINAL */
+/* TERMINAL */
 .window {
     position: fixed; z-index: 2000; top: 45%; left: 50%;
     transform: translate(-50%, -50%); width: 92vw; max-width: 450px;
     min-height: 380px; background: var(--bg-window);
     border: 1px solid var(--border); border-radius: 12px; display: none;
-    flex-direction: column; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-    backdrop-filter: blur(10px);
+    flex-direction: column; box-shadow: 0 20px 50px var(--shadow);
 }
 
+/* BOTÕES DE FECHAR/MINIMIZAR (CORRIGIDOS) */
 .win-header { background: var(--border); padding: 12px; display: flex; align-items: center; border-radius: 12px 12px 0 0; }
 .dots { display: flex; gap: 8px; }
-.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot { width: 12px; height: 12px; border-radius: 50%; display: block !important; }
+.close { background: #ff5f56 !important; cursor: pointer; }
+.min { background: #ffbd2e !important; }
+.max { background: #27c93f !important; }
 
-.win-body { flex: 1; padding: 25px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 13px; }
-
-/* BIO: FOTO NA PASTA IMAGENS + INSTA GLOW */
-.insta-glow {
-    display: inline-block; padding: 4px; border-radius: 50%;
-    background: linear-gradient(45deg, #f09433, #dc2743, #bc1888);
-    margin-bottom: 10px;
+/* ASCII ART (TAMANHO AJUSTADO) */
+.ascii-art { 
+    font-size: 4px !important; /* Menor para não quebrar */
+    line-height: 1; 
+    color: #3b82f6; 
+    margin: 10px 0;
+    text-align: center;
 }
-.profile-img { 
-    width: 100px; height: 100px; border-radius: 50%; 
-    border: 3px solid var(--bg-window); object-fit: cover; 
-}
 
-/* DOCK FIXA */
+/* DOCK E ÍCONES COLORIDOS */
 .dock-wrap { position: fixed; bottom: 30px; width: 100%; display: flex; justify-content: center; z-index: 3000; }
 .dock { 
     display: flex; gap: 20px; padding: 12px 25px; 
-    background: rgba(120, 120, 120, 0.1); backdrop-filter: blur(20px); 
+    background: var(--bg-dock); backdrop-filter: blur(20px); 
     border-radius: 40px; border: 1px solid var(--border); 
 }
 .dock-i { font-size: 32px; cursor: pointer; transition: 0.2s; }
+
+/* Cores forçadas para os ícones */
+.text-blue-500 { color: #3b82f6 !important; }
+.text-purple-500 { color: #a855f7 !important; }
+.text-orange-500 { color: #f97316 !important; }
+.text-green-500 { color: #22c55e !important; }
