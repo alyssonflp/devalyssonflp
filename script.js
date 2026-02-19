@@ -66,18 +66,23 @@ function openBio() {
         document.getElementById('bio-res').innerHTML = `
             <div style="text-align:center; margin-top:20px;">
                 <h1 style="font-size: 24px; color: #3b82f6; font-weight: bold; margin-bottom: 5px;">Alysson Felipe</h1>
-                <p style="font-weight:bold; font-size:14px; margin-bottom:15px; color:#22d3ee;">> ADS | UI/UX Designer | IoT & IA</p>
-                <div style="text-align:left; opacity:0.9; margin-bottom: 20px; line-height: 1.5;">
-                    Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de tecnologia para criar sistemas inteligentes.
+                <p style="font-weight:bold; font-size:14px; margin-bottom:10px; color:#22d3ee;">> ADS | UI/UX Designer | IoT & IA</p>
+                
+                <div style="display: flex; justify-content: center; gap: 25px; margin-bottom: 15px;">
+                    <a href="https://github.com/alyssonflp" target="_blank" style="font-size: 22px; color: white;"><i class="fab fa-github"></i></a>
+                    <a href="https://linkedin.com/in/alyssonfelipe" target="_blank" style="font-size: 22px; color: white;"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://instagram.com/alysson.dev" target="_blank" style="font-size: 22px; color: white;"><i class="fab fa-instagram"></i></a>
                 </div>
-                <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
-                    <a href="https://github.com/alyssonflp" target="_blank" style="font-size: 20px; color: white;"><i class="fab fa-github"></i></a>
-                    <a href="https://linkedin.com/in/alyssonfelipe" target="_blank" style="font-size: 20px; color: white;"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://instagram.com/alysson.dev" target="_blank" style="font-size: 20px; color: white;"><i class="fab fa-instagram"></i></a>
+
+                <div style="text-align:left; opacity:0.9; margin-bottom: 25px; line-height: 1.5; font-size: 13px;">
+                    Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de tecnologia para criar sistemas inteligentes e interfaces funcionais.
                 </div>
-                <a href="./assets/cv-alysson.pdf" download style="padding: 8px 15px; border: 1px solid #3b82f6; color: #3b82f6; text-decoration: none; border-radius: 4px; font-size: 13px; font-weight: bold;">
-                    <i class="fas fa-file-download"></i> Download CV
-                </a>
+
+                <div style="display: flex; justify-content: center; width: 100%;">
+                    <a href="./assets/cv-alysson.pdf" download style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; border: 1px solid #3b82f6; color: #3b82f6; text-decoration: none; border-radius: 4px; font-size: 13px; font-weight: bold; transition: 0.3s;">
+                        CURRICULO.PDF <i class="fas fa-download"></i>
+                    </a>
+                </div>
             </div>`;
     });
 }
