@@ -4,7 +4,7 @@
     --bg-dock: rgba(25, 25, 25, 0.8);
     --text-main: #ffffff;
     --border: #333333;
-    --accent: #3b82f6; /* Azul Tech */
+    --accent: #3b82f6;
 }
 
 @media (prefers-color-scheme: light) {
@@ -31,7 +31,7 @@ body {
 .window {
     position: fixed; z-index: 2000; top: 45%; left: 50%;
     transform: translate(-50%, -50%); width: 92vw; max-width: 450px;
-    min-height: 400px; background: var(--bg-window);
+    min-height: 420px; background: var(--bg-window);
     border: 1px solid var(--border); border-radius: 12px; display: none;
     flex-direction: column; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
     backdrop-filter: blur(10px);
@@ -50,14 +50,14 @@ body {
 .insta-glow {
     display: inline-block; padding: 3px; border-radius: 50%;
     background: linear-gradient(45deg, #f09433, #dc2743, #bc1888);
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
-.profile-img { width: 85px; height: 85px; border-radius: 50%; border: 3px solid var(--bg-window); object-fit: cover; }
-.ascii-art { font-size: 4px !important; line-height: 1.1; color: var(--accent); margin: 10px 0; white-space: pre; text-align: center; font-weight: bold; }
+.profile-img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--bg-window); object-fit: cover; }
+.ascii-art { font-size: 5px !important; line-height: 1.2; color: var(--accent); margin: 5px 0; white-space: pre; text-align: center; font-weight: bold; }
 
 .dock-wrap { position: fixed; bottom: 30px; width: 100%; display: flex; justify-content: center; z-index: 3000; }
 .dock { 
-    display: flex; gap: 22px; padding: 12px 28px; 
+    display: flex; gap: 20px; padding: 12px 25px; 
     background: var(--bg-dock); backdrop-filter: blur(20px); 
     border-radius: 40px; border: 1px solid var(--border); 
 }
