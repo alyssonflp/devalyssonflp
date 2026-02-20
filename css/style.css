@@ -555,7 +555,14 @@ body {
     font-family: 'Courier New', monospace; 
 }
 
-
-
-
-
+/* Quando maximizada, ela deve ter um z-index menor que o do Dock (9999) */
+.is-maximized {
+    width: 100vw !important;
+    height: 100vh !important;
+    top: 0 !important;
+    left: 0 !important;
+    transform: none !important;
+    border-radius: 0 !important;
+    /* Z-index menor que o do Dock para permitir cliques embaixo */
+    z-index: 5000 !important; 
+}
