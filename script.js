@@ -2,7 +2,6 @@ const win = document.getElementById('main-terminal');
 const content = document.getElementById('content');
 const title = document.getElementById('win-title');
 
-// Inicialização
 window.onload = () => { 
     setTimeout(typePassword, 800); 
 };
@@ -18,9 +17,7 @@ function typePassword() {
         i++;
         if (i >= fullPass.length) {
             clearInterval(interval);
-            const status = document.getElementById('login-status');
             const loader = document.getElementById('boot-progress');
-            if (status) status.innerText = "Autenticando...";
             if (loader) {
                 let p = 0;
                 const t = setInterval(() => {
@@ -108,7 +105,7 @@ function openBio() {
                 <p style="text-align:left; opacity:0.8; margin: 20px 0; font-size:14px; line-height:1.6;">
                     Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de tecnologia para criar sistemas inteligentes e interfaces funcionais.
                 </p>
-                <a href="./assets/cv-alysson.pdf" download class="cv-btn" style="animation: slideUp 0.5s 0.8s ease forwards; opacity:0;">
+                <a href="./assets/cv-alysson.pdf" download class="cv-btn" style="animation: slideUp 0.5s 0.8s ease forwards; opacity:0; display:inline-flex;">
                     CURRÍCULO <i class="fas fa-download"></i>
                 </a>
             </div>`;
@@ -149,11 +146,13 @@ function openContact() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (mail_service)";
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="contact-cmd"></span></div><div id="contact-res"></div>`;
+    
     typeTerminal(document.getElementById('contact-cmd'), "./send_mail.sh", 40, () => {
         document.getElementById('contact-res').innerHTML = `
             <form id="email-form" action="https://formspree.io/f/xbdaajro" method="POST" style="display: flex; flex-direction: column; gap: 8px; margin-top: 15px;">
                 <input type="text" name="name" class="terminal-input" placeholder="Seu Nome" required>
                 <input type="email" name="email" class="terminal-input" placeholder="Seu E-mail" required>
+                <input type="text" name="_gotcha" class="h-pot">
                 <textarea name="message" class="terminal-input" placeholder="Sua Mensagem..." required style="height: 80px;"></textarea>
                 <button type="submit" class="terminal-btn">ENVIAR MENSAGEM</button>
             </form><div id="success-output"></div>`;
@@ -163,7 +162,14 @@ function openContact() {
             e.preventDefault();
             const response = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
             if (response.ok) {
-                document.getElementById('success-output').innerHTML = `<p style="color:var(--accent); margin-top:15px; font-weight:bold;">[ MENSAGEM ENVIADA COM SUCESSO ]</p>`;
+                const art = `<b>
+      _____ _    _  _____ ______  _____ _____  ____  
+     / ____| |  | |/ ____|  ____|/ ____/ ____|/ __ \\ 
+    | (___ | |  | | |    | |__  | (___| (___ | |  | |
+     \\___ \\| |  | | |    |  __|  \\___ \\\\___ \\| |  | |
+     ____) | |__| | |____| |____ ____) |___) | |__| |
+    |_____/ \\____/ \\_____|______|_____/_____/ \\____/ </b>`;
+                document.getElementById('success-output').innerHTML = `<pre style="color:var(--accent); margin-top:15px; font-size:10px; line-height:1;">${art}\n\n[ MENSAGEM ENVIADA COM SUCESSO ]</pre>`;
                 form.style.display = 'none';
             }
         };
