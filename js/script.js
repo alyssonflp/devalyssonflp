@@ -208,7 +208,9 @@ if (canvas) {
     anim();
             }
 
------------------------------
+// ---------------------------------------------------------
+// LÓGICA DE INTERAÇÃO SEPARADO
+
 const terminalWindow = document.querySelector('.window');
 const winHeader = document.querySelector('.win-header');
 const closeBtn = document.querySelector('.dot.close');
