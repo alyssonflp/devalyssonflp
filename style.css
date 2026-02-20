@@ -420,3 +420,60 @@ body {
     opacity: 0.5; 
     transition: opacity 1s; 
 }
+
+/* --- REGRA EXTRA: BOTÃO DOWNLOAD CENTRALIZADO --- */
+
+/* 1. Garante que o container do botão centralize o conteúdo */
+.reveal-hidden { 
+    display: none; 
+    width: 100%; 
+    justify-content: center; 
+    margin: 20px 0; 
+}
+
+.reveal-hidden.active { 
+    display: flex; 
+}
+
+/* 2. Estilo do botão e Animação idêntica aos links */
+.cv-btn { 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center;
+    gap: 10px; 
+    padding: 12px 30px; 
+    background: var(--accent); 
+    color: #ffffff !important; 
+    text-decoration: none; 
+    border-radius: 50px; 
+    font-weight: 700; 
+    font-size: 14px;
+    border: none; 
+    cursor: pointer; 
+    transition: 0.3s ease;
+    
+    /* Mesma animação dos links (slideDown) */
+    opacity: 0;
+    animation: slideDown 0.5s 0.8s ease forwards; /* Delay de 0.8s para vir após o Instagram */
+}
+
+/* 3. Efeito de hover suave */
+.cv-btn:hover { 
+    transform: translateY(-3px);
+    filter: brightness(1.1);
+    box-shadow: 0 10px 20px rgba(147, 51, 234, 0.3);
+}
+
+/* 4. Ajuste do ícone dentro do botão */
+.cv-btn i {
+    font-size: 18px;
+}
+
+
+
+
+
+
+
+
+
