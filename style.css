@@ -1,4 +1,4 @@
-/* 1. IMPORTAÇÃO DEFINITIVA (Pasta webfonts) */
+/* 1. IMPORTAÇÃO DEFINITIVA */
 @font-face {
     font-family: "Font Awesome Custom Brands";
     src: url('./webfonts/fa-brands-400.woff2') format('woff2');
@@ -77,7 +77,7 @@ body {
     transition: 0.3s;
 }
 
-/* Estrutura de Janela */
+/* Janela */
 .window { 
     position: fixed; z-index: 2000; top: 45%; left: 50%; transform: translate(-50%, -50%); 
     width: 94vw; max-width: 600px; height: 80vh; max-height: 520px; 
@@ -97,4 +97,103 @@ body {
 /* Bio Content */
 .bio-content { text-align: center; display: flex; flex-direction: column; align-items: center; }
 .main-name { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 5px; }
-.bio-description { text-align: left; opacity: 0.8; margin
+.bio-description { text-align: left; opacity: 0.8; margin: 10px 0; font-size: 14px; width: 100%; }
+
+/* Botões Sociais e CV */
+.social-links { margin: 15px 0; display: flex; justify-content: center; gap: 15px; width: 100%; }
+
+.social-icon, .cv-btn { 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 10px 20px; 
+    color: #fff !important; 
+    text-decoration: none; 
+    font-weight: 600; 
+    cursor: pointer; 
+    transition: 0.3s; 
+    font-size: 14px;
+    opacity: 0;
+    border: none !important; /* Força remoção de bordas */
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.cv-btn { background: var(--accent); border-radius: 50px; gap: 10px; }
+.social-icon { width: 45px; height: 45px; padding: 0; font-size: 20px; border-radius: 50%; }
+
+/* Cores de Fundo (Sem vazamento de borda rosa) */
+.fa-github { background-color: #333 !important; } 
+.fa-linkedin { background-color: #0077b5 !important; } 
+.fa-instagram { background-color: #E1306C !important; }
+
+#cv-area { display: none; width: 100%; justify-content: center; margin-top: 5px; }
+#cv-area.active { display: flex; }
+
+.social-icon:hover, .cv-btn:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3) !important;
+}
+
+/* --- FORMULÁRIO DE E-MAIL --- */
+.contact-form { display: flex; flex-direction: column; gap: 12px; width: 100%; margin-top: 10px; border: none; }
+.contact-form input, .contact-form textarea {
+    width: 100%; 
+    padding: 14px; 
+    background: rgba(255,255,255,0.05); 
+    border: none; /* Remove a linha/borda */
+    border-radius: 15px; 
+    color: #fff;
+    font-family: inherit; 
+    outline: none;
+}
+/* Linha de foco sutil apenas no fundo, sem borda */
+.contact-form input:focus, .contact-form textarea:focus {
+    background: rgba(255,255,255,0.1);
+}
+.contact-form textarea { height: 90px; resize: none; }
+
+.terminal-btn { 
+    background: var(--accent); 
+    color: #fff; 
+    border: none; 
+    padding: 14px; 
+    border-radius: 15px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    transition: 0.3s; 
+    width: 100%;
+}
+
+/* --- ORDEM DAS ANIMAÇÕES (Atrasadas) --- */
+/* O conteúdo da bio entra primeiro, depois os links */
+.social-github { animation: slideUp 0.6s 0.8s forwards; }
+.social-linkedin { animation: slideUp 0.6s 1.0s forwards; }
+.social-instagram { animation: slideUp 0.6s 1.2s forwards; }
+.cv-btn { animation: slideUp 0.6s 1.4s forwards; }
+
+@keyframes slideUp { 
+    from { opacity: 0; transform: translateY(20px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
+
+/* Telas de Sistema */
+#login-screen { position: fixed; inset: 0; z-index: 5000; background: var(--bg-login); display: flex; align-items: center; justify-content: center; transition: 0.5s; }
+.login-box { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 320px; }
+.login-avatar { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--accent); margin-bottom: 12px; object-fit: cover; }
+.login-username { font-size: 18px; font-weight: 600; margin-bottom: 15px; }
+.login-field { background: rgba(128, 128, 128, 0.1); border-radius: 30px; padding: 8px 15px; width: 160px; border: 1px solid var(--border); margin-bottom: 15px; }
+.login-field input { background: transparent; border: none; color: var(--text-main); text-align: center; letter-spacing: 4px; outline: none; font-size: 16px; width: 100%; }
+.boot-loader-container { width: 120px; height: 3px; background: rgba(128,128,128,0.2); border-radius: 10px; overflow: hidden; }
+.boot-loader-bar { width: 0%; height: 100%; background: var(--accent); transition: 0.1s linear; }
+
+#hello-screen { position: fixed; inset: 0; z-index: 4500; background: var(--bg-hello); display: none; align-items: center; justify-content: center; opacity: 0; transition: 0.5s; }
+.hello-ascii { font-family: 'Courier New', monospace; font-size: clamp(6px, 1.4vw, 11px); color: var(--text-hello); text-align: center; white-space: pre; font-weight: bold; }
+
+/* Dock & Canvas */
+.dock-wrap { position: fixed; bottom: 20px; width: 100%; display: flex; justify-content: center; z-index: 3000; transition: 0.5s; opacity: 0; }
+.dock { display: flex; gap: 15px; padding: 10px 20px; background: var(--bg-dock); border-radius: 40px; border: 1px solid var(--border); backdrop-filter: blur(20px); }
+.dock-i { font-size: 28px; cursor: pointer; transition: 0.2s; }
+.dock-i:hover { transform: scale(1.2) translateY(-5px); }
+#neural-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.5; }
