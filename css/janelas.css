@@ -1,30 +1,43 @@
-/* FORÇAR TEMA ESCURO E FUNDO PRETO DESDE O INÍCIO */
+/* RESET E FUNDO ABSOLUTO */
 html, body {
     background-color: #000 !important;
-    color-scheme: dark;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
-/* O TERMINAL: Arredondado e com efeito de vidro */
+/* O TERMINAL (CORREÇÃO DAS QUINAS E CORES) */
 #main-terminal {
-    position: absolute;
-    background: rgba(10, 10, 10, 0.9) !important;
-    backdrop-filter: blur(15px);
-    border-radius: 12px !important; /* Aqui volta o arredondamento */
+    background: rgba(13, 13, 13, 0.95) !important;
+    backdrop-filter: blur(10px);
+    
+    /* BORDAS ARREDONDADAS - O SEGREDO É O OVERFLOW HIDDEN */
+    border-radius: 12px !important;
+    overflow: hidden !important; 
+    
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    overflow: hidden !important; /* Garante que o conteúdo não saia do arredondamento */
-    display: none; /* Deixa o script.js controlar quando ele aparece */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8) !important;
+    
+    /* PREPARAÇÃO PARA O JS */
+    display: none; 
+    flex-direction: column;
 }
 
-/* CABEÇALHO DO TERMINAL */
+/* CABEÇALHO ESCURO */
 .win-header {
     background: #1a1a1a !important;
-    height: 35px;
+    padding: 10px 15px;
     display: flex;
     align-items: center;
-    padding: 0 12px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     cursor: grab;
 }
 
-.win-header:active { cursor: grabbing; }
+/* CORPO DO TERMINAL (ONDE O TEXTO APARECE) */
+#content {
+    padding: 15px;
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    overflow-y: auto;
+    background: transparent !important;
+}
