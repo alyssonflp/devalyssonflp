@@ -207,3 +207,96 @@ if (canvas) {
     }
     anim();
     }
+
+// Seleção de elementos
+const terminal = document.getElementById('main-terminal');
+const winHeader = terminal.querySelector('.win-header');
+const btnClose = terminal.querySelector('.dot.close');
+const btnMax = terminal.querySelector('.dot.max');
+
+// --- 1. FUNÇÃO PARA ARRASTAR (DRAG AND DROP) ---
+let isDragging = false;
+let offset = { x: 0, y: 0 };
+
+winHeader.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    // Calcula a distância entre o clique e o canto da janela
+    offset.x = e.clientX - terminal.offsetLeft;
+    offset.y = e.clientY - terminal.offsetTop;
+    winHeader.style.cursor = 'grabbing';
+});
+
+document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+
+    // Calcula a nova posição
+    let left = e.clientX - offset.x;
+    let top = e.clientY - offset.y;
+
+    // Aplica a posição (remove o transform translate de 50% para não bugar)
+    terminal.style.transform = 'none';
+    terminal.style.left = `${left}px`;
+    terminal.style.top = `${top}px`;
+});
+
+document.addEventListener('mouseup', () => {
+    isDragging = false;
+    winHeader.style.cursor = 'grab';
+});
+
+// --- 2. BOTÃO FECHAR ---
+btnClose.onclick = () => {
+    terminal.style.display = 'none';
+    // Opcional: Reaparecer o ícone no dock se estiver usando sistema de minimizar
+};
+
+// --- 3. BOTÃO MAXIMIZAR ---
+let isMaximized = false;
+let originalPos = { width: '', height: '', top: '', left: '', transform: '' };
+
+btnMax.onclick = () => {
+    if (!isMaximized) {
+        // Salva estado original
+        originalPos.width = terminal.style.width;
+        originalPos.height = terminal.style.height;
+        originalPos.top = terminal.style.top;
+        originalPos.left = terminal.style.left;
+        originalPos.transform = terminal.style.transform;
+
+        // Aplica tela cheia
+        terminal.style.width = '100vw';
+        terminal.style.height = '100vh';
+        terminal.style.top = '0';
+        terminal.style.left = '0';
+        terminal.style.transform = 'none';
+        terminal.style.borderRadius = '0';
+    } else {
+        // Restaura estado original
+        terminal.style.width = originalPos.width;
+        terminal.style.height = originalPos.height;
+        terminal.style.top = originalPos.top;
+        terminal.style.left = originalPos.left;
+        terminal.style.transform = originalPos.transform;
+        terminal.style.borderRadius = '35px'; // Sua borda do CSS
+    }
+    isMaximized = !isMaximized;
+};
+
+// --- 4. SUPORTE PARA TOUCH (CELULAR) ---
+winHeader.addEventListener('touchstart', (e) => {
+    const touch = e.touches[0];
+    isDragging = true;
+    offset.x = touch.clientX - terminal.offsetLeft;
+    offset.y = touch.clientY - terminal.offsetTop;
+}, { passive: true });
+
+document.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    const touch = e.touches[0];
+    terminal.style.transform = 'none';
+    terminal.style.left = `${touch.clientX - offset.x}px`;
+    terminal.style.top = `${touch.clientY - offset.y}px`;
+}, { passive: true });
+
+document.addEventListener('touchend', () => { isDragging = false; });
+
