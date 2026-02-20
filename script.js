@@ -84,7 +84,7 @@ function openBio() {
 
         typeTerminal(document.getElementById('type-name'), "Alysson Felipe", 50, () => {
             typeTerminal(document.getElementById('type-ads'), "> ADS | UI/UX Designer | IoT & IA", 30, () => {
-                const descText = "Acadêmico em Análise e Desenvolvimento de Sistemas com bagagem em Design Gráfico e interfaces digitais, unindo estética e funcionalidade, desenvolvo soluções que vão do front-end intuitivo à inteligência de sistemas embarcados.";
+                const descText = "Acadêmico em Análise e Desenvolvimento de Sistemas com bagagem em Design Gráfico e interfaces digitais. Unindo estética e funcionalidade, desenvolvo soluções que vão do front-end intuitivo à inteligência de sistemas embarcados.";
                 typeTerminal(document.getElementById('type-desc'), descText, 10, () => {
                     const sArea = document.getElementById('social-area');
                     const cArea = document.getElementById('cv-area');
