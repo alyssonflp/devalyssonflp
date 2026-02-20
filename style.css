@@ -1,4 +1,4 @@
-/* 1. IMPORTAÇÃO DEFINITIVA */
+/* 1. IMPORTAÇÃO DEFINITIVA (Pasta webfonts) */
 @font-face {
     font-family: "Font Awesome Custom Brands";
     src: url('./webfonts/fa-brands-400.woff2') format('woff2');
@@ -65,7 +65,7 @@
     }
 }
 
-/* Reset */
+/* Reset Geral */
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
 body { 
@@ -77,7 +77,7 @@ body {
     transition: 0.3s;
 }
 
-/* Window */
+/* Estrutura de Janela */
 .window { 
     position: fixed; z-index: 2000; top: 45%; left: 50%; transform: translate(-50%, -50%); 
     width: 94vw; max-width: 600px; height: 80vh; max-height: 520px; 
@@ -96,85 +96,5 @@ body {
 
 /* Bio Content */
 .bio-content { text-align: center; display: flex; flex-direction: column; align-items: center; }
-.main-name { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.bio-description { text-align: left; opacity: 0.8; margin: 10px 0; font-size: 14px; width: 100%; }
-
-/* Botões e Ícones da Bio */
-.social-links { margin: 15px 0; display: flex; justify-content: center; gap: 15px; width: 100%; }
-
-.social-icon, .cv-btn { 
-    display: inline-flex; 
-    align-items: center; 
-    justify-content: center; 
-    gap: 10px; 
-    padding: 10px 20px; 
-    background: var(--accent); 
-    color: #fff !important; 
-    text-decoration: none; 
-    border-radius: 50px; 
-    font-weight: 600; 
-    cursor: pointer; 
-    transition: 0.3s; 
-    font-size: 14px;
-    opacity: 0;
-}
-
-.social-icon { width: 45px; height: 45px; padding: 0; font-size: 20px; }
-.fa-github { background: #333; } 
-.fa-linkedin { background: #0077b5; } 
-.fa-instagram { background: #E1306C; }
-
-#cv-area { display: none; width: 100%; justify-content: center; margin-top: 10px; }
-#cv-area.active { display: flex; }
-
-.social-icon:hover, .cv-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(147, 51, 234, 0.4);
-}
-
-/* --- FIX: FORMULÁRIO DE E-MAIL --- */
-.contact-form { display: flex; flex-direction: column; gap: 12px; width: 100%; margin-top: 10px; }
-.contact-form input, .contact-form textarea {
-    width: 100%; padding: 12px; background: rgba(255,255,255,0.05); 
-    border: 1px solid var(--border); border-radius: 12px; color: #fff;
-    font-family: inherit; outline: none;
-}
-.contact-form textarea { height: 80px; resize: none; }
-
-/* Botão do Form (Independente) */
-.terminal-btn { 
-    background: var(--accent); color: #fff; border: none; 
-    padding: 12px; border-radius: 12px; font-weight: bold; 
-    cursor: pointer; transition: 0.3s; width: 100%;
-}
-.terminal-btn:hover { filter: brightness(1.2); }
-
-/* Animações */
-.social-github { animation: slideUp 0.6s 0.2s forwards; }
-.social-linkedin { animation: slideUp 0.6s 0.4s forwards; }
-.social-instagram { animation: slideUp 0.6s 0.6s forwards; }
-.cv-btn { animation: slideUp 0.6s 0.8s forwards; }
-
-@keyframes slideUp { 
-    from { opacity: 0; transform: translateY(30px); } 
-    to { opacity: 1; transform: translateY(0); } 
-}
-
-/* Dock */
-.dock-wrap { position: fixed; bottom: 20px; width: 100%; display: flex; justify-content: center; z-index: 3000; transition: 0.5s; opacity: 0; }
-.dock { display: flex; gap: 15px; padding: 10px 20px; background: var(--bg-dock); border-radius: 40px; border: 1px solid var(--border); backdrop-filter: blur(20px); }
-.dock-i { font-size: 28px; cursor: pointer; transition: 0.2s; }
-.dock-i:hover { transform: scale(1.2) translateY(-5px); }
-
-/* Canvas & Telas de fundo (Login/Hello) omitidas aqui por brevidade, mas devem ser mantidas do código anterior */
-#login-screen { position: fixed; inset: 0; z-index: 5000; background: var(--bg-login); display: flex; align-items: center; justify-content: center; transition: 0.5s; }
-.login-box { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 320px; }
-.login-avatar { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--accent); margin-bottom: 12px; object-fit: cover; }
-.login-username { font-size: 18px; font-weight: 600; margin-bottom: 15px; }
-.login-field { background: rgba(128, 128, 128, 0.1); border-radius: 30px; padding: 8px 15px; width: 160px; border: 1px solid var(--border); margin-bottom: 15px; }
-.login-field input { background: transparent; border: none; color: var(--text-main); text-align: center; letter-spacing: 4px; outline: none; font-size: 16px; width: 100%; }
-.boot-loader-container { width: 120px; height: 3px; background: rgba(128,128,128,0.2); border-radius: 10px; overflow: hidden; }
-.boot-loader-bar { width: 0%; height: 100%; background: var(--accent); transition: 0.1s linear; }
-#hello-screen { position: fixed; inset: 0; z-index: 4500; background: var(--bg-hello); display: none; align-items: center; justify-content: center; opacity: 0; transition: 0.5s; }
-.hello-ascii { font-family: 'Courier New', monospace; font-size: clamp(6px, 1.4vw, 11px); color: var(--text-hello); text-align: center; white-space: pre; font-weight: bold; }
-#neural-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.5; }
+.main-name { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 5px; }
+.bio-description { text-align: left; opacity: 0.8; margin
