@@ -112,33 +112,17 @@ body {
 .bio-content { text-align: center; margin-top: 10px; display: flex; flex-direction: column; align-items: center; }
 .main-name { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; min-height: 40px; }
 .ads-text { font-weight: bold; color: var(--text-sub) !important; margin-bottom: 5px; min-height: 20px; }
-.bio-description { text-align: left; opacity: 0.8; margin: 20px 0; font-size: 14px; line-height: 1.6; min-height: 50px; width: 100%; }
+.bio-description { text-align: left; opacity: 0.8; margin: 10px 0; font-size: 14px; line-height: 1.6; min-height: 30px; width: 100%; }
 
-/* Social Links */
-.social-links { margin: 15px 0; display: flex; justify-content: center; gap: 20px; min-height: 40px; }
-.social-icon { font-size: 24px; transition: 0.3s; opacity: 0; }
-.fa-github { color: var(--text-main); } 
-.fa-linkedin { color: #0077b5; } 
-.fa-instagram { color: #E1306C; }
+/* Social Links & Buttons Styling */
+.social-links { margin: 15px 0; display: flex; justify-content: center; gap: 15px; min-height: 45px; width: 100%; }
 
-/* Buttons & CV Area */
-#cv-area {
-    display: none; /* Controlado pela classe active no JS */
-    width: 100%;
-    justify-content: center;
-    margin-top: 15px;
-}
-
-#cv-area.active {
-    display: flex;
-}
-
-.cv-btn, .terminal-btn { 
+.social-icon, .cv-btn, .terminal-btn { 
     display: inline-flex; 
     align-items: center; 
     justify-content: center; 
     gap: 10px; 
-    padding: 12px 30px; 
+    padding: 10px 20px; 
     background: var(--accent); 
     color: #fff !important; 
     text-decoration: none; 
@@ -146,19 +130,55 @@ body {
     font-weight: 600; 
     border: none; 
     cursor: pointer; 
-    transition: 0.3s; 
+    transition: transform 0.3s, background 0.3s, box-shadow 0.3s; 
     font-size: 14px;
+    opacity: 0; /* Começa invisível para a animação */
 }
-.terminal-btn { width: 100%; max-width: 200px; }
 
-/* Animations & Utility */
-.reveal-hidden { opacity: 0; transform: translateY(10px); transition: 0.5s; }
-.reveal-hidden.active { opacity: 1; transform: translateY(0); }
-.social-github { animation: slideDown 0.5s 0.2s forwards; }
-.social-linkedin { animation: slideDown 0.5s 0.4s forwards; }
-.social-instagram { animation: slideDown 0.5s 0.6s forwards; }
+/* Efeito de Hover */
+.social-icon:hover, .cv-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(147, 51, 234, 0.4);
+    filter: brightness(1.1);
+}
 
-@keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+/* Estilo Ícones Sociais */
+.social-icon { width: 45px; height: 45px; padding: 0; font-size: 20px; }
+.fa-github { background: #333; } 
+.fa-linkedin { background: #0077b5; } 
+.fa-instagram { background: #E1306C; }
+
+/* CV Area (Download) */
+#cv-area {
+    display: none;
+    width: 100%;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+#cv-area.active {
+    display: flex;
+}
+
+.cv-btn {
+    animation: slideUp 0.6s 0.8s ease-out forwards; /* Aparece por último */
+}
+
+/* Animações de Entrada (Baixo para Cima) */
+.social-github { animation: slideUp 0.6s 0.2s ease-out forwards; }
+.social-linkedin { animation: slideUp 0.6s 0.4s ease-out forwards; }
+.social-instagram { animation: slideUp 0.6s 0.6s ease-out forwards; }
+
+@keyframes slideUp { 
+    from { 
+        opacity: 0; 
+        transform: translateY(30px); 
+    } 
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    } 
+}
 
 /* Dock */
 .dock-wrap { position: fixed; bottom: 20px; width: 100%; display: flex; justify-content: center; z-index: 3000; transition: 0.5s; opacity: 0; }
