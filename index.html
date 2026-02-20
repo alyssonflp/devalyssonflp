@@ -11,51 +11,38 @@
 <body>
     <div id="login-screen">
         <div class="login-box">
-            <div class="login-avatar-wrapper">
-                <img src="./imagens/alysson.png" class="login-avatar" alt="Alysson" onerror="this.src='https://ui-avatars.com/api/?name=Alysson+Felipe&background=9333ea&color=fff';">
-            </div>
+            <img src="./imagens/alysson.png" class="login-avatar" alt="Alysson" onerror="this.src='https://ui-avatars.com/api/?name=Alysson+Felipe&background=9333ea&color=fff';">
             <h2 class="login-username">alyssonfelipe</h2>
-            <div class="login-field">
-                <input type="password" id="pass-input" readonly>
-            </div>
-            <div class="boot-loader-container">
-                <div id="boot-progress" class="boot-loader-bar"></div>
-            </div>
-            <div id="login-status" style="margin-top:10px; font-size:12px; opacity:0.6; text-align:center;">Aguardando...</div>
+            <div class="login-field"><input type="password" id="pass-input" readonly></div>
+            <div class="boot-loader-container"><div id="boot-progress" class="boot-loader-bar"></div></div>
         </div>
     </div>
 
-    <div id="hello-screen">
-        <pre class="hello-ascii">
+    <div id="hello-screen"><pre class="hello-ascii">
  _   _      _ _         __      __         _     _ 
 | | | | ___| | | ___    \ \    / /__  _ __| | __| |
 | |_| |/ _ \ | |/ _ \    \ \/\/ / _ \| '__| |/ _` |
 |  _  |  __/ | | (_) |    \  /\  (_) | |  | | (_| |
 |_| |_|\___|_|_|\___/      \/  \___/|_|  |_|\__,_|
-        </pre>
-    </div>
+    </pre></div>
 
     <canvas id="neural-canvas"></canvas>
 
     <div id="main-terminal" class="window">
         <div class="win-header">
-            <div class="dots">
-                <div class="dot close" onclick="closeWin()"></div>
-                <div class="dot min"></div>
-                <div class="dot max"></div>
-            </div>
+            <div class="dots"><div class="dot close" onclick="closeWin()"></div><div class="dot min"></div><div class="dot max"></div></div>
             <span id="win-title">alyssonfelipe@root:~</span>
         </div>
         <div class="win-body" id="content"></div>
     </div>
 
-    <div class="dock-wrap" id="dock-main" style="display: none; opacity: 0;">
+    <div class="dock-wrap" id="dock-main">
         <nav class="dock">
-            <div class="dock-i text-purple-500" onclick="openBio()" title="Bio"><i class="fas fa-user-circle"></i></div>
-            <div class="dock-i text-purple-400" onclick="openEdu()" title="Educação"><i class="fas fa-graduation-cap"></i></div>
-            <div class="dock-i text-purple-300" onclick="openExp()" title="Experiência"><i class="fas fa-briefcase"></i></div>
-            <div class="dock-i text-white" onclick="openProject()" title="Projetos"><i class="fas fa-code"></i></div>
-            <div class="dock-i text-red-500" onclick="openContact()" title="Enviar E-mail"><i class="fas fa-envelope"></i></div>
+            <div class="dock-i text-blue-500" onclick="openBio()"><i class="fas fa-user-circle"></i></div>
+            <div class="dock-i text-purple-500" onclick="openEdu()"><i class="fas fa-graduation-cap"></i></div>
+            <div class="dock-i text-yellow-500" onclick="openExp()"><i class="fas fa-briefcase"></i></div>
+            <div class="dock-i text-orange-500" onclick="openProject()"><i class="fas fa-code"></i></div>
+            <div class="dock-i text-red-500" onclick="openContact()"><i class="fas fa-envelope"></i></div>
             <a href="https://wa.me/5541999207848" target="_blank" class="dock-i text-green-500"><i class="fab fa-whatsapp"></i></a>
         </nav>
     </div>
