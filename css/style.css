@@ -49,15 +49,25 @@
 }
 
 @media (prefers-color-scheme: light) {
-    :root {
-        /* MODO CLARO AMIGÁVEL */
-        --bg-site: #f0f0f0;
-        --bg-window: rgba(255, 255, 255, 0.92);
-        --text-terminal: #1a1a1a; /* Texto fica escuro no modo claro */
-        --text-title: rgba(0, 0, 0, 0.6);
-        --border: rgba(0, 0, 0, 0.1);
-        --accent: #7e22ce;
-        --dock-bg: rgba(240, 240, 240, 0.8);
+    .window {
+        /* Uma sombra mais suave e espalhada para destacar as quinas no fundo cinza */
+        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1) !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .win-header {
+        /* Dá um leve destaque na barra superior no modo claro */
+        background: rgba(0, 0, 0, 0.03) !important;
+    }
+
+    #win-title {
+        color: var(--text-title) !important;
+    }
+    
+    /* Garante que os ícones do dock fiquem visíveis no fundo claro */
+    .dock {
+        background: rgba(255, 255, 255, 0.7) !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
     }
 }
 
