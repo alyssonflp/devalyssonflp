@@ -497,8 +497,14 @@ body {
 .min   { background-color: #ffbd2e !important; } 
 .max   { background-color: #27c93f !important; }
 
+/* Transição suave para todas as mudanças de estilo na janela */
+.window {
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
 
-
-
-
-
+/* Classe que será aplicada via JS para o efeito de encolher */
+.window-minimized {
+    opacity: 0 !important;
+    transform: translate(-50%, 20%) scale(0.1) !important;
+    pointer-events: none;
+}
