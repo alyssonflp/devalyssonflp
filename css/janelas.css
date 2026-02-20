@@ -1,43 +1,28 @@
-/* CONFIGURAÇÃO DE CAMADAS (Z-INDEX) */
+/* AJUSTE DE DESIGN - ALYSSON OS */
 
-/* Garante que o terminal sempre fique acima do fundo e do hello-screen */
 #main-terminal {
     position: absolute;
-    z-index: 100 !important; /* Valor alto para ficar na frente de tudo */
-    display: none; /* Começa escondido para o script.js mostrar após o boot */
-    background: rgba(0, 0, 0, 0.9);
-    border: 1px solid #444;
-    border-radius: 8px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    /* Força o arredondamento e remove bordas brancas */
+    border-radius: 12px !important;
+    overflow: hidden !important; 
+    background-color: rgba(0, 0, 0, 0.85) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
     
-    /* Habilita o redimensionamento */
-    resize: both;
-    overflow: hidden;
+    /* Remove sombras ou contornos indesejados */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+    outline: none !important;
 }
 
-/* O Preloader e o Hello Screen devem sumir após o carregamento */
-#login-screen, #hello-screen {
-    position: fixed;
-    inset: 0;
-    z-index: 200; /* Fica na frente de tudo durante o boot */
-    background: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.5s ease;
-}
-
-/* Área de arraste do terminal */
+/* Garante que o cabeçalho mantenha o design */
 .win-header {
-    height: 35px;
-    background: #333;
-    cursor: grab; /* Indica que pode ser arrastado */
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    user-select: none;
+    background: #1a1a1a !important; /* Cor escura do cabeçalho */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
 }
 
-.win-header:active {
-    cursor: grabbing;
+/* Corrige o "piscar branco" */
+body {
+    background-color: black !important;
 }
