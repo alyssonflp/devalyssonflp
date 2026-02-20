@@ -67,14 +67,15 @@ function openBio() {
     
     typeTerminal(document.getElementById('bio-cmd'), "./profile.sh", 50, () => {
         const res = document.getElementById('bio-res');
+        // Usamos template literals para organizar o HTML
         res.innerHTML = `
             <div class="bio-content">
                 <h1 id="type-name" class="main-name"></h1>
                 <p id="type-ads" class="ads-text"></p>
                 <div id="social-area" class="social-links reveal-hidden">
-                    <a href="https://github.com/alyssonflp" target="_blank" class="social-icon fa-github social-github"><i class="fab fa-github"></i></a>
-                    <a href="https://linkedin.com/in/alyssonfelipe" target="_blank" class="social-icon fa-linkedin social-linkedin"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://instagram.com/alysson.dev" target="_blank" class="social-icon fa-instagram social-instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://github.com/alyssonflp" target="_blank" class="social-icon social-github"><i class="fab fa-github"></i></a>
+                    <a href="https://linkedin.com/in/alyssonfelipe" target="_blank" class="social-icon social-linkedin"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://instagram.com/alysson.dev" target="_blank" class="social-icon social-instagram"><i class="fab fa-instagram"></i></a>
                 </div>
                 <p id="type-desc" class="bio-description"></p>
                 <div id="cv-area" class="reveal-hidden">
@@ -86,8 +87,11 @@ function openBio() {
             typeTerminal(document.getElementById('type-ads'), "> ADS | UI/UX Designer | IoT & IA", 30, () => {
                 const descText = "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de tecnologia para criar sistemas inteligentes e interfaces funcionais.";
                 typeTerminal(document.getElementById('type-desc'), descText, 10, () => {
-                    document.getElementById('social-area').classList.add('active');
-                    document.getElementById('cv-area').classList.add('active');
+                    // Revela ícones e botão de CV após a digitação
+                    const sArea = document.getElementById('social-area');
+                    const cArea = document.getElementById('cv-area');
+                    if(sArea) sArea.classList.add('active');
+                    if(cArea) cArea.classList.add('active');
                 });
             });
         });
@@ -156,19 +160,34 @@ function openContact() {
 
 function closeWin() { win.style.display = 'none'; }
 
+// Sistema de Partículas Neural Canvas
 const canvas = document.getElementById('neural-canvas');
 if (canvas) {
     const ctx = canvas.getContext('2d');
     let pts = [];
     const res = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
     window.addEventListener('resize', res); res();
-    for(let i=0; i<30; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5});
+    
+    for(let i=0; i<30; i++) pts.push({
+        x: Math.random()*canvas.width, 
+        y: Math.random()*canvas.height, 
+        vx: (Math.random()-0.5)*0.5, 
+        vy: (Math.random()-0.5)*0.5
+    });
+
     function anim() {
-        ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle = 'rgba(147, 51, 234, 0.15)';
+        // Pega a cor do sotaque do CSS dinamicamente
+        const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#9333ea';
+        ctx.clearRect(0,0,canvas.width,canvas.height); 
+        ctx.fillStyle = accentColor + '26'; // Adiciona transparência (26 hex = aprox 15%)
+        
         pts.forEach(p => {
             p.x+=p.vx; p.y+=p.vy;
-            if(p.x<0||p.x>canvas.width) p.vx*=-1; if(p.y<0||p.y>canvas.height) p.vy*=-1;
-            ctx.beginPath(); ctx.arc(p.x,p.y,2,0,Math.PI*2); ctx.fill();
+            if(p.x<0||p.x>canvas.width) p.vx*=-1; 
+            if(p.y<0||p.y>canvas.height) p.vy*=-1;
+            ctx.beginPath(); 
+            ctx.arc(p.x, p.y, 2, 0, Math.PI*2); 
+            ctx.fill();
         });
         requestAnimationFrame(anim);
     }
