@@ -1,9 +1,14 @@
+// script.js
+import { profileData } from './data.js';
+
 const win = document.getElementById('main-terminal');
 const content = document.getElementById('content');
 const title = document.getElementById('win-title');
 
+// Inicialização
 window.onload = () => { setTimeout(typePassword, 800); };
 
+// Funções de Boot (Senha e Loader)
 function typePassword() {
     const passInput = document.getElementById('pass-input');
     const fullPass = "********";
@@ -46,6 +51,7 @@ function startBoot() {
     }, 500);
 }
 
+// Mecanismo de Digitação
 function typeTerminal(element, html, speed, callback) {
     if (!element) return;
     let i = 0; element.innerHTML = "";
@@ -60,6 +66,7 @@ function typeTerminal(element, html, speed, callback) {
     }, speed);
 }
 
+// Renderização de Telas (Usando profileData)
 function openBio() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (profile)";
@@ -72,24 +79,21 @@ function openBio() {
                 <h1 id="type-name" class="main-name"></h1>
                 <p id="type-ads" class="ads-text"></p>
                 <div id="social-area" class="social-links reveal-hidden">
-                    <a href="https://github.com/alyssonflp" target="_blank" class="social-icon social-github"><i class="fab fa-github"></i></a>
-                    <a href="https://linkedin.com/in/alyssonfelipe" target="_blank" class="social-icon social-linkedin"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://instagram.com/alysson.flp" target="_blank" class="social-icon social-instagram"><i class="fab fa-instagram"></i></a>
+                    ${profileData.bio.social.map(s => `
+                        <a href="${s.url}" target="_blank" class="social-icon ${s.class}"><i class="${s.icon}"></i></a>
+                    `).join('')}
                 </div>
                 <p id="type-desc" class="bio-description"></p>
                 <div id="cv-area" class="reveal-hidden">
-                    <a href="./assets/cv-alysson.pdf" download class="cv-btn">CURRÍCULO <i class="fas fa-download"></i></a>
+                    <a href="${profileData.bio.cvPath}" download class="cv-btn">CURRÍCULO <i class="fas fa-download"></i></a>
                 </div>
             </div>`;
 
-        typeTerminal(document.getElementById('type-name'), "Alysson Felipe", 50, () => {
-            typeTerminal(document.getElementById('type-ads'), "> ADS | UI/UX Designer | IoT & IA", 30, () => {
-                const descText = "Acadêmico em Análise e Desenvolvimento de Sistemas com bagagem em Design Gráfico e interfaces digitais. Unindo estética e funcionalidade, desenvolvo soluções que vão do front-end intuitivo à inteligência de sistemas embarcados.";
-                typeTerminal(document.getElementById('type-desc'), descText, 10, () => {
-                    const sArea = document.getElementById('social-area');
-                    const cArea = document.getElementById('cv-area');
-                    if(sArea) sArea.classList.add('active');
-                    if(cArea) cArea.classList.add('active');
+        typeTerminal(document.getElementById('type-name'), profileData.bio.name, 50, () => {
+            typeTerminal(document.getElementById('type-ads'), profileData.bio.tagline, 30, () => {
+                typeTerminal(document.getElementById('type-desc'), profileData.bio.description, 10, () => {
+                    document.getElementById('social-area')?.classList.add('active');
+                    document.getElementById('cv-area')?.classList.add('active');
                 });
             });
         });
@@ -100,9 +104,8 @@ function openEdu() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (education)";
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="edu-cmd"></span></div><div id="edu-res" style="margin-top:15px; white-space: pre-wrap;"></div>`;
-    const data = `<strong>[EDUCAÇÃO]</strong>\n\nFACULDADE ESTÁCIO\nTecnólogo em Análise e Desenvolvimento de Sistemas - Cursando (1º Período)\n\nMICROCAMP CURITIBA\nConteúdo: Windows, Linux, Hardware, Software, Redes e Firewall - Concluído\n\nCOLÉGIO ESTADUAL ARNALDO FAIVRO BUSATO\nEnsino Médio - Concluído\n\n<strong>[QUALIFICAÇÕES COMPLEMENTARES]</strong>\n\n• Design & Web: Domínio em Photoshop, criação de identidades visuais.\n• Sistemas Inteligentes (IA/IoT): Implementação de sistemas e hardware.`;
     typeTerminal(document.getElementById('edu-cmd'), "./education.sh", 40, () => {
-        typeTerminal(document.getElementById('edu-res'), data, 10);
+        typeTerminal(document.getElementById('edu-res'), profileData.education, 10);
     });
 }
 
@@ -110,25 +113,8 @@ function openExp() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (experiences)";
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="exp-cmd"></span></div><div id="exp-res" style="margin-top:15px; white-space: pre-wrap;"></div>`;
-    
-    const data = `<strong>[EXPERIÊNCIA PROFISSIONAL]</strong>
-
-<strong>ALUARTS ESQUADRIAS DE ALUMÍNIO</strong>
-Analista de Marketing Digital | 2019 – 2023
-Responsável pela estratégia de presença online, gestão de redes sociais e implementação de SEO.
-Aplicação de técnicas de Account-Based Marketing (ABM) para prospecção e retenção de clientes.
-
-<strong>MUNDIAL MARCAS E PATENTES</strong>
-Web Designer | 2015 – 2017
-Elaboração de conceitos visuais e projetos gráficos para comunicação online e offline.
-Diagramação de documentos e construção de identidades visuais de marcas.
-
-<strong>OMAR CALÇADOS</strong>
-Consultor de Vendas | 2013 – 2014
-Estudo de mercado, planejamento de estratégias de venda e análise de tendências de consumo.`;
-
     typeTerminal(document.getElementById('exp-cmd'), "ls -la /career", 40, () => {
-        typeTerminal(document.getElementById('exp-res'), data, 5);
+        typeTerminal(document.getElementById('exp-res'), profileData.experience, 5);
     });
 }
 
@@ -137,7 +123,8 @@ function openProject() {
     title.innerText = "alyssonfelipe@root: ~ (projects)";
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="proj-cmd"></span></div><div id="proj-res" style="margin-top:15px;"></div>`;
     typeTerminal(document.getElementById('proj-cmd'), "./list_projects.sh", 40, () => {
-        document.getElementById('proj-res').innerHTML = `>> FLOW HUB: <a href='https://flow-hub.shop' target='_blank' style='color:var(--accent)'>flow-hub.shop</a>`;
+        const html = profileData.projects.map(p => `>> ${p.name}: <a href='${p.url}' target='_blank' style='color:var(--accent)'>${p.url.replace('https://','')}</a>`).join('<br>');
+        document.getElementById('proj-res').innerHTML = html;
     });
 }
 
@@ -154,6 +141,7 @@ function openContact() {
                 <textarea name="message" class="terminal-input" placeholder="Sua Mensagem..." required style="height: 80px;"></textarea>
                 <button type="submit" class="terminal-btn">ENVIAR</button>
             </form><div id="success-output"></div>`;
+        
         const form = document.getElementById('email-form');
         form.onsubmit = async (e) => {
             e.preventDefault();
@@ -175,35 +163,34 @@ function openContact() {
 
 function closeWin() { win.style.display = 'none'; }
 
-// Sistema de Partículas Neural Canvas
+// Torna as funções globais para serem chamadas pelo HTML
+window.openBio = openBio;
+window.openEdu = openEdu;
+window.openExp = openExp;
+window.openProject = openProject;
+window.openContact = openContact;
+window.closeWin = closeWin;
+
+// Canvas Animation
 const canvas = document.getElementById('neural-canvas');
 if (canvas) {
     const ctx = canvas.getContext('2d');
     let pts = [];
     const res = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
     window.addEventListener('resize', res); res();
-    
-    for(let i=0; i<30; i++) pts.push({
-        x: Math.random()*canvas.width, 
-        y: Math.random()*canvas.height, 
-        vx: (Math.random()-0.5)*0.5, 
-        vy: (Math.random()-0.5)*0.5
-    });
+    for(let i=0; i<30; i++) pts.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5 });
 
     function anim() {
         const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#9333ea';
         ctx.clearRect(0,0,canvas.width,canvas.height); 
         ctx.fillStyle = accentColor + '26'; 
-        
         pts.forEach(p => {
             p.x+=p.vx; p.y+=p.vy;
             if(p.x<0||p.x>canvas.width) p.vx*=-1; 
             if(p.y<0||p.y>canvas.height) p.vy*=-1;
-            ctx.beginPath(); 
-            ctx.arc(p.x, p.y, 2, 0, Math.PI*2); 
-            ctx.fill();
+            ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI*2); ctx.fill();
         });
         requestAnimationFrame(anim);
     }
     anim();
-                                                }
+}
