@@ -175,36 +175,35 @@ body {
 .window { 
     position: fixed; 
     z-index: 2000; 
-    top: 45%; 
+    /* Centralização absoluta */
+    top: 50%; 
     left: 50%; 
     transform: translate(-50%, -50%); 
+    
     width: 94vw; 
     max-width: 600px; 
     height: 80vh; 
     max-height: 520px; 
+    
     background: var(--bg-window); 
     border: 1px solid var(--border); 
-    border-radius: 35px; 
+    border-radius: 24px !important; /* Arredondamento */
+    
+    /* ISSO ESCONDE OS PONTOS ATÉ O TERMINAL ABRIR */
     display: none; 
     flex-direction: column; 
+    
     backdrop-filter: blur(15px); 
-    overflow: hidden; 
+    -webkit-backdrop-filter: blur(15px);
+    overflow: hidden !important; 
     box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-}
-
-.win-header { 
-    background: var(--border); 
-    padding: 15px 20px; 
-    display: flex; 
-    align-items: center; 
-    position: relative; 
 }
 
 .dots { 
     display: flex; 
     gap: 8px; 
-    position: absolute; 
-    left: 20px; 
+    /* Remova o position absolute se ele estiver quebrando o layout */
+    margin-right: 15px; 
 }
 
 .dot { 
