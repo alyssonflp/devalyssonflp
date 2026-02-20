@@ -1,14 +1,14 @@
 /* 1. IMPORTAÇÃO DEFINITIVA (Baseada na pasta webfonts do GitHub) */
 @font-face {
     font-family: "Font Awesome Custom Brands";
-    src: url('./webfonts/fa-brands-400.woff2') format('woff2');
+    src: url('../webfonts/fa-brands-400.woff2') format('woff2');
     font-weight: 400;
     font-display: block;
 }
 
 @font-face {
     font-family: "Font Awesome Custom Solid";
-    src: url('./webfonts/fa-solid-900.woff2') format('woff2');
+    src: url('../webfonts/fa-solid-900.woff2') format('woff2');
     font-weight: 900;
     font-display: block;
 }
