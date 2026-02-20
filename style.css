@@ -1,19 +1,43 @@
 /* 1. IMPORTAÇÃO DEFINITIVA (Baseada na pasta webfonts do GitHub) */
-/* Altere apenas o topo do seu style.css para testar isso: */
 @font-face {
     font-family: "Font Awesome Custom Brands";
-    src: url('./webfonts/fa-brands-400.woff2') format('woff2'); /* Adicionamos o ./ aqui */
+    src: url('./webfonts/fa-brands-400.woff2') format('woff2');
     font-weight: 400;
-    font-display: swap;
+    font-display: block;
 }
 
 @font-face {
     font-family: "Font Awesome Custom Solid";
-    src: url('./webfonts/fa-solid-900.woff2') format('woff2'); /* Adicionamos o ./ aqui */
+    src: url('./webfonts/fa-solid-900.woff2') format('woff2');
     font-weight: 900;
-    font-display: swap;
+    font-display: block;
 }
 
+/* 2. O "DICIONÁRIO" DE ÍCONES (Faltava isso para o navegador saber o que desenhar) */
+.fab, .fa-brands { font-family: "Font Awesome Custom Brands" !important; font-weight: 400; }
+.fas, .fa-solid { font-family: "Font Awesome Custom Solid" !important; font-weight: 900; }
+
+.fas::before, .fab::before, .fa-solid::before, .fa-brands::before, .dock-i i::before {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Códigos Unicode oficiais para os seus ícones aparecerem */
+.fa-user-circle::before { content: "\f2bd"; }
+.fa-graduation-cap::before { content: "\f19d"; }
+.fa-briefcase::before { content: "\f0b1"; }
+.fa-code::before { content: "\f121"; }
+.fa-envelope::before { content: "\f0e0"; }
+.fa-whatsapp::before { content: "\f232"; }
+.fa-github::before { content: "\f09b"; }
+.fa-linkedin::before { content: "\f08c"; }
+.fa-instagram::before { content: "\f16d"; }
+.fa-download::before { content: "\f019"; }
+
+/* 3. VARIÁVEIS DE CORES */
 :root {
     /* MODO ESCURO (Padrão) */
     --bg-site: #050505;
@@ -258,16 +282,6 @@ body {
     min-height: 40px;
 }
 
-/* Aplicação Global da Fonte para ícones */
-.fab, .fa-brands {
-    font-family: "Font Awesome Custom Brands" !important;
-}
-
-.fas, .fa-solid {
-    font-family: "Font Awesome Custom Solid" !important;
-    font-weight: 900;
-}
-
 .social-icon { 
     font-size: 24px; 
     text-decoration: none !important; 
@@ -280,11 +294,6 @@ body {
 .fa-github { color: var(--text-main); } 
 .fa-linkedin { color: #0077b5; } 
 .fa-instagram { color: #E1306C; }
-
-/* Força os ícones do Dock a usarem a fonte local */
-.dock-i i {
-    font-family: "Font Awesome Custom Solid", "Font Awesome Custom Brands" !important;
-}
 
 .social-github { animation: slideDown 0.5s 0.2s ease forwards; }
 .social-linkedin { animation: slideDown 0.5s 0.4s ease forwards; }
@@ -319,10 +328,6 @@ body {
     border: none; 
     cursor: pointer; 
     transition: 0.3s; 
-}
-
-.cv-btn i {
-    font-family: "Font Awesome Custom Solid" !important;
 }
 
 .terminal-btn { 
