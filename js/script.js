@@ -40,6 +40,14 @@ function startBoot() {
                 const canvas = document.getElementById('neural-canvas');
                 if (dock) { dock.style.display = 'flex'; setTimeout(() => dock.style.opacity = '1', 50); }
                 if (canvas) canvas.style.opacity = '1';
+                if (win) {
+                    win.style.transform = 'translate(-50%, -50%)'; 
+                    win.style.left = '50%';
+                    win.style.top = '50%';
+                    win.style.position = 'absolute'; // Garante que ele possa se mover
+                }
+                // --------------------------------------
+
                 openBio();
             }, 500);
         }, 1200);
