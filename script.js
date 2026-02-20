@@ -74,7 +74,7 @@ function openBio() {
                 <div id="social-area" class="social-links reveal-hidden">
                     <a href="https://github.com/alyssonflp" target="_blank" class="social-icon social-github"><i class="fab fa-github"></i></a>
                     <a href="https://linkedin.com/in/alyssonfelipe" target="_blank" class="social-icon social-linkedin"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://instagram.com/alysson.dev" target="_blank" class="social-icon social-instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://instagram.com/alysson.flp" target="_blank" class="social-icon social-instagram"><i class="fab fa-instagram"></i></a>
                 </div>
                 <p id="type-desc" class="bio-description"></p>
                 <div id="cv-area" class="reveal-hidden">
@@ -84,7 +84,7 @@ function openBio() {
 
         typeTerminal(document.getElementById('type-name'), "Alysson Felipe", 50, () => {
             typeTerminal(document.getElementById('type-ads'), "> ADS | UI/UX Designer | IoT & IA", 30, () => {
-                const descText = "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de tecnologia para criar sistemas inteligentes e interfaces funcionais.";
+                const descText = "Acadêmico em Análise e Desenvolvimento de Sistemas com bagagem em Design Gráfico e interfaces digitais, unindo estética e funcionalidade, desenvolvo soluções que vão do front-end intuitivo à inteligência de sistemas embarcados.";
                 typeTerminal(document.getElementById('type-desc'), descText, 10, () => {
                     const sArea = document.getElementById('social-area');
                     const cArea = document.getElementById('cv-area');
