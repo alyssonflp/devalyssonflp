@@ -109,9 +109,26 @@ function openEdu() {
 function openExp() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (experiences)";
-    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="exp-cmd"></span></div><div id="exp-res" style="margin-top:15px;"></div>`;
+    content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="exp-cmd"></span></div><div id="exp-res" style="margin-top:15px; white-space: pre-wrap;"></div>`;
+    
+    const data = `<strong>[EXPERIÊNCIA PROFISSIONAL]</strong>
+
+<strong>ALUARTS ESQUADRIAS DE ALUMÍNIO</strong>
+Analista de Marketing Digital | 2019 – 2023
+Responsável pela estratégia de presença online, gestão de redes sociais e implementação de SEO.
+Aplicação de técnicas de Account-Based Marketing (ABM) para prospecção e retenção de clientes.
+
+<strong>MUNDIAL MARCAS E PATENTES</strong>
+Web Designer | 2015 – 2017
+Elaboração de conceitos visuais e projetos gráficos para comunicação online e offline.
+Diagramação de documentos e construção de identidades visuais de marcas.
+
+<strong>OMAR CALÇADOS</strong>
+Consultor de Vendas | 2013 – 2014
+Estudo de mercado, planejamento de estratégias de venda e análise de tendências de consumo.`;
+
     typeTerminal(document.getElementById('exp-cmd'), "ls -la /career", 40, () => {
-        document.getElementById('exp-res').innerHTML = `• ALUARTS: Mkt Digital<br>• MUNDIAL MARCAS: Web Designer`;
+        typeTerminal(document.getElementById('exp-res'), data, 5);
     });
 }
 
