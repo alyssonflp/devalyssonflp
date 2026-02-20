@@ -1,13 +1,13 @@
-/* 1. IMPORTAÇÃO DE FONTES LOCAIS (webfonts - Versão 7.2.0) */
+/* 1. IMPORTAÇÃO DEFINITIVA (Baseada na pasta webfonts do GitHub) */
 @font-face {
-    font-family: "Font Awesome 7 Brands";
+    font-family: "Font Awesome Custom Brands";
     src: url('webfonts/fa-brands-400.woff2') format('woff2');
     font-weight: 400;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Font Awesome 7 Free";
+    font-family: "Font Awesome Custom Solid";
     src: url('webfonts/fa-solid-900.woff2') format('woff2');
     font-weight: 900;
     font-display: swap;
@@ -257,14 +257,22 @@ body {
     min-height: 40px;
 }
 
+/* Aplicação Global da Fonte para ícones */
+.fab, .fa-brands {
+    font-family: "Font Awesome Custom Brands" !important;
+}
+
+.fas, .fa-solid {
+    font-family: "Font Awesome Custom Solid" !important;
+    font-weight: 900;
+}
+
 .social-icon { 
     font-size: 24px; 
     text-decoration: none !important; 
     transition: 0.3s; 
     opacity: 0; 
     display: inline-block;
-    /* ATUALIZADO PARA V7 */
-    font-family: "Font Awesome 7 Free", "Font Awesome 7 Brands" !important;
 }
 
 /* Cores dos ícones baseadas no tema */
@@ -272,9 +280,9 @@ body {
 .fa-linkedin { color: #0077b5; } 
 .fa-instagram { color: #E1306C; }
 
-/* Força os ícones do Dock a usarem a V7 também */
+/* Força os ícones do Dock a usarem a fonte local */
 .dock-i i {
-    font-family: "Font Awesome 7 Free", "Font Awesome 7 Brands" !important;
+    font-family: "Font Awesome Custom Solid", "Font Awesome Custom Brands" !important;
 }
 
 .social-github { animation: slideDown 0.5s 0.2s ease forwards; }
@@ -310,6 +318,10 @@ body {
     border: none; 
     cursor: pointer; 
     transition: 0.3s; 
+}
+
+.cv-btn i {
+    font-family: "Font Awesome Custom Solid" !important;
 }
 
 .terminal-btn { 
