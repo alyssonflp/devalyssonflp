@@ -67,7 +67,6 @@ function openBio() {
     
     typeTerminal(document.getElementById('bio-cmd'), "./profile.sh", 50, () => {
         const res = document.getElementById('bio-res');
-        // Usamos template literals para organizar o HTML
         res.innerHTML = `
             <div class="bio-content">
                 <h1 id="type-name" class="main-name"></h1>
@@ -87,7 +86,6 @@ function openBio() {
             typeTerminal(document.getElementById('type-ads'), "> ADS | UI/UX Designer | IoT & IA", 30, () => {
                 const descText = "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de tecnologia para criar sistemas inteligentes e interfaces funcionais.";
                 typeTerminal(document.getElementById('type-desc'), descText, 10, () => {
-                    // Revela ícones e botão de CV após a digitação
                     const sArea = document.getElementById('social-area');
                     const cArea = document.getElementById('cv-area');
                     if(sArea) sArea.classList.add('active');
@@ -176,10 +174,9 @@ if (canvas) {
     });
 
     function anim() {
-        // Pega a cor do sotaque do CSS dinamicamente
         const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#9333ea';
         ctx.clearRect(0,0,canvas.width,canvas.height); 
-        ctx.fillStyle = accentColor + '26'; // Adiciona transparência (26 hex = aprox 15%)
+        ctx.fillStyle = accentColor + '26'; 
         
         pts.forEach(p => {
             p.x+=p.vx; p.y+=p.vy;
