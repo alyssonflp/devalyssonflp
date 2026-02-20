@@ -375,7 +375,8 @@ body {
     width: 100%; 
     display: flex; 
     justify-content: center; 
-    z-index: 3000; 
+    /* Aumente para 9999 para ficar ACIMA da janela maximizada */
+    z-index: 9999 !important; 
     transition: 0.5s; 
     opacity: 0; 
 }
