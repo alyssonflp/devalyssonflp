@@ -1,4 +1,4 @@
-/* 1. IMPORTAÇÃO DEFINITIVA (Baseada na pasta webfonts do GitHub) */
+/* 1. IMPORTAÇÃO E DICIONÁRIO DE ÍCONES */
 @font-face {
     font-family: "Font Awesome Custom Brands";
     src: url('../webfonts/fa-brands-400.woff2') format('woff2');
@@ -13,19 +13,9 @@
     font-display: block;
 }
 
-/* 2. O "DICIONÁRIO" DE ÍCONES */
 .fab, .fa-brands { font-family: "Font Awesome Custom Brands" !important; font-weight: 400; }
 .fas, .fa-solid { font-family: "Font Awesome Custom Solid" !important; font-weight: 900; }
 
-.fas::before, .fab::before, .fa-solid::before, .fa-brands::before, .dock-i i::before {
-    display: inline-block;
-    font-style: normal;
-    font-variant: normal;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-}
-
-/* Códigos Unicode oficiais */
 .fa-user-circle::before { content: "\f2bd"; }
 .fa-graduation-cap::before { content: "\f19d"; }
 .fa-briefcase::before { content: "\f0b1"; }
@@ -37,336 +27,49 @@
 .fa-instagram::before { content: "\f16d"; }
 .fa-download::before { content: "\f019"; }
 
-/* 3. VARIÁVEIS DE CORES - TRAVADO EM DARK MODO */
+/* 2. VARIÁVEIS GLOBAIS (MODO DARK) */
 :root {
     --bg-site: #000000;
     --bg-login: radial-gradient(circle, #1a1a1a 0%, #000000 100%);
     --bg-hello: #000000;
     --text-hello: #9333ea;
-    --bg-window: rgba(15, 15, 15, 0.98);
     --bg-dock: rgba(30, 30, 30, 0.8);
     --text-main: #ffffff;
-    --text-sub: #ffffff; 
-    --border: rgba(255, 255, 255, 0.1);
     --accent: #9333ea;
-    color-scheme: dark !important; /* Força o navegador a renderizar como dark */
+    color-scheme: dark !important;
 }
 
-/* Removido o Media Query (prefers-color-scheme: light) para manter apenas o Dark */
-
-/* Reset e Body */
-* { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
-    -webkit-tap-highlight-color: transparent; 
-}
+/* 3. RESET E BODY */
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
 html, body { 
-    background-color: #000000 !important; /* Mata o piscar branco */
+    background-color: #000000 !important; 
     color: var(--text-main); 
-    height: 100vh; 
-    width: 100vw; 
+    height: 100vh; width: 100vw; 
     overflow: hidden; 
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    font-family: 'Segoe UI', sans-serif; 
 }
 
-/* Login Screen */
+/* 4. LOGIN E BOOT */
 #login-screen { 
-    position: fixed; 
-    inset: 0; 
-    z-index: 5000; 
+    position: fixed; inset: 0; z-index: 5000; 
     background: var(--bg-login); 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    transition: opacity 0.5s ease; 
+    display: flex; align-items: center; justify-content: center; 
 }
 
-.login-box { 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    width: 100%; 
-    max-width: 320px; 
-}
+.login-avatar { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--accent); margin-bottom: 12px; }
+.login-username { font-size: 18px; font-weight: 600; margin-bottom: 15px; }
+.login-field { background: rgba(128, 128, 128, 0.1); border-radius: 30px; padding: 8px 15px; width: 160px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px; }
+.login-field input { background: transparent; border: none; color: #fff; text-align: center; letter-spacing: 4px; outline: none; width: 100%; }
+.boot-loader-container { width: 120px; height: 3px; background: rgba(128,128,128,0.2); border-radius: 10px; overflow: hidden; }
+.boot-loader-bar { width: 0%; height: 100%; background: var(--accent); transition: width 0.1s linear; }
 
-.login-avatar { 
-    width: 100px; 
-    height: 100px; 
-    border-radius: 50%; 
-    border: 2px solid var(--accent); 
-    margin-bottom: 12px; 
-    object-fit: cover; 
-}
+/* 5. DOCK */
+.dock-wrap { position: fixed; bottom: 20px; width: 100%; display: flex; justify-content: center; z-index: 3000; opacity: 0; transition: 0.5s; }
+.dock { display: flex; gap: 15px; padding: 10px 20px; background: var(--bg-dock); border-radius: 40px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(20px); }
+.dock-i { font-size: 28px; cursor: pointer; transition: 0.2s; }
+.dock-i:hover { transform: scale(1.2) translateY(-5px); }
 
-.login-username { 
-    font-size: 18px; 
-    font-weight: 600; 
-    margin-bottom: 15px; 
-}
-
-.login-field { 
-    background: rgba(128, 128, 128, 0.1); 
-    border-radius: 30px; 
-    padding: 8px 15px; 
-    width: 160px; 
-    border: 1px solid var(--border); 
-    margin-bottom: 15px; 
-}
-
-.login-field input { 
-    background: transparent; 
-    border: none; 
-    color: var(--text-main); 
-    text-align: center; 
-    letter-spacing: 4px; 
-    outline: none; 
-    font-size: 16px; 
-    width: 100%; 
-}
-
-.boot-loader-container { 
-    width: 120px; 
-    height: 3px; 
-    background: rgba(128,128,128,0.2); 
-    border-radius: 10px; 
-    overflow: hidden; 
-}
-
-.boot-loader-bar { 
-    width: 0%; 
-    height: 100%; 
-    background: var(--accent); 
-    transition: width 0.1s linear; 
-}
-
-/* Hello Screen */
-#hello-screen { 
-    position: fixed; 
-    inset: 0; 
-    z-index: 4500; 
-    background: var(--bg-hello); 
-    display: none; 
-    align-items: center; 
-    justify-content: center; 
-    opacity: 0; 
-    transition: opacity 0.5s; 
-}
-
-.hello-ascii { 
-    font-family: 'Courier New', monospace; 
-    font-size: clamp(6px, 1.4vw, 11px); 
-    color: var(--text-hello); 
-    text-align: center; 
-    white-space: pre; 
-    font-weight: bold; 
-}
-
-/* Terminal Window */
-.window { 
-    position: fixed; 
-    z-index: 2000; 
-    top: 50%; 
-    left: 50%; 
-    transform: translate(-50%, -50%); 
-    
-    width: 94vw; 
-    max-width: 600px; 
-    height: 80vh; 
-    max-height: 520px; 
-    
-    background: var(--bg-window); 
-    border: 1px solid var(--border); 
-    border-radius: 28px !important; 
-    
-    display: none; /* Mantém oculto até o boot terminar */
-    flex-direction: column; 
-    
-    backdrop-filter: blur(15px); 
-    -webkit-backdrop-filter: blur(15px);
-    overflow: hidden !important; /* Fundamental para o arredondamento */
-    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-}
-
-.win-header { 
-    background: rgba(255, 255, 255, 0.05); /* Barra superior levemente mais clara */
-    padding: 15px 20px; 
-    display: flex; 
-    align-items: center; 
-    position: relative; 
-    cursor: grab;
-    border-bottom: 1px solid var(--border);
-}
-
-.dots { 
-    display: flex; 
-    gap: 8px; 
-    position: absolute; 
-    left: 20px; 
-}
-
-.dot { 
-    width: 12px; 
-    height: 12px; 
-    border-radius: 50%; 
-}
-
-.close { background: #ff5f56; cursor: pointer; } 
-.min { background: #ffbd2e; } 
-.max { background: #27c93f; }
-
-#win-title { 
-    width: 100%; 
-    text-align: center; 
-    font-size: 13px; 
-    color: var(--text-main); 
-    opacity: 0.8; 
-}
-
-.win-body { 
-    flex: 1; 
-    padding: 25px; 
-    overflow-y: auto; 
-    font-family: 'Courier New', monospace; 
-    font-size: 13px; 
-    line-height: 1.6; 
-    color: #ffffff;
-}
-
-/* Conteúdo da Bio */
-.bio-content { 
-    text-align: center; 
-    margin-top: 10px; 
-}
-
-.main-name { 
-    font-size: 32px; 
-    font-weight: 800; 
-    background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%); 
-    -webkit-background-clip: text; 
-    -webkit-text-fill-color: transparent; 
-    min-height: 40px; 
-}
-
-.ads-text { 
-    font-weight: bold; 
-    color: var(--text-sub) !important; 
-    margin-bottom: 5px; 
-    min-height: 20px; 
-}
-
-.bio-description { 
-    text-align: left; 
-    opacity: 0.8; 
-    margin: 20px 0; 
-    font-size: 14px; 
-    line-height: 1.6; 
-}
-
-/* Redes Sociais */
-.social-links { 
-    margin: 15px 0; 
-    display: flex; 
-    justify-content: center; 
-    gap: 20px; 
-}
-
-.social-icon { 
-    font-size: 24px; 
-    text-decoration: none !important; 
-    transition: 0.3s; 
-    opacity: 0; 
-    display: inline-block;
-}
-
-.fa-github { color: #ffffff; } 
-.fa-linkedin { color: #0077b5; } 
-.fa-instagram { color: #E1306C; }
-
-.social-github { animation: slideDown 0.5s 0.2s ease forwards; }
-.social-linkedin { animation: slideDown 0.5s 0.4s ease forwards; }
-.social-instagram { animation: slideDown 0.5s 0.6s ease forwards; }
-
-.reveal-hidden { 
-    display: none; 
-    opacity: 0; 
-    transform: translateY(10px); 
-    transition: opacity 0.5s ease, transform 0.5s ease; 
-}
-
-.reveal-hidden.active { 
-    display: flex; 
-    opacity: 1; 
-    transform: translateY(0); 
-}
-
-/* Botões */
-.cv-btn, .terminal-btn { 
-    display: inline-flex; 
-    align-items: center; 
-    justify-content: center; 
-    gap: 8px; 
-    margin-top: 15px; 
-    padding: 12px 30px; 
-    background: var(--accent); 
-    color: #fff !important; 
-    text-decoration: none; 
-    border-radius: 50px; 
-    font-weight: 600; 
-    border: none; 
-    cursor: pointer; 
-    transition: 0.3s; 
-}
-
-/* Dock */
-.dock-wrap { 
-    position: fixed; 
-    bottom: 20px; 
-    width: 100%; 
-    display: flex; 
-    justify-content: center; 
-    z-index: 3000; 
-    transition: 0.5s; 
-    opacity: 0; 
-}
-
-.dock { 
-    display: flex; 
-    gap: 15px; 
-    padding: 10px 20px; 
-    background: var(--bg-dock); 
-    border-radius: 40px; 
-    border: 1px solid var(--border); 
-    backdrop-filter: blur(20px); 
-}
-
-.dock-i { 
-    font-size: 28px; 
-    cursor: pointer; 
-    transition: 0.2s; 
-}
-
-.dock-i:hover { 
-    transform: scale(1.2) translateY(-5px); 
-}
-
-/* Neural Canvas Background */
-#neural-canvas { 
-    position: fixed; 
-    inset: 0; 
-    z-index: 0; 
-    pointer-events: none; 
-    opacity: 0.4; 
-}
-
-/* REGRA EXTRA: BOTÃO DOWNLOAD */
-.cv-btn { 
-    opacity: 0;
-    animation: slideDown 0.5s 0.8s ease forwards;
-}
-
-.cv-btn:hover { 
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(147, 51, 234, 0.4);
-}
+/* 6. ANIMAÇÕES E FUNDO */
+#neural-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.4; }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
