@@ -13,7 +13,7 @@
     font-display: block;
 }
 
-/* 2. O "DICIONÁRIO" DE ÍCONES (Faltava isso para o navegador saber o que desenhar) */
+/* 2. O "DICIONÁRIO" DE ÍCONES */
 .fab, .fa-brands { font-family: "Font Awesome Custom Brands" !important; font-weight: 400; }
 .fas, .fa-solid { font-family: "Font Awesome Custom Solid" !important; font-weight: 900; }
 
@@ -25,7 +25,7 @@
     -webkit-font-smoothing: antialiased;
 }
 
-/* Códigos Unicode oficiais para os seus ícones aparecerem */
+/* Códigos Unicode oficiais */
 .fa-user-circle::before { content: "\f2bd"; }
 .fa-graduation-cap::before { content: "\f19d"; }
 .fa-briefcase::before { content: "\f0b1"; }
@@ -37,37 +37,38 @@
 .fa-instagram::before { content: "\f16d"; }
 .fa-download::before { content: "\f019"; }
 
+/* 3. VARIÁVEIS DE CORES DINÂMICAS */
 :root {
     /* PADRÃO MODO ESCURO */
     --bg-site: #000000;
+    --bg-login: radial-gradient(circle, #1a1a1a 0%, #000000 100%);
+    --bg-hello: #000000;
+    --text-hello: #9333ea;
     --bg-window: rgba(20, 20, 20, 0.95);
-    --text-terminal: #ffffff; /* Texto dentro do terminal */
-    --text-title: rgba(255, 255, 255, 0.7);
+    --bg-dock: rgba(30, 30, 30, 0.8);
+    --text-main: #ffffff;
+    --text-sub: #ffffff; 
     --border: rgba(255, 255, 255, 0.1);
     --accent: #9333ea;
-    --dock-bg: rgba(30, 30, 30, 0.8);
+    color-scheme: dark;
 }
 
 @media (prefers-color-scheme: light) {
-    .window {
-        /* Uma sombra mais suave e espalhada para destacar as quinas no fundo cinza */
-        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1) !important;
-        border: 1px solid rgba(0, 0, 0, 0.08) !important;
-    }
-
-    .win-header {
-        /* Dá um leve destaque na barra superior no modo claro */
-        background: rgba(0, 0, 0, 0.03) !important;
-    }
-
-    #win-title {
-        color: var(--text-title) !important;
-    }
-    
-    /* Garante que os ícones do dock fiquem visíveis no fundo claro */
-    .dock {
-        background: rgba(255, 255, 255, 0.7) !important;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+    :root {
+        /* MODO CLARO AMIGÁVEL */
+        --bg-site: #f0f0f0;
+        --bg-login: radial-gradient(circle, #ffffff 0%, #e0e0e0 100%);
+        --bg-hello: #ffffff;
+        --text-hello: #7e22ce;
+        --bg-window: rgba(255, 255, 255, 0.92);
+        --text-terminal: #1a1a1a;
+        --text-title: rgba(0, 0, 0, 0.6);
+        --border: rgba(0, 0, 0, 0.1);
+        --accent: #7e22ce;
+        --dock-bg: rgba(240, 240, 240, 0.8);
+        --text-main: #1a1a1a;
+        --text-sub: #7e22ce;
+        color-scheme: light;
     }
 }
 
@@ -185,7 +186,6 @@ body {
 .window { 
     position: fixed; 
     z-index: 2000; 
-    /* Centralização absoluta */
     top: 50%; 
     left: 50%; 
     transform: translate(-50%, -50%); 
@@ -197,23 +197,31 @@ body {
     
     background: var(--bg-window); 
     border: 1px solid var(--border); 
-    border-radius: 24px !important; /* Arredondamento */
+    border-radius: 28px !important; /* Arredondamento corrigido */
     
-    /* ISSO ESCONDE OS PONTOS ATÉ O TERMINAL ABRIR */
-    display: none; 
+    display: none; /* Garante que os pontos não apareçam antes */
     flex-direction: column; 
     
     backdrop-filter: blur(15px); 
     -webkit-backdrop-filter: blur(15px);
-    overflow: hidden !important; 
+    overflow: hidden !important; /* Corta o conteúdo para manter o arredondamento */
     box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+
+.win-header { 
+    background: var(--border); 
+    padding: 15px 20px; 
+    display: flex; 
+    align-items: center; 
+    position: relative; 
+    cursor: grab;
 }
 
 .dots { 
     display: flex; 
     gap: 8px; 
-    /* Remova o position absolute se ele estiver quebrando o layout */
-    margin-right: 15px; 
+    position: absolute; 
+    left: 20px; 
 }
 
 .dot { 
@@ -241,6 +249,7 @@ body {
     font-family: 'Courier New', monospace; 
     font-size: 13px; 
     line-height: 1.6; 
+    color: var(--text-main); /* Respeita o tema */
 }
 
 /* Conteúdo da Bio */
@@ -292,7 +301,6 @@ body {
     display: inline-block;
 }
 
-/* Cores dos ícones baseadas no tema */
 .fa-github { color: var(--text-main); } 
 .fa-linkedin { color: #0077b5; } 
 .fa-instagram { color: #E1306C; }
@@ -418,63 +426,4 @@ body {
     position: fixed; 
     inset: 0; 
     z-index: 0; 
-    pointer-events: none; 
-    opacity: 0.5; 
-    transition: opacity 1s; 
-}
-
-/* --- REGRA EXTRA: BOTÃO DOWNLOAD CENTRALIZADO --- */
-
-/* 1. Garante que o container do botão centralize o conteúdo */
-.reveal-hidden { 
-    display: none; 
-    width: 100%; 
-    justify-content: center; 
-    margin: 20px 0; 
-}
-
-.reveal-hidden.active { 
-    display: flex; 
-}
-
-/* 2. Estilo do botão e Animação idêntica aos links */
-.cv-btn { 
-    display: inline-flex; 
-    align-items: center; 
-    justify-content: center;
-    gap: 10px; 
-    padding: 12px 30px; 
-    background: var(--accent); 
-    color: #ffffff !important; 
-    text-decoration: none; 
-    border-radius: 50px; 
-    font-weight: 700; 
-    font-size: 14px;
-    border: none; 
-    cursor: pointer; 
-    transition: 0.3s ease;
-    
-    /* Mesma animação dos links (slideDown) */
-    opacity: 0;
-    animation: slideDown 0.5s 0.8s ease forwards; /* Delay de 0.8s para vir após o Instagram */
-}
-
-/* 3. Efeito de hover suave */
-.cv-btn:hover { 
-    transform: translateY(-3px);
-    filter: brightness(1.1);
-    box-shadow: 0 10px 20px rgba(147, 51, 234, 0.3);
-}
-
-/* 4. Ajuste do ícone dentro do botão */
-.cv-btn i {
-    font-size: 18px;
-}
-
-
-
-
-
-
-
-
+    pointer-
