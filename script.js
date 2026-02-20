@@ -2,15 +2,20 @@ const win = document.getElementById('main-terminal');
 const content = document.getElementById('content');
 const title = document.getElementById('win-title');
 
-window.onload = () => { setTimeout(typePassword, 800); };
+// Inicialização
+window.onload = () => { 
+    setTimeout(typePassword, 800); 
+};
 
 function typePassword() {
     const passInput = document.getElementById('pass-input');
     const fullPass = "********";
     let i = 0;
     if (!passInput) return;
+
     const interval = setInterval(() => {
-        passInput.value += fullPass[i]; i++;
+        passInput.value += fullPass[i]; 
+        i++;
         if (i >= fullPass.length) {
             clearInterval(interval);
             const status = document.getElementById('login-status');
@@ -19,10 +24,16 @@ function typePassword() {
             if (loader) {
                 let p = 0;
                 const t = setInterval(() => {
-                    p += 5; loader.style.width = p + "%";
-                    if (p >= 100) { clearInterval(t); setTimeout(startBoot, 500); }
+                    p += 5; 
+                    loader.style.width = p + "%";
+                    if (p >= 100) { 
+                        clearInterval(t); 
+                        setTimeout(startBoot, 500); 
+                    }
                 }, 50);
-            } else { setTimeout(startBoot, 1000); }
+            } else { 
+                setTimeout(startBoot, 1000); 
+            }
         }
     }, 120);
 }
@@ -31,16 +42,24 @@ function startBoot() {
     const login = document.getElementById('login-screen');
     const hello = document.getElementById('hello-screen');
     if (login) login.style.opacity = '0';
+    
     setTimeout(() => {
         if (login) login.style.display = 'none';
-        if (hello) { hello.style.display = 'flex'; hello.style.opacity = '1'; }
+        if (hello) { 
+            hello.style.display = 'flex'; 
+            hello.style.opacity = '1'; 
+        }
+        
         setTimeout(() => {
             if (hello) hello.style.opacity = '0';
             setTimeout(() => {
                 if (hello) hello.style.display = 'none';
                 const dock = document.getElementById('dock-main');
                 const canvas = document.getElementById('neural-canvas');
-                if (dock) { dock.style.display = 'flex'; dock.style.opacity = '1'; }
+                if (dock) { 
+                    dock.style.display = 'flex'; 
+                    setTimeout(() => dock.style.opacity = '1', 50);
+                }
                 if (canvas) canvas.style.opacity = '1';
                 openBio();
             }, 500);
@@ -50,36 +69,48 @@ function startBoot() {
 
 function typeTerminal(element, html, speed, callback) {
     if (!element) return;
-    let i = 0; element.innerHTML = "";
+    let i = 0; 
+    element.innerHTML = "";
     const timer = setInterval(() => {
         if (html.charAt(i) === '<') {
             let endTag = html.indexOf('>', i);
             element.innerHTML += html.substring(i, endTag + 1);
             i = endTag + 1;
-        } else { element.innerHTML += html.charAt(i); i++; }
+        } else { 
+            element.innerHTML += html.charAt(i); 
+            i++; 
+        }
         if (content) content.scrollTop = content.scrollHeight;
-        if (i >= html.length) { clearInterval(timer); if (callback) callback(); }
+        if (i >= html.length) { 
+            clearInterval(timer); 
+            if (callback) callback(); 
+        }
     }, speed);
 }
 
 function openBio() {
+    if (!win) return;
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (profile)";
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="bio-cmd"></span></div><div id="bio-res"></div>`;
+    
     typeTerminal(document.getElementById('bio-cmd'), "./profile.sh", 50, () => {
-        document.getElementById('bio-res').innerHTML = `
-            <div style="text-align:center; margin-top:10px;">
+        const bioRes = document.getElementById('bio-res');
+        bioRes.innerHTML = `
+            <div style="text-align:center; margin-top:10px; animation: slideUp 0.5s ease forwards;">
                 <h1 class="main-name">Alysson Felipe</h1>
                 <p class="ads-text">> ADS | UI/UX Designer | IoT & IA</p>
                 <div class="social-links">
-                    <a href="https://github.com/alyssonflp" target="_blank" class="social-icon fa-github"><i class="fab fa-github"></i></a>
-                    <a href="https://linkedin.com/in/alyssonfelipe" target="_blank" class="social-icon fa-linkedin"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://instagram.com/alysson.dev" target="_blank" class="social-icon fa-instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://github.com/alyssonflp" target="_blank" class="social-icon fa-github" style="animation: slideDown 0.5s 0.2s ease forwards;"><i class="fab fa-github"></i></a>
+                    <a href="https://linkedin.com/in/alyssonfelipe" target="_blank" class="social-icon fa-linkedin" style="animation: slideDown 0.5s 0.4s ease forwards;"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://instagram.com/alysson.dev" target="_blank" class="social-icon fa-instagram" style="animation: slideDown 0.5s 0.6s ease forwards;"><i class="fab fa-instagram"></i></a>
                 </div>
                 <p style="text-align:left; opacity:0.8; margin: 20px 0; font-size:14px; line-height:1.6;">
                     Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de tecnologia para criar sistemas inteligentes e interfaces funcionais.
                 </p>
-                <a href="./assets/cv-alysson.pdf" download class="cv-btn">CURRICULO <i class="fas fa-download"></i></a>
+                <a href="./assets/cv-alysson.pdf" download class="cv-btn" style="animation: slideUp 0.5s 0.8s ease forwards; opacity:0;">
+                    CURRÍCULO <i class="fas fa-download"></i>
+                </a>
             </div>`;
     });
 }
@@ -88,7 +119,9 @@ function openEdu() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (education)";
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="edu-cmd"></span></div><div id="edu-res" style="margin-top:15px; white-space: pre-wrap;"></div>`;
-    const data = `<strong>[EDUCAÇÃO]</strong><br><br>FACULDADE ESTÁCIO<br>Tecnólogo em Análise e Desenvolvimento de Sistemas - Cursando (1º Período)<br><br>MICROCAMP CURITIBA<br>Conteúdo: Windows, Linux, Hardware, Software, Redes e Firewall - Concluído<br><br>COLÉGIO ESTADUAL ARNALDO FAIVRO BUSATO<br>Ensino Médio - Concluído<br><br><strong>[QUALIFICAÇÕES COMPLEMENTARES]</strong><br><br>• Design & Web: Domínio em Photoshop, criação de identidades visuais, desenvolvimento de sites, SEO & SEM.<br>• Sistemas Inteligentes (IA/IoT): Experiência prática na implementação de sistemas e integração de hardware.<br>• Ferramentas de Escritório: Pacote Office completo<br>• Idiomas: Inglês nível A1.`;
+    
+    const data = `<strong>[EDUCAÇÃO]</strong><br><br>FACULDADE ESTÁCIO<br>ADS - Cursando (1º Período)<br><br>MICROCAMP CURITIBA<br>Hardware, Redes e Firewall - Concluído<br><br><strong>[QUALIFICAÇÕES]</strong><br><br>• Design & Web: Photoshop e SEO.<br>• IA/IoT: Sistemas inteligentes e hardware.`;
+
     typeTerminal(document.getElementById('edu-cmd'), "./education.sh", 40, () => {
         typeTerminal(document.getElementById('edu-res'), data, 10);
     });
@@ -122,14 +155,15 @@ function openContact() {
                 <input type="text" name="name" class="terminal-input" placeholder="Seu Nome" required>
                 <input type="email" name="email" class="terminal-input" placeholder="Seu E-mail" required>
                 <textarea name="message" class="terminal-input" placeholder="Sua Mensagem..." required style="height: 80px;"></textarea>
-                <button type="submit" class="terminal-btn">ENVIAR</button>
+                <button type="submit" class="terminal-btn">ENVIAR MENSAGEM</button>
             </form><div id="success-output"></div>`;
+        
         const form = document.getElementById('email-form');
         form.onsubmit = async (e) => {
             e.preventDefault();
             const response = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
             if (response.ok) {
-                document.getElementById('success-output').innerHTML = `<pre style="color:var(--accent); margin-top:10px; font-size:10px;">[ MENSAGEM ENVIADA COM SUCESSO ]</pre>`;
+                document.getElementById('success-output').innerHTML = `<p style="color:var(--accent); margin-top:15px; font-weight:bold;">[ MENSAGEM ENVIADA COM SUCESSO ]</p>`;
                 form.style.display = 'none';
             }
         };
@@ -138,6 +172,7 @@ function openContact() {
 
 function closeWin() { if (win) win.style.display = 'none'; }
 
+// Canvas Animado
 const canvas = document.getElementById('neural-canvas');
 if (canvas) {
     const ctx = canvas.getContext('2d');
@@ -146,10 +181,12 @@ if (canvas) {
     window.addEventListener('resize', res); res();
     for(let i=0; i<30; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5});
     function anim() {
-        ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle = 'rgba(147, 51, 234, 0.15)';
+        ctx.clearRect(0,0,canvas.width,canvas.height); 
+        ctx.fillStyle = 'rgba(147, 51, 234, 0.15)';
         pts.forEach(p => {
             p.x+=p.vx; p.y+=p.vy;
-            if(p.x<0||p.x>canvas.width) p.vx*=-1; if(p.y<0||p.y>canvas.height) p.vy*=-1;
+            if(p.x<0||p.x>canvas.width) p.vx*=-1; 
+            if(p.y<0||p.y>canvas.height) p.vy*=-1;
             ctx.beginPath(); ctx.arc(p.x,p.y,2,0,Math.PI*2); ctx.fill();
         });
         requestAnimationFrame(anim);
