@@ -64,19 +64,33 @@ function openBio() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (profile)";
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="bio-cmd"></span></div><div id="bio-res"></div>`;
+    
     typeTerminal(document.getElementById('bio-cmd'), "./profile.sh", 50, () => {
-        document.getElementById('bio-res').innerHTML = `
+        const res = document.getElementById('bio-res');
+        res.innerHTML = `
             <div class="bio-content">
-                <h1 class="main-name">Alysson Felipe</h1>
-                <p class="ads-text">> ADS | UI/UX Designer | IoT & IA</p>
-                <div class="social-links">
+                <h1 id="type-name" class="main-name"></h1>
+                <p id="type-ads" class="ads-text"></p>
+                <div id="social-area" class="social-links reveal-hidden">
                     <a href="https://github.com/alyssonflp" target="_blank" class="social-icon fa-github social-github"><i class="fab fa-github"></i></a>
                     <a href="https://linkedin.com/in/alyssonfelipe" target="_blank" class="social-icon fa-linkedin social-linkedin"><i class="fab fa-linkedin"></i></a>
                     <a href="https://instagram.com/alysson.dev" target="_blank" class="social-icon fa-instagram social-instagram"><i class="fab fa-instagram"></i></a>
                 </div>
-                <p class="bio-description">Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de tecnologia para criar sistemas inteligentes e interfaces funcionais.</p>
-                <a href="./assets/cv-alysson.pdf" download class="cv-btn">CURRÍCULO <i class="fas fa-download"></i></a>
+                <p id="type-desc" class="bio-description"></p>
+                <div id="cv-area" class="reveal-hidden">
+                    <a href="./assets/cv-alysson.pdf" download class="cv-btn">CURRÍCULO <i class="fas fa-download"></i></a>
+                </div>
             </div>`;
+
+        typeTerminal(document.getElementById('type-name'), "Alysson Felipe", 50, () => {
+            typeTerminal(document.getElementById('type-ads'), "> ADS | UI/UX Designer | IoT & IA", 30, () => {
+                const descText = "Apaixonado por tecnologia e design, transito entre o código e a experiência do usuário. Atualmente cursando ADS na Estácio, aplico conceitos de tecnologia para criar sistemas inteligentes e interfaces funcionais.";
+                typeTerminal(document.getElementById('type-desc'), descText, 10, () => {
+                    document.getElementById('social-area').classList.add('active');
+                    document.getElementById('cv-area').classList.add('active');
+                });
+            });
+        });
     });
 }
 
@@ -84,7 +98,7 @@ function openEdu() {
     win.style.display = 'flex';
     title.innerText = "alyssonfelipe@root: ~ (education)";
     content.innerHTML = `<div><strong>alyssonfelipe@root:~$</strong> <span id="edu-cmd"></span></div><div id="edu-res" style="margin-top:15px; white-space: pre-wrap;"></div>`;
-    const data = `<strong>[EDUCAÇÃO]</strong><br><br>FACULDADE ESTÁCIO<br>Tecnólogo em Análise e Desenvolvimento de Sistemas - Cursando (1º Período)<br><br>MICROCAMP CURITIBA<br>Conteúdo: Windows, Linux, Hardware, Software, Redes e Firewall - Concluído<br><br>COLÉGIO ESTADUAL ARNALDO FAIVRO BUSATO<br>Ensino Médio - Concluído<br><br><strong>[QUALIFICAÇÕES COMPLEMENTARES]</strong><br><br>• Design & Web: Domínio em Photoshop, criação de identidades visuais.<br>• Sistemas Inteligentes (IA/IoT): Implementação de sistemas e hardware.`;
+    const data = `<strong>[EDUCAÇÃO]</strong>\n\nFACULDADE ESTÁCIO\nTecnólogo em Análise e Desenvolvimento de Sistemas - Cursando (1º Período)\n\nMICROCAMP CURITIBA\nConteúdo: Windows, Linux, Hardware, Software, Redes e Firewall - Concluído\n\nCOLÉGIO ESTADUAL ARNALDO FAIVRO BUSATO\nEnsino Médio - Concluído\n\n<strong>[QUALIFICAÇÕES COMPLEMENTARES]</strong>\n\n• Design & Web: Domínio em Photoshop, criação de identidades visuais.\n• Sistemas Inteligentes (IA/IoT): Implementação de sistemas e hardware.`;
     typeTerminal(document.getElementById('edu-cmd'), "./education.sh", 40, () => {
         typeTerminal(document.getElementById('edu-res'), data, 10);
     });
