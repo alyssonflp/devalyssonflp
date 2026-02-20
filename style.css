@@ -38,10 +38,10 @@ body { background: var(--bg-site); color: var(--text-main); height: 100vh; width
 .win-body { flex: 1; padding: 25px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; }
 
 /* Conteúdo da Bio */
-.bio-content { text-align: center; margin-top: 10px; animation: slideUp 0.5s ease forwards; }
-.main-name { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.ads-text { font-weight: bold; color: var(--accent); margin-bottom: 5px; }
-.bio-description { text-align: left; opacity: 0.8; margin: 20px 0; font-size: 14px; line-height: 1.6; }
+.bio-content { text-align: center; margin-top: 10px; }
+.main-name { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; min-height: 40px; }
+.ads-text { font-weight: bold; color: var(--accent); margin-bottom: 5px; min-height: 20px; }
+.bio-description { text-align: left; opacity: 0.8; margin: 20px 0; font-size: 14px; line-height: 1.6; min-height: 50px; }
 
 /* Redes Sociais e Botões */
 .social-links { margin: 15px 0; display: flex; justify-content: center; gap: 20px; }
@@ -52,14 +52,15 @@ body { background: var(--bg-site); color: var(--text-main); height: 100vh; width
 .social-linkedin { animation: slideDown 0.5s 0.4s ease forwards; }
 .social-instagram { animation: slideDown 0.5s 0.6s ease forwards; }
 
+.reveal-hidden { opacity: 0; transform: translateY(10px); transition: 0.5s ease; }
+.reveal-hidden.active { opacity: 1; transform: translateY(0); }
+
 .cv-btn, .terminal-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-top: 15px; padding: 12px 30px; background: var(--accent); color: #fff; text-decoration: none; border-radius: 50px; font-weight: 600; border: none; cursor: pointer; transition: 0.3s; }
-.cv-btn { opacity: 0; animation: slideUp 0.5s 0.8s ease forwards; }
 .terminal-btn { width: 100%; max-width: 200px; align-self: center; }
 
 /* Formulário */
 .contact-form { display: flex; flex-direction: column; gap: 8px; margin-top: 15px; }
 .terminal-input { background: rgba(128,128,128,0.1); border: 1px solid var(--border); color: #fff; padding: 12px 20px; border-radius: 30px; outline: none; width: 100%; font-family: inherit; }
-.terminal-input:focus { border-color: var(--accent); }
 .h-pot { display: none !important; }
 .success-msg { color: var(--accent); margin-top: 15px; font-size: 10px; line-height: 1; }
 
@@ -69,7 +70,7 @@ body { background: var(--bg-site); color: var(--text-main); height: 100vh; width
 .dock-i { font-size: 28px; cursor: pointer; transition: 0.2s; }
 .dock-i:hover { transform: scale(1.2) translateY(-5px); }
 
-/* Animações e Canvas */
+/* Animações */
 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
 #neural-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity 1s; }
