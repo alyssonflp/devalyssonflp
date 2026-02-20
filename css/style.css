@@ -469,6 +469,33 @@ body {
     font-size: 18px;
 }
 
+/* Garante que o container dos pontos apareça */
+.dots { 
+    display: flex; 
+    gap: 8px; 
+    position: absolute; 
+    left: 20px; 
+    z-index: 10; /* Garante que fique acima de tudo no header */
+}
+
+/* Define o tamanho real dos círculos */
+.dot { 
+    width: 12px; 
+    height: 12px; 
+    border-radius: 50%; 
+    display: inline-block; /* Importante para o tamanho funcionar */
+    cursor: pointer;
+    transition: filter 0.2s;
+}
+
+.dot:hover {
+    filter: brightness(1.2);
+}
+
+/* Cores específicas */
+.close { background-color: #ff5f56 !important; } 
+.min   { background-color: #ffbd2e !important; } 
+.max   { background-color: #27c93f !important; }
 
 
 
