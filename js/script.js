@@ -206,97 +206,137 @@ if (canvas) {
         requestAnimationFrame(anim);
     }
     anim();
-    }
+            }
 
-// Seleção de elementos
-const terminal = document.getElementById('main-terminal');
-const winHeader = terminal.querySelector('.win-header');
-const btnClose = terminal.querySelector('.dot.close');
-const btnMax = terminal.querySelector('.dot.max');
+-----------------------------
+const terminalWindow = document.querySelector('.window');
+const winHeader = document.querySelector('.win-header');
+const closeBtn = document.querySelector('.dot.close');
+const minBtn = document.querySelector('.dot.min');
+const maxBtn = document.querySelector('.dot.max');
 
-// --- 1. FUNÇÃO PARA ARRASTAR (DRAG AND DROP) ---
-let isDragging = false;
-let offset = { x: 0, y: 0 };
-
-winHeader.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    // Calcula a distância entre o clique e o canto da janela
-    offset.x = e.clientX - terminal.offsetLeft;
-    offset.y = e.clientY - terminal.offsetTop;
-    winHeader.style.cursor = 'grabbing';
-});
-
-document.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-
-    // Calcula a nova posição
-    let left = e.clientX - offset.x;
-    let top = e.clientY - offset.y;
-
-    // Aplica a posição (remove o transform translate de 50% para não bugar)
-    terminal.style.transform = 'none';
-    terminal.style.left = `${left}px`;
-    terminal.style.top = `${top}px`;
-});
-
-document.addEventListener('mouseup', () => {
-    isDragging = false;
-    winHeader.style.cursor = 'grab';
-});
-
-// --- 2. BOTÃO FECHAR ---
-btnClose.onclick = () => {
-    terminal.style.display = 'none';
-    // Opcional: Reaparecer o ícone no dock se estiver usando sistema de minimizar
-};
-
-// --- 3. BOTÃO MAXIMIZAR ---
 let isMaximized = false;
-let originalPos = { width: '', height: '', top: '', left: '', transform: '' };
 
-btnMax.onclick = () => {
+// --- FUNÇÕES DE CONTROLE ---
+
+function resetWindowState() {
+    terminalWindow.classList.remove('is-maximized');
+    terminalWindow.classList.remove('window-minimized');
+    isMaximized = false;
+    terminalWindow.style.width = "94vw";
+    terminalWindow.style.height = "80vh";
+    terminalWindow.style.borderRadius = "35px";
+    terminalWindow.style.top = "45%";
+    terminalWindow.style.left = "50%";
+    terminalWindow.style.transform = "translate(-50%, -50%)";
+}
+
+function toggleMaximize() {
     if (!isMaximized) {
-        // Salva estado original
-        originalPos.width = terminal.style.width;
-        originalPos.height = terminal.style.height;
-        originalPos.top = terminal.style.top;
-        originalPos.left = terminal.style.left;
-        originalPos.transform = terminal.style.transform;
-
-        // Aplica tela cheia
-        terminal.style.width = '100vw';
-        terminal.style.height = '100vh';
-        terminal.style.top = '0';
-        terminal.style.left = '0';
-        terminal.style.transform = 'none';
-        terminal.style.borderRadius = '0';
+        terminalWindow.classList.add('is-maximized');
     } else {
-        // Restaura estado original
-        terminal.style.width = originalPos.width;
-        terminal.style.height = originalPos.height;
-        terminal.style.top = originalPos.top;
-        terminal.style.left = originalPos.left;
-        terminal.style.transform = originalPos.transform;
-        terminal.style.borderRadius = '35px'; // Sua borda do CSS
+        resetWindowState();
     }
     isMaximized = !isMaximized;
+}
+
+// FECHAR (Vermelho)
+if (closeBtn) {
+    closeBtn.onclick = () => {
+        terminalWindow.classList.add('window-minimized');
+        setTimeout(() => {
+            terminalWindow.style.display = 'none';
+            resetWindowState();
+        }, 400);
+    };
+}
+
+// MINIMIZAR (Verde) - Encolhe para o Dock
+if (minBtn) {
+    minBtn.onclick = () => {
+        terminalWindow.classList.add('window-minimized');
+        setTimeout(() => {
+            terminalWindow.style.display = 'none';
+        }, 400);
+    };
+}
+
+// MAXIMIZAR (Amarelo)
+if (maxBtn) {
+    maxBtn.onclick = (e) => {
+        e.stopPropagation();
+        toggleMaximize();
+    };
+}
+
+// CLIQUE DUPLO NO CABEÇALHO
+winHeader.ondblclick = toggleMaximize;
+
+// TOQUE DUPLO NO MOBILE
+let lastTap = 0;
+winHeader.addEventListener('touchstart', (e) => {
+    const now = Date.now();
+    if (now - lastTap < 300) {
+        e.preventDefault();
+        toggleMaximize();
+    }
+    lastTap = now;
+});
+
+// --- LÓGICA DE ARRASTAR (DRAG) ---
+
+let isDragging = false;
+let startX, startY, initialX, initialY;
+
+winHeader.onmousedown = (e) => {
+    if (isMaximized) return;
+    isDragging = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    initialX = terminalWindow.offsetLeft;
+    initialY = terminalWindow.offsetTop;
+    winHeader.style.cursor = 'grabbing';
 };
 
-// --- 4. SUPORTE PARA TOUCH (CELULAR) ---
-winHeader.addEventListener('touchstart', (e) => {
-    const touch = e.touches[0];
-    isDragging = true;
-    offset.x = touch.clientX - terminal.offsetLeft;
-    offset.y = touch.clientY - terminal.offsetTop;
-}, { passive: true });
+document.onmousemove = (e) => {
+    if (!isDragging) return;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    terminalWindow.style.transform = 'none'; // Remove centralização do CSS para mover livremente
+    terminalWindow.style.left = (initialX + dx) + 'px';
+    terminalWindow.style.top = (initialY + dy) + 'px';
+};
 
-document.addEventListener('touchmove', (e) => {
+document.onmouseup = () => {
+    isDragging = false;
+    winHeader.style.cursor = 'grab';
+};
+
+// --- SUPORTE TOUCH PARA ARRASTAR ---
+winHeader.ontouchstart = (e) => {
+    if (isMaximized) return;
+    isDragging = true;
+    const touch = e.touches[0];
+    startX = touch.clientX;
+    startY = touch.clientY;
+    initialX = terminalWindow.offsetLeft;
+    initialY = terminalWindow.offsetTop;
+};
+
+document.ontouchmove = (e) => {
     if (!isDragging) return;
     const touch = e.touches[0];
-    terminal.style.transform = 'none';
-    terminal.style.left = `${touch.clientX - offset.x}px`;
-    terminal.style.top = `${touch.clientY - offset.y}px`;
-}, { passive: true });
+    terminalWindow.style.transform = 'none';
+    terminalWindow.style.left = (initialX + (touch.clientX - startX)) + 'px';
+    terminalWindow.style.top = (initialY + (touch.clientY - startY)) + 'px';
+};
 
-document.addEventListener('touchend', () => { isDragging = false; });
+document.ontouchend = () => isDragging = false;
 
+// Função global para abrir (usar no Dock)
+function openTerminal() {
+    terminalWindow.style.display = 'flex';
+    setTimeout(() => {
+        terminalWindow.classList.remove('window-minimized');
+    }, 10);
+}
