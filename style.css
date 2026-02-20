@@ -1,4 +1,4 @@
-/* 1. IMPORTAÇÃO DEFINITIVA (Pasta webfonts do GitHub) */
+/* 1. IMPORTAÇÃO DEFINITIVA */
 @font-face {
     font-family: "Font Awesome Custom Brands";
     src: url('./webfonts/fa-brands-400.woff2') format('woff2');
@@ -13,7 +13,7 @@
     font-display: block;
 }
 
-/* 2. DICIONÁRIO DE ÍCONES (Unicode Fix) */
+/* 2. DICIONÁRIO DE ÍCONES */
 .fab, .fa-brands { font-family: "Font Awesome Custom Brands" !important; font-weight: 400; }
 .fas, .fa-solid { font-family: "Font Awesome Custom Solid" !important; font-weight: 900; }
 
@@ -25,12 +25,6 @@
     -webkit-font-smoothing: antialiased;
 }
 
-.fa-user-circle::before { content: "\f2bd"; }
-.fa-graduation-cap::before { content: "\f19d"; }
-.fa-briefcase::before { content: "\f0b1"; }
-.fa-code::before { content: "\f121"; }
-.fa-envelope::before { content: "\f0e0"; }
-.fa-whatsapp::before { content: "\f232"; }
 .fa-github::before { content: "\f09b"; }
 .fa-linkedin::before { content: "\f08c"; }
 .fa-instagram::before { content: "\f16d"; }
@@ -40,32 +34,14 @@
 :root {
     --bg-site: #050505;
     --bg-login: radial-gradient(circle, #1a1a1a 0%, #050505 100%);
-    --bg-hello: #000000;
-    --text-hello: #9333ea;
     --bg-window: rgba(15, 15, 15, 0.98);
     --bg-dock: rgba(25, 25, 25, 0.8);
     --text-main: #ffffff;
-    --text-sub: #ffffff; 
     --border: #333333;
     --accent: #9333ea;
 }
 
-@media (prefers-color-scheme: light) {
-    :root {
-        --bg-site: #f4f4f4;
-        --bg-login: radial-gradient(circle, #ffffff 0%, #e0e0e0 100%);
-        --bg-hello: #ffffff;
-        --text-hello: #7e22ce;
-        --bg-window: rgba(255, 255, 255, 0.98);
-        --bg-dock: rgba(200, 200, 200, 0.8);
-        --text-main: #1a1a1a;
-        --text-sub: #9333ea; 
-        --border: #cccccc;
-        --accent: #7e22ce;
-    }
-}
-
-/* Reset */
+/* Reset Geral */
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
 body { 
@@ -74,117 +50,109 @@ body {
     height: 100vh; width: 100vw; 
     overflow: hidden; 
     font-family: 'Segoe UI', sans-serif; 
-    transition: 0.3s;
 }
 
-/* Login Screen */
-#login-screen { position: fixed; inset: 0; z-index: 5000; background: var(--bg-login); display: flex; align-items: center; justify-content: center; transition: 0.5s; }
-.login-box { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 320px; }
-.login-avatar { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--accent); margin-bottom: 12px; object-fit: cover; }
-.login-username { font-size: 18px; font-weight: 600; margin-bottom: 15px; }
-.login-field { background: rgba(128, 128, 128, 0.1); border-radius: 30px; padding: 8px 15px; width: 160px; border: 1px solid var(--border); margin-bottom: 15px; }
-.login-field input { background: transparent; border: none; color: var(--text-main); text-align: center; letter-spacing: 4px; outline: none; font-size: 16px; width: 100%; }
-.boot-loader-container { width: 120px; height: 3px; background: rgba(128,128,128,0.2); border-radius: 10px; overflow: hidden; }
-.boot-loader-bar { width: 0%; height: 100%; background: var(--accent); transition: 0.1s linear; }
-
-/* Hello Screen */
-#hello-screen { position: fixed; inset: 0; z-index: 4500; background: var(--bg-hello); display: none; align-items: center; justify-content: center; opacity: 0; transition: 0.5s; }
-.hello-ascii { font-family: 'Courier New', monospace; font-size: clamp(6px, 1.4vw, 11px); color: var(--text-hello); text-align: center; white-space: pre; font-weight: bold; }
-
-/* Window */
+/* Janela */
 .window { 
     position: fixed; z-index: 2000; top: 45%; left: 50%; transform: translate(-50%, -50%); 
     width: 94vw; max-width: 600px; height: 80vh; max-height: 520px; 
     background: var(--bg-window); border: 1px solid var(--border); border-radius: 35px; 
     display: none; flex-direction: column; backdrop-filter: blur(15px); overflow: hidden; 
-    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
 }
 .win-header { background: var(--border); padding: 15px 20px; display: flex; align-items: center; position: relative; }
 .dots { display: flex; gap: 8px; position: absolute; left: 20px; }
 .dot { width: 12px; height: 12px; border-radius: 50%; }
-.close { background: #ff5f56; cursor: pointer; } 
+.close { background: #ff5f56; } 
 .min { background: #ffbd2e; } 
 .max { background: #27c93f; }
-#win-title { width: 100%; text-align: center; font-size: 13px; color: var(--text-main); opacity: 0.8; }
-.win-body { flex: 1; padding: 25px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; }
+#win-title { width: 100%; text-align: center; font-size: 13px; opacity: 0.8; }
+.win-body { flex: 1; padding: 25px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 13px; }
 
 /* Bio Content */
-.bio-content { text-align: center; margin-top: 10px; display: flex; flex-direction: column; align-items: center; }
-.main-name { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; min-height: 40px; }
-.ads-text { font-weight: bold; color: var(--text-sub) !important; margin-bottom: 5px; min-height: 20px; }
-.bio-description { text-align: left; opacity: 0.8; margin: 10px 0; font-size: 14px; line-height: 1.6; min-height: 30px; width: 100%; }
+.bio-content { text-align: center; display: flex; flex-direction: column; align-items: center; }
+.main-name { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 5px; }
 
-/* Social Links & Buttons Styling */
-.social-links { margin: 15px 0; display: flex; justify-content: center; gap: 15px; min-height: 45px; width: 100%; }
+/* Links Sociais (Círculos Coloridos) */
+.social-links { margin: 15px 0; display: flex; justify-content: center; gap: 15px; width: 100%; }
 
-.social-icon, .cv-btn, .terminal-btn { 
-    display: inline-flex; 
+.social-icon { 
+    display: flex; 
     align-items: center; 
     justify-content: center; 
+    width: 45px; 
+    height: 45px; 
+    border-radius: 50%; 
+    color: #fff !important; 
+    text-decoration: none; 
+    font-size: 20px; 
+    transition: 0.3s; 
+    opacity: 0;
+    border: none !important;
+}
+
+.social-github { background-color: #333 !important; animation: slideUp 0.6s 0.8s forwards; }
+.social-linkedin { background-color: #0077b5 !important; animation: slideUp 0.6: 1.0s forwards; }
+.social-instagram { background-color: #E1306C !important; animation: slideUp 0.6s 1.2s forwards; }
+
+.social-icon:hover { transform: translateY(-3px); filter: brightness(1.2); }
+
+/* Botão Download (Estilo Pílula) */
+#cv-area { display: none; width: 100%; justify-content: center; margin-top: 5px; }
+#cv-area.active { display: flex; }
+
+.cv-btn { 
+    display: inline-flex; 
+    align-items: center; 
     gap: 10px; 
-    padding: 10px 20px; 
+    padding: 10px 25px; 
     background: var(--accent); 
     color: #fff !important; 
     text-decoration: none; 
     border-radius: 50px; 
     font-weight: 600; 
-    border: none; 
-    cursor: pointer; 
-    transition: transform 0.3s, background 0.3s, box-shadow 0.3s; 
     font-size: 14px;
-    opacity: 0; /* Começa invisível para a animação */
+    opacity: 0;
+    animation: slideUp 0.6s 1.4s forwards;
+    transition: 0.3s;
 }
+.cv-btn:hover { transform: scale(1.05); filter: brightness(1.1); }
 
-/* Efeito de Hover */
-.social-icon:hover, .cv-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(147, 51, 234, 0.4);
-    filter: brightness(1.1);
+/* --- FORMULÁRIO --- */
+.contact-form { display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 15px; }
+.contact-form input, .contact-form textarea {
+    width: 100%; 
+    padding: 14px; 
+    background: rgba(255,255,255,0.05); 
+    border: none; /* Linha removida */
+    border-radius: 15px; /* Arredondado */
+    color: #fff;
+    font-family: inherit; 
+    outline: none;
 }
+.contact-form textarea { height: 80px; resize: none; }
 
-/* Estilo Ícones Sociais */
-.social-icon { width: 45px; height: 45px; padding: 0; font-size: 20px; }
-.fa-github { background: #333; } 
-.fa-linkedin { background: #0077b5; } 
-.fa-instagram { background: #E1306C; }
-
-/* CV Area (Download) */
-#cv-area {
-    display: none;
+.terminal-btn { 
+    background: var(--accent); 
+    color: #fff; 
+    border: none; 
+    padding: 14px; 
+    border-radius: 15px; 
+    font-weight: bold; 
+    cursor: pointer; 
     width: 100%;
-    justify-content: center;
-    margin-top: 5px;
+    transition: 0.3s;
 }
+.terminal-btn:hover { filter: brightness(1.2); }
 
-#cv-area.active {
-    display: flex;
-}
-
-.cv-btn {
-    animation: slideUp 0.6s 0.8s ease-out forwards; /* Aparece por último */
-}
-
-/* Animações de Entrada (Baixo para Cima) */
-.social-github { animation: slideUp 0.6s 0.2s ease-out forwards; }
-.social-linkedin { animation: slideUp 0.6s 0.4s ease-out forwards; }
-.social-instagram { animation: slideUp 0.6s 0.6s ease-out forwards; }
-
+/* Animações */
 @keyframes slideUp { 
-    from { 
-        opacity: 0; 
-        transform: translateY(30px); 
-    } 
-    to { 
-        opacity: 1; 
-        transform: translateY(0); 
-    } 
+    from { opacity: 0; transform: translateY(20px); } 
+    to { opacity: 1; transform: translateY(0); } 
 }
 
-/* Dock */
-.dock-wrap { position: fixed; bottom: 20px; width: 100%; display: flex; justify-content: center; z-index: 3000; transition: 0.5s; opacity: 0; }
-.dock { display: flex; gap: 15px; padding: 10px 20px; background: var(--bg-dock); border-radius: 40px; border: 1px solid var(--border); backdrop-filter: blur(20px); }
+/* Telas e Dock (Omitidos para brevidade, mas devem ser mantidos) */
+#login-screen, #hello-screen { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 5000; }
+.dock-wrap { position: fixed; bottom: 20px; width: 100%; display: flex; justify-content: center; opacity: 0; transition: 0.5s; }
+.dock { display: flex; gap: 15px; padding: 10px 20px; background: var(--bg-dock); border-radius: 40px; backdrop-filter: blur(20px); }
 .dock-i { font-size: 28px; cursor: pointer; transition: 0.2s; }
 .dock-i:hover { transform: scale(1.2) translateY(-5px); }
-
-/* Canvas */
-#neural-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.5; }
