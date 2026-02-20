@@ -1,28 +1,30 @@
-/* AJUSTE DE DESIGN - ALYSSON OS */
+/* FORÇAR TEMA ESCURO E FUNDO PRETO DESDE O INÍCIO */
+html, body {
+    background-color: #000 !important;
+    color-scheme: dark;
+}
 
+/* O TERMINAL: Arredondado e com efeito de vidro */
 #main-terminal {
     position: absolute;
-    /* Força o arredondamento e remove bordas brancas */
-    border-radius: 12px !important;
-    overflow: hidden !important; 
-    background-color: rgba(0, 0, 0, 0.85) !important;
-    backdrop-filter: blur(10px);
+    background: rgba(10, 10, 10, 0.9) !important;
+    backdrop-filter: blur(15px);
+    border-radius: 12px !important; /* Aqui volta o arredondamento */
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    
-    /* Remove sombras ou contornos indesejados */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
-    outline: none !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    overflow: hidden !important; /* Garante que o conteúdo não saia do arredondamento */
+    display: none; /* Deixa o script.js controlar quando ele aparece */
 }
 
-/* Garante que o cabeçalho mantenha o design */
+/* CABEÇALHO DO TERMINAL */
 .win-header {
-    background: #1a1a1a !important; /* Cor escura do cabeçalho */
+    background: #1a1a1a !important;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
+    cursor: grab;
 }
 
-/* Corrige o "piscar branco" */
-body {
-    background-color: black !important;
-}
+.win-header:active { cursor: grabbing; }
