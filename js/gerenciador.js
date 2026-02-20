@@ -1,63 +1,64 @@
 /**
- * GERENCIADOR DE JANELAS - ALYSSON OS
- * Funções: Arrastar e Controle de Z-Index
+ * GERENCIADOR DE MOVIMENTO - Alysson OS
+ * Suporte para Mouse e Touch (Celular)
  */
 
-const GerenciadorJanelas = {
+const GerenciadorOS = {
     init() {
-        this.configurarArrasto();
+        this.terminal = document.getElementById('main-terminal');
+        if (!this.terminal) return;
+
+        this.setupDraggable();
     },
 
-    configurarArrasto() {
-        document.addEventListener('mousedown', (e) => {
-            // Verifica se o clique foi na barra de título (win-header)
-            const header = e.target.closest('.win-header');
-            if (!header) return;
+    setupDraggable() {
+        const header = this.terminal.querySelector('.win-header');
+        let isDragging = false;
+        let offset = { x: 0, y: 0 };
 
-            const janela = header.parentElement; // O #main-terminal ou .window
+        const startMoving = (e) => {
+            isDragging = true;
+            // Pega a posição correta se for Touch ou Mouse
+            const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+
+            offset.x = clientX - this.terminal.offsetLeft;
+            offset.y = clientY - this.terminal.offsetTop;
             
-            // Traz a janela para a frente
-            this.focarJanela(janela);
+            this.terminal.style.transition = 'none'; // Remove delay ao arrastar
+        };
 
-            // Calcula a posição do clique dentro da janela
-            let shiftX = e.clientX - janela.getBoundingClientRect().left;
-            let shiftY = e.clientY - janela.getBoundingClientRect().top;
+        const move = (e) => {
+            if (!isDragging) return;
+            
+            const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
 
-            // Remove o transform de centralização para não bugar o movimento
-            janela.style.transform = 'none';
-            janela.style.margin = '0';
+            // Calcula a nova posição
+            let newX = clientX - offset.x;
+            let newY = clientY - offset.y;
 
-            const moveAt = (pageX, pageY) => {
-                janela.style.left = pageX - shiftX + 'px';
-                janela.style.top = pageY - shiftY + 'px';
-            };
+            // Aplica as coordenadas
+            this.terminal.style.left = `${newX}px`;
+            this.terminal.style.top = `${newY}px`;
+            this.terminal.style.transform = 'none'; // Remove o translate de centralização
+        };
 
-            const onMouseMove = (event) => {
-                moveAt(event.pageX, event.pageY);
-            };
+        const stopMoving = () => {
+            isDragging = false;
+            this.terminal.style.transition = 'all 0.3s ease-out'; // Devolve a suavidade
+        };
 
-            // Inicia o movimento
-            document.addEventListener('mousemove', onMouseMove);
+        // Eventos de Mouse
+        header.addEventListener('mousedown', startMoving);
+        window.addEventListener('mousemove', move);
+        window.addEventListener('mouseup', stopMoving);
 
-            // Finaliza o movimento
-            document.onmouseup = () => {
-                document.removeEventListener('mousemove', onMouseMove);
-                document.onmouseup = null;
-            };
-        });
-
-        // Previne comportamento padrão de arrastar imagens
-        document.ondragstart = () => false;
-    },
-
-    focarJanela(el) {
-        document.querySelectorAll('.window, #main-terminal').forEach(win => {
-            win.style.zIndex = "50";
-        });
-        el.style.zIndex = "100";
+        // Eventos de Touch (Celular)
+        header.addEventListener('touchstart', startMoving, { passive: false });
+        window.addEventListener('touchmove', move, { passive: false });
+        window.addEventListener('touchend', stopMoving);
     }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-    GerenciadorJanelas.init();
-});
+document.addEventListener('DOMContentLoaded', () => GerenciadorOS.init());
