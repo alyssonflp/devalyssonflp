@@ -1,45 +1,88 @@
-/* Forçar ambiente Dark */
-:root { color-scheme: dark; }
-
-body {
-    background-color: #000 !important;
-    margin: 0;
-    overflow: hidden;
-}
-
-#main-terminal {
-    position: absolute;
-    display: none; /* JS controla a exibição */
-    flex-direction: column;
+/* DESIGN DA JANELA DO TERMINAL */
+.window { 
+    position: fixed; 
+    z-index: 2000; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
     
-    /* DESIGN DA JANELA */
-    background: rgba(15, 15, 15, 0.98) !important;
-    backdrop-filter: blur(10px);
+    width: 94vw; 
+    max-width: 600px; 
+    height: 80vh; 
+    max-height: 520px; 
     
-    /* ARREDONDAMENTO (O segredo é o !important nas 3 linhas abaixo) */
-    border-radius: 12px !important;
+    background: rgba(15, 15, 15, 0.98); 
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+    border-radius: 28px !important; 
+    
+    display: none; /* JS ativa como 'flex' */
+    flex-direction: column; 
+    
+    backdrop-filter: blur(20px); 
+    -webkit-backdrop-filter: blur(20px);
     overflow: hidden !important; 
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
-    z-index: 100;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
 }
 
-/* BARRA SUPERIOR */
-.win-header {
-    background: #1a1a1a !important;
-    height: 38px;
-    display: flex;
-    align-items: center;
-    padding: 0 15px;
+/* CABEÇALHO - Ajustado para não entortar os pontos */
+.win-header { 
+    background: rgba(255, 255, 255, 0.03); 
+    padding: 15px 20px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; /* Centraliza o título */
+    position: relative; 
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    cursor: grab;
 }
 
-/* CONTEÚDO (Garante fundo escuro e texto claro) */
-.win-body {
-    background: transparent !important;
-    color: #fff !important;
-    padding: 15px;
-    font-family: 'Courier New', monospace;
+.dots { 
+    display: flex; 
+    gap: 8px; 
+    position: absolute; 
+    left: 20px; 
 }
+
+.dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.close { background: #ff5f56; cursor: pointer; } 
+.min { background: #ffbd2e; } 
+.max { background: #27c93f; }
+
+#win-title { 
+    font-size: 13px; 
+    color: rgba(255,255,255,0.6); 
+    font-family: 'Segoe UI', sans-serif;
+    pointer-events: none;
+}
+
+/* CORPO DO TERMINAL */
+.win-body { 
+    flex: 1; 
+    padding: 25px; 
+    overflow-y: auto; 
+    font-family: 'Courier New', monospace; 
+    font-size: 14px; 
+    line-height: 1.6; 
+    color: #ffffff;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) transparent;
+}
+
+/* CONTEÚDO INTERNO DA BIO */
+.bio-content { text-align: center; }
+.main-name { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
+.social-links { margin: 20px 0; display: flex; justify-content: center; gap: 25px; }
+.social-icon { font-size: 26px; text-decoration: none !important; transition: 0.3s; opacity: 0; }
+.fa-github { color: #ffffff; }
+.fa-linkedin { color: #0077b5; }
+.fa-instagram { color: #E1306C; }
+
+/* REGRAS DE REVELAÇÃO E BOTÕES */
+.reveal-hidden { display: none; width: 100%; justify-content: center; margin-top: 20px; }
+.reveal-hidden.active { display: flex; opacity: 1; animation: slideDown 0.5s ease forwards; }
+
+.cv-btn { 
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px; 
+    padding: 12px 30px; background: var(--accent); color: #fff !important; 
+    text-decoration: none; border-radius: 50px; font-weight: 700; transition: 0.3s; 
+}
+.cv-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(147, 51, 234, 0.4); }
