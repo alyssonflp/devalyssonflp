@@ -469,7 +469,9 @@ body {
     font-size: 18px;
 }
 
-___________________
+/* --------------------------------------------------------- */
+/* ESTILOS DA JANELA SEPARADO*/
+
 /* JANELA PRINCIPAL */
 .window { 
     position: fixed; 
