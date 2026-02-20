@@ -1,4 +1,4 @@
-/* 1. IMPORTAÇÃO E DICIONÁRIO DE ÍCONES */
+/* 1. IMPORTAÇÃO E DICIONÁRIO DE ÍCONES (Mantido) */
 @font-face {
     font-family: "Font Awesome Custom Brands";
     src: url('../webfonts/fa-brands-400.woff2') format('woff2');
@@ -27,7 +27,7 @@
 .fa-instagram::before { content: "\f16d"; }
 .fa-download::before { content: "\f019"; }
 
-/* 2. VARIÁVEIS GLOBAIS (MODO DARK) */
+/* 2. VARIÁVEIS GLOBAIS */
 :root {
     --bg-site: #000000;
     --bg-login: radial-gradient(circle, #1a1a1a 0%, #000000 100%);
@@ -36,40 +36,123 @@
     --bg-dock: rgba(30, 30, 30, 0.8);
     --text-main: #ffffff;
     --accent: #9333ea;
-    color-scheme: dark !important;
+    --border: rgba(255, 255, 255, 0.1);
 }
 
-/* 3. RESET E BODY */
+/* 3. RESET TOTAL */
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
 html, body { 
     background-color: #000000 !important; 
     color: var(--text-main); 
-    height: 100vh; width: 100vw; 
+    height: 100vh; 
+    width: 100vw; 
     overflow: hidden; 
-    font-family: 'Segoe UI', sans-serif; 
+    font-family: 'Segoe UI', system-ui, sans-serif; 
 }
 
-/* 4. LOGIN E BOOT */
+/* 4. LOGIN SCREEN (CORREÇÃO DE ALINHAMENTO) */
 #login-screen { 
-    position: fixed; inset: 0; z-index: 5000; 
+    position: fixed; 
+    inset: 0; 
+    z-index: 5000; 
     background: var(--bg-login); 
-    display: flex; align-items: center; justify-content: center; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    transition: opacity 0.5s ease; 
 }
 
-.login-avatar { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--accent); margin-bottom: 12px; }
-.login-username { font-size: 18px; font-weight: 600; margin-bottom: 15px; }
-.login-field { background: rgba(128, 128, 128, 0.1); border-radius: 30px; padding: 8px 15px; width: 160px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px; }
-.login-field input { background: transparent; border: none; color: #fff; text-align: center; letter-spacing: 4px; outline: none; width: 100%; }
-.boot-loader-container { width: 120px; height: 3px; background: rgba(128,128,128,0.2); border-radius: 10px; overflow: hidden; }
-.boot-loader-bar { width: 0%; height: 100%; background: var(--accent); transition: width 0.1s linear; }
+.login-box { 
+    display: flex; 
+    flex-direction: column; /* Força um embaixo do outro */
+    align-items: center;    /* Centraliza horizontalmente */
+    justify-content: center; /* Centraliza verticalmente */
+    width: 100%; 
+    max-width: 300px; 
+    text-align: center;
+}
 
-/* 5. DOCK */
-.dock-wrap { position: fixed; bottom: 20px; width: 100%; display: flex; justify-content: center; z-index: 3000; opacity: 0; transition: 0.5s; }
-.dock { display: flex; gap: 15px; padding: 10px 20px; background: var(--bg-dock); border-radius: 40px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(20px); }
+.login-avatar { 
+    width: 110px; 
+    height: 110px; 
+    border-radius: 50%; 
+    border: 3px solid var(--accent); 
+    margin-bottom: 20px; /* Espaço abaixo da foto */
+    object-fit: cover;
+    box-shadow: 0 0 20px rgba(147, 51, 234, 0.3);
+}
+
+.login-username { 
+    font-size: 20px; 
+    font-weight: 600; 
+    margin-bottom: 25px; /* Espaço abaixo do nome */
+    color: #fff;
+}
+
+.login-field { 
+    background: rgba(255, 255, 255, 0.05); 
+    border-radius: 30px; 
+    padding: 10px 15px; 
+    width: 180px; 
+    border: 1px solid var(--border); 
+    margin-bottom: 30px; /* Espaço para a barra de boot */
+}
+
+.login-field input { 
+    background: transparent; 
+    border: none; 
+    color: #fff; 
+    text-align: center; 
+    letter-spacing: 5px; 
+    outline: none; 
+    width: 100%; 
+    font-size: 18px;
+}
+
+/* BARRA DE BOOT CORRIGIDA */
+.boot-loader-container { 
+    width: 150px; 
+    height: 4px; 
+    background: rgba(255, 255, 255, 0.1); 
+    border-radius: 10px; 
+    overflow: hidden;
+    position: relative;
+}
+
+.boot-loader-bar { 
+    width: 0%; 
+    height: 100%; 
+    background: var(--accent); 
+    box-shadow: 0 0 10px var(--accent);
+    transition: width 0.1s linear; 
+}
+
+/* 5. DOCK (AJUSTADO) */
+.dock-wrap { 
+    position: fixed; 
+    bottom: 25px; 
+    width: 100%; 
+    display: flex; 
+    justify-content: center; 
+    z-index: 3000; 
+    opacity: 0; 
+}
+
+.dock { 
+    display: flex; 
+    gap: 15px; 
+    padding: 12px 20px; 
+    background: var(--bg-dock); 
+    border-radius: 40px; 
+    border: 1px solid var(--border); 
+    backdrop-filter: blur(20px); 
+    -webkit-backdrop-filter: blur(20px);
+}
+
 .dock-i { font-size: 28px; cursor: pointer; transition: 0.2s; }
 .dock-i:hover { transform: scale(1.2) translateY(-5px); }
 
-/* 6. ANIMAÇÕES E FUNDO */
+/* 6. FUNDO E ANIMAÇÕES */
 #neural-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.4; }
 @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
