@@ -14,13 +14,14 @@
 }
 
 .main-terminal {
-    /* Ajuste de tamanho para não cobrir o teclado da foto */
-    width: 900px;
-    height: 500px;
+    /* Tamanho fixo para manter a proporção com a imagem de fundo */
+    width: 850px;
+    height: 480px;
     
-    /* Posicionamento fixo sobre a base do monitor na imagem */
+    /* Posicionamento CENTRALIZADO e mais ALTO */
     position: absolute;
-    top: 45%; /* Sobe ou desce o terminal */
+    top: 38%; /* Subimos de 45% para 38% para flutuar acima do teclado */
+    left: 50%;
     
     background: rgba(0, 15, 30, 0.5);
     backdrop-filter: blur(12px) saturate(160%);
@@ -29,10 +30,10 @@
     padding: 25px;
     color: #fff;
     
-    /* Inclinação para casar com a perspectiva da foto */
-    /* RotateX em 10deg faz ele parecer inclinado para trás como um monitor */
+    /* O translate(-50%, -50%) é essencial para alinhar ao centro exato */
+    /* Mantive a rotação para casar com o monitor da foto */
+    transform: translate(-50%, -50%) rotateY(-18deg) rotateX(8deg);
     transform-style: preserve-3d;
-    transform: rotateY(-18deg) rotateX(10deg) translateZ(50px);
     
     box-shadow: 
         0 0 40px rgba(0, 212, 255, 0.2),
@@ -43,13 +44,14 @@
     flex-direction: column;
 }
 
-/* Deixa o terminal responsivo em telas menores */
+/* Ajuste específico para Mobile (Celular) */
 @media (max-width: 1000px) {
     .main-terminal {
-        width: 90%;
-        height: 60%;
-        top: 40%;
-        transform: rotateY(0deg) rotateX(5deg);
+        width: 95vw;
+        height: 60vh;
+        top: 50%; /* No mobile centralizamos totalmente */
+        left: 50%;
+        transform: translate(-50%, -50%) rotateY(0deg) rotateX(0deg);
     }
 }
 
@@ -57,7 +59,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     border-bottom: 1px solid rgba(0, 212, 255, 0.2);
     padding-bottom: 10px;
 }
