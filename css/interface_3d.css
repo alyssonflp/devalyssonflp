@@ -1,8 +1,7 @@
 #desktop-3d {
     width: 100vw;
     height: 100vh;
-    /* O '../' sai da pasta css, e 'imagens/' entra na pasta das fotos */
-    background-image: url('../imagens/fundo.webp'); 
+    background-image: url('../imagens/fundo.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -10,51 +9,88 @@
     justify-content: center;
     align-items: center;
     perspective: 1200px;
-    image-rendering: -webkit-optimize-contrast;
+    overflow: hidden;
+    position: relative;
 }
 
 .main-terminal {
-    width: 85vw;
-    max-width: 900px;
-    height: 55vh;
+    /* Ajuste de tamanho para não cobrir o teclado da foto */
+    width: 900px;
+    height: 500px;
+    
+    /* Posicionamento fixo sobre a base do monitor na imagem */
+    position: absolute;
+    top: 45%; /* Sobe ou desce o terminal */
+    
     background: rgba(0, 15, 30, 0.5);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 212, 255, 0.3);
-    border-radius: 15px;
+    backdrop-filter: blur(12px) saturate(160%);
+    border: 1px solid rgba(0, 212, 255, 0.4);
+    border-radius: 10px;
     padding: 25px;
     color: #fff;
-    transform: rotateY(-15deg) rotateX(5deg);
+    
+    /* Inclinação para casar com a perspectiva da foto */
+    /* RotateX em 10deg faz ele parecer inclinado para trás como um monitor */
     transform-style: preserve-3d;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    transform: rotateY(-18deg) rotateX(10deg) translateZ(50px);
+    
+    box-shadow: 
+        0 0 40px rgba(0, 212, 255, 0.2),
+        inset 0 0 20px rgba(0, 212, 255, 0.05);
+        
+    z-index: 10;
     display: flex;
     flex-direction: column;
+}
+
+/* Deixa o terminal responsivo em telas menores */
+@media (max-width: 1000px) {
+    .main-terminal {
+        width: 90%;
+        height: 60%;
+        top: 40%;
+        transform: rotateY(0deg) rotateX(5deg);
+    }
 }
 
 .terminal-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+    padding-bottom: 10px;
 }
 
 .nav-tabs .tab {
     background: transparent;
     border: 1px solid #00d4ff;
     color: #00d4ff;
-    padding: 5px 12px;
+    padding: 5px 15px;
     cursor: pointer;
     font-family: inherit;
-    margin-left: 5px;
+    margin-left: 10px;
+    transition: 0.3s;
 }
 
-.tab.active { background: #ff007a; border-color: #ff007a; color: #fff; }
+.tab.active {
+    background: #ff007a;
+    border-color: #ff007a;
+    color: #fff;
+    box-shadow: 0 0 15px #ff007a;
+}
 
-.terminal-body { flex: 1; font-size: 1.1rem; }
+.terminal-body {
+    flex: 1;
+    overflow-y: auto;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
 
 .terminal-footer {
     display: flex;
     justify-content: space-between;
-    font-size: 0.7rem;
-    color: rgba(255,255,255,0.4);
-    border-top: 1px solid rgba(255,255,255,0.1);
-    padding-top: 15px;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 20px;
 }
