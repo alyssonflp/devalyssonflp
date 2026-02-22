@@ -4,97 +4,45 @@
     background-image: url('../imagens/fundo.webp');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
+    perspective: 2000px; /* Aumentei a profundidade do 3D */
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    perspective: 1200px;
-    overflow: hidden;
-    position: relative;
 }
 
 .main-terminal {
-    /* Largura reduzida para parecer um monitor real */
-    width: 650px; 
-    height: 400px;
+    /* Largura bem menor para não tampar as laterais do setup */
+    width: 580px; 
+    height: 380px;
     
-    /* Posição mais alta para flutuar acima da base do monitor */
     position: absolute;
-    top: 32%; 
+    top: 30%; /* Bem acima da base do monitor */
     left: 50%;
     
-    background: rgba(0, 15, 30, 0.65);
-    backdrop-filter: blur(15px) saturate(160%);
-    border: 1px solid rgba(0, 212, 255, 0.3);
-    border-radius: 20px;
-    padding: 25px;
-    color: #fff;
+    background: rgba(0, 20, 40, 0.4);
+    backdrop-filter: blur(10px) saturate(180%);
+    border: 1px solid rgba(0, 212, 255, 0.4);
+    border-radius: 30px; /* Borda bem arredondada */
+    padding: 20px;
     
-    /* PERSPECTIVA PARA A DIREITA: rotateY agora é POSITIVO */
-    /* translate(-50%, -50%) mantém ele centralizado na tela */
-    transform: translate(-50%, -50%) rotateY(15deg) rotateX(6deg);
+    /* PERSPECTIVA IGUAL À IMAGEM: 
+       RotateY positivo (vira para a direita)
+       RotateX positivo (inclina para trás) 
+       SkewY (ajusta o alinhamento da base com o teclado) */
+    transform: translate(-50%, -50%) rotateY(25deg) rotateX(12deg) skewY(-2deg);
     transform-style: preserve-3d;
     
-    box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.5),
-        0 0 20px rgba(0, 212, 255, 0.1);
-        
-    z-index: 10;
+    box-shadow: 0 0 50px rgba(0, 212, 255, 0.2);
     display: flex;
     flex-direction: column;
 }
 
-/* Responsividade Mobile */
+/* Esconde o terminal no mobile ou ajusta para não quebrar */
 @media (max-width: 1000px) {
     .main-terminal {
         width: 90vw;
-        height: 50vh;
         top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) rotateY(0deg) rotateX(0deg);
+        transform: translate(-50%, -50%) rotateY(0) rotateX(0);
     }
-}
-
-.terminal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    border-bottom: 1px solid rgba(0, 212, 255, 0.1);
-    padding-bottom: 12px;
-}
-
-.nav-tabs .tab {
-    background: transparent;
-    border: 1px solid rgba(0, 212, 255, 0.4);
-    color: #00d4ff;
-    padding: 4px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 10px;
-    margin-left: 6px;
-    transition: 0.3s;
-}
-
-.tab.active {
-    background: #ff007a;
-    border-color: #ff007a;
-    color: #fff;
-    box-shadow: 0 0 10px #ff007a;
-}
-
-.terminal-body {
-    flex: 1;
-    overflow-y: auto;
-    font-size: 0.95rem;
-    line-height: 1.5;
-}
-
-.terminal-footer {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.7rem;
-    color: rgba(255, 255, 255, 0.3);
-    margin-top: 15px;
 }
