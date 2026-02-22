@@ -17,7 +17,7 @@
     height: 380px;
     
     position: absolute;
-    top: 15%; /* Bem acima da base do monitor */
+    top: 25%; /* Bem acima da base do monitor */
     left: 50%;
     
     background: rgba(0, 20, 40, 0.4);
@@ -42,7 +42,7 @@
 @media (max-width: 1000px) {
     .main-terminal {
         width: 90vw;
-        top: 35%;
+        top: 40%;
         transform: translate(-50%, -50%) rotateY(0) rotateX(0);
     }
 }
