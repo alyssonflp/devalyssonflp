@@ -2,7 +2,7 @@
     width: 100vw;
     height: 100vh;
     /* O '../' sai da pasta css, e 'imagens/' entra na pasta das fotos */
-    background-image: url('../imagens/fundo.jpg'); 
+    background-image: url('../imagens/fundo.webp'); 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
