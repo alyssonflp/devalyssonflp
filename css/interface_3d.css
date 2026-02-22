@@ -1,0 +1,131 @@
+/* Configurações de Cores e Fontes da Imagem */
+:root {
+    --neon-blue: #00d4ff;
+    --neon-pink: #ff007a;
+    --terminal-bg: rgba(0, 20, 40, 0.4);
+    --font-mono: 'Share Tech Mono', 'Courier New', monospace;
+}
+
+#desktop-3d {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 2000px; /* Profundidade do 3D */
+    background: #050505;
+}
+
+/* O Terminal Principal */
+.main-terminal {
+    width: 85vw;
+    max-width: 1100px;
+    height: 65vh;
+    background: var(--terminal-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-radius: 12px;
+    
+    /* Inclinação Lateral idêntica à foto */
+    transform: rotateY(-18deg) rotateX(8deg);
+    
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    box-shadow: -40px 40px 80px rgba(0,0,0,0.7), 
+                0 0 30px rgba(0, 212, 255, 0.1);
+    transition: transform 0.1s ease;
+}
+
+/* Cabeçalho com Ícone e Abas */
+.terminal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.terminal-user {
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-icon {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--neon-blue);
+    border-radius: 50%;
+    position: relative;
+}
+
+.user-icon::after {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    border: 1px solid var(--neon-blue);
+    border-radius: 50%;
+}
+
+.nav-tabs { display: flex; gap: 12px; }
+
+.tab {
+    background: rgba(0, 212, 255, 0.1);
+    border: 1px solid var(--neon-blue);
+    color: var(--neon-blue);
+    padding: 6px 18px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.tab.active {
+    background: var(--neon-pink);
+    border-color: var(--neon-pink);
+    color: #fff;
+    box-shadow: 0 0 15px var(--neon-pink);
+}
+
+/* Conteúdo Centralizado */
+.terminal-body {
+    flex: 1;
+    font-family: var(--font-mono);
+}
+
+.prompt-title {
+    font-size: 26px;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.prompt-sub {
+    color: rgba(255,255,255,0.7);
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 30px;
+}
+
+.status-line {
+    font-size: 18px;
+    color: #fff;
+    margin: 8px 0;
+}
+
+.status-line span {
+    color: var(--neon-pink);
+    text-shadow: 0 0 8px var(--neon-pink);
+}
+
+/* Rodapé de Dados */
+.terminal-footer {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 20px;
+}
