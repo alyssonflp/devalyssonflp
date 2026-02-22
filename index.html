@@ -7,6 +7,8 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <link rel="stylesheet" href="css/intro.css">
     <link rel="stylesheet" href="css/interface_3d.css">
 </head>
@@ -14,11 +16,13 @@
 
     <section id="login-screen">
         <div class="login-box">
-            <img src="./imagens/alysson.png" class="login-avatar" alt="Alysson" onerror="this.src='https://ui-avatars.com/api/?name=Alysson+Felipe&background=9333ea&color=fff';">
+            <img src="./imagens/alysson.png" class="login-avatar" alt="Alysson" 
+                 onerror="this.src='https://ui-avatars.com/api/?name=Alysson+Felipe&background=9333ea&color=fff';">
+            
             <h2 class="login-username">alyssonfelipe</h2>
             
             <div class="login-field">
-                <input type="password" id="pass-input" readonly>
+                <input type="password" id="pass-input" placeholder="••••••••" readonly>
             </div>
 
             <div class="boot-loader-container">
@@ -29,29 +33,30 @@
     </section>
 
     <main id="desktop-3d" class="hidden">
-    <section class="main-terminal">
-        <div class="terminal-header">
-            <div class="sys-info">
-                <i class="fas fa-circle-notch"></i> ALYSSON_FLP.SYS
-            </div>
-            <div class="nav-tabs">
-                <button class="tab">/SOBRE</button>
-                <button class="tab">/STACK</button>
-                <button class="tab active">/ACERVO</button>
-            </div>
-        </div>
+        <section class="main-terminal">
+            
+            <header class="terminal-header">
+                <div class="sys-info">
+                    <i class="fas fa-circle-notch fa-spin"></i> ALYSSON_FLP.SYS
+                </div>
+                <nav class="nav-tabs">
+                    <button class="tab" onclick="changeTab('sobre')">/SOBRE</button>
+                    <button class="tab" onclick="changeTab('stack')">/STACK</button>
+                    <button class="tab active" onclick="changeTab('acervo')">/ACERVO</button>
+                </nav>
+            </header>
 
-        <div class="terminal-body" id="content">
-            </div>
+            <article class="terminal-body" id="content">
+                </article>
 
-        <div class="terminal-footer">
-            <span>LOC: -25.4284, 49.2733</span>
-            <span id="latency">LATENCY. 28ms</span>
-            <span>V.2.6.0_STABLE</span>
-        </div>
-    </section>
-</main>
-
+            <footer class="terminal-footer">
+                <div class="footer-item">LOC: -25.4284, 49.2733</div>
+                <div class="footer-item" id="latency">LATENCY: 28ms</div>
+                <div class="footer-item">V.2.6.0_STABLE</div>
+            </footer>
+            
+        </section>
+    </main>
 
     <script src="js/intro.js"></script>
     <script src="js/interface_3d.js"></script>
