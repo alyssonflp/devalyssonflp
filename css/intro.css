@@ -1,0 +1,99 @@
+:root {
+    --bg-login: radial-gradient(circle, #1a1a1a 0%, #050505 100%);
+    --accent: #00d4ff; /* Mudei para o azul da imagem 3D */
+    --text-main: #ffffff;
+    --border: #333333;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    background: #050505;
+    color: var(--text-main);
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+#login-screen { 
+    position: fixed; 
+    inset: 0; 
+    z-index: 5000; 
+    background: var(--bg-login); 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    transition: opacity 0.8s ease; 
+}
+
+.login-box { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    width: 100%; 
+    max-width: 320px; 
+}
+
+.login-avatar { 
+    width: 100px; 
+    height: 100px; 
+    border-radius: 50%; 
+    border: 2px solid var(--accent); 
+    margin-bottom: 12px; 
+    object-fit: cover;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+}
+
+.login-username { 
+    font-size: 18px; 
+    font-weight: 600; 
+    margin-bottom: 15px; 
+    letter-spacing: 1px;
+}
+
+.login-field { 
+    background: rgba(128, 128, 128, 0.1); 
+    border-radius: 30px; 
+    padding: 8px 15px; 
+    width: 160px; 
+    border: 1px solid var(--border); 
+    margin-bottom: 15px; 
+}
+
+.login-field input { 
+    background: transparent; 
+    border: none; 
+    color: var(--text-main); 
+    text-align: center; 
+    letter-spacing: 4px; 
+    outline: none; 
+    font-size: 16px; 
+    width: 100%; 
+}
+
+.boot-loader-container { 
+    width: 200px; 
+    height: 3px; 
+    background: rgba(255,255,255,0.1); 
+    border-radius: 10px; 
+    overflow: hidden; 
+}
+
+.boot-loader-bar { 
+    width: 0%; 
+    height: 100%; 
+    background: var(--accent); 
+    box-shadow: 0 0 15px var(--accent);
+    transition: width 0.1s linear; 
+}
+
+#boot-status {
+    margin-top: 10px;
+    font-size: 10px;
+    font-family: monospace;
+    color: var(--accent);
+    text-transform: uppercase;
+}
+
+.hidden { display: none !important; }
