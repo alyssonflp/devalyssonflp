@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Alysson OS | v2.6</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="css/intro.css">
     <link rel="stylesheet" href="css/interface_3d.css">
 </head>
 <body>
 
-    <div id="login-screen">
+    <section id="login-screen">
         <div class="login-box">
             <img src="./imagens/alysson.png" class="login-avatar" alt="Alysson" onerror="this.src='https://ui-avatars.com/api/?name=Alysson+Felipe&background=9333ea&color=fff';">
             <h2 class="login-username">alyssonfelipe</h2>
@@ -23,10 +26,44 @@
             </div>
             <div id="boot-status">Inicializando sistema...</div>
         </div>
-    </div>
+    </section>
 
     <main id="desktop-3d" class="hidden">
-        </main>
+        
+        <section class="main-terminal">
+            
+            <header class="terminal-header">
+                <div class="terminal-user">
+                    <div class="user-icon"></div>
+                    ALYSSON_FLP.SYS
+                </div>
+                <nav class="nav-tabs">
+                    <button class="tab">/SOBRE</button>
+                    <button class="tab">/STACK</button>
+                    <button class="tab active">/ACERVO</button>
+                </nav>
+            </header>
+
+            <article class="terminal-body">
+                <h2 class="prompt-title">hc:[ACERO_DE_PROJETOS]></h2>
+                <p class="prompt-sub">
+                    bcacrds-filter: GitHub para logs completos,<br>
+                    regpgrclyulce;
+                </p>
+                
+                <div class="status-line">> API_COMMERCE: <span>Online</span></div>
+                <div class="status-line">> DASHBARD_FIN: <span>Online</span></div>
+            </article>
+
+            <footer class="terminal-footer">
+                <span>LOC: -25.4284, 49.2733</span>
+                <span id="latency-val">LATENCY. 28ms</span>
+                <span>V.2.6.0_STABLE</span>
+            </footer>
+            
+        </section>
+
+    </main>
 
     <script src="js/intro.js"></script>
     <script src="js/interface_3d.js"></script>
