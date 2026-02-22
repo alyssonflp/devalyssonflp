@@ -4,101 +4,67 @@
     background-image: url('../imagens/fundo.webp');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
+    perspective: 1500px; /* Essencial para o efeito de profundidade */
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* Perspectiva mais forte para o efeito de "vir para frente" ser nítido */
-    perspective: 1000px; 
-    overflow: hidden;
-    position: relative;
 }
 
 .main-terminal {
-    /* Largura reduzida para liberar as laterais */
     width: 600px;
-    height: 400px;
-    
-    /* Posicionamento mais alto e centralizado */
+    height: 380px;
     position: absolute;
     top: 25%; 
     left: 50%;
     
-    /* Efeito Holográfico */
-    background: rgba(0, 20, 40, 0.55);
-    backdrop-filter: blur(12px) saturate(160%);
-    border: 1px solid rgba(0, 212, 255, 0.4);
-    border-radius: 35px; /* Bordas bem arredondadas */
-    padding: 25px;
-    color: #fff;
+    /* Efeito de Vidro (Glassmorphism) */
+    background: rgba(0, 150, 255, 0.07); /* Bem transparente como na imagem */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     
-    /* PERSPECTIVA FIXA: 
-       -25deg no Y traz a ESQUERDA para frente.
-       10deg no X inclina o TOPO para trás. */
-    transform: translate(-50%, -50%) rotateY(-25deg) rotateX(10deg);
+    /* Borda Neon Fina */
+    border: 1px solid rgba(0, 212, 255, 0.5);
+    border-radius: 40px; /* Bordas bem redondas igual ao print */
+    padding: 30px;
+    
+    /* A Perspectiva da Imagem: Esquerda para frente, Direita para trás */
+    transform: translate(-50%, -50%) rotateY(-28deg) rotateX(12deg);
     transform-style: preserve-3d;
     
-    box-shadow: 
-        0 20px 50px rgba(0, 0, 0, 0.5),
-        0 0 30px rgba(0, 212, 255, 0.15);
-        
-    z-index: 10;
+    /* Brilho Externo (Glow) */
+    box-shadow: 0 0 40px rgba(0, 212, 255, 0.15), 
+                inset 0 0 20px rgba(0, 212, 255, 0.05);
+    
     display: flex;
     flex-direction: column;
 }
 
-/* Responsividade Mobile (Sem perspectiva para facilitar o toque) */
+/* Aplicando a mesma perspectiva no Mobile */
 @media (max-width: 1000px) {
     .main-terminal {
-        width: 90vw;
-        height: 55vh;
-        top: 40%;
-        left: 50%;
-        transform: translate(-50%, -50%) rotateY(0deg) rotateX(0deg);
-        border-radius: 20px;
+        width: 85vw;
+        height: 45vh;
+        top: 30%;
+        /* No mobile, suavizamos um pouco para não cortar o texto */
+        transform: translate(-50%, -50%) rotateY(-20deg) rotateX(8deg);
+        border-radius: 30px;
     }
 }
 
+/* Estilo do conteúdo interno para bater com a imagem */
 .terminal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    border-bottom: 1px solid rgba(0, 212, 255, 0.1);
-    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+    margin-bottom: 15px;
 }
 
-.nav-tabs .tab {
-    background: transparent;
-    border: 1px solid rgba(0, 212, 255, 0.5);
+.sys-info {
     color: #00d4ff;
-    padding: 5px 12px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 11px;
-    margin-left: 8px;
-    transition: 0.3s;
-}
-
-.tab.active {
-    background: #ff007a;
-    border-color: #ff007a;
-    color: #fff;
-    box-shadow: 0 0 10px #ff007a;
-}
-
-.terminal-body {
-    flex: 1;
-    overflow-y: auto;
-    font-size: 1rem;
-    line-height: 1.5;
-}
-
-.terminal-footer {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.3);
-    margin-top: 15px;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
 }
