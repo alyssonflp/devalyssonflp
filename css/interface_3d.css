@@ -17,7 +17,7 @@
     height: 380px;
     
     position: absolute;
-    top: 30%; /* Bem acima da base do monitor */
+    top: 15%; /* Bem acima da base do monitor */
     left: 50%;
     
     background: rgba(0, 20, 40, 0.4);
