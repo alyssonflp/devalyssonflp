@@ -1,7 +1,8 @@
 #desktop-3d {
     width: 100vw;
     height: 100vh;
-    background-image: url('../fundo.jpg'); /* Nome exato do seu arquivo 4K */
+    /* O '../' sai da pasta css, e 'imagens/' entra na pasta das fotos */
+    background-image: url('../imagens/fundo.jpg'); 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
