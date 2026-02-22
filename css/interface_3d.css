@@ -14,44 +14,43 @@
 }
 
 .main-terminal {
-    /* Reduzi o tamanho para não tomar a tela toda */
-    width: 750px; 
-    height: 420px;
+    /* Largura reduzida para parecer um monitor real */
+    width: 650px; 
+    height: 400px;
     
-    /* Centralização e ajuste de altura para ficar acima da base do monitor */
+    /* Posição mais alta para flutuar acima da base do monitor */
     position: absolute;
-    top: 35%; /* Subi mais um pouco para sair da base */
+    top: 32%; 
     left: 50%;
     
-    /* Cores e Bordas Arredondadas */
-    background: rgba(0, 15, 30, 0.6);
+    background: rgba(0, 15, 30, 0.65);
     backdrop-filter: blur(15px) saturate(160%);
     border: 1px solid rgba(0, 212, 255, 0.3);
-    border-radius: 25px; /* Bordas bem arredondadas como pediu */
+    border-radius: 20px;
     padding: 25px;
     color: #fff;
     
-    /* Transformação 3D para casar com a profundidade da foto */
-    transform: translate(-50%, -50%) rotateY(-15deg) rotateX(7deg);
+    /* PERSPECTIVA PARA A DIREITA: rotateY agora é POSITIVO */
+    /* translate(-50%, -50%) mantém ele centralizado na tela */
+    transform: translate(-50%, -50%) rotateY(15deg) rotateX(6deg);
     transform-style: preserve-3d;
     
     box-shadow: 
-        0 0 30px rgba(0, 212, 255, 0.15),
-        inset 0 0 15px rgba(255, 255, 255, 0.05);
+        0 15px 35px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(0, 212, 255, 0.1);
         
     z-index: 10;
     display: flex;
     flex-direction: column;
 }
 
-/* Ajuste Mobile: para o celular, ele ocupa mais espaço para ser legível */
+/* Responsividade Mobile */
 @media (max-width: 1000px) {
     .main-terminal {
-        width: 92vw;
-        height: 55vh;
+        width: 90vw;
+        height: 50vh;
         top: 50%;
         left: 50%;
-        border-radius: 20px;
         transform: translate(-50%, -50%) rotateY(0deg) rotateX(0deg);
     }
 }
@@ -67,14 +66,14 @@
 
 .nav-tabs .tab {
     background: transparent;
-    border: 1px solid rgba(0, 212, 255, 0.5);
+    border: 1px solid rgba(0, 212, 255, 0.4);
     color: #00d4ff;
-    padding: 5px 12px;
-    border-radius: 10px; /* Abas arredondadas também */
+    padding: 4px 10px;
+    border-radius: 8px;
     cursor: pointer;
     font-family: inherit;
-    font-size: 11px;
-    margin-left: 8px;
+    font-size: 10px;
+    margin-left: 6px;
     transition: 0.3s;
 }
 
@@ -88,14 +87,14 @@
 .terminal-body {
     flex: 1;
     overflow-y: auto;
-    font-size: 1rem;
+    font-size: 0.95rem;
     line-height: 1.5;
 }
 
 .terminal-footer {
     display: flex;
     justify-content: space-between;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: rgba(255, 255, 255, 0.3);
     margin-top: 15px;
 }
