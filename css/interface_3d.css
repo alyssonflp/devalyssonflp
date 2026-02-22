@@ -1,55 +1,134 @@
-/* Configuração do fundo 4K */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --neon-blue: #00d4ff;
+    --neon-pink: #ff007a;
+    --glass-bg: rgba(0, 20, 40, 0.45);
+}
+
+body {
+    background: #000;
+    overflow: hidden;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+/* Fundo 4K com ajustes de nitidez */
 #desktop-3d {
     width: 100vw;
     height: 100vh;
-    background-image: url('../fundo.jpg'); /* Nome conforme você salvou */
+    background-image: url('../fundo.jpg'); /* Verifique se o caminho está correto */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
-    perspective: 1200px;
-    overflow: hidden;
-    position: relative;
+    perspective: 1500px; /* Profundidade do 3D */
+    image-rendering: -webkit-optimize-contrast;
 }
 
-/* O Monitor Holográfico */
+/* Efeito de Scanlines (Linhas de monitor antigo) */
+#desktop-3d::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%);
+    background-size: 100% 4px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* A Janela Holográfica */
 .main-terminal {
-    /* Ajuste de tamanho para ocupar o vão central da imagem */
     width: 80vw;
     max-width: 950px;
     height: 55vh;
-    
-    /* Cores e Glassmorphism */
-    background: rgba(0, 15, 30, 0.5);
-    backdrop-filter: blur(12px) saturate(160%);
-    border: 1px solid rgba(0, 212, 255, 0.4);
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px) saturate(180%);
+    border: 1px solid rgba(0, 212, 255, 0.3);
     border-radius: 15px;
-    
-    /* Posicionamento 3D - Ajuste os graus se necessário */
-    transform-style: preserve-3d;
-    transform: rotateY(-12deg) rotateX(4deg) translateZ(50px);
-    
-    /* Efeito de iluminação que integra com o teclado da foto */
-    box-shadow: 
-        0 0 40px rgba(0, 212, 255, 0.15),
-        inset 0 0 20px rgba(255, 0, 122, 0.05);
-        
+    padding: 30px;
     position: relative;
     z-index: 10;
-    padding: 25px;
-    transition: transform 0.2s ease-out;
+    
+    /* Inclinação 3D inicial */
+    transform-style: preserve-3d;
+    transform: rotateY(-15deg) rotateX(5deg);
+    
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(0, 212, 255, 0.1);
+    
+    display: flex;
+    flex-direction: column;
 }
 
-/* Overlay de Scanlines (Opcional - dá um toque de monitor real) */
-#desktop-3d::after {
-    content: " ";
+/* Brilho de reflexo no topo do vidro */
+.main-terminal::before {
+    content: "";
     position: absolute;
-    top: 0; left: 0; bottom: 0; right: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-    background-size: 100% 3px, 3px 100%;
+    top: 0; left: 0; right: 0; height: 40%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+    border-radius: 15px 15px 0 0;
     pointer-events: none;
-    z-index: 5;
+}
+
+/* Interface Elements */
+.terminal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.terminal-user {
+    color: #fff;
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+.nav-tabs { display: flex; gap: 10px; }
+
+.tab {
+    background: rgba(0, 212, 255, 0.05);
+    border: 1px solid var(--neon-blue);
+    color: var(--neon-blue);
+    padding: 6px 15px;
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.tab.active {
+    background: var(--neon-pink);
+    border-color: var(--neon-pink);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(255, 0, 122, 0.5);
+}
+
+.terminal-body { flex: 1; color: #fff; }
+
+.prompt-title {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: var(--neon-blue);
+}
+
+.neon-text {
+    color: var(--neon-pink);
+    text-shadow: 0 0 10px var(--neon-pink);
+}
+
+.terminal-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.4);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
 }
