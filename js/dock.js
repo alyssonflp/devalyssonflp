@@ -1,13 +1,13 @@
 /**
- * Módulo do Dock Lateral - Alysson_OS
+ * Módulo do Dock (Painel de Hardware) - Alysson_OS
  */
+import { toggleHologram } from './hologram-engine.js';
 
 export function initDock() {
-    let dockContainer = document.getElementById('terminal-dock');
+    const dockContainer = document.getElementById('terminal-dock');
     if (!dockContainer) return;
 
-    dockContainer.innerHTML = '';
-
+    // Banco de dados de ícones - Fácil de escalar
     const icons = [
         { name: 'about', lucide: 'user-circle', label: 'About' },
         { name: 'skills', lucide: 'code-2', label: 'Skills' },
@@ -16,12 +16,16 @@ export function initDock() {
         { name: 'ia', lucide: 'bot', label: 'I.A' }
     ];
 
+    dockContainer.innerHTML = '';
+
     icons.forEach(item => {
         const iconBtn = document.createElement('div');
         iconBtn.className = 'dock-item';
-        iconBtn.setAttribute('data-label', item.label);
+        // Usamos data-tooltip para o CSS unificado
+        iconBtn.setAttribute('data-tooltip', item.label); 
         iconBtn.innerHTML = `<i data-lucide="${item.lucide}"></i>`;
         
+        // Impede foco indesejado no clique
         iconBtn.onmousedown = (e) => e.preventDefault();
 
         iconBtn.onclick = (e) => {
@@ -30,22 +34,20 @@ export function initDock() {
             const input = document.getElementById('terminal-input');
             const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
-            // 1. Prepara o input para Mobile (ReadOnly temporário)
-            if (isTouch && input) {
-                input.readOnly = true;
-            }
+            if (isTouch && input) input.readOnly = true;
 
-            // 2. Remove o foco visual do botão para limpar o hover de clique
-            iconBtn.blur();
+            // Feedback visual de clique
+            iconBtn.classList.add('is-active');
             
-            // 3. Simula a digitação passando o botão como referência
+            // Inicia simulação de digitação
             simulateTyping(`/${item.name}`, iconBtn, () => {
-                // 4. Ao terminar TUDO, remove a classe de bloqueio do título
-                iconBtn.classList.remove('is-typing');
+                iconBtn.classList.remove('is-typing', 'is-active');
+                if (isTouch && input) input.readOnly = false;
                 
-                if (isTouch && input) {
-                    input.readOnly = false;
-                }
+                // Abre o holograma correspondente após a digitação
+                const monitor = document.getElementById('desktop-3d');
+                const rotationY = monitor ? parseFloat(monitor.dataset.rotationY) || 0 : 0;
+                toggleHologram(item.name, rotationY);
             });
         };
 
@@ -55,42 +57,25 @@ export function initDock() {
     if (window.lucide) window.lucide.createIcons();
 }
 
-/**
- * Simula a digitação com sincronia de título
- */
 async function simulateTyping(command, iconBtn, onFinish) {
     const input = document.getElementById('terminal-input');
-    if (!input) {
-        if (onFinish) onFinish();
-        return;
-    }
+    if (!input) return onFinish?.();
 
     input.value = '';
-
-    // --- O PONTO CHAVE: ---
-    // Aplicamos a classe que esconde o título apenas quando a digitação INICIA
     iconBtn.classList.add('is-typing');
 
-    for (let i = 0; i < command.length; i++) {
-        input.value += command[i];
+    for (const char of command) {
+        input.value += char;
         input.dispatchEvent(new Event('input', { bubbles: true }));
-        
-        // Delay humano de digitação
         await new Promise(r => setTimeout(r, Math.random() * 30 + 30)); 
     }
 
     await new Promise(r => setTimeout(r, 200));
 
     const enterEvent = new KeyboardEvent('keydown', { 
-        key: 'Enter', 
-        code: 'Enter', 
-        keyCode: 13, 
-        which: 13,
-        bubbles: true,
-        cancelable: true
+        key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true 
     });
     
     input.dispatchEvent(enterEvent);
-    
     if (onFinish) onFinish();
 }
