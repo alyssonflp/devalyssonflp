@@ -1,29 +1,34 @@
 /* --- HOLOGRAMA DIRECIONAL 3D CORRIGIDO --- */
 
 .hologram-card {
-    position: fixed; /* Fixed garante que ele acompanhe a visão mesmo com scroll */
+    /* Alterado para absolute para herdar a perspectiva do container desktop-3d */
+    position: absolute; 
     top: 50%;
     left: 50%;
-    /* No Mobile ele ocupa quase toda a largura, no Desktop ele trava em 320px */
     width: 90vw; 
     max-width: 320px;
     height: auto;
     max-height: 85vh;
-    background: rgba(0, 30, 50, 0.6); /* Aumentada a opacidade para legibilidade */
+    background: rgba(0, 30, 50, 0.45); 
     backdrop-filter: blur(12px);
+    
+    /* ARREDONDAMENTO DAS BORDAS */
+    border-radius: 20px; 
     border: 1px solid rgba(0, 212, 255, 0.3);
+    
     color: #fff;
     padding: 20px;
-    z-index: 9999; /* Garante que fique acima de tudo */
+    z-index: 9999; 
     pointer-events: none;
     opacity: 0;
     
-    /* Centralização Padrão (Mobile First) */
+    /* Centralização Padrão e Perspectiva */
+    /* overflow: hidden garante que o brilho e scanlines respeitem o arredondamento */
+    overflow: hidden; 
     transform: translate(-50%, -50%) scale(0.8) perspective(1000px);
     transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
     font-family: 'JetBrains Mono', 'Share Tech Mono', monospace;
-    overflow: hidden;
-    box-shadow: 0 0 40px rgba(0, 212, 255, 0.2);
+    box-shadow: 0 0 40px rgba(0, 212, 255, 0.15), inset 0 0 20px rgba(0, 212, 255, 0.05);
 }
 
 /* Estado Ativo (Mobile) */
@@ -34,25 +39,25 @@
 }
 
 /* --- AJUSTES PARA DESKTOP (Telas Maiores que 1024px) --- */
-/* Aqui devolvemos o efeito "torto" de projeção lateral */
 
 @media (min-width: 1025px) {
-    /* PROJEÇÃO PARA A ESQUERDA */
+    /* PROJEÇÃO PARA A ESQUERDA - Com translateZ para vir para frente */
     .hologram-card.pop-left {
-        transform: translate(-140%, -50%) perspective(1000px) rotateY(15deg);
+        transform: translate(-140%, -50%) perspective(1000px) rotateY(15deg) translateZ(0);
     }
 
     .hologram-card.hologram-active.pop-left {
-        transform: translate(-150%, -50%) perspective(1000px) rotateY(20deg) translateZ(100px);
+        /* translateZ(250px) faz ele saltar em direção ao usuário */
+        transform: translate(-150%, -50%) perspective(1000px) rotateY(20deg) translateZ(250px);
     }
 
-    /* PROJEÇÃO PARA A DIREITA */
+    /* PROJEÇÃO PARA A DIREITA - Com translateZ para vir para frente */
     .hologram-card.pop-right {
-        transform: translate(40%, -50%) perspective(1000px) rotateY(-15deg);
+        transform: translate(40%, -50%) perspective(1000px) rotateY(-15deg) translateZ(0);
     }
 
     .hologram-card.hologram-active.pop-right {
-        transform: translate(50%, -50%) perspective(1000px) rotateY(-20deg) translateZ(100px);
+        transform: translate(50%, -50%) perspective(1000px) rotateY(-20deg) translateZ(250px);
     }
 }
 
@@ -65,7 +70,20 @@
     margin-bottom: 20px;
     border-bottom: 1px solid rgba(0, 212, 255, 0.2);
     padding-bottom: 15px;
+    position: relative;
 }
+
+/* Botão de Fechar Arredondado */
+.hologram-close {
+    position: absolute;
+    right: -5px;
+    top: -10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: rgba(0, 212, 255, 0.5);
+    transition: color 0.3s;
+}
+.hologram-close:hover { color: #ff007a; }
 
 .hologram-main-icon {
     width: 50px;
@@ -96,7 +114,7 @@
     padding-right: 5px;
 }
 
-/* Scrollbar Estilizado */
+/* Scrollbar Futurista */
 .hologram-content-area::-webkit-scrollbar {
     width: 4px;
 }
@@ -127,6 +145,7 @@
     background: rgba(0, 212, 255, 0.1);
     position: relative;
     overflow: hidden;
+    border-radius: 10px;
 }
 
 .hologram-bar::after {
@@ -141,40 +160,38 @@
 
 /* --- ANIMAÇÕES --- */
 
-@keyframes loadingBar {
-    100% { left: 100%; }
-}
+@keyframes loadingBar { 100% { left: 100%; } }
 
 @keyframes holo-float {
     0%, 100% { transform: translateY(0) scale(1); }
     50% { transform: translateY(-8px) scale(1.05); }
 }
 
-/* --- EFEITO DE FEIXE (Desativado no Mobile para não bugar) --- */
+/* --- FEIXE DO PROJETOR --- */
 .projector-beam {
     position: absolute;
     top: 50%;
     width: 150px;
-    height: 100%;
-    background: linear-gradient(to right, rgba(0, 212, 255, 0.08), transparent);
+    height: 120%;
+    background: linear-gradient(to right, rgba(0, 212, 255, 0.05), transparent);
     z-index: -1;
     pointer-events: none;
-    display: none; /* Escondido por padrão */
+    display: none;
 }
 
 @media (min-width: 1025px) {
     .projector-beam { display: block; }
     .pop-left .projector-beam {
-        right: -150px;
-        transform: translateY(-50%) skewY(10deg);
+        right: -100px;
+        transform: translateY(-50%) skewY(15deg);
     }
     .pop-right .projector-beam {
-        left: -150px;
-        transform: translateY(-50%) skewY(-10deg);
+        left: -100px;
+        transform: translateY(-50%) skewY(-15deg);
     }
 }
 
-/* Scanlines */
+/* Scanlines Arredondados */
 .scanline {
     position: absolute;
     inset: 0;
@@ -186,6 +203,7 @@
     background-size: 100% 4px;
     animation: scanMove 10s linear infinite;
     pointer-events: none;
+    border-radius: 20px; /* Casando com o card */
 }
 
 @keyframes scanMove {
