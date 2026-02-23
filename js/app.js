@@ -1,15 +1,19 @@
 import { initInterface3D } from './interface_3d.js';
 import { initSystemInfo } from './info_sistema.js';
 
-window.startOS = () => {
-    console.log("Iniciando componentes..."); // Debug
+function startOS() {
+    console.log("🚀 Iniciando Alysson_OS...");
     initInterface3D();
     initSystemInfo();
-};
-
-// Força a inicialização caso a tela de login seja ignorada
-if (document.readyState === 'complete') {
-    if (document.getElementById("login-screen")?.classList.contains("hidden")) {
-        window.startOS();
-    }
 }
+
+// Expõe a função para o mundo global (essencial para o intro.js ver)
+window.startOS = startOS;
+
+// Caso o usuário recarregue a página já logado
+document.addEventListener("DOMContentLoaded", () => {
+    const login = document.getElementById("login-screen");
+    if (login && (login.classList.contains("hidden") || login.style.display === "none")) {
+        startOS();
+    }
+});
