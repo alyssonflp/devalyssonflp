@@ -1,56 +1,63 @@
-/* --- SIDE DOCK PREMIUM (DIREITA) --- */
+/* --- SIDE DOCK MINIMALISTA (APENAS BORDAS DEGRADÊ) --- */
 
 #terminal-dock {
     position: absolute;
-    right: 10px;
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding: 10px;
+    gap: 14px;
+    padding: 12px 8px;
     
-    /* Efeito de Vidro */
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(12px) saturate(150%);
+    /* Removemos o fundo completamente */
+    background: transparent;
+    border-radius: 20px;
     
-    /* TRUQUE PARA BORDA ARREDONDADA COM DEGRADÊ */
+    /* Configuração da Borda Degradê */
     border: 1.5px solid transparent;
-    border-radius: 20px; /* Bordas bem suaves */
-    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                      linear-gradient(to bottom, #ff007a, #00d4ff);
+    background-image: linear-gradient(to bottom, #ff007a, #00d4ff);
     background-origin: border-box;
-    background-clip: padding-box, border-box;
+    background-clip: border-box;
     
+    /* A mágica para "vazar" o meio: */
+    mask: linear-gradient(#fff 0 0) padding-box, 
+          linear-gradient(#fff 0 0);
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, 
+                  linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+
     z-index: 1000;
-    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3);
 }
 
 .dock-item {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.8);
     font-size: 16px;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s ease;
     position: relative;
+    /* Como o Dock usa mask, precisamos garantir que os itens fiquem fora dela */
 }
 
-/* Feedback ao clicar */
-.dock-item:active {
-    transform: scale(0.9);
-    color: #00d4ff;
+/* Ajuste para que os ícones não sejam cortados pela máscara do pai */
+#terminal-dock * {
+    -webkit-mask: none;
+    mask: none;
 }
 
 .dock-item:hover {
     color: #ffffff;
     transform: translateX(-3px);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
-/* DESCRIÇÃO (UI/UX Otimizada) */
+/* DESCRIÇÃO (TEXTO BRANCO PURO) */
 .dock-item::after {
     content: attr(data-label);
     position: absolute;
@@ -58,17 +65,13 @@
     top: 50%;
     transform: translateY(-50%);
     
-    /* Fonte mais moderna e legível */
     font-family: 'JetBrains Mono', 'Roboto Mono', monospace;
-    font-size: 9px; /* Fonte pequena e elegante */
+    font-size: 9px;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    
     color: #ffffff;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
     
-    background: none;
     opacity: 0;
     white-space: nowrap;
     pointer-events: none;
@@ -76,24 +79,20 @@
 }
 
 .dock-item:hover::after {
-    opacity: 0.8;
-    transform: translateY(-50%) translateX(-8px);
+    opacity: 1;
+    transform: translateY(-50%) translateX(-5px);
 }
 
-/* Ajustes Mobile */
+/* Responsividade */
 @media (max-width: 768px) {
     #terminal-dock {
-        right: 5px;
-        gap: 8px;
-        padding: 6px;
-        border-radius: 15px;
+        right: 6px;
+        gap: 10px;
+        padding: 8px 5px;
     }
     .dock-item {
-        width: 26px;
-        height: 26px;
+        width: 24px;
+        height: 24px;
         font-size: 14px;
-    }
-    .dock-item::after {
-        font-size: 8px; /* Ainda menor no mobile */
     }
 }
