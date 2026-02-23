@@ -32,6 +32,7 @@ export async function startOS() {
     // Importa módulos dinamicamente
     const interfaceModule = await safeImport("./interface_3d.js");
     const infoModule = await safeImport("./info_sistema.js");
+    const terminalModule = await safeImport("./terminal.js");
 
     // Inicializa Interface 3D
     try {
