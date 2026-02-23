@@ -1,27 +1,19 @@
 export async function initSystemInfo() {
     const footer = document.getElementById("info-footer");
-    if (!footer) {
-        console.error("❌ Erro: Elemento #info-footer não encontrado no HTML.");
-        return;
-    }
+    if (!footer) return;
 
-    console.log("🔍 Coletando dados do sistema...");
-
-    // Detectar Navegador e Sistema Operacional
+    // Detectar Browser e OS com fallbacks
     const ua = navigator.userAgent;
-    const platform = navigator.platform || ""; // Fallback para evitar erro .includes
-    
     let browser = ua.includes("Chrome") ? "CHROME" : ua.includes("Firefox") ? "FIREFOX" : "BROWSER";
-    let os = platform.includes("Win") ? "WINDOWS" : "LINUX/MOBILE";
+    let os = navigator.platform.toLowerCase().includes("win") ? "WINDOWS" : "LINUX/MOBILE";
+
+    console.log("🌐 Buscando dados de rede...");
 
     try {
-        // Busca os dados de IP e Localização
         const response = await fetch('https://ipapi.co/json/');
-        if (!response.ok) throw new Error("Falha na resposta da API");
-        
+        if (!response.ok) throw new Error("API Offline");
         const data = await response.json();
 
-        // Injeta os dados no HTML usando a estrutura que definimos no CSS
         footer.innerHTML = `
             <div class="footer-group">
                 <div class="info-item"><span class="label">IP:</span> <span class="value">${data.ip}</span></div>
@@ -32,19 +24,11 @@ export async function initSystemInfo() {
                 <div class="info-item"><span class="label">LOC:</span> <span class="value">${data.city}, ${data.region_code}</span></div>
             </div>
         `;
-        console.log("✅ Dados do sistema carregados com sucesso.");
-
+        console.log("✅ Rodapé atualizado com sucesso.");
     } catch (error) {
-        console.warn("⚠️ Usando modo de segurança (AdBlock ou erro de conexão).");
-        // Mantém o layout mesmo se a API falhar
-        footer.innerHTML = `
-            <div class="footer-group">
-                <div class="info-item"><span class="label">SYS:</span> <span class="value">${os}</span></div>
-                <div class="info-item"><span class="label">BRW:</span> <span class="value">${browser}</span></div>
-            </div>
-            <div class="footer-group">
-                <div class="info-item"><span class="label">STATUS:</span> <span class="value">SECURE_MODE</span></div>
-            </div>
-        `;
+        console.error("❌ Erro na API de IP:", error);
+        // Fallback para não deixar vazio
+        footer.innerHTML = `<div class="footer-group"><div class="info-item"><span class="label">SYS:</span> <span class="value">${os}</span></div></div>
+                            <div class="footer-group"><div class="info-item"><span class="label">STATUS:</span> <span class="value">OFFLINE_MODE</span></div></div>`;
     }
 }
