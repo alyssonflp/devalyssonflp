@@ -1,34 +1,28 @@
-/* --- DOCK LATERAL TRANSPARENTE COM FLASHS --- */
+/* --- DOCK LATERAL COMPLETO COM FLASHS --- */
 #terminal-dock {
     position: absolute;
-    right: 5px; /* mais próximo da linha do terminal */
+    right: 5px;
     top: 50%;
-
     width: 45px;
     min-height: 200px;
     transform-origin: right center;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 8px;
     padding: 10px 5px;
-
-    background: transparent; /* sem fundo */
+    background: transparent;
     border-radius: 12px;
     z-index: 9999;
 
-    /* Estado inicial invisível e deslocado */
     opacity: 0;
     transform: translateY(-50%) translateX(20px) scale(0.9);
 
     transform-style: flat;
-    perspective: none;
     backface-visibility: hidden;
 }
 
-/* Quando a classe 'active' for adicionada, dispara animação */
 #terminal-dock.active {
     animation: dockFadeIn 0.6s ease-out forwards,
                dockFlash1 0.4s ease-out 0.8s,
@@ -43,25 +37,11 @@
 }
 
 /* Flashes neon sequenciais */
-@keyframes dockFlash1 {
-    0% { filter: brightness(1); }
-    50% { filter: brightness(3) blur(1px); box-shadow: 0 0 30px rgba(0, 212, 255, 0.5); }
-    100% { filter: brightness(1); }
-}
+@keyframes dockFlash1 { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(3) blur(1px); box-shadow: 0 0 30px rgba(0,212,255,0.5); } }
+@keyframes dockFlash2 { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(4) blur(2px); box-shadow: 0 0 40px rgba(0,212,255,0.7); } }
+@keyframes dockFlash3 { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(5) blur(2px); box-shadow: 0 0 50px rgba(0,212,255,0.9); } }
 
-@keyframes dockFlash2 {
-    0% { filter: brightness(1); }
-    50% { filter: brightness(4) blur(2px); box-shadow: 0 0 40px rgba(0, 212, 255, 0.7); }
-    100% { filter: brightness(1); }
-}
-
-@keyframes dockFlash3 {
-    0% { filter: brightness(1); }
-    50% { filter: brightness(5) blur(2px); box-shadow: 0 0 50px rgba(0, 212, 255, 0.9); }
-    100% { filter: brightness(1); }
-}
-
-/* Borda Neon */
+/* Borda neon */
 #terminal-dock::before {
     content: "";
     position: absolute;
@@ -77,29 +57,9 @@
 }
 
 /* Itens do dock */
-.dock-item {
-    width: 35px;
-    height: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    flex-shrink: 0;
-}
-
-/* Ícones */
-.dock-item i, .dock-item svg {
-    width: 22px !important;
-    height: 22px !important;
-    color: #00d4ff;
-    stroke-width: 2px;
-}
-
-.dock-item:hover {
-    transform: scale(1.2) translateX(-5px);
-}
+.dock-item { width:35px; height:35px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s ease; position:relative; flex-shrink:0; }
+.dock-item i, .dock-item svg { width:22px!important; height:22px!important; color:#00d4ff; stroke-width:2px; }
+.dock-item:hover { transform: scale(1.2) translateX(-5px); }
 
 /* Tooltip */
 .dock-item::after {
@@ -116,8 +76,4 @@
     transition: 0.3s;
     text-shadow: 0 0 5px #00d4ff;
 }
-
-.dock-item:hover::after {
-    opacity: 1;
-    transform: translateY(-50%) translateX(-5px);
-                                                                     }
+.dock-item:hover::after { opacity:1; transform: translateY(-50%) translateX(-5px); }
