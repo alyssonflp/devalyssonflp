@@ -52,30 +52,24 @@ function transitionTo3D() {
     const desktop = document.getElementById('desktop-3d');
     
     if (login && desktop) {
-        // Inicia a transição visual
         login.style.transition = "opacity 0.6s ease";
         login.style.opacity = '0';
 
         setTimeout(() => {
             login.style.display = 'none';
-            desktop.classList.remove('hidden'); // Aqui a classe .hidden do CSS é removida
+            desktop.classList.remove('hidden'); // Remove o .hidden que corrigimos no CSS
             
-            // Loop de tentativa: Garante que o app.js seja chamado assim que carregar
-            let attempts = 0;
-            const checkSystem = setInterval(() => {
+            // Loop de verificação: Tenta chamar o startOS a cada 100ms
+            let checkInterval = setInterval(() => {
                 if (typeof window.startOS === 'function') {
-                    window.startOS(); // Chama a função do app.js
-                    clearInterval(checkSystem);
-                } else {
-                    attempts++;
-                    if (attempts > 50) { // Desiste após 5 segundos para não travar o navegador
-                        clearInterval(checkSystem);
-                        console.error("ERRO CRÍTICO: Módulo app.js não responde.");
-                    }
+                    window.startOS();
+                    clearInterval(checkInterval); // Para o loop assim que funcionar
                 }
             }, 100);
+
+            // Timeout de segurança para não rodar infinitamente
+            setTimeout(() => clearInterval(checkInterval), 3000);
             
-            window.dispatchEvent(new Event('system-ready'));
         }, 600);
     }
 }
