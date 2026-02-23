@@ -1,117 +1,102 @@
-/**
- * Terminal Alysson_OS - Versão Final (Sutil & Futurista)
- */
+/* --- ESTILO DO TERMINAL ALYSSON_OS --- */
 
-export async function initTerminal() {
-    const root = document.getElementById('root-terminal');
-    if (!root) return;
-
-    root.innerHTML = ''; // Limpa o monitor
-    createPrompt(root);
+#root-terminal {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    box-sizing: border-box;
+    overflow-y: auto; /* Permite rolar o histórico */
+    overflow-x: hidden;
+    background: transparent;
+    /* Suaviza a rolagem */
+    scroll-behavior: smooth;
 }
 
-/**
- * Cria a linha de comando ativa (Prompt)
- */
-function createPrompt(container) {
-    // Remove o prompt anterior para evitar múltiplos cursores
-    const oldPrompt = document.querySelector('.prompt-container');
-    if (oldPrompt) oldPrompt.remove();
-
-    const promptDiv = document.createElement('div');
-    promptDiv.className = "prompt-container";
-    
-    // Placeholder sutil para mobile vs desktop
-    const isMobile = window.innerWidth <= 768;
-    const helpText = isMobile ? "Type /help..." : "Awaiting command... Type /help";
-
-    promptDiv.innerHTML = `
-        <span class="prompt-user-white">alyssonflp@root</span><span class="prompt-sep">:</span><span class="prompt-path">~</span><span class="prompt-char">$</span>
-        <div class="input-wrapper">
-            <input type="text" id="terminal-input" autofocus autocomplete="off" spellcheck="false" placeholder="${helpText}">
-        </div>
-    `;
-    
-    container.appendChild(promptDiv);
-    
-    const input = document.getElementById('terminal-input');
-    input.focus();
-
-    // Listener para o Enter
-    input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            const cmd = input.value.trim().toLowerCase();
-            handleCommand(cmd, container);
-        }
-    });
+/* Scrollbar sutil para o terminal */
+#root-terminal::-webkit-scrollbar {
+    width: 4px;
+}
+#root-terminal::-webkit-scrollbar-thumb {
+    background: rgba(0, 212, 255, 0.2);
+    border-radius: 10px;
 }
 
-/**
- * Processa comandos com efeito de Loading e histórico limpo
- */
-async function handleCommand(cmd, container) {
-    if (!cmd) return;
+.prompt-container {
+    display: flex;
+    align-items: center;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px; /* Fonte reduzida para ser mais sutil */
+    width: 100%;
+    white-space: nowrap;
+    margin-bottom: 4px; /* Espaçamento entre linhas de comando */
+}
 
-    // 1. Cria o histórico (Texto fixo com fonte sutil 14px)
-    const history = document.createElement('div');
-    history.className = "prompt-container terminal-history"; // Usa as mesmas classes do prompt para manter o estilo
-    history.style.marginBottom = "5px";
-    history.innerHTML = `
-        <span class="prompt-user-white">alyssonflp@root</span><span class="prompt-sep">:</span><span class="prompt-path">~</span><span class="prompt-char">$</span>
-        <span style="color: #00d4ff; margin-left: 8px;">${cmd}</span>
-    `;
-    container.appendChild(history);
+/* Estilo do histórico (comandos já enviados) */
+.terminal-history {
+    opacity: 0.9;
+    animation: fadeIn 0.3s ease;
+}
 
-    // 2. Banco de Dados de Conteúdo
-    const contents = {
-        '/about': { type: 'about', title: 'USER_PROFILE_01' },
-        '/skills': { type: 'skills', title: 'CORE_COMPETENCIES' },
-        '/experience': { type: 'experience', title: 'HISTORY_LOG' },
-        '/projects': { type: 'projects', title: 'ACTIVE_REPOS' },
-        '/ia': { type: 'ia', title: 'AI_CORE_LINK' }
-    };
+.prompt-user-white, 
+.prompt-sep, 
+.prompt-path, 
+.prompt-char {
+    color: #ffffff;
+    font-weight: normal; /* Removido o bold para ser mais sutil */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+}
 
-    if (contents[cmd] || cmd === '/help') {
-        // --- Efeito de Loading Sutil ---
-        const loadingDiv = document.createElement('div');
-        loadingDiv.style.color = "rgba(255, 255, 255, 0.5)";
-        loadingDiv.style.fontSize = "12px";
-        loadingDiv.style.margin = "5px 0 15px 0";
-        loadingDiv.style.fontFamily = "'Share Tech Mono', monospace";
-        container.appendChild(loadingDiv);
+.input-wrapper {
+    flex: 1;
+    display: flex;
+    margin-left: 8px;
+    min-width: 0;
+}
 
-        for (let i = 0; i <= 10; i++) {
-            const bar = "#".repeat(i) + "-".repeat(10 - i);
-            loadingDiv.innerHTML = `[${bar}] CACHING_DATA... ${i * 10}%`;
-            container.scrollTop = container.scrollHeight;
-            await new Promise(r => setTimeout(r, 40)); 
-        }
-        loadingDiv.innerHTML = `[##########] SYNC_COMPLETE_100%`;
-        loadingDiv.style.color = "#00ff41"; // Verde ao finalizar
+#terminal-input {
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important; /* Remove sombras de foco do navegador */
+    color: #00d4ff; /* Cor do comando em digitação */
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    caret-color: #ffffff; /* Cursor piscando */
+    appearance: none; /* Remove estilos de input do mobile/Safari */
+}
 
-        // 3. Execução das ações
-        if (contents[cmd]) {
-            if (typeof window.triggerHologram === 'function') {
-                window.triggerHologram(contents[cmd]);
-            }
-        } else if (cmd === '/help') {
-            const helpMsg = document.createElement('div');
-            helpMsg.style.color = "rgba(0, 212, 255, 0.8)";
-            helpMsg.style.fontSize = "13px";
-            helpMsg.style.paddingLeft = "10px";
-            helpMsg.innerHTML = "> ACCESS_KEYS: /about, /skills, /experience, /projects, /ia";
-            container.appendChild(helpMsg);
-        }
-    } else {
-        // Erro sutil
-        const error = document.createElement('div');
-        error.style.color = "#ff3e3e";
-        error.style.fontSize = "13px";
-        error.innerHTML = `> ERR: UNKNOWN_COMMAND_OR_MEMBER [${cmd}]`;
-        container.appendChild(error);
+/* Texto de saída (Loading, Erros, Help) */
+.terminal-output {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    padding-left: 15px;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+/* Texto morto (placeholder) */
+#terminal-input::placeholder {
+    color: rgba(255, 255, 255, 0.15);
+    font-style: normal;
+    font-size: 12px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(2px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Ajustes Mobile */
+@media (max-width: 768px) {
+    .prompt-container, #terminal-input {
+        font-size: 11px;
     }
-
-    // Cria novo prompt e rola para o fim
-    createPrompt(container);
-    container.scrollTop = container.scrollHeight;
+    .terminal-output {
+        font-size: 10px;
+    }
 }
