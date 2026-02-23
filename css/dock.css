@@ -1,4 +1,6 @@
-/* --- DOCK LATERAL MINIMALISTA --- */
+/* --- CONFIGURAÇÃO DO DOCK LATERAL ALYSSON_OS --- */
+
+/* Container Principal do Dock */
 #terminal-dock {
     position: absolute;
     right: 15px;
@@ -13,13 +15,11 @@
     gap: 12px;
     padding: 10px 5px;
     
-    /* REMOVIDO FUNDO PRETO */
-    background: transparent; 
-    
-    /* BORDAS ARREDONDADAS (Igual ao terminal) */
+    background: transparent; /* Fundo invisível para manter o foco no neon */
     border-radius: 15px; 
     z-index: 9999;
 
+    /* Estado Inicial (Escondido) */
     opacity: 0;
     pointer-events: none;
     transform: translateY(-50%) translateX(20px);
@@ -28,37 +28,20 @@
     backface-visibility: hidden;
 }
 
-/* Ativação do Dock */
+/* Ativação do Dock com Animação de Entrada e Flash */
 #terminal-dock.active {
     pointer-events: all;
-    /* Agora apenas um flash branco sutil após a entrada */
     animation: 
         dockFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards,
         dockFlashWhite 0.6s ease-out 1.0s; 
 }
 
-/* Entrada lateral suave */
-@keyframes dockFadeIn {
-    0% { opacity: 0; transform: translateY(-50%) translateX(20px); }
-    100% { opacity: 1; transform: translateY(-50%) translateX(0); }
-}
-
-/* FLASH BRANCO SUTIL (1x só) */
-@keyframes dockFlashWhite {
-    0% { filter: brightness(1); }
-    50% { 
-        filter: brightness(2.5) contrast(1.2); 
-        box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
-    }
-    100% { filter: brightness(1); }
-}
-
-/* Borda neon vazada (Arredondada) */
+/* Borda Neon Futurista (Vazada e Arredondada) */
 #terminal-dock::before {
     content: "";
     position: absolute;
     inset: 0;
-    border-radius: 15px; /* Bordas arredondadas aqui também */
+    border-radius: 15px;
     padding: 1.5px;
     background: linear-gradient(to bottom, #ff007a, #00d4ff);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -68,7 +51,7 @@
     pointer-events: none;
 }
 
-/* Itens do dock */
+/* Estilo Individual de cada Ícone */
 .dock-item { 
     width: 35px; 
     height: 35px; 
@@ -80,6 +63,7 @@
     position: relative; 
 }
 
+/* Estilo dos Ícones Lucide/SVG */
 .dock-item i, .dock-item svg { 
     width: 20px !important; 
     height: 20px !important; 
@@ -87,7 +71,7 @@
     stroke-width: 1.8px; 
 }
 
-/* Hover sutil */
+/* Interação de Hover (Passar o Mouse) */
 .dock-item:hover { 
     transform: scale(1.1) translateX(-3px); 
 }
@@ -97,7 +81,7 @@
     filter: drop-shadow(0 0 8px #00d4ff);
 }
 
-/* Tooltip (Legenda) */
+/* Tooltip / Legenda (data-label) */
 .dock-item::after {
     content: attr(data-label);
     position: absolute;
@@ -110,9 +94,38 @@
     opacity: 0;
     pointer-events: none;
     transition: 0.3s;
+    white-space: nowrap;
 }
 
+/* Mostra a legenda no hover normal */
 .dock-item:hover::after { 
     opacity: 1; 
     transform: translateY(-50%) translateX(-5px); 
+}
+
+/* --- AJUSTE SOLICITADO: OCULTAR TOOLTIP DURANTE DIGITAÇÃO --- */
+/* Quando o JS adiciona '.is-typing', forçamos o desaparecimento da legenda */
+.dock-item.is-typing::after {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* --- ANIMAÇÕES --- */
+
+/* Entrada lateral suave */
+@keyframes dockFadeIn {
+    0% { opacity: 0; transform: translateY(-50%) translateX(20px); }
+    100% { opacity: 1; transform: translateY(-50%) translateX(0); }
+}
+
+/* Brilho branco de inicialização do sistema */
+@keyframes dockFlashWhite {
+    0% { filter: brightness(1); }
+    50% { 
+        filter: brightness(2.5) contrast(1.2); 
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    }
+    100% { filter: brightness(1); }
 }
