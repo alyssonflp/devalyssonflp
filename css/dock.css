@@ -1,15 +1,11 @@
-/* --- SIDE DOCK - AJUSTE DE TRANSIÇÃO COM FLASH --- */
-
+/* --- SIDE DOCK --- */
 #terminal-dock {
     position: absolute;
     right: 30px; 
     top: 50%;
-    transform-origin: right center; 
-    
-    /* Estado inicial */
-    transform: translateY(-50%) rotateY(90deg);
-    opacity: 0;
-    
+    transform: translateY(-50%) translateZ(20px); /* já no tamanho final */
+    opacity: 1; /* já visível */
+
     display: flex;
     flex-direction: column;
     gap: 14px;
@@ -18,41 +14,22 @@
     backdrop-filter: blur(8px);
     border-radius: 12px;
     z-index: 9999;
-    
+
     transform-style: preserve-3d;
     perspective: 1000px;
-    
-    /* AQUI ESTÁ O SEGREDO: 
-       1. dockEntryOpen (abre o dock)
-       2. dockFlash (dispara o brilho após 1.6s - tempo da delay + abertura) 
-    */
-    animation: 
-        dockEntryOpen 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards,
-        dockFlash 0.5s ease-out 1.6s; 
-    
-    animation-delay: 0.8s, 0s; 
+
+    /* Apenas flash opcional */
+    animation: dockFlash 0.5s ease-out 1.6s; 
 }
 
-/* Animação de Abertura */
-@keyframes dockEntryOpen {
-    from {
-        opacity: 0;
-        transform: translateY(-50%) rotateY(90deg);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(-50%) rotateY(0deg) translateZ(20px);
-    }
-}
-
-/* Animação de Flash (Brilho de Ativação) */
+/* --- FLASH / BRILHO --- */
 @keyframes dockFlash {
     0% { filter: brightness(1) blur(0px); }
     50% { filter: brightness(3) blur(2px); box-shadow: 0 0 20px rgba(0, 212, 255, 0.8); }
     100% { filter: brightness(1) blur(0px); }
 }
 
-/* --- AJUSTE DOS ITENS --- */
+/* --- ITENS DO DOCK --- */
 .dock-item {
     width: 32px;
     height: 32px;
@@ -63,21 +40,6 @@
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     flex-shrink: 0; 
-}
-
-/* Borda degradê (Mantenha se quiser o contorno neon) */
-#terminal-dock::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 12px; 
-    padding: 1.5px;
-    background: linear-gradient(to bottom, #ff007a, #00d4ff);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
 }
 
 .dock-item svg {
@@ -94,4 +56,19 @@
 .dock-item:hover svg {
     color: #00d4ff;
     filter: drop-shadow(0 0 8px #00d4ff);
+}
+
+/* --- BORDA DEGRADE NEON --- */
+#terminal-dock::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 12px; 
+    padding: 1.5px;
+    background: linear-gradient(to bottom, #ff007a, #00d4ff);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
 }
