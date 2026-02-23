@@ -1,40 +1,42 @@
 document.addEventListener("DOMContentLoaded", () => {
     const terminal = document.querySelector(".main-terminal");
     
-    // Injeta apenas o wrapper de vidro vazio
-    terminal.innerHTML = `<div class="terminal-content-wrapper" id="content"></div>`;
+    // Injeta o wrapper interno vazio se ele não existir
+    if (terminal && !terminal.querySelector(".terminal-content-wrapper")) {
+        terminal.innerHTML = `<div class="terminal-content-wrapper" id="content"></div>`;
+    }
 
     let isDragging = false;
-    let currentRotationY = -25; // Ângulo inicial
+    let currentRotationY = 25; // Sincronizado com o CSS inicial
     let currentRotationX = 10;
     let startX, startY;
 
     const startDrag = (e) => {
         isDragging = true;
-        startX = e.pageX || e.touches[0].pageX;
-        startY = e.pageY || e.touches[0].pageY;
+        startX = e.pageX || (e.touches ? e.touches[0].pageX : 0);
+        startY = e.pageY || (e.touches ? e.touches[0].pageY : 0);
     };
 
-    const stopDrag = () => isDragging = false;
+    const stopDrag = () => {
+        isDragging = false;
+    };
 
     const doDrag = (e) => {
         if (!isDragging) return;
         
-        const x = e.pageX || e.touches[0].pageX;
-        const y = e.pageY || e.touches[0].pageY;
+        const x = e.pageX || (e.touches ? e.touches[0].pageX : 0);
+        const y = e.pageY || (e.touches ? e.touches[0].pageY : 0);
 
-        // Sensibilidade do giro
         let nextRotationY = currentRotationY + (x - startX) / 5;
         let nextRotationX = currentRotationX - (y - startY) / 5;
 
-        // --- LIMITE DE 180 GRAUS (Eixo Y) ---
-        // Impede que o monitor vire totalmente de costas
+        // --- TRAVA DE 180 GRAUS ---
         if (nextRotationY > 90) nextRotationY = 90;
         if (nextRotationY < -90) nextRotationY = -90;
 
-        // Limite Vertical (Eixo X) para não tombar demais
-        if (nextRotationX > 35) nextRotationX = 35;
-        if (nextRotationX < -35) nextRotationX = -35;
+        // --- TRAVA VERTICAL ---
+        if (nextRotationX > 30) nextRotationX = 30;
+        if (nextRotationX < -30) nextRotationX = -30;
 
         currentRotationY = nextRotationY;
         currentRotationX = nextRotationX;
