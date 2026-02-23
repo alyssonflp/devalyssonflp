@@ -1,45 +1,81 @@
-/* --- ESTILO DO TERMINAL --- */
+/* --- ESTILO DO CONTEÚDO DO MONITOR --- */
 
-/* Hello World Centralizado e Rápido */
-.hello-world-fast {
+#root-terminal {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box; /* Garante que o padding não "empurre" o conteúdo para fora */
+    overflow: hidden; /* Nada escapa do monitor */
+    position: relative;
+}
+
+/* Hello World Rosa Neon - Centralização Absoluta no Monitor */
+.hello-world-neon {
     font-family: 'Share Tech Mono', monospace;
-    color: #00d4ff;
-    font-size: 20px;
+    color: #ff007a;
+    font-size: clamp(1.2rem, 6vw, 2.2rem); /* Fonte adaptável */
     text-align: center;
-    margin-top: 15%;
-    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+    margin: auto; /* Centralização Flexbox */
+    text-shadow: 0 0 12px rgba(255, 0, 122, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    width: 100%;
 }
 
-/* Mensagem de ajuda ofuscada (cinza escuro) */
-.terminal-line-faint {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.3); /* Ofuscado */
-    margin-bottom: 10px;
-}
-
-/* Prompt Estilo Linux */
+/* Prompt Branco Minimalista */
 .prompt-container {
     display: flex;
     align-items: center;
     font-family: 'Share Tech Mono', monospace;
     font-size: 14px;
+    width: 100%;
+    white-space: nowrap; /* Impede quebra de linha feia */
 }
 
-.prompt-user { color: #4ade80; font-weight: bold; }
-.prompt-sep { color: #fff; }
-.prompt-path { color: #3b82f6; font-weight: bold; }
-.prompt-char { color: #fff; margin-right: 8px; }
+.prompt-user-white, .prompt-sep, .prompt-path, .prompt-char {
+    color: #ffffff;
+    font-weight: bold;
+}
 
-.input-wrapper { flex: 1; display: flex; }
+.input-wrapper {
+    flex: 1;
+    display: flex;
+    margin-left: 8px;
+    min-width: 0; /* Essencial para o flex não vazar no mobile */
+}
 
 #terminal-input {
     background: transparent;
     border: none;
     outline: none;
-    color: #fff;
+    color: #ffffff;
     font-family: 'Share Tech Mono', monospace;
     font-size: 14px;
     width: 100%;
-    caret-color: #4ade80;
+    caret-color: #ffffff;
+}
+
+/* Texto de Ajuda Ofuscado (Placeholder) */
+#terminal-input::placeholder {
+    color: rgba(255, 255, 255, 0.15); /* Texto morto bem sutil */
+    font-style: italic;
+}
+
+/* AJUSTES PARA MOBILE (Garantia Extra) */
+@media (max-width: 768px) {
+    #root-terminal {
+        padding: 15px;
+    }
+    .prompt-container {
+        font-size: 11px; /* Fonte menor para telas pequenas */
+    }
+    #terminal-input {
+        font-size: 11px;
+    }
+    .hello-world-neon {
+        letter-spacing: 2px;
+        text-shadow: 0 0 8px rgba(255, 0, 122, 0.4);
+    }
 }
