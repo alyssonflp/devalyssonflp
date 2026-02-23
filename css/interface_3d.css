@@ -9,83 +9,56 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    user-select: none; 
+    user-select: none;
 }
 
 .main-terminal {
-    width: 600px;
-    height: 380px;
+    /* Tamanho Reduzido */
+    width: 520px;
+    height: 340px;
+    
     position: absolute;
-    top: 25%;
+    top: 35%;
     left: 50%;
     
-    /* Fundo semi-transparente */
-    background: rgba(10, 10, 30, 0.4);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    
-    /* Bordas Arredondadas */
+    /* Moldura Degradê Neon */
+    padding: 2px;
     border-radius: 40px;
+    background: linear-gradient(135deg, #00d4ff 0%, #ff007a 100%);
     
-    /* Mágica do Neon: Borda com degradê */
-    border: 2px solid transparent;
-    background-clip: padding-box, border-box;
-    background-image: linear-gradient(rgba(10, 10, 30, 0.4), rgba(10, 10, 30, 0.4)), 
-                      linear-gradient(135deg, #00d4ff 0%, #ff007a 100%);
-    background-origin: border-box;
-
-    padding: 30px;
-    color: #fff;
-    
+    /* Posição Inicial e 3D */
     transform: translate(-50%, -50%) rotateY(-25deg) rotateX(10deg);
     transform-style: preserve-3d;
     
-    /* Glow Neon Duplo: Azul de um lado, Rosa do outro */
-    box-shadow: 
-        -10px 0 30px rgba(0, 212, 255, 0.2), 
-        10px 0 30px rgba(255, 0, 122, 0.2),
-        inset 0 0 15px rgba(255, 255, 255, 0.05);
-        
+    /* Brilho Neon */
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.2), 0 0 30px rgba(255, 0, 122, 0.2);
     cursor: grab;
     transition: transform 0.1s ease-out;
+}
+
+/* Interior do Vidro (Onde vais colocar as tuas coisas) */
+.terminal-content-wrapper {
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 15, 30, 0.5); 
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 38px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
 }
 
 .main-terminal:active {
     cursor: grabbing;
 }
 
-/* Estilo das abas com as cores do degradê */
-.nav-tabs .tab {
-    background: transparent;
-    border: 1px solid rgba(0, 212, 255, 0.5);
-    color: #00d4ff;
-    padding: 5px 15px;
-    border-radius: 15px;
-    cursor: pointer;
-    font-size: 10px;
-    transition: 0.3s;
-}
-
-.tab.active {
-    background: linear-gradient(90deg, #00d4ff, #ff007a);
-    border: none;
-    color: #fff;
-    box-shadow: 0 0 15px rgba(255, 0, 122, 0.5);
-}
-
+/* Ajuste Responsivo */
 @media (max-width: 1000px) {
     .main-terminal {
-        width: 88vw;
-        height: 55vh;
-        top: 30%;
+        width: 85vw;
+        height: 45vh;
+        top: 40%;
     }
 }
-
-.terminal-header { 
-    display: flex; 
-    justify-content: space-between; 
-    border-bottom: 1px solid rgba(255,255,255,0.1); 
-    padding-bottom: 15px; 
-    margin-bottom: 15px; 
-}
-.terminal-body { flex: 1; overflow-y: auto; }
