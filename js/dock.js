@@ -22,7 +22,6 @@ export function initDock() {
         iconBtn.setAttribute('data-label', item.label);
         iconBtn.innerHTML = `<i data-lucide="${item.lucide}"></i>`;
         
-        // Impede que o clique tire o foco do que já estava selecionado
         iconBtn.onmousedown = (e) => e.preventDefault();
 
         iconBtn.onclick = (e) => {
@@ -31,25 +30,19 @@ export function initDock() {
             const input = document.getElementById('terminal-input');
             const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
-            // --- BLOQUEIO DE TECLADO ---
-            // Se for dispositivo touch, coloca o input em "apenas leitura" 
-            // temporariamente para o navegador não subir o teclado.
+            // 1. Prepara o input para Mobile (ReadOnly temporário)
             if (isTouch && input) {
                 input.readOnly = true;
             }
 
-            // 1. Aplica a classe para o CSS esconder o título
-            iconBtn.classList.add('is-typing');
-            
-            // 2. Remove o foco visual do botão
+            // 2. Remove o foco visual do botão para limpar o hover de clique
             iconBtn.blur();
             
-            // 3. Simula a digitação
-            simulateTyping(`/${item.name}`, () => {
-                // 4. Finalização
+            // 3. Simula a digitação passando o botão como referência
+            simulateTyping(`/${item.name}`, iconBtn, () => {
+                // 4. Ao terminar TUDO, remove a classe de bloqueio do título
                 iconBtn.classList.remove('is-typing');
                 
-                // Libera o input para digitação manual novamente
                 if (isTouch && input) {
                     input.readOnly = false;
                 }
@@ -63,33 +56,31 @@ export function initDock() {
 }
 
 /**
- * Simula a digitação sem invocar o teclado no mobile
+ * Simula a digitação com sincronia de título
  */
-async function simulateTyping(command, onFinish) {
+async function simulateTyping(command, iconBtn, onFinish) {
     const input = document.getElementById('terminal-input');
-    
     if (!input) {
         if (onFinish) onFinish();
         return;
     }
 
-    // Garante que o valor comece vazio
     input.value = '';
+
+    // --- O PONTO CHAVE: ---
+    // Aplicamos a classe que esconde o título apenas quando a digitação INICIA
+    iconBtn.classList.add('is-typing');
 
     for (let i = 0; i < command.length; i++) {
         input.value += command[i];
-        
-        // Dispara o evento de input para o terminal reconhecer o comando
         input.dispatchEvent(new Event('input', { bubbles: true }));
         
         // Delay humano de digitação
         await new Promise(r => setTimeout(r, Math.random() * 30 + 30)); 
     }
 
-    // Pequena pausa para leitura antes do "Enter"
     await new Promise(r => setTimeout(r, 200));
 
-    // Simula o pressionamento da tecla Enter
     const enterEvent = new KeyboardEvent('keydown', { 
         key: 'Enter', 
         code: 'Enter', 
@@ -101,6 +92,5 @@ async function simulateTyping(command, onFinish) {
     
     input.dispatchEvent(enterEvent);
     
-    // Callback para limpar o estado do ícone e destravar o input
     if (onFinish) onFinish();
 }
