@@ -101,7 +101,7 @@ async function handleCommand(cmd, container) {
 
         const doneDiv = document.createElement('div');
         doneDiv.className = "terminal-output log-done";
-        doneDiv.innerHTML = `> SYNC_STATUS: DONE`;
+        doneDiv.innerHTML = `> SYNC_STATUS: ACTIVE`;
         container.insertBefore(doneDiv, currentPrompt);
 
         if (contents[cmd] && typeof window.triggerHologram === 'function') {
