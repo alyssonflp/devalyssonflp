@@ -1,106 +1,73 @@
-/* --- CONFIGURAÇÃO DO DOCK (PAINEL INFERIOR) --- */
+/* --- RESET E CONFIGURAÇÃO DO PAINEL INFERIOR --- */
 
 #terminal-dock {
-    position: absolute;
-    bottom: -50px; /* Joga para baixo da borda do terminal */
-    left: 50%;
-    transform: translateX(-50%);
+    /* Força o posicionamento para baixo e centralizado */
+    position: absolute !important;
+    bottom: -55px !important; /* Ajuste esse valor se ele ficar muito longe ou perto */
+    left: 50% !important;
+    right: auto !important; /* Remove o right: 15px anterior */
+    top: auto !important;   /* Remove o top: 50% anterior */
+    transform: translateX(-50%) !important;
     
-    display: flex;
-    flex-direction: row; /* Alinhamento horizontal */
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    padding: 8px 30px;
+    /* Layout Horizontal */
+    display: flex !important;
+    flex-direction: row !important; 
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 15px !important;
     
-    /* Look de Hardware Industrial */
-    background: #101010;
-    border: 2px solid #252525;
-    border-top: 1px solid #000; /* Encaixe visual com o monitor */
-    border-radius: 0 0 15px 15px; /* Arredondado apenas embaixo */
+    /* Tamanho e Estilo de Barra */
+    width: auto !important;
+    min-width: 250px;
+    height: 45px !important;
+    padding: 0 25px !important;
     
-    box-shadow: 
-        0 10px 25px rgba(0, 0, 0, 0.7),
-        inset 0 -2px 5px rgba(255, 255, 255, 0.05);
+    /* Estética de Hardware */
+    background: #0f0f0f !important;
+    border: 2px solid #2a2a2a !important;
+    border-radius: 0 0 12px 12px !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.6) !important;
     
-    z-index: 9999;
+    z-index: 9999 !important;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition: opacity 0.5s ease;
 }
 
 #terminal-dock.active {
-    opacity: 1;
-    pointer-events: all;
-    animation: dockFlashWhite 0.6s ease-out 1.0s;
+    opacity: 1 !important;
+    pointer-events: all !important;
 }
 
-.dock-item { 
-    width: 36px; 
-    height: 36px; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    cursor: pointer; 
-    border-radius: 8px; /* Botões mais quadrados/chanfrados */
-    background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
-    border: 1px solid #333;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative; 
+/* Ajuste nos Botões (Para não virarem bolinhas laterais) */
+.dock-item {
+    width: 32px !important;
+    height: 32px !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #1a1a1a !important;
+    border: 1px solid #333 !important;
+    border-radius: 6px !important; /* Botões levemente quadrados */
+    transition: all 0.2s ease !important;
 }
 
-/* Feedback de Interação */
 .dock-item:hover {
-    border-color: #00d4ff;
-    transform: translateY(-3px); /* Pula para cima */
-    box-shadow: 0 5px 15px rgba(0, 212, 255, 0.2);
+    transform: translateY(-3px) !important; /* Pula para cima em direção à tela */
+    border-color: #00d4ff !important;
 }
 
-.dock-item:active, .dock-item.is-active {
-    transform: translateY(1px); /* Afunda ao clicar */
-    background: #000;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.8);
-}
-
-.dock-item i, .dock-item svg { 
-    width: 18px !important; 
-    height: 18px !important; 
-    color: rgba(0, 212, 255, 0.5); 
-}
-
-.dock-item:hover i { color: #fff; }
-
-/* Tooltip (Legenda acima do botão) */
+/* Ajuste do Tooltip para aparecer ACIMA */
 .dock-item::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: 50px; /* Exibe acima do dock, dentro da tela */
-    left: 50%;
-    transform: translateX(-50%) translateY(10px);
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    background: rgba(0, 212, 255, 0.9);
-    color: #000;
-    padding: 3px 10px;
-    border-radius: 4px;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+    bottom: 45px !important; /* Joga o texto para cima do botão */
+    top: auto !important;
+    right: auto !important;
+    left: 50% !important;
+    transform: translateX(-50%) translateY(10px) !important;
 }
 
-.dock-item:hover:not(.is-typing)::after { 
-    opacity: 1; 
-    visibility: visible;
-    transform: translateX(-50%) translateY(0); 
-}
-
-/* Ocultar tooltip durante digitação */
-.dock-item.is-typing::after { display: none !important; }
-
-@keyframes dockFlashWhite {
-    0% { filter: brightness(1); }
-    50% { filter: brightness(1.8); box-shadow: 0 0 25px rgba(0, 212, 255, 0.3); }
-    100% { filter: brightness(1); }
+.dock-item:hover:not(.is-typing)::after {
+    opacity: 1 !important;
+    transform: translateX(-50%) translateY(0) !important;
 }
