@@ -2,7 +2,8 @@
 
 #terminal-dock {
     position: absolute;
-    right: 12px;
+    /* Ajuste de distância da borda direita interna */
+    right: 30px; 
     top: 50%;
     transform-origin: right center; 
     
@@ -14,33 +15,41 @@
     flex-direction: column;
     gap: 14px;
     padding: 12px 8px;
-    background: transparent;
-    z-index: 1000;
-    perspective: 1000px;
+    background: rgba(0, 0, 0, 0.2); /* Um leve fundo ajuda na visibilidade */
+    backdrop-filter: blur(5px);
+    border-radius: 12px;
+    
+    /* Z-INDEX alto para ficar sobre o terminal */
+    z-index: 9999; 
+    
+    /* ESSENCIAL: Garante que o dock flutue na frente da geometria do monitor */
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
     
     /* ACELERAÇÃO: 0.6s de duração e 0.3s de espera */
     animation: 
-        dockFlipOpen 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards,
-        dockFlash 0.4s ease-out 0.9s; /* Flash ocorre logo após abrir */
-    animation-delay: 0.3s, 0.3s;
+        dockFlipOpen 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards,
+        dockFlash 0.4s ease-out 1.2s; 
+    animation-delay: 0.5s;
 }
 
-/* Animação do Livro Abrindo (Acelerada) */
+/* Animação do Livro Abrindo com profundidade */
 @keyframes dockFlipOpen {
     from {
         opacity: 0;
-        transform: translateY(-50%) rotateY(90deg);
+        transform: translateY(-50%) rotateY(90deg) translateZ(0);
     }
     to {
         opacity: 1;
-        transform: translateY(-50%) rotateY(0deg);
+        /* O translateZ(30px) joga ele para "fora" da tela na direção do usuário */
+        transform: translateY(-50%) rotateY(0deg) translateZ(30px);
     }
 }
 
-/* Efeito Flash (Brilho de Inicialização) */
+/* Efeito Flash */
 @keyframes dockFlash {
     0% { filter: brightness(1); }
-    50% { filter: brightness(3) blur(1px); }
+    50% { filter: brightness(2.5) blur(1px); }
     100% { filter: brightness(1); }
 }
 
@@ -49,23 +58,19 @@
     content: "";
     position: absolute;
     inset: 0;
-    border-radius: 15px; 
+    border-radius: 12px; 
     padding: 1.5px;
     background: linear-gradient(to bottom, #ff007a, #00d4ff);
-    -webkit-mask: 
-        linear-gradient(#fff 0 0) content-box, 
-        linear-gradient(#fff 0 0);
-    mask: 
-        linear-gradient(#fff 0 0) content-box, 
-        linear-gradient(#fff 0 0);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
 }
 
 .dock-item {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -76,61 +81,50 @@
 }
 
 .dock-item svg {
-    width: 18px;
-    height: 18px;
-    color: rgba(255, 255, 255, 0.7);
+    width: 20px;
+    height: 20px;
+    color: rgba(0, 212, 255, 0.8);
     stroke-width: 1.5px;
     transition: all 0.3s ease;
 }
 
 .dock-item:hover {
-    transform: translateX(-5px) scale(1.1);
+    transform: translateX(-5px) scale(1.1) translateZ(10px);
 }
 
 .dock-item:hover svg {
-    color: #00d4ff; 
-    filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.8));
-    stroke-width: 2px;
-}
-
-.dock-item:active {
-    transform: scale(0.9) translateX(-2px);
+    color: #ffffff; 
+    filter: drop-shadow(0 0 8px #00d4ff);
+    stroke-width: 2.2px;
 }
 
 /* DESCRIÇÃO (Tooltip) */
 .dock-item::after {
     content: attr(data-label);
     position: absolute;
-    right: 45px;
+    /* Move o texto para a esquerda do ícone */
+    right: 50px; 
     top: 50%;
     transform: translateY(-50%);
-    font-family: 'Share Tech Mono', 'JetBrains Mono', monospace;
-    font-size: 10px; 
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 2px; 
-    color: #ffffff;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px; 
+    letter-spacing: 1px; 
+    color: #00d4ff;
     opacity: 0;
     white-space: nowrap;
     pointer-events: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    transition: all 0.3s ease;
 }
 
 .dock-item:hover::after {
     opacity: 1;
-    transform: translateY(-50%) translateX(-8px);
+    transform: translateY(-50%) translateX(-5px);
 }
 
-/* Ajuste Mobile */
+/* Mobile */
 @media (max-width: 768px) {
     #terminal-dock {
-        right: 6px;
-        transform-origin: right center;
-        gap: 10px;
-    }
-    .dock-item svg {
-        width: 16px;
-        height: 16px;
+        right: 15px;
+        transform: translateY(-50%) scale(0.8);
     }
 }
