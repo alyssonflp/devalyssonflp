@@ -1,15 +1,19 @@
 /**
- * Módulo do Dock Minimalista - Alysson_OS
+ * Módulo do Dock Lateral - Alysson_OS
  */
 
 export function initDock() {
     const monitor = document.getElementById('root-terminal');
-    if (!monitor) return;
+    if (!monitor) {
+        setTimeout(initDock, 500);
+        return;
+    }
+
+    if (document.getElementById('terminal-dock')) return;
 
     const dock = document.createElement('div');
     dock.id = 'terminal-dock';
     
-    // Ícones solicitados
     const icons = [
         { name: 'about', icon: '👤', label: 'About' },
         { name: 'skills', icon: '⚛', label: 'Skills' },
@@ -24,7 +28,7 @@ export function initDock() {
         iconBtn.setAttribute('data-label', item.label);
         iconBtn.innerHTML = `<span>${item.icon}</span>`;
         
-        iconBtn.onclick = () => simulateTypingAndExecute(`/${item.name}`);
+        iconBtn.onclick = () => simulateTyping(`/${item.name}`);
 
         dock.appendChild(iconBtn);
     });
@@ -32,26 +36,20 @@ export function initDock() {
     monitor.appendChild(dock);
 }
 
-/**
- * Simula a digitação no input do terminal antes de executar
- */
-async function simulateTypingAndExecute(fullCommand) {
+async function simulateTyping(command) {
     const input = document.getElementById('terminal-input');
     if (!input) return;
 
-    input.value = ''; // Limpa antes de começar
+    input.value = ''; 
     input.focus();
 
-    // Efeito de digitação no input
-    for (let i = 0; i < fullCommand.length; i++) {
-        input.value += fullCommand[i];
-        await new Promise(r => setTimeout(r, 50)); // Velocidade da digitação no input
+    for (let i = 0; i < command.length; i++) {
+        input.value += command[i];
+        await new Promise(r => setTimeout(r, 50)); // Digitação rápida
     }
 
-    // Pequena pausa após terminar de digitar e antes de dar o Enter
-    await new Promise(r => setTimeout(r, 200));
-
-    // Dispara o evento de Enter para o terminal processar
-    const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true });
-    input.dispatchEvent(event);
+    setTimeout(() => {
+        const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true });
+        input.dispatchEvent(event);
+    }, 150);
 }
