@@ -1,5 +1,5 @@
 window.onload = () => { 
-    // Reduzido de 800ms para 400ms para começar mais rápido
+    // Inicia o processo de digitação após 400ms
     setTimeout(typePassword, 400); 
 };
 
@@ -9,7 +9,6 @@ function typePassword() {
     let i = 0;
     if (!passInput) return;
 
-    // Digitação levemente mais rápida (100ms)
     const interval = setInterval(() => {
         passInput.value += fullPass[i]; 
         i++;
@@ -33,8 +32,6 @@ function startProgressBar() {
         "Acesso concedido."
     ];
 
-    // Aumentamos o passo de 2 para 4 e reduzimos o intervalo para 30ms
-    // Isso faz o carregamento levar cerca de 0.8s a 1s no total
     const timer = setInterval(() => {
         progress += 4; 
         loader.style.width = progress + "%";
@@ -56,7 +53,7 @@ function transitionTo3D() {
     const desktop = document.getElementById('desktop-3d');
     
     if (login && desktop) {
-        // Efeito de fade-out suave
+        // Efeito de fade-out suave na tela de login
         login.style.transition = "opacity 0.6s ease";
         login.style.opacity = '0';
 
@@ -64,20 +61,15 @@ function transitionTo3D() {
             login.style.display = 'none';
             desktop.classList.remove('hidden');
             
-            // DISPARO CRUCIAL: Inicializa os módulos do app.js
-            if (window.startOS) {
+            // GARANTIA: Inicializa o IP, Localização e Rotação 3D do app.js
+            if (typeof window.startOS === 'function') {
                 window.startOS();
+            } else {
+                console.warn("Aviso: startOS não encontrada. Verifique se o app.js está como type='module'.");
             }
             
-            // Evento opcional para outros scripts
+            // Evento para sinalizar que o sistema está pronto
             window.dispatchEvent(new Event('system-ready'));
         }, 600);
-
-    // ... seu código de sumir a tela de login ...
-    
-    // GARANTIA: Chama o carregamento do IP e Interface
-    if (typeof window.startOS === 'function') {
-        window.startOS();
-    } else {
-        console.error("Erro: startOS não encontrada. Verifique se o app.js carregou.");
     }
+}
