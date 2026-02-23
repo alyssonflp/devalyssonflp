@@ -1,4 +1,4 @@
-/* --- 1. UTILITÁRIOS (Essencial para a transição) --- */
+/* --- FUNDAMENTAL: Sem isso a lógica de transição quebra --- */
 .hidden {
     display: none !important;
     opacity: 0;
@@ -6,7 +6,7 @@
     visibility: hidden;
 }
 
-/* --- 2. AMBIENTE 3D --- */
+/* --- AMBIENTE 3D --- */
 #desktop-3d {
     width: 100vw;
     height: 100vh;
@@ -19,10 +19,9 @@
     justify-content: center;
     align-items: center;
     user-select: none;
-    transition: opacity 0.5s ease;
 }
 
-/* --- 3. MONITOR PRINCIPAL --- */
+/* --- MONITOR PRINCIPAL --- */
 .main-terminal {
     width: 650px;
     height: 400px;
@@ -41,7 +40,6 @@
     flex-direction: column;
 }
 
-/* Borda Degradê Neon */
 .main-terminal::before {
     content: "";
     position: absolute;
@@ -63,7 +61,7 @@
     z-index: 2;
 }
 
-/* --- 4. RODAPÉ DO SISTEMA (IP/USER AGENT) --- */
+/* --- FOOTER DE INFORMAÇÕES (IP, LOC, HORA) --- */
 #info-footer {
     position: fixed;
     bottom: 25px;
@@ -75,7 +73,7 @@
     font-family: 'Share Tech Mono', monospace; 
     font-size: 11px;
     color: rgba(0, 212, 255, 0.7);
-    z-index: 9999; 
+    z-index: 99999; /* Garante que fique acima de tudo */
     pointer-events: none;
     text-transform: uppercase;
     text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
@@ -86,7 +84,6 @@
 .info-item .label { color: #ff007a; font-weight: bold; }
 .info-item .value { color: #00d4ff; }
 
-/* --- 5. RESPONSIVIDADE --- */
 @media (max-width: 768px) {
     .main-terminal { width: 92vw; height: 48vh; }
     #info-footer { bottom: 12px; left: 15px; right: 15px; font-size: 8.5px; }
