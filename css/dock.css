@@ -1,41 +1,63 @@
-/* --- DOCK LATERAL FUTURISTA --- */
+/* --- DOCK LATERAL - FIX DE COLAPSO (BOLINHA) --- */
 #terminal-dock {
     position: absolute;
     right: 30px;
     top: 50%;
 
-    /* Já visível e na posição final */
-    transform: translateY(-50%) translateZ(20px);
-    opacity: 0; /* começa transparente para fade-in */
+    /* FORÇAR DIMENSÕES: Impede que o dock vire uma bolinha durante o rotateY */
+    width: 45px;
+    min-height: 200px; 
+    
+    /* Origem na borda direita para o efeito de abrir aba */
+    transform-origin: right center;
+
+    /* Estado Inicial */
+    transform: translateY(-50%) rotateY(90deg);
+    opacity: 0;
+    
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    padding: 12px 8px;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 15px 5px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
     border-radius: 12px;
     z-index: 9999;
 
-    /* Remove 3D que causava bolinha */
-    transform-style: flat;
-    perspective: none;
+    /* Configuração 3D Robusta */
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    backface-visibility: hidden;
 
-    /* Fade-in + Flash */
-    animation: dockFadeIn 0.5s ease forwards, dockFlash 0.5s ease-out 1.5s;
+    /* Sequência: Abre (0.8s) e depois Flash (0.5s) */
+    animation: 
+        dockBookOpen 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+        dockFlash 0.5s ease-out 1.6s;
+    
+    animation-delay: 1s, 0s; /* Delay para esperar o boot do sistema */
 }
 
-/* Fade-in suave */
-@keyframes dockFadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+/* Animação de abertura corrigida */
+@keyframes dockBookOpen {
+    from {
+        opacity: 0;
+        /* O scaleX(0) evita o glitch visual da bolinha */
+        transform: translateY(-50%) rotateY(90deg) scaleX(0);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(-50%) rotateY(0deg) scaleX(1) translateZ(25px);
+    }
 }
 
-/* Flash / Brilho opcional */
+/* Flash de ativação */
 @keyframes dockFlash {
     0% { filter: brightness(1); }
     50% { 
-        filter: brightness(4) blur(1px);
-        box-shadow: 0 0 30px rgba(0, 212, 255, 1);
+        filter: brightness(3) blur(1px);
+        box-shadow: 0 0 40px rgba(0, 212, 255, 0.6);
     }
     100% { filter: brightness(1); }
 }
@@ -46,7 +68,7 @@
     position: absolute;
     inset: 0;
     border-radius: 12px; 
-    padding: 1.5px;
+    padding: 2px;
     background: linear-gradient(to bottom, #ff007a, #00d4ff);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -57,29 +79,46 @@
 
 /* Itens do dock */
 .dock-item {
-    width: 32px;
-    height: 32px;
+    width: 35px;
+    height: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease;
     position: relative;
-    flex-shrink: 0;
+    flex-shrink: 0; /* Impede esmagamento */
 }
 
-.dock-item svg {
-    width: 20px;
-    height: 20px;
-    color: rgba(0, 212, 255, 0.8);
-    transition: all 0.3s ease;
+/* Garante que os ícones tenham cor e tamanho mesmo antes do Lucide carregar totalmente */
+.dock-item i, .dock-item svg {
+    width: 22px !important;
+    height: 22px !important;
+    color: #00d4ff;
+    stroke-width: 2px;
 }
 
 .dock-item:hover {
     transform: scale(1.2) translateX(-5px);
 }
 
-.dock-item:hover svg {
+/* Tooltip (Legendas) */
+.dock-item::after {
+    content: attr(data-label);
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
     color: #fff;
-    filter: drop-shadow(0 0 10px #00d4ff);
-    }
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s;
+    text-shadow: 0 0 5px #00d4ff;
+}
+
+.dock-item:hover::after {
+    opacity: 1;
+    transform: translateY(-50%) translateX(-5px);
+}
