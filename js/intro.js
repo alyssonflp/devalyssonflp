@@ -52,26 +52,25 @@ function transitionTo3D() {
     const desktop = document.getElementById('desktop-3d');
     
     if (login && desktop) {
+        // Inicia a transição visual
         login.style.transition = "opacity 0.6s ease";
         login.style.opacity = '0';
 
         setTimeout(() => {
             login.style.display = 'none';
-            desktop.classList.remove('hidden');
+            desktop.classList.remove('hidden'); // Aqui a classe .hidden do CSS é removida
             
-            // TENTATIVA DE INICIALIZAÇÃO COM REPETIÇÃO (Retry Logic)
-            // Se o app.js (módulo) ainda não carregou, tentamos novamente em 100ms
+            // Loop de tentativa: Garante que o app.js seja chamado assim que carregar
             let attempts = 0;
             const checkSystem = setInterval(() => {
                 if (typeof window.startOS === 'function') {
-                    window.startOS();
+                    window.startOS(); // Chama a função do app.js
                     clearInterval(checkSystem);
                 } else {
                     attempts++;
-                    console.log(`Aguardando módulo app.js... (Tentativa ${attempts})`);
-                    if (attempts > 20) { // Desiste após 2 segundos
+                    if (attempts > 50) { // Desiste após 5 segundos para não travar o navegador
                         clearInterval(checkSystem);
-                        console.error("Erro: O módulo app.js não carregou a tempo.");
+                        console.error("ERRO CRÍTICO: Módulo app.js não responde.");
                     }
                 }
             }, 100);
