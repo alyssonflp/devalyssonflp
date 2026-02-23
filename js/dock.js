@@ -27,11 +27,14 @@ export function initDock() {
         iconBtn.onclick = (e) => {
             e.stopPropagation();
             
-            // Ativa ocultação do título no CSS
+            // 1. Aplica a classe imediatamente
             iconBtn.classList.add('is-typing');
             
+            // 2. Remove o foco visual para ajudar o CSS a resetar o hover
+            iconBtn.blur();
+            
             simulateTyping(`/${item.name}`, () => {
-                // Finaliza o estado e permite que o título volte no hover
+                // 3. Remove a classe ao fim, liberando o hover para a próxima vez
                 iconBtn.classList.remove('is-typing');
             });
         };
@@ -43,7 +46,7 @@ export function initDock() {
 }
 
 /**
- * Simula a digitação enviando caracteres para o terminal-input
+ * Simula a digitação
  */
 async function simulateTyping(command, onFinish) {
     const input = document.getElementById('terminal-input');
@@ -59,7 +62,7 @@ async function simulateTyping(command, onFinish) {
     for (let i = 0; i < command.length; i++) {
         input.value += command[i];
         input.dispatchEvent(new Event('input', { bubbles: true }));
-        await new Promise(r => setTimeout(r, 40)); 
+        await new Promise(r => setTimeout(r, Math.random() * 30 + 30)); 
     }
 
     await new Promise(r => setTimeout(r, 200));
@@ -74,5 +77,6 @@ async function simulateTyping(command, onFinish) {
     });
     
     input.dispatchEvent(enterEvent);
+    
     if (onFinish) onFinish();
 }
