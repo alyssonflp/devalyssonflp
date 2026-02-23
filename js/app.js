@@ -60,7 +60,7 @@ export async function startOS() {
                 dockEl.classList.add('active');
                 console.log("🎨 Dock ativado e renderizado");
             }
-        }, 3000); 
+        }, 1000); 
 
     } catch (e) { console.warn("Erro ao iniciar Dock"); }
 
