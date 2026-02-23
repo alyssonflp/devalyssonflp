@@ -1,15 +1,9 @@
 // =====================================================
 // Alysson OS - Core do Sistema
-// Responsável por iniciar Interface 3D e Info Sistema
-// Estrutura segura para GitHub Pages
 // =====================================================
 
 let started = false;
 
-/**
- * Importação segura de módulos.
- * Evita que o sistema quebre caso algum arquivo falhe.
- */
 async function safeImport(path) {
     try {
         return await import(path);
@@ -19,35 +13,30 @@ async function safeImport(path) {
     }
 }
 
-/**
- * Função principal chamada após o boot
- */
 export async function startOS() {
-
-    if (started) return; // evita execução duplicada
+    if (started) return; 
     started = true;
 
     console.log("🚀 Alysson OS iniciado");
 
-    // Importa módulos dinamicamente
     const interfaceModule = await safeImport("./interface_3d.js");
     const infoModule = await safeImport("./info_sistema.js");
-    const terminalModule = await safeImport("./terminal.js");
+    const terminalModule = await safeImport("./terminal.js"); // Novo módulo
 
     // Inicializa Interface 3D
     try {
         interfaceModule?.initInterface3D?.();
-    } catch (error) {
-        console.warn("Erro ao iniciar Interface 3D");
-    }
+    } catch (e) { console.warn("Erro ao iniciar Interface 3D"); }
 
-    // Inicializa Informações do Sistema
+    // Inicializa Info Sistema
     try {
         await infoModule?.initSystemInfo?.();
-    } catch (error) {
-        console.warn("Erro ao iniciar Info Sistema");
-    }
+    } catch (e) { console.warn("Erro ao iniciar Info Sistema"); }
+
+    // Inicializa o Terminal (Hello World -> Prompt)
+    try {
+        await terminalModule?.initTerminal?.();
+    } catch (e) { console.warn("Erro ao iniciar Terminal"); }
 }
 
-// Torna a função acessível globalmente
 window.startOS = startOS;
