@@ -6,21 +6,36 @@ export function initInterface3D() {
     const terminal = document.querySelector(".main-terminal");
     if (!terminal) return;
 
+    // Estado inicial
     let isDragging = false;
     let currentRotationY = 25; 
     let currentRotationX = 10;
-    let startX, startY;
+    let startX = 0;
+    let startY = 0;
+
+    // Função para aplicar a transformação de forma consistente
+    const updateTransform = (xDeg, yDeg) => {
+        terminal.style.transform = `translate(-50%, -50%) rotateY(${xDeg}deg) rotateX(${yDeg}deg)`;
+    };
 
     const startDrag = (e) => {
         isDragging = true;
+        // Captura posição inicial tanto de mouse quanto de touch
         startX = e.pageX || (e.touches ? e.touches[0].pageX : 0);
         startY = e.pageY || (e.touches ? e.touches[0].pageY : 0);
-        terminal.style.transition = "none"; // Remove transição durante o arrasto para ficar fluido
+        
+        // Remove a transição para o movimento ser instantâneo ao rastro do mouse
+        terminal.style.transition = "none";
+        terminal.style.cursor = "grabbing";
     };
 
     const stopDrag = () => { 
+        if (!isDragging) return;
         isDragging = false; 
-        terminal.style.transition = "transform 0.1s ease-out";
+        
+        // Suaviza o retorno ou a parada
+        terminal.style.transition = "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)";
+        terminal.style.cursor = "grab";
     };
 
     const doDrag = (e) => {
@@ -29,19 +44,21 @@ export function initInterface3D() {
         const x = e.pageX || (e.touches ? e.touches[0].pageX : 0);
         const y = e.pageY || (e.touches ? e.touches[0].pageY : 0);
 
-        let nextRotationY = currentRotationY + (x - startX) / 5;
-        let nextRotationX = currentRotationX - (y - startY) / 5;
+        // Cálculo da distância percorrida
+        const deltaX = x - startX;
+        const deltaY = y - startY;
 
-        // Limites de segurança para não "quebrar" a perspectiva
-        if (nextRotationY > 90) nextRotationY = 90;
-        if (nextRotationY < -90) nextRotationY = -90;
-        if (nextRotationX > 30) nextRotationX = 30;
-        if (nextRotationX < -30) nextRotationX = -30;
+        // Sensibilidade (dividido por 5 para não girar rápido demais)
+        currentRotationY += deltaX / 5;
+        currentRotationX -= deltaY / 5;
 
-        currentRotationY = nextRotationY;
-        currentRotationX = nextRotationX;
+        // Travas de segurança (Constraints)
+        if (currentRotationY > 80) currentRotationY = 80;
+        if (currentRotationY < -80) currentRotationY = -80;
+        if (currentRotationX > 25) currentRotationX = 25;
+        if (currentRotationX < -25) currentRotationX = -25;
 
-        terminal.style.transform = `translate(-50%, -50%) rotateY(${currentRotationY}deg) rotateX(${currentRotationX}deg)`;
+        updateTransform(currentRotationY, currentRotationX);
 
         startX = x;
         startY = y;
@@ -55,8 +72,13 @@ export function initInterface3D() {
     // Eventos de Toque (Mobile)
     terminal.addEventListener("touchstart", startDrag, { passive: false });
     window.addEventListener("touchmove", (e) => {
-        if (isDragging) e.preventDefault();
-        doDrag(e);
+        if (isDragging) {
+            if (e.cancelable) e.preventDefault(); // Impede o scroll da página enquanto gira o monitor
+            doDrag(e);
+        }
     }, { passive: false });
     window.addEventListener("touchend", stopDrag);
+
+    // Inicializa a posição padrão
+    updateTransform(currentRotationY, currentRotationX);
 }
