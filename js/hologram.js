@@ -2,7 +2,6 @@
  * Módulo Hologram Direcional - Alysson_OS
  */
 
-// Banco de dados de caminhos SVG
 const ICON_PATHS = {
     about: '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
     skills: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/><line x1="14" y1="4" x2="10" y2="20"/>',
@@ -12,19 +11,14 @@ const ICON_PATHS = {
 };
 
 export function toggleHologram(content, monitorRotationY = 0) {
-    // Referência ao container onde o monitor/terminal 3D reside
     const container = document.getElementById('desktop-3d');
     if (!container) return;
 
-    // Detecta se é dispositivo de toque (Celular/Tablet)
     const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
 
-    // Se já houver um holograma, removemos para dar lugar ao novo
     const existingHologram = document.querySelector('.hologram-card');
     if (existingHologram) {
         existingHologram.classList.remove('hologram-active');
-        
-        // Se clicar no mesmo comando, ele apenas fecha
         if (existingHologram.dataset.type === content.type) {
             setTimeout(() => existingHologram.remove(), 400);
             return;
@@ -32,23 +26,20 @@ export function toggleHologram(content, monitorRotationY = 0) {
         existingHologram.remove();
     }
 
-    // Criar o elemento do holograma
     const hologram = document.createElement('div');
     hologram.dataset.type = content.type;
 
-    /**
-     * LÓGICA DE POSICIONAMENTO 3D:
-     * Se monitorRotationY > 0 (monitor virado p/ direita), pop-left (projeção p/ esquerda).
-     * No Mobile, ignoramos a rotação para manter centralizado e evitar cortes.
-     */
+    // Lógica de direção baseada na posição do monitor
     let directionClass = '';
     if (!isTouchDevice) {
         directionClass = monitorRotationY > 0 ? 'pop-left' : 'pop-right';
     }
     
     hologram.className = `hologram-card ${directionClass}`;
+    
+    // Garante que o holograma mantenha o contexto 3D do monitor
+    hologram.style.transformStyle = "preserve-3d";
 
-    // Estrutura com as bordas arredondadas e o feixe
     hologram.innerHTML = `
         <div class="scanline"></div>
         <div class="hologram-visual-header">
@@ -71,28 +62,22 @@ export function toggleHologram(content, monitorRotationY = 0) {
         <div class="projector-beam"></div>
     `;
 
-    // Adiciona ao container 3D para herdar a perspectiva
     container.appendChild(hologram);
 
-    // Ativa a animação no próximo frame para garantir o efeito de "fade-in + zoom"
     requestAnimationFrame(() => {
         hologram.classList.add('hologram-active');
     });
 
-    // Evento do botão Fechar (X)
     hologram.querySelector('.hologram-close').onclick = (e) => {
         e.stopPropagation();
         hologram.classList.remove('hologram-active');
         setTimeout(() => hologram.remove(), 400);
     };
 
-    // Fechar ao clicar fora (UX refinada para Desktop e Mobile)
     const closeOnOutsideClick = (e) => {
         if (!hologram.contains(e.target) && !e.target.closest('.dock-item')) {
             hologram.classList.remove('hologram-active');
-            setTimeout(() => {
-                if(hologram.parentNode) hologram.remove();
-            }, 400);
+            setTimeout(() => { if(hologram.parentNode) hologram.remove(); }, 400);
             document.removeEventListener('mousedown', closeOnOutsideClick);
             document.removeEventListener('touchstart', closeOnOutsideClick);
         }
