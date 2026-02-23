@@ -8,7 +8,9 @@ window.currentRotationY = 0;
 
 async function safeImport(path) {
     try {
-        return await import(path);
+        // Adicionamos um timestamp para evitar cache durante o desenvolvimento
+        const modulePath = `${path}?t=${Date.now()}`;
+        return await import(modulePath);
     } catch (error) {
         console.warn("Falha ao carregar módulo:", path);
         return null;
@@ -21,6 +23,7 @@ export async function startOS() {
 
     console.log("🚀 Alysson OS iniciado");
 
+    // Carregamento dos módulos
     const interfaceModule = await safeImport("./interface_3d.js");
     const infoModule = await safeImport("./info_sistema.js");
     const terminalModule = await safeImport("./terminal.js");
@@ -50,14 +53,19 @@ export async function startOS() {
     // Inicializa o Dock
     try {
         await dockModule?.initDock?.();
+        // Força o Lucide a renderizar os ícones do Dock recém-criados
+        if (window.lucide) {
+            window.lucide.createIcons();
+        }
     } catch (e) { console.warn("Erro ao iniciar Dock"); }
 
     /**
      * Trigger Global para Hologramas
-     * Pode ser chamado de dentro do terminal.js após o comando ser executado
+     * Centraliza a chamada para que qualquer parte do sistema possa projetar dados
      */
     window.triggerHologram = (content) => {
         if (hologramModule && hologramModule.toggleHologram) {
+            // Passamos o conteúdo e a rotação atual para o efeito direcional
             hologramModule.toggleHologram(content, window.currentRotationY);
         } else {
             console.error("Módulo de holograma não disponível.");
@@ -65,4 +73,5 @@ export async function startOS() {
     };
 }
 
+// Expõe a função para o escopo global
 window.startOS = startOS;
