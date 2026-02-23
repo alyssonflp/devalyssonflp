@@ -1,6 +1,5 @@
 /* --- CONFIGURAÇÃO DO DOCK LATERAL ALYSSON_OS --- */
 
-/* Container Principal do Dock */
 #terminal-dock {
     position: absolute;
     right: 15px;
@@ -14,21 +13,17 @@
     justify-content: center;
     gap: 12px;
     padding: 10px 5px;
-    
-    background: transparent; /* Fundo invisível para manter o foco no neon */
+    background: transparent; 
     border-radius: 15px; 
     z-index: 9999;
-
-    /* Estado Inicial (Escondido) */
     opacity: 0;
     pointer-events: none;
     transform: translateY(-50%) translateX(20px);
-    
     transform-style: flat;
     backface-visibility: hidden;
 }
 
-/* Ativação do Dock com Animação de Entrada e Flash */
+/* Ativação do Dock */
 #terminal-dock.active {
     pointer-events: all;
     animation: 
@@ -36,7 +31,7 @@
         dockFlashWhite 0.6s ease-out 1.0s; 
 }
 
-/* Borda Neon Futurista (Vazada e Arredondada) */
+/* Borda Neon Arredondada */
 #terminal-dock::before {
     content: "";
     position: absolute;
@@ -51,7 +46,7 @@
     pointer-events: none;
 }
 
-/* Estilo Individual de cada Ícone */
+/* Itens do Dock */
 .dock-item { 
     width: 35px; 
     height: 35px; 
@@ -63,7 +58,6 @@
     position: relative; 
 }
 
-/* Estilo dos Ícones Lucide/SVG */
 .dock-item i, .dock-item svg { 
     width: 20px !important; 
     height: 20px !important; 
@@ -71,7 +65,6 @@
     stroke-width: 1.8px; 
 }
 
-/* Interação de Hover (Passar o Mouse) */
 .dock-item:hover { 
     transform: scale(1.1) translateX(-3px); 
 }
@@ -81,7 +74,7 @@
     filter: drop-shadow(0 0 8px #00d4ff);
 }
 
-/* Tooltip / Legenda (data-label) */
+/* Tooltip / Legenda */
 .dock-item::after {
     content: attr(data-label);
     position: absolute;
@@ -97,35 +90,27 @@
     white-space: nowrap;
 }
 
-/* Mostra a legenda no hover normal */
-.dock-item:hover::after { 
+/* Exibe legenda apenas se NÃO estiver digitando */
+.dock-item:hover:not(.is-typing)::after { 
     opacity: 1; 
     transform: translateY(-50%) translateX(-5px); 
 }
 
-/* --- AJUSTE SOLICITADO: OCULTAR TOOLTIP DURANTE DIGITAÇÃO --- */
-/* Quando o JS adiciona '.is-typing', forçamos o desaparecimento da legenda */
+/* Ocultação Crítica durante digitação */
 .dock-item.is-typing::after {
     display: none !important;
     opacity: 0 !important;
     visibility: hidden !important;
-    pointer-events: none !important;
 }
 
-/* --- ANIMAÇÕES --- */
-
-/* Entrada lateral suave */
+/* Animações */
 @keyframes dockFadeIn {
     0% { opacity: 0; transform: translateY(-50%) translateX(20px); }
     100% { opacity: 1; transform: translateY(-50%) translateX(0); }
 }
 
-/* Brilho branco de inicialização do sistema */
 @keyframes dockFlashWhite {
     0% { filter: brightness(1); }
-    50% { 
-        filter: brightness(2.5) contrast(1.2); 
-        box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
-    }
+    50% { filter: brightness(2.5) contrast(1.2); box-shadow: 0 0 20px rgba(255, 255, 255, 0.4); }
     100% { filter: brightness(1); }
 }
