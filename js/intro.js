@@ -1,6 +1,6 @@
-// ======================================================
-// Boot Animation
-// ======================================================
+// =====================================================
+// Simulação de Boot
+// =====================================================
 
 window.addEventListener("load", () => {
     setTimeout(typePassword, 400);
@@ -8,27 +8,25 @@ window.addEventListener("load", () => {
 
 function typePassword() {
 
-    const input = document.getElementById('pass-input');
+    const input = document.getElementById("pass-input");
     if (!input) return;
 
     const pass = "********";
     let i = 0;
 
     const interval = setInterval(() => {
-
         input.value += pass[i++];
         if (i >= pass.length) {
             clearInterval(interval);
             startProgress();
         }
-
     }, 100);
 }
 
 function startProgress() {
 
-    const loader = document.getElementById('boot-progress');
-    const status = document.getElementById('boot-status');
+    const loader = document.getElementById("boot-progress");
+    const status = document.getElementById("boot-status");
     if (!loader || !status) return;
 
     let progress = 0;
@@ -60,8 +58,8 @@ function startProgress() {
 
 function showDesktop() {
 
-    const login = document.getElementById('login-screen');
-    const desktop = document.getElementById('desktop-3d');
+    const login = document.getElementById("login-screen");
+    const desktop = document.getElementById("desktop-3d");
     if (!login || !desktop) return;
 
     login.style.opacity = "0";
@@ -72,4 +70,4 @@ function showDesktop() {
         desktop.classList.remove("hidden");
         window.startOS?.();
     }, 600);
-        }
+}
