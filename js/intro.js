@@ -1,5 +1,6 @@
 window.onload = () => { 
-    setTimeout(typePassword, 800); 
+    // Reduzido de 800ms para 400ms para começar mais rápido
+    setTimeout(typePassword, 400); 
 };
 
 function typePassword() {
@@ -8,7 +9,7 @@ function typePassword() {
     let i = 0;
     if (!passInput) return;
 
-    // Simula a digitação da senha
+    // Digitação levemente mais rápida (100ms)
     const interval = setInterval(() => {
         passInput.value += fullPass[i]; 
         i++;
@@ -16,7 +17,7 @@ function typePassword() {
             clearInterval(interval);
             startProgressBar();
         }
-    }, 120);
+    }, 100); 
 }
 
 function startProgressBar() {
@@ -25,13 +26,19 @@ function startProgressBar() {
     if (!loader) return;
 
     let progress = 0;
-    const messages = ["Carregando Kernel...", "Checando hardware...", "Iniciando Interface 3D...", "Acesso concedido."];
+    const messages = [
+        "Carregando Kernel...", 
+        "Checando hardware...", 
+        "Iniciando Interface 3D...", 
+        "Acesso concedido."
+    ];
 
+    // Aumentamos o passo de 2 para 4 e reduzimos o intervalo para 30ms
+    // Isso faz o carregamento levar cerca de 0.8s a 1s no total
     const timer = setInterval(() => {
-        progress += 2; // Velocidade do carregamento
+        progress += 4; 
         loader.style.width = progress + "%";
 
-        // Atualiza mensagens de status
         if (progress < 30) status.innerText = messages[0];
         else if (progress < 60) status.innerText = messages[1];
         else if (progress < 90) status.innerText = messages[2];
@@ -39,24 +46,31 @@ function startProgressBar() {
 
         if (progress >= 100) { 
             clearInterval(timer); 
-            setTimeout(transitionTo3D, 600); 
+            setTimeout(transitionTo3D, 400); 
         }
-    }, 40);
+    }, 30);
 }
 
 function transitionTo3D() {
     const login = document.getElementById('login-screen');
     const desktop = document.getElementById('desktop-3d');
     
-    if (login) {
+    if (login && desktop) {
+        // Efeito de fade-out suave
+        login.style.transition = "opacity 0.6s ease";
         login.style.opacity = '0';
+
         setTimeout(() => {
             login.style.display = 'none';
-            if (desktop) {
-                desktop.classList.remove('hidden');
-                // Dispara evento para o script da interface 3D saber que começou
-                window.dispatchEvent(new Event('system-ready'));
+            desktop.classList.remove('hidden');
+            
+            // DISPARO CRUCIAL: Inicializa os módulos do app.js
+            if (window.startOS) {
+                window.startOS();
             }
-        }, 800);
+            
+            // Evento opcional para outros scripts
+            window.dispatchEvent(new Event('system-ready'));
+        }, 600);
     }
 }
