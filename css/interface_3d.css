@@ -16,7 +16,7 @@
     width: 520px;
     height: 340px;
     position: absolute;
-    top: 25%;
+    top: 40%;
     left: 50%;
     
     /* RESET DE BORDAS ANTERIORES */
@@ -84,7 +84,7 @@
     .main-terminal {
         width: 85vw;
         height: 45vh;
-        top: 32%;
+        top: 40%;
         transform: translate(-50%, -50%) rotateY(15deg) rotateX(8deg);
     }
 }
