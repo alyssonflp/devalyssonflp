@@ -19,7 +19,7 @@ function createPrompt(container) {
     // Detecta o tipo de dispositivo pela largura da tela
     const isMobile = window.innerWidth <= 768;
     const helpText = isMobile 
-        ? "Digite help para ajudar" 
+        ? "Digite /help para ver os comandos" 
         : "Digite /help para consultar os comandos disponiveis";
 
     promptDiv.innerHTML = `
