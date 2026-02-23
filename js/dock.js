@@ -28,16 +28,31 @@ export function initDock() {
         iconBtn.onclick = (e) => {
             e.stopPropagation();
             
-            // 1. Aplica a classe imediatamente para o CSS esconder o título
+            const input = document.getElementById('terminal-input');
+            const isTouch = window.matchMedia("(pointer: coarse)").matches;
+
+            // --- BLOQUEIO DE TECLADO ---
+            // Se for dispositivo touch, coloca o input em "apenas leitura" 
+            // temporariamente para o navegador não subir o teclado.
+            if (isTouch && input) {
+                input.readOnly = true;
+            }
+
+            // 1. Aplica a classe para o CSS esconder o título
             iconBtn.classList.add('is-typing');
             
-            // 2. Remove o foco do botão para limpar o hover
+            // 2. Remove o foco visual do botão
             iconBtn.blur();
             
             // 3. Simula a digitação
             simulateTyping(`/${item.name}`, () => {
-                // 4. Remove a classe ao fim para o título poder voltar no futuro
+                // 4. Finalização
                 iconBtn.classList.remove('is-typing');
+                
+                // Libera o input para digitação manual novamente
+                if (isTouch && input) {
+                    input.readOnly = false;
+                }
             });
         };
 
@@ -58,7 +73,7 @@ async function simulateTyping(command, onFinish) {
         return;
     }
 
-    // REMOVIDO: input.focus() para evitar que o teclado suba em dispositivos móveis
+    // Garante que o valor comece vazio
     input.value = '';
 
     for (let i = 0; i < command.length; i++) {
@@ -86,6 +101,6 @@ async function simulateTyping(command, onFinish) {
     
     input.dispatchEvent(enterEvent);
     
-    // Callback para limpar o estado do ícone no Dock
+    // Callback para limpar o estado do ícone e destravar o input
     if (onFinish) onFinish();
 }
