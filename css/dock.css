@@ -1,52 +1,49 @@
-/* --- DOCK LATERAL AJUSTADO --- */
+/* --- DOCK LATERAL MODERNO --- */
 #terminal-dock {
     position: absolute;
-    right: 5px; /* mais próximo da borda do terminal */
+    right: 5px;       /* mais próximo da linha do terminal */
     top: 50%;
 
     width: 45px;
     min-height: 200px;
 
     transform-origin: right center;
-    transform: translateY(-50%) rotateY(90deg);
-    opacity: 0;
+    transform: translateY(-50%) translateX(20px) scale(0.9); /* inicial deslocado + menor */
+    opacity: 0; /* invisível no início */
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 8px; /* diminui o espaçamento entre ícones */
+    gap: 8px;      /* ícones próximos */
     padding: 10px 5px;
 
-    background: transparent; /* remove o fundo preto */
-    backdrop-filter: none; /* sem blur de fundo */
+    background: transparent;      /* sem fundo */
     border-radius: 12px;
     z-index: 9999;
 
-    transform-style: preserve-3d;
-    perspective: 1000px;
+    transform-style: flat;
+    perspective: none;
     backface-visibility: hidden;
 
-    animation: 
-        dockBookOpen 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards,
-        dockFlash 0.5s ease-out 1.6s;
-
-    animation-delay: 1s, 0s;
+    /* Animação de abertura + flash */
+    animation: dockFadeIn 0.6s ease-out forwards,
+               dockFlash 0.5s ease-out 1.2s;
 }
 
-/* Animação de abertura lateral */
-@keyframes dockBookOpen {
-    from {
+/* Fade-in suave com leve expansão lateral */
+@keyframes dockFadeIn {
+    0% {
         opacity: 0;
-        transform: translateY(-50%) rotateY(90deg) scaleX(0);
+        transform: translateY(-50%) translateX(20px) scale(0.9);
     }
-    to {
+    100% {
         opacity: 1;
-        transform: translateY(-50%) rotateY(0deg) scaleX(1) translateZ(25px);
+        transform: translateY(-50%) translateX(0) scale(1);
     }
 }
 
-/* Flash de ativação */
+/* Flash de ativação futurista */
 @keyframes dockFlash {
     0% { filter: brightness(1); }
     50% { 
