@@ -72,5 +72,12 @@ function transitionTo3D() {
             // Evento opcional para outros scripts
             window.dispatchEvent(new Event('system-ready'));
         }, 600);
+
+    // ... seu código de sumir a tela de login ...
+    
+    // GARANTIA: Chama o carregamento do IP e Interface
+    if (typeof window.startOS === 'function') {
+        window.startOS();
+    } else {
+        console.error("Erro: startOS não encontrada. Verifique se o app.js carregou.");
     }
-}
