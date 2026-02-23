@@ -22,7 +22,8 @@ async function safeImport(path) {
  */
 export async function startOS() {
 
-    console.log("START OS EXECUTADO");
+    // 🔎 TESTE VISUAL
+    document.body.style.background = "red";
 
     if (started) return;
     started = true;
