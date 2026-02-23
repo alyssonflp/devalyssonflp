@@ -1,19 +1,18 @@
 // =====================================================
-// Núcleo do Alysson OS
-// Responsável por iniciar os módulos do sistema
+// Alysson OS - Core
+// Responsável por iniciar Interface 3D e Info Sistema
 // =====================================================
 
-let systemStarted = false;
+let started = false;
 
 /**
- * Importação segura para evitar que o sistema quebre
- * caso algum arquivo não carregue no GitHub Pages.
+ * Importação segura para GitHub Pages
  */
 async function safeImport(path) {
     try {
         return await import(path);
     } catch (error) {
-        console.warn("Falha ao carregar módulo:", path);
+        console.warn("Falha ao carregar:", path);
         return null;
     }
 }
@@ -23,19 +22,25 @@ async function safeImport(path) {
  */
 export async function startOS() {
 
-    if (systemStarted) return;
-    systemStarted = true;
+    if (started) return;
+    started = true;
 
-    console.log("🚀 Alysson OS iniciado");
+    console.log("🚀 Sistema iniciado");
 
-    const systemModule = await safeImport("./info_sistema.js");
+    const interfaceModule = await safeImport("./interface_3d.js");
+    const infoModule = await safeImport("./info_sistema.js");
 
     try {
-        await systemModule?.initSystemInfo?.();
+        interfaceModule?.initInterface3D?.();
     } catch (e) {
-        console.warn("Erro ao iniciar informações do sistema");
+        console.warn("Erro Interface 3D");
+    }
+
+    try {
+        await infoModule?.initSystemInfo?.();
+    } catch (e) {
+        console.warn("Erro Info Sistema");
     }
 }
 
-// Disponibiliza globalmente para intro.js
 window.startOS = startOS;
