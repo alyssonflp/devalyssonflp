@@ -1,0 +1,45 @@
+/* --- ESTILO DO TERMINAL --- */
+
+/* Hello World Centralizado e Rápido */
+.hello-world-fast {
+    font-family: 'Share Tech Mono', monospace;
+    color: #00d4ff;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 15%;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
+
+/* Mensagem de ajuda ofuscada (cinza escuro) */
+.terminal-line-faint {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.3); /* Ofuscado */
+    margin-bottom: 10px;
+}
+
+/* Prompt Estilo Linux */
+.prompt-container {
+    display: flex;
+    align-items: center;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 14px;
+}
+
+.prompt-user { color: #4ade80; font-weight: bold; }
+.prompt-sep { color: #fff; }
+.prompt-path { color: #3b82f6; font-weight: bold; }
+.prompt-char { color: #fff; margin-right: 8px; }
+
+.input-wrapper { flex: 1; display: flex; }
+
+#terminal-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 14px;
+    width: 100%;
+    caret-color: #4ade80;
+}
