@@ -22,18 +22,16 @@ export function initDock() {
         iconBtn.setAttribute('data-label', item.label);
         iconBtn.innerHTML = `<i data-lucide="${item.lucide}"></i>`;
         
-        iconBtn.onmousedown = (e) => {
-            e.preventDefault();
-        };
+        iconBtn.onmousedown = (e) => e.preventDefault();
 
         iconBtn.onclick = (e) => {
             e.stopPropagation();
             
-            // 1. Adiciona a classe para ocultar o título imediatamente
+            // Ativa ocultação do título no CSS
             iconBtn.classList.add('is-typing');
             
-            // 2. Inicia simulação e passa um callback para remover a classe ao fim
             simulateTyping(`/${item.name}`, () => {
+                // Finaliza o estado e permite que o título volte no hover
                 iconBtn.classList.remove('is-typing');
             });
         };
@@ -45,13 +43,12 @@ export function initDock() {
 }
 
 /**
- * Simula a digitação e execução do comando no prompt ativo
+ * Simula a digitação enviando caracteres para o terminal-input
  */
 async function simulateTyping(command, onFinish) {
     const input = document.getElementById('terminal-input');
     
     if (!input) {
-        console.warn("Input do terminal não encontrado!");
         if (onFinish) onFinish();
         return;
     }
@@ -62,7 +59,7 @@ async function simulateTyping(command, onFinish) {
     for (let i = 0; i < command.length; i++) {
         input.value += command[i];
         input.dispatchEvent(new Event('input', { bubbles: true }));
-        await new Promise(r => setTimeout(r, Math.random() * 30 + 30)); 
+        await new Promise(r => setTimeout(r, 40)); 
     }
 
     await new Promise(r => setTimeout(r, 200));
@@ -77,7 +74,5 @@ async function simulateTyping(command, onFinish) {
     });
     
     input.dispatchEvent(enterEvent);
-    
-    // 3. Executa o callback para o título do dock voltar a aparecer
     if (onFinish) onFinish();
 }
