@@ -1,38 +1,61 @@
-/* --- DOCK LATERAL SEM EXPANSÃO --- */
+/* --- DOCK LATERAL FUTURISTA --- */
 #terminal-dock {
     position: absolute;
     right: 30px;
     top: 50%;
 
-    /* Posição e tamanho final direto */
-    transform: translateY(-50%) scale(1);
-    opacity: 1;
-
+    /* Já visível e na posição final */
+    transform: translateY(-50%) translateZ(20px);
+    opacity: 0; /* começa transparente para fade-in */
     display: flex;
     flex-direction: column;
     gap: 14px;
     padding: 12px 8px;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
     border-radius: 12px;
     z-index: 9999;
 
-    /* Remove 3D para evitar efeito bolinha */
+    /* Remove 3D que causava bolinha */
     transform-style: flat;
     perspective: none;
 
-    /* Apenas flash opcional */
-    animation: dockFlash 0.5s ease-out 1.6s;
+    /* Fade-in + Flash */
+    animation: dockFadeIn 0.5s ease forwards, dockFlash 0.5s ease-out 1.5s;
 }
 
-/* --- FLASH / BRILHO --- */
+/* Fade-in suave */
+@keyframes dockFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Flash / Brilho opcional */
 @keyframes dockFlash {
-    0% { filter: brightness(1) blur(0px); }
-    50% { filter: brightness(3) blur(2px); box-shadow: 0 0 20px rgba(0, 212, 255, 0.8); }
-    100% { filter: brightness(1) blur(0px); }
+    0% { filter: brightness(1); }
+    50% { 
+        filter: brightness(4) blur(1px);
+        box-shadow: 0 0 30px rgba(0, 212, 255, 1);
+    }
+    100% { filter: brightness(1); }
 }
 
-/* --- ITENS DO DOCK --- */
+/* Borda Neon */
+#terminal-dock::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 12px; 
+    padding: 1.5px;
+    background: linear-gradient(to bottom, #ff007a, #00d4ff);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+/* Itens do dock */
 .dock-item {
     width: 32px;
     height: 32px;
@@ -48,7 +71,7 @@
 .dock-item svg {
     width: 20px;
     height: 20px;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(0, 212, 255, 0.8);
     transition: all 0.3s ease;
 }
 
@@ -57,21 +80,6 @@
 }
 
 .dock-item:hover svg {
-    color: #00d4ff;
-    filter: drop-shadow(0 0 8px #00d4ff);
-}
-
-/* --- BORDA DEGRADE NEON --- */
-#terminal-dock::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 12px;
-    padding: 1.5px;
-    background: linear-gradient(to bottom, #ff007a, #00d4ff);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-}
+    color: #fff;
+    filter: drop-shadow(0 0 10px #00d4ff);
+    }
