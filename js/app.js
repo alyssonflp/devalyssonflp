@@ -3,6 +3,8 @@
 // =====================================================
 
 let started = false;
+// Definimos no window para que o Terminal e o Holograma acessem em tempo real
+window.currentRotationY = 0; 
 
 async function safeImport(path) {
     try {
@@ -22,11 +24,17 @@ export async function startOS() {
     const interfaceModule = await safeImport("./interface_3d.js");
     const infoModule = await safeImport("./info_sistema.js");
     const terminalModule = await safeImport("./terminal.js");
-    const dockModule = await safeImport("./dock.js"); // Importando o Dock
+    const dockModule = await safeImport("./dock.js");
+    const hologramModule = await safeImport("./hologram.js");
 
     // Inicializa Interface 3D
     try {
         interfaceModule?.initInterface3D?.();
+        
+        // Captura a rotação vinda da interface 3D
+        document.addEventListener('monitorRotate', (e) => {
+            window.currentRotationY = e.detail.rotationY || 0;
+        });
     } catch (e) { console.warn("Erro ao iniciar Interface 3D"); }
 
     // Inicializa Info Sistema
@@ -34,15 +42,27 @@ export async function startOS() {
         await infoModule?.initSystemInfo?.();
     } catch (e) { console.warn("Erro ao iniciar Info Sistema"); }
 
-    // Inicializa o Terminal (Direto para o Prompt)
+    // Inicializa o Terminal
     try {
         await terminalModule?.initTerminal?.();
     } catch (e) { console.warn("Erro ao iniciar Terminal"); }
 
-    // Inicializa o Dock de Ícones
+    // Inicializa o Dock
     try {
         await dockModule?.initDock?.();
     } catch (e) { console.warn("Erro ao iniciar Dock"); }
+
+    /**
+     * Trigger Global para Hologramas
+     * Pode ser chamado de dentro do terminal.js após o comando ser executado
+     */
+    window.triggerHologram = (content) => {
+        if (hologramModule && hologramModule.toggleHologram) {
+            hologramModule.toggleHologram(content, window.currentRotationY);
+        } else {
+            console.error("Módulo de holograma não disponível.");
+        }
+    };
 }
 
 window.startOS = startOS;
