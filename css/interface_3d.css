@@ -1,4 +1,4 @@
-/* --- FUNDAMENTAL: Sem isso a lógica de transição quebra --- */
+/* --- FUNDAMENTAL: Classe de Transição --- */
 .hidden {
     display: none !important;
     opacity: 0;
@@ -40,6 +40,7 @@
     flex-direction: column;
 }
 
+/* Borda Degradê Neon */
 .main-terminal::before {
     content: "";
     position: absolute;
@@ -56,12 +57,12 @@
     width: 100%;
     height: 100%;
     padding: 25px;
-    overflow-y: auto;
     color: #fff;
     z-index: 2;
+    overflow-y: auto;
 }
 
-/* --- FOOTER DE INFORMAÇÕES (IP, LOC, HORA) --- */
+/* --- FOOTER DE INFORMAÇÕES --- */
 #info-footer {
     position: fixed;
     bottom: 25px;
@@ -73,7 +74,7 @@
     font-family: 'Share Tech Mono', monospace; 
     font-size: 11px;
     color: rgba(0, 212, 255, 0.7);
-    z-index: 99999; /* Garante que fique acima de tudo */
+    z-index: 9999; 
     pointer-events: none;
     text-transform: uppercase;
     text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
@@ -84,6 +85,7 @@
 .info-item .label { color: #ff007a; font-weight: bold; }
 .info-item .value { color: #00d4ff; }
 
+/* Responsividade Mobile */
 @media (max-width: 768px) {
     .main-terminal { width: 92vw; height: 48vh; }
     #info-footer { bottom: 12px; left: 15px; right: 15px; font-size: 8.5px; }
