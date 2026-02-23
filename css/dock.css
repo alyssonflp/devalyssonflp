@@ -1,76 +1,84 @@
-/* --- SIDE DOCK MINIMALISTA (DIREITA) --- */
+/* --- SIDE DOCK MINIMALISTA (ESTILO MONITOR) --- */
 
 #terminal-dock {
     position: absolute;
-    right: 5px; /* Quase encostado na borda direita */
+    right: 8px;
     top: 50%;
-    transform: translateY(-50%); /* Centraliza verticalmente */
+    transform: translateY(-50%);
     display: flex;
-    flex-direction: column; /* Ícones um em cima do outro */
-    gap: 8px; /* Espaço pequeno entre eles */
-    padding: 12px 6px;
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 8px;
+    
+    /* Fundo quase invisível com desfoque */
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px);
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    /* BORDA COM DEGRADÊ (Ajuste as cores aqui se necessário) */
+    border: 1.5px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(to bottom, #ff007a, #00d4ff); /* Rosa para Azul */
+    
     z-index: 1000;
-    transition: all 0.3s ease;
 }
 
 .dock-item {
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.02);
+    background: transparent; /* Sem fundo nos botões */
     color: white;
-    font-size: 16px;
+    font-size: 18px;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
 }
 
-/* Efeito Hover: Expande para a esquerda */
+/* Efeito Hover nos Ícones */
 .dock-item:hover {
-    transform: scale(1.2) translateX(-5px);
-    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.2) translateX(-3px);
+    color: #00d4ff; /* Ícone ganha cor ao passar o mouse */
+    text-shadow: 0 0 8px rgba(0, 212, 255, 0.8);
 }
 
-/* Tooltip (Label) aparecendo à esquerda do ícone */
+/* DESCRIÇÃO (TEXTO MORTO) - Somente a fonte branca */
 .dock-item::after {
     content: attr(data-label);
     position: absolute;
-    right: 45px; /* Aparece ao lado do dock */
+    right: 45px;
     top: 50%;
     transform: translateY(-50%);
     font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    background: white;
-    color: black;
-    padding: 2px 8px;
-    border-radius: 4px;
+    font-size: 11px;
+    color: #ffffff; /* Somente a fonte branca */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Leve brilho */
+    background: none; /* Remove o fundo branco */
+    border: none;
     opacity: 0;
     white-space: nowrap;
     pointer-events: none;
-    transition: opacity 0.2s;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    letter-spacing: 1px;
 }
 
 .dock-item:hover::after {
     opacity: 1;
+    transform: translateY(-50%) translateX(-5px);
 }
 
-/* Ajuste para telas muito pequenas */
+/* Ajustes Mobile */
 @media (max-width: 768px) {
     #terminal-dock {
-        right: 2px;
-        gap: 5px;
+        right: 4px;
         padding: 8px 4px;
+        border-width: 1px;
     }
     .dock-item {
-        width: 28px;
-        height: 28px;
-        font-size: 14px;
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
     }
 }
