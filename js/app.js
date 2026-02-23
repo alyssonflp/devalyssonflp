@@ -7,13 +7,5 @@ export function startOS() {
     if (typeof initSystemInfo === 'function') initSystemInfo();
 }
 
-// Vincula ao window para que scripts não-módulos (intro.js) possam ver
+// Vincula ao window para que o intro.js (script comum) enxergue o módulo
 window.startOS = startOS;
-
-// Caso o usuário dê refresh e já esteja no desktop
-window.addEventListener('load', () => {
-    const desktop = document.getElementById('desktop-3d');
-    if (desktop && !desktop.classList.contains('hidden')) {
-        startOS();
-    }
-});
