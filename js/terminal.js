@@ -115,7 +115,7 @@ async function handleCommand(cmd, container) {
     } else {
         const error = document.createElement('div');
         error.className = "terminal-output log-error";
-        error.innerHTML = `> ERR: NÃO ENCONTRADO [${cmd}]`;
+        error.innerHTML = `> ERRO: NÃO ENCONTRADO [${cmd}]`;
         container.insertBefore(error, currentPrompt);
     }
 
