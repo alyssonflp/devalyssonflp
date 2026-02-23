@@ -1,51 +1,31 @@
 /**
- * Terminal Alysson_OS - Foco em Confinamento 3D
+ * Terminal Alysson_OS - Versão Direta & Adaptável
  */
 
 export async function initTerminal() {
     const root = document.getElementById('root-terminal');
     if (!root) return;
 
-    root.innerHTML = ''; // Limpa o monitor
+    root.innerHTML = ''; // Inicia o monitor limpo
 
-    // 1. HELLO WORLD CENTRALIZADO (Rosa Neon)
-    const hello = document.createElement('h1');
-    hello.className = "hello-world-neon";
-    root.appendChild(hello);
-    
-    // Digitação rápida
-    await typeText("HELLO WORLD", hello, 35);
-    
-    await new Promise(r => setTimeout(r, 600)); 
-    root.innerHTML = ''; // Limpa para dar lugar ao terminal
-
-    // 2. MENSAGEM DE AJUDA E PROMPT
+    // 1. CRIAÇÃO DO PROMPT DIRETO
     createPrompt(root);
-}
-
-function typeText(text, element, speed) {
-    return new Promise((resolve) => {
-        let i = 0;
-        const interval = setInterval(() => {
-            element.innerText += text[i];
-            i++;
-            if (i >= text.length) {
-                clearInterval(interval);
-                resolve();
-            }
-        }, speed);
-    });
 }
 
 function createPrompt(container) {
     const promptDiv = document.createElement('div');
     promptDiv.className = "prompt-container";
     
-    // O placeholder simula o texto "morto" que some ao digitar
+    // Detecta o tipo de dispositivo pela largura da tela
+    const isMobile = window.innerWidth <= 768;
+    const helpText = isMobile 
+        ? "Digite help para ajudar" 
+        : "Digite /help para consultar os comandos disponiveis";
+
     promptDiv.innerHTML = `
         <span class="prompt-user-white">alyssonflp@root</span><span class="prompt-sep">:</span><span class="prompt-path">~</span><span class="prompt-char">$</span>
         <div class="input-wrapper">
-            <input type="text" id="terminal-input" autofocus autocomplete="off" spellcheck="false" placeholder="Digite /help para ajuda...">
+            <input type="text" id="terminal-input" autofocus autocomplete="off" spellcheck="false" placeholder="${helpText}">
         </div>
     `;
     
@@ -54,13 +34,14 @@ function createPrompt(container) {
     const input = document.getElementById('terminal-input');
     input.focus();
 
-    // Impede que cliques fora do input tirem o foco
+    // Mantém o foco no input
     document.addEventListener('click', () => input.focus());
 
+    // Listener para comandos
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
             const cmd = input.value.trim();
-            // Lógica de comandos pode ser inserida aqui
+            // Lógica de processamento de comandos virá aqui
             input.value = ''; 
         }
     });
