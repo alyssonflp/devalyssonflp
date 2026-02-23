@@ -7,7 +7,7 @@
     /* Ponto de origem na borda direita do monitor (a "lombada") */
     transform-origin: right center; 
     
-    /* Estado inicial: Girado 90 graus (invisível/perfil) e centralizado */
+    /* Estado inicial: Girado 90 graus (perfil) e centralizado */
     transform: translateY(-50%) rotateY(90deg);
     
     display: flex;
@@ -19,9 +19,10 @@
     
     /* Animação de entrada */
     animation: dockFlipOpen 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-    animation-delay: 0.5s; /* Espera o monitor carregar */
+    animation-delay: 0.8s; /* Espera o sistema carregar */
     
     opacity: 0;
+    perspective: 1000px;
 }
 
 /* Animação do Livro Abrindo */
@@ -36,7 +37,7 @@
     }
 }
 
-/* Mantendo a borda degradê vazada que fizemos antes */
+/* Borda degradê vazada */
 #terminal-dock::before {
     content: "";
     position: absolute;
@@ -62,18 +63,33 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 16px;
     transition: all 0.3s ease;
     position: relative;
     z-index: 1001;
 }
 
-/* Efeito de inclinação individual no hover (opcional, para reforçar o 3D) */
+/* Ajuste específico para os ícones Lucide (SVG) */
+.dock-item svg {
+    width: 18px;
+    height: 18px;
+    color: rgba(255, 255, 255, 0.7);
+    stroke-width: 1.5px;
+    transition: all 0.3s ease;
+}
+
 .dock-item:hover {
-    color: #ffffff;
     transform: translateX(-5px) scale(1.1);
-    text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+}
+
+.dock-item:hover svg {
+    color: #00d4ff; /* Muda para o azul do degradê no hover */
+    filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.8));
+    stroke-width: 2px;
+}
+
+/* Feedback de clique */
+.dock-item:active {
+    transform: scale(0.9) translateX(-2px);
 }
 
 /* Descrição (Tooltip) */
@@ -83,7 +99,7 @@
     right: 45px;
     top: 50%;
     transform: translateY(-50%);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'Roboto Mono', monospace;
     font-size: 9px;
     font-weight: 500;
     text-transform: uppercase;
@@ -93,6 +109,7 @@
     white-space: nowrap;
     pointer-events: none;
     transition: all 0.3s ease;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .dock-item:hover::after {
@@ -105,5 +122,10 @@
     #terminal-dock {
         right: 6px;
         transform-origin: right center;
+        gap: 10px;
+    }
+    .dock-item svg {
+        width: 16px;
+        height: 16px;
     }
 }
