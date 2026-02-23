@@ -22,9 +22,13 @@ export function initDock() {
         iconBtn.setAttribute('data-label', item.label);
         iconBtn.innerHTML = `<i data-lucide="${item.lucide}"></i>`;
         
+        iconBtn.onmousedown = (e) => {
+            // Evita que o input perca o foco ao clicar no botão
+            e.preventDefault();
+        };
+
         iconBtn.onclick = (e) => {
             e.stopPropagation();
-            // Passamos o comando com a "/" pois seu terminal usa esse prefixo
             simulateTyping(`/${item.name}`);
         };
 
@@ -35,39 +39,46 @@ export function initDock() {
 }
 
 /**
- * Simula a digitação e execução do comando
+ * Simula a digitação e execução do comando no prompt ativo
  */
 async function simulateTyping(command) {
     const input = document.getElementById('terminal-input');
-    if (!input) return;
+    
+    if (!input) {
+        console.warn("Input do terminal não encontrado!");
+        return;
+    }
 
-    // 1. Limpa o prompt atual para receber o novo comando do dock
-    input.value = '';
+    // 1. Prepara o campo
     input.focus();
+    input.value = ''; // Limpa para garantir que comece do início da linha
 
     // 2. Efeito de digitação humana
     for (let i = 0; i < command.length; i++) {
         input.value += command[i];
         
-        // Dispara o evento de input para que o placeholder suma/mude
+        // Importante: Disparar evento de input para que o terminal reconheça a mudança
         input.dispatchEvent(new Event('input', { bubbles: true }));
         
-        // Velocidade da "digitação"
-        await new Promise(r => setTimeout(r, 40)); 
+        // Delay aleatório leve para parecer real (entre 30ms e 60ms)
+        await new Promise(r => setTimeout(r, Math.random() * 30 + 30)); 
     }
 
-    // 3. Pequeno delay antes do "Enter" para o usuário ver o que foi digitado
-    setTimeout(() => {
-        // Dispara o Enter para acionar o seu listener no terminal.js
-        const enterEvent = new KeyboardEvent('keydown', { 
-            key: 'Enter', 
-            code: 'Enter', 
-            keyCode: 13, 
-            bubbles: true 
-        });
-        input.dispatchEvent(enterEvent);
-        
-        // Adicionamos um efeito sutil de "comando aceito"
-        console.log(`[SYS] Executing: ${command}`);
-    }, 150);
+    // 3. Pequeno delay para o usuário ler o que foi 'escrito' no prompt
+    await new Promise(r => setTimeout(r, 200));
+
+    // 4. Dispara o Enter de forma que o listener do terminal.js capture
+    const enterEvent = new KeyboardEvent('keydown', { 
+        key: 'Enter', 
+        code: 'Enter', 
+        keyCode: 13, 
+        which: 13,
+        bubbles: true,
+        cancelable: true
+    });
+    
+    input.dispatchEvent(enterEvent);
+    
+    // Se por algum motivo o terminal.js não limpar o input após o Enter, limpamos aqui
+    // Mas o ideal é que o handleCommand do seu terminal.js cuide disso.
 }
