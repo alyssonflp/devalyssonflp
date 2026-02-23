@@ -86,12 +86,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-family: 'Courier New', Courier, monospace;
+    /* Alterado para combinar com o resto do sistema */
+    font-family: 'Share Tech Mono', monospace; 
     font-size: 11px;
     color: rgba(0, 212, 255, 0.6);
-    z-index: 10;
+    /* Aumentado para garantir visibilidade */
+    z-index: 9999; 
     pointer-events: none;
     text-transform: uppercase;
+    /* Adicionado um leve brilho para legibilidade sobre o fundo */
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
 }
 
 .footer-group {
@@ -111,6 +115,7 @@
 
 .info-item .value {
     color: #00d4ff;
+    letter-spacing: 0.5px;
 }
 
 /* --- RESPONSIVIDADE: MOBILE --- */
