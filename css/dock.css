@@ -1,68 +1,103 @@
-/* --- SIDE DOCK - AJUSTE DE POSICIONAMENTO INTERNO --- */
+/* --- SIDE DOCK - ALYSSON_OS FIX --- */
 
 #terminal-dock {
     position: absolute;
-    /* Mudamos de right fixo para uma posição baseada na largura da tela 3D */
-    left: 92%; 
+    /* Ajuste fino: 20px da borda direita do container pai */
+    right: 20px; 
     top: 50%;
-    transform-origin: left center; /* Mudamos a origem para girar para dentro */
+    transform-origin: right center; 
     
-    /* Estado inicial */
-    transform: translateY(-50%) rotateY(-90deg); /* Invertemos o giro */
+    /* Estado inicial: um pouco menor e transparente */
+    transform: translateY(-50%) scale(0.8);
     opacity: 0;
     
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    padding: 12px 8px;
-    background: rgba(0, 0, 0, 0.2); /* Um leve fundo ajuda a destacar no monitor */
-    backdrop-filter: blur(5px);
-    border-radius: 10px;
-    z-index: 1000;
-    perspective: 1000px;
+    gap: 12px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+    border-radius: 8px;
+    z-index: 9999; /* Força para frente de tudo */
     
-    /* Força o dock a ficar à frente da camada de vídeo/terminal */
+    /* Garante que o dock flutue na frente da tela do monitor */
     transform-style: preserve-3d;
     
-    animation: 
-        dockFlipOpen 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards,
-        dockFlash 0.4s ease-out 1s;
-    animation-delay: 0.5s;
+    animation: dockEntry 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    animation-delay: 1s; /* Espera a intro do sistema terminar */
 }
 
-/* Animação Ajustada */
-@keyframes dockFlipOpen {
+@keyframes dockEntry {
     from {
         opacity: 0;
-        transform: translateY(-50%) rotateY(-90deg) translateZ(0);
+        transform: translateY(-50%) scale(0.5) translateZ(0);
     }
     to {
         opacity: 1;
-        /* translateZ(20px) joga ele bem na frente da tela */
-        transform: translateY(-50%) rotateY(0deg) translateZ(20px);
+        transform: translateY(-50%) scale(1) translateZ(30px);
     }
 }
 
-/* Ajuste das Tooltips para a nova posição */
+/* Borda Neon do Dock */
+#terminal-dock::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+    padding: 1px;
+    background: linear-gradient(to bottom, #00d4ff, #ff007a);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+
+.dock-item {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.dock-item svg {
+    width: 20px;
+    height: 20px;
+    color: rgba(0, 212, 255, 0.8);
+    filter: drop-shadow(0 0 5px rgba(0, 212, 255, 0.5));
+}
+
+.dock-item:hover {
+    transform: scale(1.2) translateX(-5px);
+}
+
+.dock-item:hover svg {
+    color: #fff;
+    filter: drop-shadow(0 0 10px #00d4ff);
+}
+
+/* Tooltip lateral */
 .dock-item::after {
     content: attr(data-label);
     position: absolute;
-    /* Como o dock está na direita extrema, a legenda deve sair para a ESQUERDA */
-    right: 45px; 
+    right: 45px;
     top: 50%;
     transform: translateY(-50%);
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px; 
-    color: #00d4ff;
+    background: rgba(0, 212, 255, 0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 10px;
+    color: #fff;
     opacity: 0;
-    white-space: nowrap;
     pointer-events: none;
-    transition: all 0.3s ease;
+    transition: 0.3s;
 }
 
 .dock-item:hover::after {
     opacity: 1;
     transform: translateY(-50%) translateX(-5px);
 }
-
-/* ... mantenha o resto do código de ícones e flash igual ... */
