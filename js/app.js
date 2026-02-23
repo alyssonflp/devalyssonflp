@@ -22,25 +22,16 @@ async function safeImport(path) {
  */
 export async function startOS() {
 
+    console.log("START OS EXECUTADO");
+
     if (started) return;
     started = true;
-
-    console.log("🚀 Sistema iniciado");
 
     const interfaceModule = await safeImport("./interface_3d.js");
     const infoModule = await safeImport("./info_sistema.js");
 
-    try {
-        interfaceModule?.initInterface3D?.();
-    } catch (e) {
-        console.warn("Erro Interface 3D");
-    }
-
-    try {
-        await infoModule?.initSystemInfo?.();
-    } catch (e) {
-        console.warn("Erro Info Sistema");
-    }
+    interfaceModule?.initInterface3D?.();
+    await infoModule?.initSystemInfo?.();
 }
 
 window.startOS = startOS;
