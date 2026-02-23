@@ -98,6 +98,6 @@
     .main-terminal {
         width: 850px; /* Aumenta o tamanho para ficar proporcional na TV */
         height: 520px;
-        top: 30%; /* Ajusta a altura na tela gigante */
+        top: 43%; /* Ajusta a altura na tela gigante */
     }
 }
