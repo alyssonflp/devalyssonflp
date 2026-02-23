@@ -3,12 +3,10 @@
 // =====================================================
 
 let started = false;
-// Definimos no window para que o Terminal e o Holograma acessem em tempo real
 window.currentRotationY = 0; 
 
 async function safeImport(path) {
     try {
-        // Adicionamos um timestamp para evitar cache durante o desenvolvimento
         return await import(`${path}?t=${Date.now()}`);
     } catch (error) {
         console.warn("Falha ao carregar módulo:", path);
@@ -31,8 +29,6 @@ export async function startOS() {
     // Inicializa Interface 3D
     try {
         interfaceModule?.initInterface3D?.();
-        
-        // Captura a rotação vinda da interface 3D
         document.addEventListener('monitorRotate', (e) => {
             window.currentRotationY = e.detail.rotationY || 0;
         });
@@ -48,15 +44,24 @@ export async function startOS() {
         await terminalModule?.initTerminal?.();
     } catch (e) { console.warn("Erro ao iniciar Terminal"); }
 
-    // Inicializa o Dock
+    // Inicializa o Dock (Criação do DOM)
     try {
         await dockModule?.initDock?.();
         
-        // CORREÇÃO: Força o Lucide a procurar novos ícones injetados no DOM
         if (window.lucide) {
             window.lucide.createIcons();
-            console.log("🎨 Ícones do Dock renderizados com sucesso");
         }
+
+        // AGUARDA O CARREGAMENTO DO TERMINAL PARA EXIBIR O DOCK
+        // O delay de 3000ms garante que a intro do terminal acabou
+        setTimeout(() => {
+            const dockEl = document.getElementById('terminal-dock');
+            if (dockEl) {
+                dockEl.classList.add('active');
+                console.log("🎨 Dock ativado e renderizado");
+            }
+        }, 3000); 
+
     } catch (e) { console.warn("Erro ao iniciar Dock"); }
 
     /**
