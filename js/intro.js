@@ -1,5 +1,4 @@
 window.onload = () => { 
-    // Inicia o processo de digitação após 400ms
     setTimeout(typePassword, 400); 
 };
 
@@ -53,7 +52,6 @@ function transitionTo3D() {
     const desktop = document.getElementById('desktop-3d');
     
     if (login && desktop) {
-        // Efeito de fade-out suave na tela de login
         login.style.transition = "opacity 0.6s ease";
         login.style.opacity = '0';
 
@@ -61,14 +59,23 @@ function transitionTo3D() {
             login.style.display = 'none';
             desktop.classList.remove('hidden');
             
-            // GARANTIA: Inicializa o IP, Localização e Rotação 3D do app.js
-            if (typeof window.startOS === 'function') {
-                window.startOS();
-            } else {
-                console.warn("Aviso: startOS não encontrada. Verifique se o app.js está como type='module'.");
-            }
+            // TENTATIVA DE INICIALIZAÇÃO COM REPETIÇÃO (Retry Logic)
+            // Se o app.js (módulo) ainda não carregou, tentamos novamente em 100ms
+            let attempts = 0;
+            const checkSystem = setInterval(() => {
+                if (typeof window.startOS === 'function') {
+                    window.startOS();
+                    clearInterval(checkSystem);
+                } else {
+                    attempts++;
+                    console.log(`Aguardando módulo app.js... (Tentativa ${attempts})`);
+                    if (attempts > 20) { // Desiste após 2 segundos
+                        clearInterval(checkSystem);
+                        console.error("Erro: O módulo app.js não carregou a tempo.");
+                    }
+                }
+            }, 100);
             
-            // Evento para sinalizar que o sistema está pronto
             window.dispatchEvent(new Event('system-ready'));
         }, 600);
     }
