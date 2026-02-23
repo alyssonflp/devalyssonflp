@@ -1,3 +1,23 @@
+/* ======================================================
+   FONTE LOCAL - Share Tech Mono
+   Carregamento local seguro e otimizado
+====================================================== */
+
+@font-face {
+    font-family: 'Share Tech Mono';
+    src: local('Share Tech Mono'),
+         url('../webfonts/ShareTechMono-Regular.woff2') format('woff2'),
+         url('../webfonts/ShareTechMono-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Garantia global da fonte */
+body {
+    font-family: 'Share Tech Mono', monospace;
+}
+
 /* --- FUNDAMENTAL: Classe de Transição --- */
 .hidden {
     display: none !important;
