@@ -1,17 +1,15 @@
 import { initInterface3D } from './interface_3d.js';
 import { initSystemInfo } from './info_sistema.js';
 
-// Função que será chamada pelo intro.js quando o carregamento acabar
 window.startOS = () => {
+    console.log("Iniciando componentes..."); // Debug
     initInterface3D();
     initSystemInfo();
-    console.log("🚀 Sistemas Alysson_OS inicializados.");
 };
 
-// Caso você não queira depender do intro.js para testar:
-document.addEventListener("DOMContentLoaded", () => {
-    // Se não houver tela de login, inicia direto
-    if (document.getElementById("login-screen").classList.contains("hidden")) {
+// Força a inicialização caso a tela de login seja ignorada
+if (document.readyState === 'complete') {
+    if (document.getElementById("login-screen")?.classList.contains("hidden")) {
         window.startOS();
     }
-});
+}
