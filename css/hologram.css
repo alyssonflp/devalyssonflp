@@ -1,0 +1,107 @@
+/* --- HOLOGRAMA DIRECIONAL 3D --- */
+
+.hologram-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 320px;
+    height: 420px;
+    background: rgba(0, 30, 50, 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    color: #fff;
+    padding: 20px;
+    z-index: 5000;
+    pointer-events: none;
+    opacity: 0;
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    font-family: 'JetBrains Mono', 'Share Tech Mono', monospace;
+}
+
+/* Estado Ativo */
+.hologram-card.hologram-active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* PROJEÇÃO PARA A ESQUERDA (Monitor olhando para a direita) */
+.hologram-card.pop-left {
+    transform: translate(-140%, -50%) perspective(1000px) rotateY(15deg) translateZ(150px);
+}
+
+.hologram-card.hologram-active.pop-left {
+    transform: translate(-150%, -50%) perspective(1000px) rotateY(20deg) translateZ(250px);
+}
+
+/* PROJEÇÃO PARA A DIREITA (Monitor olhando para a esquerda) */
+.hologram-card.pop-right {
+    transform: translate(40%, -50%) perspective(1000px) rotateY(-15deg) translateZ(150px);
+}
+
+.hologram-card.hologram-active.pop-right {
+    transform: translate(50%, -50%) perspective(1000px) rotateY(-20deg) translateZ(250px);
+}
+
+/* Detalhes Visuais (Glitch & Scanlines) */
+.hologram-header {
+    border-bottom: 2px solid #00d4ff;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #00d4ff;
+}
+
+.hologram-close {
+    cursor: pointer;
+    font-size: 18px;
+    color: #ff007a;
+}
+
+.hologram-body {
+    font-size: 13px;
+    line-height: 1.6;
+    height: 300px;
+    overflow-y: auto;
+}
+
+/* Efeito de Feixe do Projetor */
+.projector-beam {
+    position: absolute;
+    top: 50%;
+    width: 150px;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0, 212, 255, 0.1), transparent);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.pop-left .projector-beam {
+    right: -150px;
+    transform: skewY(10deg);
+}
+
+.pop-right .projector-beam {
+    left: -150px;
+    transform: skewY(-10deg);
+}
+
+/* Scanlines dinâmicos */
+.scanline {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        transparent 50%,
+        rgba(0, 212, 255, 0.05) 51%
+    );
+    background-size: 100% 4px;
+    animation: scanMove 10s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes scanMove {
+    from { background-position: 0 0; }
+    to { background-position: 0 100%; }
+}
