@@ -4,20 +4,25 @@
  */
 
 export function initDock() {
-    const monitor = document.getElementById('root-terminal');
+    // CORREÇÃO: Usamos o container específico que criamos no index.html
+    // Se ele não existir, buscamos o desktop-3d como fallback
+    let dockContainer = document.getElementById('terminal-dock');
+    const fallbackContainer = document.getElementById('desktop-3d');
     
-    // Verifica se o monitor existe, se não, tenta novamente
-    if (!monitor) {
-        setTimeout(initDock, 500);
-        return;
+    // Se o elemento não estiver no HTML, nós o criamos
+    if (!dockContainer) {
+        if (!fallbackContainer) {
+            setTimeout(initDock, 500);
+            return;
+        }
+        dockContainer = document.createElement('div');
+        dockContainer.id = 'terminal-dock';
+        fallbackContainer.appendChild(dockContainer);
     }
 
-    // Evita duplicatas
-    if (document.getElementById('terminal-dock')) return;
+    // Limpa conteúdo pré-existente para evitar duplicatas em hot-reload
+    dockContainer.innerHTML = '';
 
-    const dock = document.createElement('div');
-    dock.id = 'terminal-dock';
-    
     // Configuração com ícones Lucide modernos
     const icons = [
         { name: 'about', lucide: 'user-circle', label: 'About' },
@@ -33,20 +38,22 @@ export function initDock() {
         iconBtn.setAttribute('data-label', item.label);
         
         // Insere a tag <i> que o Lucide transformará em SVG
-        iconBtn.innerHTML = `<i data-lucide="${item.lucide}"></i>`;
+        // Adicionamos 'stroke-width' para garantir visibilidade
+        iconBtn.innerHTML = `<i data-lucide="${item.lucide}" style="width:20px; height:20px;"></i>`;
         
-        iconBtn.onclick = () => simulateTyping(`/${item.name}`);
+        iconBtn.onclick = (e) => {
+            e.stopPropagation(); // Evita conflitos com cliques no monitor 3D
+            simulateTyping(`/${item.name}`);
+        };
 
-        dock.appendChild(iconBtn);
+        dockContainer.appendChild(iconBtn);
     });
 
-    monitor.appendChild(dock);
-
     // ESSENCIAL: Comando que renderiza os ícones da biblioteca Lucide
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
+    if (window.lucide) {
+        window.lucide.createIcons();
     } else {
-        console.warn("Lucide não carregado. Verifique o script no index.html");
+        console.warn("Lucide não carregado globalmente.");
     }
 }
 
@@ -55,17 +62,25 @@ export function initDock() {
  */
 async function simulateTyping(command) {
     const input = document.getElementById('terminal-input');
-    if (!input) return;
+    
+    // Se o seu terminal for o Xterm.js ou similar, talvez precise de uma lógica diferente,
+    // mas para inputs HTML padrão, isso funciona:
+    if (!input) {
+        console.warn("Input do terminal não encontrado para simulação.");
+        return;
+    }
 
     input.value = ''; 
     input.focus();
 
     for (let i = 0; i < command.length; i++) {
         input.value += command[i];
-        await new Promise(r => setTimeout(r, 50)); // Velocidade de digitação
+        // Trigger de evento de input para que o terminal reconheça a mudança
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        await new Promise(r => setTimeout(r, 40)); 
     }
 
-    // Pequena pausa antes do Enter para parecer humano
+    // Pequena pausa antes do Enter
     setTimeout(() => {
         const event = new KeyboardEvent('keydown', { 
             key: 'Enter', 
@@ -74,5 +89,5 @@ async function simulateTyping(command) {
             bubbles: true 
         });
         input.dispatchEvent(event);
-    }, 150);
+    }, 100);
 }
