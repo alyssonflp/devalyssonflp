@@ -1,13 +1,17 @@
 import { initInterface3D } from './interface_3d.js';
 import { initSystemInfo } from './info_sistema.js';
 
-// Inicialização centralizada
-document.addEventListener("DOMContentLoaded", () => {
-    // Inicia a rotação 3D do monitor
+// Função que será chamada pelo intro.js quando o carregamento acabar
+window.startOS = () => {
     initInterface3D();
-    
-    // Inicia a captura de dados do rodapé
     initSystemInfo();
+    console.log("🚀 Sistemas Alysson_OS inicializados.");
+};
 
-    console.log("🚀 Alysson_FLP OS: Todos os sistemas carregados.");
+// Caso você não queira depender do intro.js para testar:
+document.addEventListener("DOMContentLoaded", () => {
+    // Se não houver tela de login, inicia direto
+    if (document.getElementById("login-screen").classList.contains("hidden")) {
+        window.startOS();
+    }
 });
