@@ -13,12 +13,13 @@
 }
 
 .main-terminal {
-    /* Tamanho Reduzido */
+    /* Tamanho Compacto */
     width: 520px;
     height: 340px;
     
     position: absolute;
-    top: 35%;
+    /* Posição elevada para flutuar sobre o setup */
+    top: 25%;
     left: 50%;
     
     /* Moldura Degradê Neon */
@@ -26,47 +27,74 @@
     border-radius: 40px;
     background: linear-gradient(135deg, #00d4ff 0%, #ff007a 100%);
     
-    /* Posição Inicial e 3D */
-    transform: translate(-50%, -50%) rotateY(-25deg) rotateX(10deg);
+    /* PERSPECTIVA INVERTIDA (Para a Esquerda) 
+       rotateY POSITIVO joga a esquerda para trás e traz a direita para frente */
+    transform: translate(-50%, -50%) rotateY(25deg) rotateX(10deg);
     transform-style: preserve-3d;
     
-    /* Brilho Neon */
-    box-shadow: 0 0 30px rgba(0, 212, 255, 0.2), 0 0 30px rgba(255, 0, 122, 0.2);
+    /* Glow Neon Externo */
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(0, 212, 255, 0.2), 
+        0 0 30px rgba(255, 0, 122, 0.2);
+        
     cursor: grab;
     transition: transform 0.1s ease-out;
 }
 
-/* Interior do Vidro (Onde vais colocar as tuas coisas) */
+/* Interior: Efeito Vidro Transparente Premium */
 .terminal-content-wrapper {
-    /* Fundo quase invisível */
-    background: rgba(255, 255, 255, 0.05); 
-    
-    /* Aumenta o desfoque para o fundo brilhar através do vidro */
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    
-    /* Adiciona um reflexo interno sutil no topo */
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
-    
-    /* Mantém o resto igual */
     width: 100%;
     height: 100%;
+    
+    /* Fundo muito sutil para máxima transparência */
+    background: rgba(255, 255, 255, 0.03); 
+    
+    /* O "borrão" do vidro */
+    backdrop-filter: blur(15px) saturate(150%);
+    -webkit-backdrop-filter: blur(15px) saturate(150%);
+    
     border-radius: 38px;
-    padding: 20px;
+    padding: 25px;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    
+    /* Reflexo de luz na borda interna superior */
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+/* Efeito de Reflexo Dinâmico (Luz que corre pelo vidro) */
+.terminal-content-wrapper::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg, 
+        transparent 45%, 
+        rgba(255, 255, 255, 0.08) 50%, 
+        transparent 55%
+    );
+    pointer-events: none;
+    transform: rotate(20deg);
 }
 
 .main-terminal:active {
     cursor: grabbing;
 }
 
-/* Ajuste Responsivo */
+/* Ajuste para Mobile */
 @media (max-width: 1000px) {
     .main-terminal {
         width: 85vw;
         height: 45vh;
-        top: 40%;
+        top: 32%;
+        /* Mantém a perspectiva invertida no mobile tbm */
+        transform: translate(-50%, -50%) rotateY(18deg) rotateX(8deg);
     }
 }
