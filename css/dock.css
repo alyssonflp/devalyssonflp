@@ -1,7 +1,7 @@
-/* --- DOCK LATERAL COMPLETO COM FLASHS --- */
+/* --- DOCK LATERAL MINIMALISTA --- */
 #terminal-dock {
     position: absolute;
-    right: 15px; /* Ajustado para entrar na área visível do monitor */
+    right: 15px;
     top: 50%;
     width: 45px;
     min-height: 200px;
@@ -10,57 +10,56 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 12px;
     padding: 10px 5px;
-    background: rgba(0, 0, 0, 0.4); /* Fundo leve para o brilho destacar */
-    backdrop-filter: blur(8px);
-    border-radius: 12px;
+    
+    /* REMOVIDO FUNDO PRETO */
+    background: transparent; 
+    
+    /* BORDAS ARREDONDADAS (Igual ao terminal) */
+    border-radius: 15px; 
     z-index: 9999;
 
-    /* Estado inicial: Escondido à direita */
     opacity: 0;
     pointer-events: none;
-    transform: translateY(-50%) translateX(30px) scale(0.8);
-    transition: opacity 0.3s ease;
-
+    transform: translateY(-50%) translateX(20px);
+    
     transform-style: flat;
     backface-visibility: hidden;
 }
 
-/* Disparado via JS adicionando a classe .active */
+/* Ativação do Dock */
 #terminal-dock.active {
     pointer-events: all;
+    /* Agora apenas um flash branco sutil após a entrada */
     animation: 
         dockFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards,
-        dockFlash1 0.4s ease-out 1.2s,
-        dockFlash2 0.3s ease-out 1.6s,
-        dockFlash3 0.2s ease-out 2.0s;
+        dockFlashWhite 0.6s ease-out 1.0s; 
 }
 
-/* Fade-in e entrada lateral */
+/* Entrada lateral suave */
 @keyframes dockFadeIn {
-    0% { 
-        opacity: 0; 
-        transform: translateY(-50%) translateX(30px) scale(0.8); 
-    }
-    100% { 
-        opacity: 1; 
-        transform: translateY(-50%) translateX(0) scale(1); 
-    }
+    0% { opacity: 0; transform: translateY(-50%) translateX(20px); }
+    100% { opacity: 1; transform: translateY(-50%) translateX(0); }
 }
 
-/* Flashes neon sequenciais */
-@keyframes dockFlash1 { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(3) blur(1px); box-shadow: 0 0 30px rgba(0,212,255,0.4); } }
-@keyframes dockFlash2 { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(4) blur(2px); box-shadow: 0 0 40px rgba(0,212,255,0.6); } }
-@keyframes dockFlash3 { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(5) blur(2px); box-shadow: 0 0 50px rgba(0,212,255,0.8); } }
+/* FLASH BRANCO SUTIL (1x só) */
+@keyframes dockFlashWhite {
+    0% { filter: brightness(1); }
+    50% { 
+        filter: brightness(2.5) contrast(1.2); 
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    }
+    100% { filter: brightness(1); }
+}
 
-/* Borda neon */
+/* Borda neon vazada (Arredondada) */
 #terminal-dock::before {
     content: "";
     position: absolute;
     inset: 0;
-    border-radius: 12px;
-    padding: 2px;
+    border-radius: 15px; /* Bordas arredondadas aqui também */
+    padding: 1.5px;
     background: linear-gradient(to bottom, #ff007a, #00d4ff);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -71,29 +70,34 @@
 
 /* Itens do dock */
 .dock-item { 
-    width:35px; 
-    height:35px; 
-    display:flex; 
-    align-items:center; 
-    justify-content:center; 
-    cursor:pointer; 
-    transition:all 0.3s ease; 
-    position:relative; 
-    flex-shrink:0; 
+    width: 35px; 
+    height: 35px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    cursor: pointer; 
+    transition: transform 0.3s ease, filter 0.3s ease; 
+    position: relative; 
 }
 
 .dock-item i, .dock-item svg { 
-    width:22px!important; 
-    height:22px!important; 
-    color:#00d4ff; 
-    stroke-width:2px; 
+    width: 20px !important; 
+    height: 20px !important; 
+    color: rgba(0, 212, 255, 0.8); 
+    stroke-width: 1.8px; 
 }
 
+/* Hover sutil */
 .dock-item:hover { 
-    transform: scale(1.2) translateX(-5px); 
+    transform: scale(1.1) translateX(-3px); 
 }
 
-/* Tooltip */
+.dock-item:hover i, .dock-item:hover svg { 
+    color: #fff;
+    filter: drop-shadow(0 0 8px #00d4ff);
+}
+
+/* Tooltip (Legenda) */
 .dock-item::after {
     content: attr(data-label);
     position: absolute;
@@ -106,9 +110,9 @@
     opacity: 0;
     pointer-events: none;
     transition: 0.3s;
-    text-shadow: 0 0 5px #00d4ff;
 }
+
 .dock-item:hover::after { 
-    opacity:1; 
+    opacity: 1; 
     transform: translateY(-50%) translateX(-5px); 
 }
