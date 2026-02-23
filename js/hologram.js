@@ -12,6 +12,7 @@ const ICON_PATHS = {
 };
 
 export function toggleHologram(content, monitorRotationY = 0) {
+    // Referência ao container onde o monitor/terminal 3D reside
     const container = document.getElementById('desktop-3d');
     if (!container) return;
 
@@ -23,7 +24,7 @@ export function toggleHologram(content, monitorRotationY = 0) {
     if (existingHologram) {
         existingHologram.classList.remove('hologram-active');
         
-        // Se clicar no mesmo ícone, apenas fecha
+        // Se clicar no mesmo comando, ele apenas fecha
         if (existingHologram.dataset.type === content.type) {
             setTimeout(() => existingHologram.remove(), 400);
             return;
@@ -35,9 +36,11 @@ export function toggleHologram(content, monitorRotationY = 0) {
     const hologram = document.createElement('div');
     hologram.dataset.type = content.type;
 
-    // LÓGICA DE POSICIONAMENTO:
-    // Se for touch, não usa direcional (mantém centralizado pelo CSS base)
-    // Se for desktop, usa a rotação do monitor para decidir o lado
+    /**
+     * LÓGICA DE POSICIONAMENTO 3D:
+     * Se monitorRotationY > 0 (monitor virado p/ direita), pop-left (projeção p/ esquerda).
+     * No Mobile, ignoramos a rotação para manter centralizado e evitar cortes.
+     */
     let directionClass = '';
     if (!isTouchDevice) {
         directionClass = monitorRotationY > 0 ? 'pop-left' : 'pop-right';
@@ -45,6 +48,7 @@ export function toggleHologram(content, monitorRotationY = 0) {
     
     hologram.className = `hologram-card ${directionClass}`;
 
+    // Estrutura com as bordas arredondadas e o feixe
     hologram.innerHTML = `
         <div class="scanline"></div>
         <div class="hologram-visual-header">
@@ -67,26 +71,28 @@ export function toggleHologram(content, monitorRotationY = 0) {
         <div class="projector-beam"></div>
     `;
 
+    // Adiciona ao container 3D para herdar a perspectiva
     container.appendChild(hologram);
 
-    // Trigger da animação com um frame de delay
+    // Ativa a animação no próximo frame para garantir o efeito de "fade-in + zoom"
     requestAnimationFrame(() => {
         hologram.classList.add('hologram-active');
     });
 
-    // Fechar ao clicar no "X"
+    // Evento do botão Fechar (X)
     hologram.querySelector('.hologram-close').onclick = (e) => {
         e.stopPropagation();
         hologram.classList.remove('hologram-active');
         setTimeout(() => hologram.remove(), 400);
     };
 
-    // Fechar ao clicar fora (Melhorado para Mobile)
+    // Fechar ao clicar fora (UX refinada para Desktop e Mobile)
     const closeOnOutsideClick = (e) => {
-        // Se clicar fora do card E não for um item do dock, fecha
         if (!hologram.contains(e.target) && !e.target.closest('.dock-item')) {
             hologram.classList.remove('hologram-active');
-            setTimeout(() => hologram.remove(), 400);
+            setTimeout(() => {
+                if(hologram.parentNode) hologram.remove();
+            }, 400);
             document.removeEventListener('mousedown', closeOnOutsideClick);
             document.removeEventListener('touchstart', closeOnOutsideClick);
         }
