@@ -1,42 +1,39 @@
-/* --- UTILITÁRIOS --- */
+/* ============================================================
+    ALYSSON_OS - INTERFACE PRINCIPAL (V2.6)
+    Organizado por: Dev
+    Notas: Focado em Glassmorphism e Perspectiva 3D.
+    ============================================================
+*/
+
+/* --- 1. UTILITÁRIOS E AUXILIARES --- */
+/* Esta classe é quem faz a mágica da transição de boot acontecer */
 .hidden {
     display: none !important;
     opacity: 0;
     pointer-events: none;
+    visibility: hidden;
 }
 
-/* O restante do seu código CSS abaixo... */
-#desktop-3d {
-    width: 100vw;
-    height: 100vh;
-    /* ... seu código ... */
-}
-
-/* Garante que o footer tenha a maior prioridade de visão */
-#info-footer {
-    z-index: 9999;
-    /* ... resto do seu código ... */
-}
-
-/* --- AMBIENTE 3D --- */
+/* --- 2. AMBIENTE 3D (O PALCO) --- */
 #desktop-3d {
     width: 100vw;
     height: 100vh;
     background-image: url('../imagens/fundo.webp');
     background-size: cover;
     background-position: center;
-    perspective: 1500px;
+    perspective: 1500px; /* Cria a profundidade para o monitor "saltar" */
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
     user-select: none;
+    transition: opacity 0.8s ease-in-out;
 }
 
-/* --- MONITOR PRINCIPAL (DESKTOP) --- */
+/* --- 3. MONITOR PRINCIPAL (O TERMINAL) --- */
 .main-terminal {
-    width: 650px; /* Largura ideal para um terminal real */
-    height: 400px; /* Altura proporcional */
+    width: 650px;
+    height: 400px;
     position: absolute;
     top: 43%;
     left: 50%;
@@ -44,16 +41,16 @@
     border: none;
     border-radius: 40px;
     
-    /* Perspectiva Invertida */
+    /* Aplica a inclinação 3D inicial */
     transform: translate(-50%, -50%) rotateY(25deg) rotateX(10deg);
     transform-style: preserve-3d;
     
-    /* Fundo Vidro (Glassmorphism) */
+    /* Efeito Glassmorphism (Vidro Fosco) */
     background: rgba(10, 15, 30, 0.4); 
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
 
-    /* Sombras e Brilho Neon */
+    /* Sombra pesada para dar volume e brilho neon externo */
     box-shadow: 
         0 20px 50px rgba(0, 0, 0, 0.3),
         inset 0 0 0 2px transparent,
@@ -61,18 +58,18 @@
         0 0 15px rgba(0, 212, 255, 0.3);
         
     cursor: grab;
-    transition: transform 0.1s ease-out;
+    transition: transform 0.15s ease-out; /* Suaviza a volta do monitor ao soltar */
     display: flex;
     flex-direction: column;
 }
 
-/* Borda Degradê Neon (Usando Máscara) */
+/* Borda Neon em Degradê (Técnica de Mascaramento) */
 .main-terminal::before {
     content: "";
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     border-radius: 40px;
-    padding: 2px;
+    padding: 2px; /* Espessura da borda */
     background: linear-gradient(135deg, #00d4ff 0%, #ff007a 100%);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -85,6 +82,7 @@
     cursor: grabbing;
 }
 
+/* Container de conteúdo interno (onde os textos aparecem) */
 .terminal-content-wrapper {
     width: 100%;
     height: 100%;
@@ -94,27 +92,24 @@
     box-sizing: border-box;
     color: #fff;
     z-index: 2;
-    overflow-y: auto; /* Permite scroll se o texto crescer muito */
+    overflow-y: auto; /* Scroll se o conteúdo for maior que o monitor */
 }
 
-/* --- FOOTER DE INFORMAÇÕES (IP, LOC, OS) --- */
+/* --- 4. FOOTER DE INFORMAÇÕES (IP, LOC, OS) --- */
 #info-footer {
     position: fixed;
     bottom: 25px;
     left: 40px;
     right: 40px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Um grupo na esquerda, outro na direita */
     align-items: center;
-    /* Alterado para combinar com o resto do sistema */
     font-family: 'Share Tech Mono', monospace; 
     font-size: 11px;
-    color: rgba(0, 212, 255, 0.6);
-    /* Aumentado para garantir visibilidade */
-    z-index: 9999; 
-    pointer-events: none;
+    color: rgba(0, 212, 255, 0.7);
+    z-index: 9999; /* Garante que fique acima de qualquer reflexo do monitor */
+    pointer-events: none; /* Não bloqueia cliques no fundo */
     text-transform: uppercase;
-    /* Adicionado um leve brilho para legibilidade sobre o fundo */
     text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
 }
 
@@ -129,33 +124,37 @@
 }
 
 .info-item .label {
-    color: #ff007a;
+    color: #ff007a; /* Rosa neon para os títulos */
     font-weight: bold;
 }
 
 .info-item .value {
-    color: #00d4ff;
+    color: #00d4ff; /* Azul para os dados reais */
     letter-spacing: 0.5px;
 }
 
-/* --- RESPONSIVIDADE: MOBILE --- */
+/* --- 5. RESPONSIVIDADE --- */
+
+/* Ajustes para tablets e telas menores */
 @media (max-width: 1000px) {
     .main-terminal {
-        width: 92vw; /* Monitor maior no mobile conforme pedido */
-        height: 48vh;
+        width: 90vw;
+        height: 45vh;
         top: 43%;
         transform: translate(-50%, -50%) rotateY(15deg) rotateX(8deg);
     }
 }
 
+/* Ajustes para Smartphones (Mobile) */
 @media (max-width: 768px) {
     #info-footer {
         bottom: 12px;
         left: 15px;
         right: 15px;
-        font-size: 8.5px;
+        font-size: 9px;
     }
 
+    /* Esconde dados secundários no celular para não poluir */
     .hide-mobile {
         display: none;
     }
@@ -166,16 +165,15 @@
     }
 }
 
-/* --- RESPONSIVIDADE: SMART TVs 4K --- */
+/* Ajustes para Smart TVs e Monitores 4K */
 @media (min-width: 2500px) {
-    #desktop-3d {
-        background-size: 100% 100%;
-        background-attachment: fixed;
+    .main-terminal {
+        width: 950px;
+        height: 550px;
     }
     
-    .main-terminal {
-        width: 900px;
-        height: 550px;
-        top: 43%;
+    #info-footer {
+        font-size: 14px;
+        bottom: 40px;
     }
 }
