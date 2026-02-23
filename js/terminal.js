@@ -21,16 +21,23 @@ function createPrompt(container) {
     const promptDiv = document.createElement('div');
     promptDiv.className = "prompt-container";
     
-    // Detecta se é celular para mudar o texto de ajuda
+    // Detecta se é dispositivo touch (Celular, Tablet, iPad)
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
     const isMobile = window.innerWidth <= 768;
+    
     const helpText = isMobile 
         ? "Digite /help para dúvidas" 
         : "Digite /help para verificar os comandos existentes";
 
+    // REMOÇÃO DO AUTOFOCUS PARA MOBILE:
+    // Se for touch, não inserimos o atributo 'autofocus' no HTML,
+    // pois ele força a abertura do teclado em muitos navegadores.
+    const autofocusAttr = isTouchDevice ? "" : "autofocus";
+
     promptDiv.innerHTML = `
         <span class="prompt-user-white">alyssonflp@root</span><span class="prompt-sep">:</span><span class="prompt-path">~</span><span class="prompt-char">$</span>
         <div class="input-wrapper">
-            <input type="text" id="terminal-input" autofocus autocomplete="off" spellcheck="false" placeholder="${helpText}">
+            <input type="text" id="terminal-input" ${autofocusAttr} autocomplete="off" spellcheck="false" placeholder="${helpText}">
         </div>
     `;
     
@@ -38,8 +45,7 @@ function createPrompt(container) {
     
     const input = document.getElementById('terminal-input');
 
-    // Foco inicial inteligente: Evita abrir teclado ao carregar o site no mobile
-    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+    // Foco inicial inteligente: Só executa se não for touch (Desktop)
     if (!isTouchDevice && input) {
         input.focus();
     }
@@ -119,13 +125,12 @@ async function handleCommand(cmd, container) {
         container.insertBefore(error, currentPrompt);
     }
 
-    // --- FINALIZAÇÃO COM TRAVA DE SEGURANÇA PARA MOBILE/TABLET ---
+    // --- FINALIZAÇÃO COM TRAVA DE SEGURANÇA ---
     container.scrollTop = container.scrollHeight;
 
-    // Detecta se o dispositivo é touch (Celular, Tablet, iPad)
     const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
 
-    // Só devolve o foco se NÃO for um dispositivo de toque (evita subir o teclado)
+    // Só devolve o foco se NÃO for um dispositivo de toque
     if (!isTouchDevice && input) {
         input.focus();
     }
