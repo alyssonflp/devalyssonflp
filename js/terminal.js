@@ -1,5 +1,5 @@
 /**
- * Terminal Alysson_OS - Versão Final Corrigida
+ * Terminal Alysson_OS - Versão Final (Sutil & Fluxo Contínuo)
  */
 
 export async function initTerminal() {
@@ -11,17 +11,15 @@ export async function initTerminal() {
 }
 
 /**
- * Cria a linha de comando ativa
+ * Cria a linha de comando ativa no final do log
  */
 function createPrompt(container) {
-    // Remove qualquer prompt anterior para não duplicar inputs
-    const oldPrompt = document.querySelector('.prompt-container');
+    const oldPrompt = document.querySelector('.prompt-container:not(.terminal-history)');
     if (oldPrompt) oldPrompt.remove();
 
     const promptDiv = document.createElement('div');
     promptDiv.className = "prompt-container";
     
-    // Placeholder sutil
     const isMobile = window.innerWidth <= 768;
     const helpText = isMobile ? "Type..." : "Awaiting command...";
 
@@ -46,33 +44,31 @@ function createPrompt(container) {
 }
 
 /**
- * Processa comandos e transforma o input em texto estático
+ * Processa comandos e organiza o histórico cronológico
  */
 async function handleCommand(cmd, container) {
     if (!cmd) return;
 
-    // 1. TRANSFORMA O COMANDO EM TEXTO MORTO (Evita a aparência de "caixa de pesquisa")
+    // 1. Converte o prompt atual em histórico estático
     const history = document.createElement('div');
-    history.className = "prompt-container"; // Mantém a mesma estrutura visual
-    history.style.opacity = "0.8"; // Levemente ofuscado para diferenciar do ativo
+    history.className = "prompt-container terminal-history";
     history.innerHTML = `
         <span class="prompt-user-white">alyssonflp@root</span><span class="prompt-sep">:</span><span class="prompt-path">~</span><span class="prompt-char">$</span>
         <span style="color: #00d4ff; margin-left: 8px;">${cmd}</span>
     `;
     
-    // Insere o histórico antes de remover o prompt ativo
+    // Insere antes do prompt ativo
     container.insertBefore(history, document.querySelector('.prompt-container'));
 
-    // 2. Banco de Conteúdos
     const contents = {
-        '/about': { type: 'about', title: 'USER_PROFILE_01' },
-        '/skills': { type: 'skills', title: 'CORE_COMPETENCIES' },
-        '/experience': { type: 'experience', title: 'HISTORY_LOG' },
-        '/projects': { type: 'projects', title: 'ACTIVE_REPOS' },
-        '/ia': { type: 'ia', title: 'AI_CORE_LINK' }
+        '/about': { type: 'about' },
+        '/skills': { type: 'skills' },
+        '/experience': { type: 'experience' },
+        '/projects': { type: 'projects' },
+        '/ia': { type: 'ia' }
     };
 
-    // 3. Efeito Loading e Execução
+    // 2. Lógica de Execução
     if (contents[cmd] || cmd === '/help' || cmd === '/clear') {
         
         if(cmd === '/clear') {
@@ -81,39 +77,53 @@ async function handleCommand(cmd, container) {
             return;
         }
 
+        // --- Efeito Loading Sutil ---
         const loadingDiv = document.createElement('div');
+        loadingDiv.className = "terminal-output";
         loadingDiv.style.color = "rgba(255, 255, 255, 0.4)";
         loadingDiv.style.fontSize = "12px";
-        loadingDiv.style.margin = "5px 0 10px 20px";
+        loadingDiv.style.margin = "5px 0 5px 20px";
         container.insertBefore(loadingDiv, document.querySelector('.prompt-container'));
 
         for (let i = 0; i <= 10; i++) {
             const bar = "#".repeat(i) + "-".repeat(10 - i);
-            loadingDiv.innerHTML = `[${bar}] LOADING... ${i * 10}%`;
-            await new Promise(r => setTimeout(r, 30));
+            loadingDiv.innerHTML = `[${bar}] CACHING_SYSTEM... ${i * 10}%`;
+            container.scrollTop = container.scrollHeight;
+            await new Promise(r => setTimeout(r, 40));
         }
-        loadingDiv.innerHTML = `[##########] DONE`;
 
+        // --- Adiciona o DONE abaixo da barra ---
+        const doneDiv = document.createElement('div');
+        doneDiv.className = "terminal-output";
+        doneDiv.style.color = "#00ff41";
+        doneDiv.style.fontSize = "12px";
+        doneDiv.style.paddingLeft = "20px";
+        doneDiv.style.marginBottom = "10px";
+        doneDiv.innerHTML = `> SYNC_STATUS: DONE`;
+        container.insertBefore(doneDiv, document.querySelector('.prompt-container'));
+
+        // Executa ação do holograma
         if (contents[cmd] && typeof window.triggerHologram === 'function') {
             window.triggerHologram(contents[cmd]);
         } else if (cmd === '/help') {
             const help = document.createElement('div');
-            help.style.fontSize = "13px";
+            help.className = "terminal-output";
             help.style.paddingLeft = "20px";
             help.style.color = "#00d4ff";
             help.innerHTML = "> KEYS: /about, /skills, /experience, /projects, /ia, /clear";
             container.insertBefore(help, document.querySelector('.prompt-container'));
         }
     } else {
+        // Log de Erro
         const error = document.createElement('div');
+        error.className = "terminal-output";
         error.style.color = "#ff3e3e";
-        error.style.fontSize = "13px";
         error.style.paddingLeft = "20px";
-        error.innerHTML = `> ERR: NOT_FOUND [${cmd}]`;
+        error.innerHTML = `> ERR: COMMAND_NOT_FOUND [${cmd}]`;
         container.insertBefore(error, document.querySelector('.prompt-container'));
     }
 
-    // 4. Limpa o input atual e rola
+    // 3. Limpa o input e rola para o fim
     const input = document.getElementById('terminal-input');
     if(input) input.value = '';
     
