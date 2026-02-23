@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="css/interface_3d.css">
     <link rel="stylesheet" href="css/terminal.css">
     <link rel="stylesheet" href="css/dock.css">
-    <link rel="stylesheet" href="css/hologram.css"> <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="css/hologram.css"> 
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
@@ -30,35 +32,32 @@
                  class="login-avatar"
                  alt="Alysson"
                  onerror="this.src='https://ui-avatars.com/api/?name=Alysson+Felipe&background=9333ea&color=fff';">
-
             <h2 class="login-username">alyssonfelipe</h2>
-
             <div class="login-field">
                 <input type="password" id="pass-input" readonly>
             </div>
-
             <div class="boot-loader-container">
                 <div id="boot-progress" class="boot-loader-bar"></div>
             </div>
-
             <div id="boot-status">Inicializando sistema...</div>
         </div>
     </section>
 
     <main id="desktop-3d" class="hidden">
-        <div class="scanline"></div> <section class="main-terminal">
+        <div class="scanline"></div> 
+        
+        <section class="main-terminal">
             <article class="terminal-content-wrapper" id="content">
                 <div id="root-terminal"></div>
             </article>
 
             <div id="info-footer"></div>
+
+            <div id="terminal-dock"></div> 
         </section>
-        
-        <div id="terminal-dock"></div> 
     </main>
 
     <script type="module" src="js/app.js"></script>
     <script defer src="js/intro.js"></script>
-
 </body>
 </html>
