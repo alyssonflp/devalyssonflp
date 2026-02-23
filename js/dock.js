@@ -1,6 +1,5 @@
 /**
  * Módulo do Dock Lateral - Alysson_OS
- * Integrado com Lucide Icons e Simulação Humana
  */
 
 export function initDock() {
@@ -31,65 +30,55 @@ export function initDock() {
         const iconBtn = document.createElement('div');
         iconBtn.className = 'dock-item';
         iconBtn.setAttribute('data-label', item.label);
-        
         iconBtn.innerHTML = `<i data-lucide="${item.lucide}"></i>`;
         
         iconBtn.onclick = (e) => {
             e.stopPropagation();
-            // Chama a simulação de digitação
-            simulateTyping(`/${item.name}`);
+            // Removemos a "/" se o seu terminal já lidar com comandos pelo nome
+            simulateTyping(`${item.name}`); 
         };
 
         dockContainer.appendChild(iconBtn);
     });
 
-    if (window.lucide) {
-        window.lucide.createIcons();
-    }
+    if (window.lucide) window.lucide.createIcons();
 }
 
 /**
- * Simula a digitação humana no input do terminal
+ * Simula a digitação diretamente no prompt ativo
  */
 async function simulateTyping(command) {
-    // Busca o input onde o usuário digita (ajuste o ID se necessário)
-    const input = document.getElementById('terminal-input');
+    // CORREÇÃO: Busca o input que está visível e focado no terminal
+    const input = document.querySelector('.terminal-input') || document.getElementById('terminal-input');
     
     if (!input) {
-        console.warn("Input do terminal não encontrado.");
+        console.warn("Prompt de comando não encontrado.");
         return;
     }
 
-    // Limpa o input e foca para iniciar a "digitação"
-    input.value = ''; 
+    // Limpa o que estiver escrito para não concatenar errado
+    input.value = '';
     input.focus();
 
-    // Loop de digitação caractere por caractere
+    // Digitação caractere por caractere
     for (let i = 0; i < command.length; i++) {
         input.value += command[i];
         
-        // Dispara o evento de input para que o terminal detecte a mudança visual/estado
+        // Dispara eventos para o terminal entender que há texto novo
         input.dispatchEvent(new Event('input', { bubbles: true }));
         
-        // Velocidade variável para parecer mais humano (entre 30ms e 70ms)
-        const delay = Math.floor(Math.random() * (70 - 30 + 1) + 30);
-        await new Promise(r => setTimeout(r, delay)); 
+        await new Promise(r => setTimeout(r, 60)); 
     }
 
-    // Pausa breve para simular a reação de apertar o Enter
+    // Aguarda um momento e envia o Enter
     setTimeout(() => {
-        // Cria o evento de teclado para o Enter
-        const enterEvent = new KeyboardEvent('keydown', { 
-            key: 'Enter', 
-            code: 'Enter', 
-            keyCode: 13, 
+        const enterEvent = new KeyboardEvent('keydown', {
+            key: 'Enter',
+            code: 'Enter',
+            keyCode: 13,
             which: 13,
-            bubbles: true 
+            bubbles: true
         });
-        
         input.dispatchEvent(enterEvent);
-        
-        // Limpa o input após o comando ser "enviado" (opcional, dependendo do seu terminal.js)
-        // input.value = ''; 
-    }, 150);
+    }, 200);
 }
