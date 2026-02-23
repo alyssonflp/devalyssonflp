@@ -1,24 +1,27 @@
 export async function initSystemInfo() {
     const footer = document.getElementById("info-footer");
     if (!footer) {
-        console.error("❌ Erro: Elemento #info-footer não encontrado.");
+        console.error("❌ Erro: Elemento #info-footer não encontrado no HTML.");
         return;
     }
 
     console.log("🔍 Coletando dados do sistema...");
 
-    // Detectar Navegador e OS
+    // Detectar Navegador e Sistema Operacional
     const ua = navigator.userAgent;
+    const platform = navigator.platform || ""; // Fallback para evitar erro .includes
+    
     let browser = ua.includes("Chrome") ? "CHROME" : ua.includes("Firefox") ? "FIREFOX" : "BROWSER";
-    let os = navigator.platform.includes("Win") ? "WINDOWS" : "LINUX/MOBILE";
+    let os = platform.includes("Win") ? "WINDOWS" : "LINUX/MOBILE";
 
     try {
-        // Usando a API ipapi.co (JSON)
+        // Busca os dados de IP e Localização
         const response = await fetch('https://ipapi.co/json/');
-        if (!response.ok) throw new Error("Falha na API");
+        if (!response.ok) throw new Error("Falha na resposta da API");
         
         const data = await response.json();
 
+        // Injeta os dados no HTML usando a estrutura que definimos no CSS
         footer.innerHTML = `
             <div class="footer-group">
                 <div class="info-item"><span class="label">IP:</span> <span class="value">${data.ip}</span></div>
@@ -32,7 +35,8 @@ export async function initSystemInfo() {
         console.log("✅ Dados do sistema carregados com sucesso.");
 
     } catch (error) {
-        console.warn("⚠️ Falha ao buscar IP (pode ser AdBlock). Usando dados locais.");
+        console.warn("⚠️ Usando modo de segurança (AdBlock ou erro de conexão).");
+        // Mantém o layout mesmo se a API falhar
         footer.innerHTML = `
             <div class="footer-group">
                 <div class="info-item"><span class="label">SYS:</span> <span class="value">${os}</span></div>
