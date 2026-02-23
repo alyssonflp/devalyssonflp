@@ -1,5 +1,6 @@
 /**
- * Terminal Alysson_OS - Versão Final (Sutil & Fluxo Linear)
+ * LÓGICA DO TERMINAL ALYSSON_OS
+ * Gerencia comandos, histórico e animações de log.
  */
 
 export async function initTerminal() {
@@ -11,17 +12,21 @@ export async function initTerminal() {
 }
 
 /**
- * Cria a linha de comando ativa no final do log
+ * Cria a linha de comando ativa (onde o usuário digita)
  */
 function createPrompt(container) {
+    // Removemos qualquer prompt aberto anteriormente para evitar duplicatas
     const oldPrompt = document.querySelector('.prompt-container:not(.terminal-history)');
     if (oldPrompt) oldPrompt.remove();
 
     const promptDiv = document.createElement('div');
     promptDiv.className = "prompt-container";
     
+    // Detecta se é celular para mudar o texto de ajuda
     const isMobile = window.innerWidth <= 768;
-    const helpText = isMobile ? "Type..." : "Awaiting command...";
+    const helpText = isMobile 
+        ? "Digite /help para dúvidas" 
+        : "Digite /help para verificar os comandos existentes";
 
     promptDiv.innerHTML = `
         <span class="prompt-user-white">alyssonflp@root</span><span class="prompt-sep">:</span><span class="prompt-path">~</span><span class="prompt-char">$</span>
@@ -35,6 +40,7 @@ function createPrompt(container) {
     const input = document.getElementById('terminal-input');
     input.focus();
 
+    // Monitora a tecla Enter
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
             const cmd = input.value.trim().toLowerCase();
@@ -44,26 +50,24 @@ function createPrompt(container) {
 }
 
 /**
- * Processa comandos com histórico e logs síncronos
+ * Processa o comando digitado e gera a cascata de logs
  */
 async function handleCommand(cmd, container) {
     if (!cmd) return;
 
     const currentPrompt = document.querySelector('.prompt-container:not(.terminal-history)');
 
-    // 1. Transforma o comando atual em histórico estático (Fonte Sutil 13px)
+    // 1. Congela o comando atual e joga para o histórico
     const history = document.createElement('div');
     history.className = "prompt-container terminal-history";
-    history.style.fontSize = "13px"; 
     history.innerHTML = `
         <span class="prompt-user-white">alyssonflp@root</span><span class="prompt-sep">:</span><span class="prompt-path">~</span><span class="prompt-char">$</span>
         <span style="color: #00d4ff; margin-left: 8px;">${cmd}</span>
     `;
     
-    // Insere o comando fixo antes do prompt de digitação
     container.insertBefore(history, currentPrompt);
 
-    // Limpa o input imediatamente para simular o "envio"
+    // Limpa o campo de digitação para o próximo comando
     const input = document.getElementById('terminal-input');
     if(input) input.value = '';
 
@@ -75,7 +79,7 @@ async function handleCommand(cmd, container) {
         '/ia': { type: 'ia' }
     };
 
-    // 2. Lógica de Execução e Logs
+    // 2. Executa a lógica de resposta (Loading -> Done -> Ação)
     if (contents[cmd] || cmd === '/help' || cmd === '/clear') {
         
         if(cmd === '/clear') {
@@ -84,56 +88,42 @@ async function handleCommand(cmd, container) {
             return;
         }
 
-        // --- Log de Loading (Abaixo do comando) ---
+        // --- Log de Loading Progressivo ---
         const loadingDiv = document.createElement('div');
-        loadingDiv.className = "terminal-output";
-        loadingDiv.style.color = "rgba(255, 255, 255, 0.4)";
-        loadingDiv.style.fontSize = "12px"; // Fonte sutil
-        loadingDiv.style.margin = "2px 0 2px 20px";
+        loadingDiv.className = "terminal-output log-loading";
         container.insertBefore(loadingDiv, currentPrompt);
 
         for (let i = 0; i <= 10; i++) {
             const bar = "#".repeat(i) + "-".repeat(10 - i);
-            loadingDiv.innerHTML = `[${bar}] CACHING... ${i * 10}%`;
+            loadingDiv.innerHTML = `[${bar}] DONE... ${i * 10}%`;
             container.scrollTop = container.scrollHeight;
             await new Promise(r => setTimeout(r, 40));
         }
 
-        // --- Log de DONE (Abaixo do Loading) ---
+        // --- Log de Finalização (SYNC DONE) ---
         const doneDiv = document.createElement('div');
-        doneDiv.className = "terminal-output";
-        doneDiv.style.color = "#00ff41";
-        doneDiv.style.fontSize = "11px"; // Ainda mais sutil
-        doneDiv.style.paddingLeft = "20px";
-        doneDiv.style.marginBottom = "8px";
+        doneDiv.className = "terminal-output log-done";
         doneDiv.innerHTML = `> SYNC_STATUS: DONE`;
         container.insertBefore(doneDiv, currentPrompt);
 
-        // Executa ação do holograma
+        // Dispara o holograma ou mostra o menu de ajuda
         if (contents[cmd] && typeof window.triggerHologram === 'function') {
             window.triggerHologram(contents[cmd]);
         } else if (cmd === '/help') {
             const help = document.createElement('div');
-            help.className = "terminal-output";
-            help.style.paddingLeft = "20px";
-            help.style.fontSize = "12px";
-            help.style.color = "#00d4ff";
-            help.innerHTML = "> KEYS: /about, /skills, /experience, /projects, /ia, /clear";
+            help.className = "terminal-output log-help";
+            help.innerHTML = "> COMANDOS: /about, /skills, /experience, /projects, /ia, /clear";
             container.insertBefore(help, currentPrompt);
         }
     } else {
-        // Log de Erro (Abaixo do comando)
+        // --- Log de Erro quando o comando falha ---
         const error = document.createElement('div');
-        error.className = "terminal-output";
-        error.style.color = "#ff3e3e";
-        error.style.fontSize = "12px";
-        error.style.paddingLeft = "20px";
-        error.style.marginBottom = "8px";
-        error.innerHTML = `> ERR: NOT_FOUND [${cmd}]`;
+        error.className = "terminal-output log-error";
+        error.innerHTML = `> ERR: NÃO ENCONTRADO [${cmd}]`;
         container.insertBefore(error, currentPrompt);
     }
 
-    // 3. Rola para o fim mantendo o foco no prompt que já existe lá
+    // Mantém o scroll sempre no final do terminal
     container.scrollTop = container.scrollHeight;
     if(input) input.focus();
 }
