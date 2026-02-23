@@ -38,11 +38,19 @@
 
 /* Interior do Vidro (Onde vais colocar as tuas coisas) */
 .terminal-content-wrapper {
+    /* Fundo quase invisível */
+    background: rgba(255, 255, 255, 0.05); 
+    
+    /* Aumenta o desfoque para o fundo brilhar através do vidro */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    
+    /* Adiciona um reflexo interno sutil no topo */
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    
+    /* Mantém o resto igual */
     width: 100%;
     height: 100%;
-    background: rgba(10, 15, 30, 0.5); 
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     border-radius: 38px;
     padding: 20px;
     display: flex;
