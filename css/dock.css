@@ -1,7 +1,7 @@
 /* --- DOCK LATERAL TRANSPARENTE COM FLASHS --- */
 #terminal-dock {
     position: absolute;
-    right: 5px;
+    right: 5px; /* mais próximo da linha do terminal */
     top: 50%;
 
     width: 45px;
@@ -28,7 +28,7 @@
     backface-visibility: hidden;
 }
 
-/* Quando a classe 'active' é adicionada, dispara fade + flashs */
+/* Quando a classe 'active' for adicionada, dispara animação */
 #terminal-dock.active {
     animation: dockFadeIn 0.6s ease-out forwards,
                dockFlash1 0.4s ease-out 0.8s,
@@ -42,7 +42,7 @@
     100% { opacity: 1; transform: translateY(-50%) translateX(0) scale(1); }
 }
 
-/* Flashs múltiplos */
+/* Flashes neon sequenciais */
 @keyframes dockFlash1 {
     0% { filter: brightness(1); }
     50% { filter: brightness(3) blur(1px); box-shadow: 0 0 30px rgba(0, 212, 255, 0.5); }
@@ -120,4 +120,4 @@
 .dock-item:hover::after {
     opacity: 1;
     transform: translateY(-50%) translateX(-5px);
-         }
+                                                                     }
