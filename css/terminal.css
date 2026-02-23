@@ -1,4 +1,6 @@
-/* --- ESTILO DO TERMINAL ALYSSON_OS --- */
+/* ESTILO DO TERMINAL ALYSSON_OS
+   Foco em minimalismo, fontes sutis e fluxo linear.
+*/
 
 #root-terminal {
     width: 100%;
@@ -7,14 +9,13 @@
     flex-direction: column;
     padding: 15px;
     box-sizing: border-box;
-    overflow-y: auto; /* Permite rolar o histórico */
+    overflow-y: auto; 
     overflow-x: hidden;
     background: transparent;
-    /* Suaviza a rolagem */
     scroll-behavior: smooth;
 }
 
-/* Scrollbar sutil para o terminal */
+/* Scrollbar minimalista (estilo futurista sutil) */
 #root-terminal::-webkit-scrollbar {
     width: 4px;
 }
@@ -23,31 +24,35 @@
     border-radius: 10px;
 }
 
+/* Estrutura de cada linha do terminal */
 .prompt-container {
     display: flex;
     align-items: center;
     font-family: 'Share Tech Mono', monospace;
-    font-size: 13px; /* Fonte reduzida para ser mais sutil */
+    font-size: 13px;
     width: 100%;
     white-space: nowrap;
-    margin-bottom: 4px; /* Espaçamento entre linhas de comando */
+    margin-bottom: 4px;
 }
 
-/* Estilo do histórico (comandos já enviados) */
+/* Comandos já digitados (Histórico) */
 .terminal-history {
     opacity: 0.9;
+    font-size: 13px;
     animation: fadeIn 0.3s ease;
 }
 
+/* Cores do usuário e símbolos do prompt */
 .prompt-user-white, 
 .prompt-sep, 
 .prompt-path, 
 .prompt-char {
     color: #ffffff;
-    font-weight: normal; /* Removido o bold para ser mais sutil */
+    font-weight: normal;
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
 }
 
+/* Container do input para não vazar a tela */
 .input-wrapper {
     flex: 1;
     display: flex;
@@ -55,45 +60,71 @@
     min-width: 0;
 }
 
+/* O campo de digitação em si */
 #terminal-input {
     background: transparent !important;
     border: none !important;
     outline: none !important;
-    box-shadow: none !important; /* Remove sombras de foco do navegador */
-    color: #00d4ff; /* Cor do comando em digitação */
+    box-shadow: none !important;
+    color: #00d4ff; /* Cor azul neon para o comando ativo */
     font-family: 'Share Tech Mono', monospace;
     font-size: 13px;
     width: 100%;
     padding: 0;
     margin: 0;
-    caret-color: #ffffff; /* Cursor piscando */
-    appearance: none; /* Remove estilos de input do mobile/Safari */
+    caret-color: #ffffff;
+    appearance: none;
 }
 
-/* Texto de saída (Loading, Erros, Help) */
+/* Logs de saída (Respostas do sistema) */
 .terminal-output {
     font-family: 'Share Tech Mono', monospace;
-    font-size: 12px;
-    padding-left: 15px;
-    margin-bottom: 8px;
+    padding-left: 20px;
     line-height: 1.4;
+    animation: fadeIn 0.2s ease;
 }
 
-/* Texto morto (placeholder) */
+/* Estilos específicos para cada tipo de log */
+.log-loading {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 12px;
+    margin: 2px 0;
+}
+
+.log-done {
+    color: #00ff41; /* Verde clássico */
+    font-size: 11px;
+    margin-bottom: 8px;
+}
+
+.log-error {
+    color: #ff3e3e; /* Vermelho erro */
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.log-help {
+    color: #00d4ff; /* Azul para comandos */
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+/* Texto de placeholder (Awaiting...) */
 #terminal-input::placeholder {
     color: rgba(255, 255, 255, 0.15);
     font-style: normal;
     font-size: 12px;
 }
 
+/* Animação suave para novas linhas */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(2px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Ajustes Mobile */
+/* Ajustes para telas menores (Mobile) */
 @media (max-width: 768px) {
-    .prompt-container, #terminal-input {
+    .prompt-container, #terminal-input, .terminal-history {
         font-size: 11px;
     }
     .terminal-output {
