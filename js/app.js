@@ -7,6 +7,7 @@ window.currentRotationY = 0;
 
 async function safeImport(path) {
     try {
+        // Cache busting para garantir carregamento da última versão do código
         return await import(`${path}?t=${Date.now()}`);
     } catch (error) {
         console.warn("Falha ao carregar módulo:", path);
@@ -26,7 +27,7 @@ export async function startOS() {
     const dockModule = await safeImport("./dock.js");
     const hologramModule = await safeImport("./hologram.js");
 
-    // Inicializa Interface 3D
+    // 1. Inicializa Interface 3D e escuta rotação
     try {
         interfaceModule?.initInterface3D?.();
         document.addEventListener('monitorRotate', (e) => {
@@ -34,31 +35,35 @@ export async function startOS() {
         });
     } catch (e) { console.warn("Erro ao iniciar Interface 3D"); }
 
-    // Inicializa Info Sistema
+    // 2. Inicializa componentes de dados
     try {
         await infoModule?.initSystemInfo?.();
     } catch (e) { console.warn("Erro ao iniciar Info Sistema"); }
 
-    // Inicializa o Terminal
+    // 3. Inicializa o Terminal (Motor principal)
     try {
         await terminalModule?.initTerminal?.();
     } catch (e) { console.warn("Erro ao iniciar Terminal"); }
 
-    // Inicializa o Dock (Criação do DOM)
+    // 4. Inicializa o Dock (Construção e Ativação)
     try {
         await dockModule?.initDock?.();
         
+        // Renderiza os ícones do Lucide após injetar no DOM
         if (window.lucide) {
             window.lucide.createIcons();
         }
 
-        // AGUARDA O CARREGAMENTO DO TERMINAL PARA EXIBIR O DOCK
-        // O delay de 3000ms garante que a intro do terminal acabou
+        /**
+         * ATIVAÇÃO DO DOCK
+         * Delay de 1000ms para aguardar a montagem visual do terminal.
+         * Aciona a animação de fade-in e o flash branco sutil.
+         */
         setTimeout(() => {
             const dockEl = document.getElementById('terminal-dock');
             if (dockEl) {
                 dockEl.classList.add('active');
-                console.log("🎨 Dock ativado e renderizado");
+                console.log("🎨 Dock ativado (Estética Minimalista)");
             }
         }, 1000); 
 
@@ -66,6 +71,7 @@ export async function startOS() {
 
     /**
      * Trigger Global para Hologramas
+     * Centraliza a projeção 3D baseada na rotação do monitor
      */
     window.triggerHologram = (content) => {
         if (hologramModule && hologramModule.toggleHologram) {
@@ -76,4 +82,5 @@ export async function startOS() {
     };
 }
 
+// Expõe para o escopo global
 window.startOS = startOS;
