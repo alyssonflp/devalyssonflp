@@ -65,7 +65,7 @@ export async function startOS() {
                 dockEl.classList.add('active');
                 console.log("🎨 Dock ativado (Estética Minimalista)");
             }
-        }, 600); 
+        }, 500); 
 
     } catch (e) { console.warn("Erro ao iniciar Dock"); }
 
