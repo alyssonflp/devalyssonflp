@@ -16,7 +16,7 @@
     width: 520px;
     height: 340px;
     position: absolute;
-    top: 50%;
+    top: 43%;
     left: 50%;
     
     /* RESET DE BORDAS ANTERIORES */
@@ -84,7 +84,20 @@
     .main-terminal {
         width: 85vw;
         height: 45vh;
-        top: 50%;
+        top: 43%;
         transform: translate(-50%, -50%) rotateY(15deg) rotateX(8deg);
+    }
+
+    /* --- AJUSTE PARA SMART TVs 4K / TELAS GRANDES --- */
+@media (min-width: 2500px) {
+    #desktop-3d {
+        background-size: 100% 100%; /* Força a imagem a encaixar por completo */
+        background-attachment: fixed;
+    }
+    
+    .main-terminal {
+        width: 850px; /* Aumenta o tamanho para ficar proporcional na TV */
+        height: 520px;
+        top: 30%; /* Ajusta a altura na tela gigante */
     }
 }
