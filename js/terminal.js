@@ -15,7 +15,6 @@ export async function initTerminal() {
  * Cria a linha de comando ativa (onde o usuário digita)
  */
 function createPrompt(container) {
-    // Removemos qualquer prompt aberto anteriormente para evitar duplicatas
     const oldPrompt = document.querySelector('.prompt-container:not(.terminal-history)');
     if (oldPrompt) oldPrompt.remove();
 
@@ -38,9 +37,13 @@ function createPrompt(container) {
     container.appendChild(promptDiv);
     
     const input = document.getElementById('terminal-input');
-    input.focus();
 
-    // Monitora a tecla Enter
+    // Foco inicial inteligente: Evita abrir teclado ao carregar o site no mobile
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+    if (!isTouchDevice && input) {
+        input.focus();
+    }
+
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
             const cmd = input.value.trim().toLowerCase();
@@ -57,7 +60,6 @@ async function handleCommand(cmd, container) {
 
     const currentPrompt = document.querySelector('.prompt-container:not(.terminal-history)');
 
-    // 1. Congela o comando atual e joga para o histórico
     const history = document.createElement('div');
     history.className = "prompt-container terminal-history";
     history.innerHTML = `
@@ -67,7 +69,6 @@ async function handleCommand(cmd, container) {
     
     container.insertBefore(history, currentPrompt);
 
-    // Limpa o campo de digitação para o próximo comando
     const input = document.getElementById('terminal-input');
     if(input) input.value = '';
 
@@ -79,7 +80,6 @@ async function handleCommand(cmd, container) {
         '/ia': { type: 'ia' }
     };
 
-    // 2. Executa a lógica de resposta (Loading -> Done -> Ação)
     if (contents[cmd] || cmd === '/help' || cmd === '/clear') {
         
         if(cmd === '/clear') {
@@ -88,7 +88,6 @@ async function handleCommand(cmd, container) {
             return;
         }
 
-        // --- Log de Loading Progressivo ---
         const loadingDiv = document.createElement('div');
         loadingDiv.className = "terminal-output log-loading";
         container.insertBefore(loadingDiv, currentPrompt);
@@ -100,13 +99,11 @@ async function handleCommand(cmd, container) {
             await new Promise(r => setTimeout(r, 40));
         }
 
-        // --- Log de Finalização (SYNC DONE) ---
         const doneDiv = document.createElement('div');
         doneDiv.className = "terminal-output log-done";
         doneDiv.innerHTML = `> SYNC_STATUS: DONE`;
         container.insertBefore(doneDiv, currentPrompt);
 
-        // Dispara o holograma ou mostra o menu de ajuda
         if (contents[cmd] && typeof window.triggerHologram === 'function') {
             window.triggerHologram(contents[cmd]);
         } else if (cmd === '/help') {
@@ -116,14 +113,20 @@ async function handleCommand(cmd, container) {
             container.insertBefore(help, currentPrompt);
         }
     } else {
-        // --- Log de Erro quando o comando falha ---
         const error = document.createElement('div');
         error.className = "terminal-output log-error";
         error.innerHTML = `> ERR: NÃO ENCONTRADO [${cmd}]`;
         container.insertBefore(error, currentPrompt);
     }
 
-    // Mantém o scroll sempre no final do terminal
+    // --- FINALIZAÇÃO COM TRAVA DE SEGURANÇA PARA MOBILE/TABLET ---
     container.scrollTop = container.scrollHeight;
-    if(input) input.focus();
+
+    // Detecta se o dispositivo é touch (Celular, Tablet, iPad)
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+
+    // Só devolve o foco se NÃO for um dispositivo de toque (evita subir o teclado)
+    if (!isTouchDevice && input) {
+        input.focus();
+    }
 }
