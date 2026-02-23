@@ -1,5 +1,5 @@
 // =====================================================
-// Coleta de Informações do Usuário
+// Sistema de Informações
 // Mostra IP + Navegador no rodapé
 // =====================================================
 
@@ -24,7 +24,7 @@ export async function initSystemInfo() {
         const data = await response.json();
         ip = data.ip;
     } catch (error) {
-        console.warn("Não foi possível obter IP");
+        console.warn("IP não disponível");
     }
 
     footer.innerHTML = `
