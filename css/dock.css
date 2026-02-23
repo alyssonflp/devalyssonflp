@@ -19,7 +19,7 @@
     
     /* Animação de entrada */
     animation: dockFlipOpen 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-    animation-delay: 0.8s; /* Espera o sistema carregar */
+    animation-delay: 0.8s; 
     
     opacity: 0;
     perspective: 1000px;
@@ -82,7 +82,7 @@
 }
 
 .dock-item:hover svg {
-    color: #00d4ff; /* Muda para o azul do degradê no hover */
+    color: #00d4ff; 
     filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.8));
     stroke-width: 2px;
 }
@@ -92,29 +92,32 @@
     transform: scale(0.9) translateX(-2px);
 }
 
-/* Descrição (Tooltip) */
+/* DESCRIÇÃO (Tooltip) - Otimizada para fonte Terminal */
 .dock-item::after {
     content: attr(data-label);
     position: absolute;
     right: 45px;
     top: 50%;
     transform: translateY(-50%);
-    font-family: 'JetBrains Mono', 'Roboto Mono', monospace;
-    font-size: 9px;
-    font-weight: 500;
+    
+    /* Usando a fonte do terminal */
+    font-family: 'Share Tech Mono', 'JetBrains Mono', monospace;
+    font-size: 10px; /* Leve aumento para compensar a fonte mono */
+    font-weight: 400;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px; /* Espaçamento elegante de interface tech */
+    
     color: #ffffff;
     opacity: 0;
     white-space: nowrap;
     pointer-events: none;
-    transition: all 0.3s ease;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
 }
 
 .dock-item:hover::after {
     opacity: 1;
-    transform: translateY(-50%) translateX(-5px);
+    transform: translateY(-50%) translateX(-8px);
 }
 
 /* Ajuste Mobile */
@@ -127,5 +130,9 @@
     .dock-item svg {
         width: 16px;
         height: 16px;
+    }
+    .dock-item::after {
+        font-size: 8px;
+        letter-spacing: 1px;
     }
 }
