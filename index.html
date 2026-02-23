@@ -11,11 +11,18 @@
     <link rel="stylesheet" href="css/interface_3d.css">
     <link rel="stylesheet" href="css/terminal.css">
     <link rel="stylesheet" href="css/dock.css">
-
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="css/hologram.css"> <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
+    <svg style="width:0; height:0; position:absolute;" aria-hidden="true">
+        <defs>
+            <filter id="hologram-glow">
+                <feGaussianBlur stdDeviation="1" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+        </defs>
+    </svg>
 
     <section id="login-screen">
         <div class="login-box">
@@ -39,19 +46,17 @@
     </section>
 
     <main id="desktop-3d" class="hidden">
-    <section class="main-terminal">
+        <div class="scanline"></div> <section class="main-terminal">
+            <article class="terminal-content-wrapper" id="content">
+                <div id="root-terminal"></div>
+            </article>
 
-        <article class="terminal-content-wrapper" id="content">
-            <div id="root-terminal"></div>
-        </article>
+            <div id="info-footer"></div>
+        </section>
+        
+        <div id="terminal-dock"></div> 
+    </main>
 
-        <!-- Rodapé agora dentro do monitor -->
-        <div id="info-footer"></div>
-
-    </section>
-</main>
-
-    <!-- ORDEM CORRETA -->
     <script type="module" src="js/app.js"></script>
     <script defer src="js/intro.js"></script>
 
