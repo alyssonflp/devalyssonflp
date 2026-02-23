@@ -1,13 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
     const terminal = document.querySelector(".main-terminal");
     
-    // Injeta o wrapper interno vazio se ele não existir
+    // Injeta a estrutura interna se estiver vazio
     if (terminal && !terminal.querySelector(".terminal-content-wrapper")) {
         terminal.innerHTML = `<div class="terminal-content-wrapper" id="content"></div>`;
     }
 
     let isDragging = false;
-    let currentRotationY = 25; // Sincronizado com o CSS inicial
+    let currentRotationY = 25; // Sincronizado com a nova posição
     let currentRotationX = 10;
     let startX, startY;
 
@@ -17,9 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
         startY = e.pageY || (e.touches ? e.touches[0].pageY : 0);
     };
 
-    const stopDrag = () => {
-        isDragging = false;
-    };
+    const stopDrag = () => { isDragging = false; };
 
     const doDrag = (e) => {
         if (!isDragging) return;
@@ -30,11 +28,11 @@ document.addEventListener("DOMContentLoaded", () => {
         let nextRotationY = currentRotationY + (x - startX) / 5;
         let nextRotationX = currentRotationX - (y - startY) / 5;
 
-        // --- TRAVA DE 180 GRAUS ---
+        // Limite de 180 graus no Y
         if (nextRotationY > 90) nextRotationY = 90;
         if (nextRotationY < -90) nextRotationY = -90;
 
-        // --- TRAVA VERTICAL ---
+        // Limite no X
         if (nextRotationX > 30) nextRotationX = 30;
         if (nextRotationX < -30) nextRotationX = -30;
 
@@ -47,12 +45,10 @@ document.addEventListener("DOMContentLoaded", () => {
         startY = y;
     };
 
-    // Eventos de Mouse
     terminal.addEventListener("mousedown", startDrag);
     window.addEventListener("mousemove", doDrag);
     window.addEventListener("mouseup", stopDrag);
 
-    // Eventos de Touch (Mobile)
     terminal.addEventListener("touchstart", startDrag, { passive: false });
     window.addEventListener("touchmove", (e) => {
         if (isDragging) e.preventDefault();
