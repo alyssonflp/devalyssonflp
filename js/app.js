@@ -1,38 +1,28 @@
 import { initInterface3D } from './interface_3d.js';
 import { initSystemInfo } from './info_sistema.js';
 
-/**
- * Função principal de inicialização do sistema.
- * É exposta no objeto window para ser chamada pelo intro.js
- */
+// 1. Definimos a função
 function startOS() {
     console.log("🚀 Iniciando Alysson_OS...");
-    
-    // Inicializa a rotação e perspectiva do monitor
     initInterface3D();
-    
-    // Inicializa a captura de IP, Localização e Browser
     initSystemInfo();
 }
 
-// Expõe a função globalmente para que scripts externos (como intro.js) a vejam
+// 2. Vinculamos ao window IMEDIATAMENTE
+// Isso garante que o intro.js consiga enxergar a função globalmente
 window.startOS = startOS;
 
-/**
- * Verificação de contingência:
- * Caso o sistema já esteja com a tela de login oculta (refresh de página),
- * ele inicia os processos automaticamente.
- */
-document.addEventListener("DOMContentLoaded", () => {
-    const loginScreen = document.getElementById("login-screen");
-    
-    // Verifica se a tela de login já está oculta
-    const isHidden = loginScreen && (
-        loginScreen.classList.contains("hidden") || 
-        window.getComputedStyle(loginScreen).display === "none"
-    );
+// 3. Verificação de segurança para carregamento direto
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    checkAndStart();
+} else {
+    document.addEventListener("DOMContentLoaded", checkAndStart);
+}
 
-    if (isHidden) {
+function checkAndStart() {
+    const login = document.getElementById("login-screen");
+    // Se a tela de login já estiver oculta, disparas o sistema
+    if (login && (login.classList.contains("hidden") || window.getComputedStyle(login).display === "none")) {
         startOS();
     }
-});
+}
