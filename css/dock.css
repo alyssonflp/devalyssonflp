@@ -1,143 +1,68 @@
-/* --- SIDE DOCK COM EFEITO BOOK FLIP & FLASH --- */
+/* --- SIDE DOCK - AJUSTE DE POSICIONAMENTO INTERNO --- */
 
 #terminal-dock {
     position: absolute;
-    /* AJUSTE: Aumentado para 40px para entrar na área visível do monitor */
-    right: 40px; 
+    /* Mudamos de right fixo para uma posição baseada na largura da tela 3D */
+    left: 92%; 
     top: 50%;
-    transform-origin: right center; 
+    transform-origin: left center; /* Mudamos a origem para girar para dentro */
     
     /* Estado inicial */
-    transform: translateY(-50%) rotateY(90deg);
+    transform: translateY(-50%) rotateY(-90deg); /* Invertemos o giro */
     opacity: 0;
     
     display: flex;
     flex-direction: column;
     gap: 14px;
     padding: 12px 8px;
-    background: transparent;
+    background: rgba(0, 0, 0, 0.2); /* Um leve fundo ajuda a destacar no monitor */
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
     z-index: 1000;
-    
-    /* Melhora a profundidade e evita que o dock "entre" no monitor ao girar */
     perspective: 1000px;
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
     
-    /* ACELERAÇÃO: 0.6s de duração e 0.3s de espera */
+    /* Força o dock a ficar à frente da camada de vídeo/terminal */
+    transform-style: preserve-3d;
+    
     animation: 
-        dockFlipOpen 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards,
-        dockFlash 0.4s ease-out 0.9s;
-    animation-delay: 0.3s, 0.3s;
+        dockFlipOpen 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards,
+        dockFlash 0.4s ease-out 1s;
+    animation-delay: 0.5s;
 }
 
-/* Animação do Livro Abrindo (Ajustada com translateZ) */
+/* Animação Ajustada */
 @keyframes dockFlipOpen {
     from {
         opacity: 0;
-        transform: translateY(-50%) rotateY(90deg) translateZ(0);
+        transform: translateY(-50%) rotateY(-90deg) translateZ(0);
     }
     to {
         opacity: 1;
-        /* O translateZ(10px) garante que ele flutue sobre a tela */
-        transform: translateY(-50%) rotateY(0deg) translateZ(10px);
+        /* translateZ(20px) joga ele bem na frente da tela */
+        transform: translateY(-50%) rotateY(0deg) translateZ(20px);
     }
 }
 
-/* Efeito Flash (Brilho de Inicialização) */
-@keyframes dockFlash {
-    0% { filter: brightness(1); }
-    50% { filter: brightness(3) blur(1px); }
-    100% { filter: brightness(1); }
-}
-
-/* Borda degradê vazada */
-#terminal-dock::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 15px; 
-    padding: 1.5px;
-    background: linear-gradient(to bottom, #ff007a, #00d4ff);
-    -webkit-mask: 
-        linear-gradient(#fff 0 0) content-box, 
-        linear-gradient(#fff 0 0);
-    mask: 
-        linear-gradient(#fff 0 0) content-box, 
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-}
-
-.dock-item {
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    z-index: 1001;
-}
-
-.dock-item svg {
-    width: 18px;
-    height: 18px;
-    color: rgba(255, 255, 255, 0.7);
-    stroke-width: 1.5px;
-    transition: all 0.3s ease;
-}
-
-.dock-item:hover {
-    transform: translateX(-5px) scale(1.1);
-}
-
-.dock-item:hover svg {
-    color: #00d4ff; 
-    filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.8));
-    stroke-width: 2px;
-}
-
-.dock-item:active {
-    transform: scale(0.9) translateX(-2px);
-}
-
-/* DESCRIÇÃO (Tooltip) */
+/* Ajuste das Tooltips para a nova posição */
 .dock-item::after {
     content: attr(data-label);
     position: absolute;
-    /* Ajustado para 50px para não encostar na borda nova */
-    right: 50px; 
+    /* Como o dock está na direita extrema, a legenda deve sair para a ESQUERDA */
+    right: 45px; 
     top: 50%;
     transform: translateY(-50%);
-    font-family: 'Share Tech Mono', 'JetBrains Mono', monospace;
+    font-family: 'Share Tech Mono', monospace;
     font-size: 10px; 
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 2px; 
-    color: #ffffff;
+    color: #00d4ff;
     opacity: 0;
     white-space: nowrap;
     pointer-events: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    transition: all 0.3s ease;
 }
 
 .dock-item:hover::after {
     opacity: 1;
-    transform: translateY(-50%) translateX(-8px);
+    transform: translateY(-50%) translateX(-5px);
 }
 
-/* Ajuste Mobile */
-@media (max-width: 768px) {
-    #terminal-dock {
-        right: 15px; /* Empurra para dentro no mobile também */
-        transform-origin: right center;
-        gap: 10px;
-    }
-    .dock-item svg {
-        width: 16px;
-        height: 16px;
-    }
-}
+/* ... mantenha o resto do código de ícones e flash igual ... */
