@@ -100,4 +100,59 @@
         height: 520px;
         top: 43%; /* Ajusta a altura na tela gigante */
     }
+    
+/* --- FOOTER DE INFORMAÇÕES DO SISTEMA --- */
+#info-footer {
+    position: absolute;
+    bottom: 25px;
+    left: 40px;
+    right: 40px;
+    display: flex;
+    justify-content: space-between; /* Afasta os dois grupos para as pontas */
+    align-items: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 11px;
+    color: rgba(0, 212, 255, 0.6);
+    z-index: 10;
+    pointer-events: none;
 }
+
+.footer-group {
+    display: flex;
+    gap: 25px;
+}
+
+.info-item {
+    display: flex;
+    gap: 6px;
+}
+
+.info-item .label {
+    color: #ff007a; /* Rosa Neon */
+    font-weight: bold;
+}
+
+.info-item .value {
+    color: #00d4ff; /* Azul Neon */
+}
+
+/* --- AJUSTE MOBILE --- */
+@media (max-width: 768px) {
+    #info-footer {
+        bottom: 12px;
+        left: 15px;
+        right: 15px;
+        font-size: 8.5px;
+    }
+
+    /* Esconde Browser e OS no mobile para garantir o alinhamento perfeito nas pontas */
+    .hide-mobile {
+        display: none;
+    }
+    
+    .footer-group {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
