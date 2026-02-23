@@ -1,13 +1,10 @@
-window.onload = () => { 
-    setTimeout(typePassword, 400); 
-};
+window.onload = () => { setTimeout(typePassword, 400); };
 
 function typePassword() {
     const passInput = document.getElementById('pass-input');
+    if (!passInput) return;
     const fullPass = "********";
     let i = 0;
-    if (!passInput) return;
-
     const interval = setInterval(() => {
         passInput.value += fullPass[i]; 
         i++;
@@ -22,24 +19,10 @@ function startProgressBar() {
     const loader = document.getElementById('boot-progress');
     const status = document.getElementById('boot-status');
     if (!loader) return;
-
     let progress = 0;
-    const messages = [
-        "Carregando Kernel...", 
-        "Checando hardware...", 
-        "Iniciando Interface 3D...", 
-        "Acesso concedido."
-    ];
-
     const timer = setInterval(() => {
         progress += 4; 
         loader.style.width = progress + "%";
-
-        if (progress < 30) status.innerText = messages[0];
-        else if (progress < 60) status.innerText = messages[1];
-        else if (progress < 90) status.innerText = messages[2];
-        else status.innerText = messages[3];
-
         if (progress >= 100) { 
             clearInterval(timer); 
             setTimeout(transitionTo3D, 400); 
@@ -57,19 +40,19 @@ function transitionTo3D() {
 
         setTimeout(() => {
             login.style.display = 'none';
-            desktop.classList.remove('hidden'); // Remove o .hidden que corrigimos no CSS
+            desktop.classList.remove('hidden');
             
-            // Loop de verificação: Tenta chamar o startOS a cada 100ms
-            let checkInterval = setInterval(() => {
+            // Loop de tentativa para chamar o startOS do app.js
+            let attempts = 0;
+            const checkSystem = setInterval(() => {
                 if (typeof window.startOS === 'function') {
                     window.startOS();
-                    clearInterval(checkInterval); // Para o loop assim que funcionar
+                    clearInterval(checkSystem);
+                } else {
+                    attempts++;
+                    if (attempts > 50) clearInterval(checkSystem);
                 }
             }, 100);
-
-            // Timeout de segurança para não rodar infinitamente
-            setTimeout(() => clearInterval(checkInterval), 3000);
-            
         }, 600);
     }
 }
