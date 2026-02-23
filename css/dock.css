@@ -1,10 +1,12 @@
-/* --- SIDE DOCK --- */
+/* --- DOCK LATERAL SEM EXPANSÃO --- */
 #terminal-dock {
     position: absolute;
-    right: 30px; 
+    right: 30px;
     top: 50%;
-    transform: translateY(-50%) translateZ(20px); /* já no tamanho final */
-    opacity: 1; /* já visível */
+
+    /* Posição e tamanho final direto */
+    transform: translateY(-50%) scale(1);
+    opacity: 1;
 
     display: flex;
     flex-direction: column;
@@ -15,11 +17,12 @@
     border-radius: 12px;
     z-index: 9999;
 
-    transform-style: preserve-3d;
-    perspective: 1000px;
+    /* Remove 3D para evitar efeito bolinha */
+    transform-style: flat;
+    perspective: none;
 
     /* Apenas flash opcional */
-    animation: dockFlash 0.5s ease-out 1.6s; 
+    animation: dockFlash 0.5s ease-out 1.6s;
 }
 
 /* --- FLASH / BRILHO --- */
@@ -39,7 +42,7 @@
     cursor: pointer;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    flex-shrink: 0; 
+    flex-shrink: 0;
 }
 
 .dock-item svg {
@@ -63,7 +66,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    border-radius: 12px; 
+    border-radius: 12px;
     padding: 1.5px;
     background: linear-gradient(to bottom, #ff007a, #00d4ff);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
