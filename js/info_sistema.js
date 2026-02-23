@@ -2,46 +2,38 @@ export async function initSystemInfo() {
     const footer = document.getElementById("info-footer");
     if (!footer) return;
 
-    // Função para atualizar o relógio
-    const updateClock = () => {
-        const now = new Date();
-        return now.toLocaleTimeString('pt-BR', { hour12: false });
-    };
+    const getTime = () => new Date().toLocaleTimeString('pt-BR', { hour12: false });
 
-    // Dados iniciais
+    // Detectar Navegador e OS
     const ua = navigator.userAgent;
     let browser = ua.includes("Chrome") ? "CHROME" : "BROWSER";
     let os = navigator.platform.includes("Win") ? "WINDOWS" : "LINUX/MOBILE";
 
-    // Template inicial enquanto carrega o IP
-    const render = (ip = "LOADING...", loc = "WAITING...") => {
-        footer.innerHTML = `
-            <div class="footer-group">
-                <div class="info-item"><span class="label">IP:</span> <span class="value">${ip}</span></div>
-                <div class="info-item hide-mobile"><span class="label">TIME:</span> <span id="footer-clock" class="value">${updateClock()}</span></div>
-            </div>
-            <div class="footer-group">
-                <div class="info-item hide-mobile"><span class="label">SYS:</span> <span class="value">${os}</span></div>
-                <div class="info-item"><span class="label">LOC:</span> <span class="value">${loc}</span></div>
-            </div>
-        `;
-    };
+    // Template Inicial com Relógio
+    footer.innerHTML = `
+        <div class="footer-group">
+            <div class="info-item"><span class="label">IP:</span> <span id="ip-val" class="value">LOADING...</span></div>
+            <div class="info-item hide-mobile"><span class="label">TIME:</span> <span id="clock-val" class="value">${getTime()}</span></div>
+        </div>
+        <div class="footer-group">
+            <div class="info-item hide-mobile"><span class="label">SYS:</span> <span class="value">${os}</span></div>
+            <div class="info-item"><span class="label">LOC:</span> <span id="loc-val" class="value">DETECTING...</span></div>
+        </div>
+    `;
 
-    render();
-
-    // Inicia o intervalo do relógio
+    // Atualiza o relógio a cada segundo
     setInterval(() => {
-        const clockEl = document.getElementById("footer-clock");
-        if (clockEl) clockEl.innerText = updateClock();
+        const clock = document.getElementById("clock-val");
+        if (clock) clock.innerText = getTime();
     }, 1000);
 
-    // Busca dados de rede
     try {
         const response = await fetch('https://ipapi.co/json/');
-        if (!response.ok) throw new Error();
         const data = await response.json();
-        render(data.ip, `${data.city}, ${data.region_code}`);
+        document.getElementById("ip-val").innerText = data.ip;
+        document.getElementById("loc-val").innerText = `${data.city}, ${data.region_code}`;
     } catch (e) {
-        render("ENCRYPTED", "PRIVATE_ZONE");
+        document.getElementById("ip-val").innerText = "SECURE_IP";
+        document.getElementById("loc-val").innerText = "UNKNOWN_LOC";
     }
 }
