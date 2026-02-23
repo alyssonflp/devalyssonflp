@@ -4,17 +4,7 @@
 
 export function initDock() {
     let dockContainer = document.getElementById('terminal-dock');
-    const fallbackContainer = document.getElementById('desktop-3d');
-    
-    if (!dockContainer) {
-        if (!fallbackContainer) {
-            setTimeout(initDock, 500);
-            return;
-        }
-        dockContainer = document.createElement('div');
-        dockContainer.id = 'terminal-dock';
-        fallbackContainer.appendChild(dockContainer);
-    }
+    if (!dockContainer) return;
 
     dockContainer.innerHTML = '';
 
@@ -34,8 +24,8 @@ export function initDock() {
         
         iconBtn.onclick = (e) => {
             e.stopPropagation();
-            // Removemos a "/" se o seu terminal já lidar com comandos pelo nome
-            simulateTyping(`${item.name}`); 
+            // Passamos o comando com a "/" pois seu terminal usa esse prefixo
+            simulateTyping(`/${item.name}`);
         };
 
         dockContainer.appendChild(iconBtn);
@@ -45,40 +35,39 @@ export function initDock() {
 }
 
 /**
- * Simula a digitação diretamente no prompt ativo
+ * Simula a digitação e execução do comando
  */
 async function simulateTyping(command) {
-    // CORREÇÃO: Busca o input que está visível e focado no terminal
-    const input = document.querySelector('.terminal-input') || document.getElementById('terminal-input');
-    
-    if (!input) {
-        console.warn("Prompt de comando não encontrado.");
-        return;
-    }
+    const input = document.getElementById('terminal-input');
+    if (!input) return;
 
-    // Limpa o que estiver escrito para não concatenar errado
+    // 1. Limpa o prompt atual para receber o novo comando do dock
     input.value = '';
     input.focus();
 
-    // Digitação caractere por caractere
+    // 2. Efeito de digitação humana
     for (let i = 0; i < command.length; i++) {
         input.value += command[i];
         
-        // Dispara eventos para o terminal entender que há texto novo
+        // Dispara o evento de input para que o placeholder suma/mude
         input.dispatchEvent(new Event('input', { bubbles: true }));
         
-        await new Promise(r => setTimeout(r, 60)); 
+        // Velocidade da "digitação"
+        await new Promise(r => setTimeout(r, 40)); 
     }
 
-    // Aguarda um momento e envia o Enter
+    // 3. Pequeno delay antes do "Enter" para o usuário ver o que foi digitado
     setTimeout(() => {
-        const enterEvent = new KeyboardEvent('keydown', {
-            key: 'Enter',
-            code: 'Enter',
-            keyCode: 13,
-            which: 13,
-            bubbles: true
+        // Dispara o Enter para acionar o seu listener no terminal.js
+        const enterEvent = new KeyboardEvent('keydown', { 
+            key: 'Enter', 
+            code: 'Enter', 
+            keyCode: 13, 
+            bubbles: true 
         });
         input.dispatchEvent(enterEvent);
-    }, 200);
+        
+        // Adicionamos um efeito sutil de "comando aceito"
+        console.log(`[SYS] Executing: ${command}`);
+    }, 150);
 }
