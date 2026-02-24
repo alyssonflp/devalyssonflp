@@ -31,7 +31,7 @@
     transition: opacity 0.5s ease;
 }
 
-/* Ativado pelo app.js */
+/* Ativado pelo JS */
 #terminal-dock.active {
     opacity: 1;
     pointer-events: all;
@@ -89,7 +89,6 @@
     color: #ffffff;
 }
 
-/* Remove tooltip antigo */
 .dock-item::after {
     display: none;
-}
+       }
