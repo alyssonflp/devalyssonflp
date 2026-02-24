@@ -1,81 +1,95 @@
+/* ======================================================
+   ALYSSON OS — CONTROL BASE (Dock Integrado)
+====================================================== */
+
 #terminal-dock {
     position: absolute;
-    right: 15px;
-    top: 50%;
-    width: 45px;
-    min-height: 200px;
-    transform-origin: right center;
+    bottom: -35px;
+    left: 50%;
+    transform: translateX(-50%) translateZ(30px);
+
+    width: 280px;
+    height: 60px;
+
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    gap: 12px;
-    padding: 10px 5px;
-    background: transparent; 
-    border-radius: 15px; 
-    z-index: 9999;
+    align-items: center;
+    gap: 18px;
+
+    background: linear-gradient(145deg, #0f172a, #111827);
+    border-radius: 16px;
+
+    border: 1px solid rgba(0, 212, 255, 0.2);
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.6),
+        inset 0 0 12px rgba(0, 212, 255, 0.15);
+
     opacity: 0;
     pointer-events: none;
-    transform: translateY(-50%) translateX(20px);
-    transform-style: flat;
-    backface-visibility: hidden;
+
+    transition: opacity 0.5s ease;
 }
 
+/* Ativado pelo app.js */
 #terminal-dock.active {
+    opacity: 1;
     pointer-events: all;
-    animation: 
-        dockFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards,
-        dockFlashWhite 0.6s ease-out 1.0s; 
 }
 
+/* Glow inferior */
 #terminal-dock::before {
     content: "";
     position: absolute;
     inset: 0;
-    border-radius: 15px;
-    padding: 1.5px;
-    background: linear-gradient(to bottom, #ff007a, #00d4ff);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
+    border-radius: 16px;
+    background: linear-gradient(to right, #ff007a, #00d4ff);
+    opacity: 0.15;
+    filter: blur(10px);
+    z-index: -1;
 }
 
-.dock-item { 
-    width: 35px; 
-    height: 35px; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    cursor: pointer; 
-    transition: transform 0.3s ease, filter 0.3s ease; 
-    position: relative; 
+/* ===============================
+   BOTÕES
+================================ */
+
+.dock-item {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 212, 255, 0.05);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+
+    cursor: pointer;
+    transition: all 0.25s ease;
 }
 
-.dock-item i, .dock-item svg { width: 20px !important; height: 20px !important; color: rgba(0, 212, 255, 0.8); stroke-width: 1.8px; }
+.dock-item i,
+.dock-item svg {
+    width: 20px !important;
+    height: 20px !important;
+    color: rgba(0, 212, 255, 0.9);
+    stroke-width: 1.8px;
+}
 
-.dock-item:hover { transform: scale(1.1) translateX(-3px); }
-.dock-item:hover i, .dock-item:hover svg { color: #fff; filter: drop-shadow(0 0 8px #00d4ff); }
+/* Hover tecnológico */
+.dock-item:hover {
+    transform: translateY(-4px) scale(1.08);
+    background: rgba(0, 212, 255, 0.2);
+    box-shadow: 0 0 18px rgba(0, 212, 255, 0.6);
+}
 
+.dock-item:hover i,
+.dock-item:hover svg {
+    color: #ffffff;
+}
+
+/* Remove tooltip antigo */
 .dock-item::after {
-    content: attr(data-label);
-    position: absolute;
-    right: 50px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    color: #fff;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    display: none;
 }
-
-.dock-item:hover:not(.is-typing)::after { opacity: 1; visibility: visible; transform: translateY(-50%) translateX(-5px); }
-.dock-item.is-typing::after { content: none !important; display: none !important; opacity: 0 !important; visibility: hidden !important; transition: none !important; }
-
-@keyframes dockFadeIn { 0% { opacity: 0; transform: translateY(-50%) translateX(20px); } 100% { opacity: 1; transform: translateY(-50%) translateX(0); } }
-@keyframes dockFlashWhite { 0% { filter: brightness(1); } 50% { filter: brightness(2.5) contrast(1.2); box-shadow: 0 0 20px rgba(255, 255, 255, 0.4); } 100% { filter: brightness(1); } }
