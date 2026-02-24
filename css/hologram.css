@@ -1,7 +1,5 @@
-/* --- HOLOGRAMA DIRECIONAL 3D --- */
-
 .hologram-card {
-    position: absolute; /* Para seguir a rotação do container desktop-3d */
+    position: absolute;
     top: 50%;
     left: 50%;
     width: 90vw; 
@@ -10,160 +8,42 @@
     max-height: 85vh;
     background: rgba(0, 30, 50, 0.45); 
     backdrop-filter: blur(12px);
-    
-    /* ARREDONDAMENTO DAS BORDAS */
     border-radius: 20px; 
     border: 1px solid rgba(0, 212, 255, 0.3);
     overflow: hidden; 
-    
     color: #fff;
     padding: 20px;
     z-index: 9999; 
     pointer-events: none;
     opacity: 0;
-    
-    /* Transição suave para entrada, mas rápida para seguir o mouse (transform) */
     transition: opacity 0.6s ease, transform 0.1s linear, border-radius 0.3s;
-    font-family: 'JetBrains Mono', 'Share Tech Mono', monospace;
+    font-family: 'Share Tech Mono', monospace;
     box-shadow: 0 0 40px rgba(0, 212, 255, 0.15), inset 0 0 20px rgba(0, 212, 255, 0.05);
 }
 
-.hologram-card.hologram-active {
-    opacity: 1;
-    pointer-events: all;
-    transform: translate(-50%, -50%) scale(1) perspective(1000px);
-}
+.hologram-card.hologram-active { opacity: 1; pointer-events: all; transform: translate(-50%, -50%) scale(1) perspective(1000px); }
 
 @media (min-width: 1025px) {
-    /* PROJEÇÃO ESQUERDA + SALTO PARA FRENTE */
-    .hologram-card.pop-left {
-        transform: translate(-140%, -50%) perspective(1000px) rotateY(15deg) translateZ(0);
-    }
-    .hologram-card.hologram-active.pop-left {
-        transform: translate(-150%, -50%) perspective(1000px) rotateY(20deg) translateZ(250px);
-    }
-
-    /* PROJEÇÃO DIREITA + SALTO PARA FRENTE */
-    .hologram-card.pop-right {
-        transform: translate(40%, -50%) perspective(1000px) rotateY(-15deg) translateZ(0);
-    }
-    .hologram-card.hologram-active.pop-right {
-        transform: translate(50%, -50%) perspective(1000px) rotateY(-20deg) translateZ(250px);
-    }
+    .hologram-card.pop-left { transform: translate(-140%, -50%) perspective(1000px) rotateY(15deg) translateZ(0); }
+    .hologram-card.hologram-active.pop-left { transform: translate(-150%, -50%) perspective(1000px) rotateY(20deg) translateZ(250px); }
+    .hologram-card.pop-right { transform: translate(40%, -50%) perspective(1000px) rotateY(-15deg) translateZ(0); }
+    .hologram-card.hologram-active.pop-right { transform: translate(50%, -50%) perspective(1000px) rotateY(-20deg) translateZ(250px); }
 }
 
-/* --- INTERNOS --- */
-
-.hologram-visual-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-    border-bottom: 1px solid rgba(0, 212, 255, 0.2);
-    padding-bottom: 15px;
-    position: relative;
-}
-
-.hologram-close {
-    position: absolute;
-    right: 0;
-    top: -5px;
-    cursor: pointer;
-    font-size: 20px;
-    color: rgba(0, 212, 255, 0.5);
-}
-
-.hologram-main-icon {
-    width: 50px;
-    height: 50px;
-    fill: none;
-    stroke: #00d4ff;
-    stroke-width: 1.5;
-    filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.7));
-    animation: holo-float 3s ease-in-out infinite;
-}
-
-.hologram-glitch-title {
-    font-size: 14px;
-    letter-spacing: 3px;
-    color: #ff007a;
-    text-transform: uppercase;
-    margin-top: 10px;
-    text-shadow: 0 0 8px rgba(255, 0, 122, 0.6);
-    text-align: center;
-}
-
-.hologram-content-area {
-    font-size: 13px;
-    line-height: 1.6;
-    height: 240px;
-    overflow-y: auto;
-    color: rgba(255, 255, 255, 0.9);
-}
-
-/* Scrollbar Custom */
+.hologram-visual-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(0, 212, 255, 0.2); padding-bottom: 15px; position: relative; }
+.hologram-close { position: absolute; right: 0; top: -5px; cursor: pointer; font-size: 20px; color: rgba(0, 212, 255, 0.5); }
+.hologram-main-icon { width: 50px; height: 50px; fill: none; stroke: #00d4ff; stroke-width: 1.5; filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.7)); animation: holo-float 3s ease-in-out infinite; }
+.hologram-glitch-title { font-size: 14px; letter-spacing: 3px; color: #ff007a; text-transform: uppercase; margin-top: 10px; text-align: center; text-shadow: 0 0 8px rgba(255, 0, 122, 0.6); }
+.hologram-content-area { font-size: 13px; line-height: 1.6; height: 240px; overflow-y: auto; color: rgba(255, 255, 255, 0.9); }
 .hologram-content-area::-webkit-scrollbar { width: 4px; }
 .hologram-content-area::-webkit-scrollbar-thumb { background: #00d4ff; border-radius: 10px; }
-
-/* Interface Detalhes */
-.hologram-ui-footer {
-    margin-top: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.scan-status {
-    font-size: 9px;
-    color: #00d4ff;
-    opacity: 0.7;
-    letter-spacing: 1px;
-}
-
-.hologram-bar {
-    width: 100%;
-    height: 2px;
-    background: rgba(0, 212, 255, 0.1);
-    position: relative;
-    overflow: hidden;
-    border-radius: 10px;
-}
-
-.hologram-bar::after {
-    content: "";
-    position: absolute;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: #00d4ff;
-    animation: loadingBar 2s infinite;
-}
-
-@keyframes loadingBar { 100% { left: 100%; } }
-@keyframes holo-float { 
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-8px) scale(1.05); } 
-}
-
-/* Feixe e Scanline */
-.projector-beam {
-    position: absolute;
-    top: 50%;
-    width: 150px;
-    height: 120%;
-    background: linear-gradient(to right, rgba(0, 212, 255, 0.05), transparent);
-    z-index: -1;
-    pointer-events: none;
-}
-
-.scanline {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, transparent 50%, rgba(0, 212, 255, 0.03) 51%);
-    background-size: 100% 4px;
-    animation: scanMove 10s linear infinite;
-    pointer-events: none;
-    border-radius: 20px;
-}
+.hologram-ui-footer { margin-top: 15px; display: flex; flex-direction: column; gap: 5px; }
+.scan-status { font-size: 9px; color: #00d4ff; opacity: 0.7; letter-spacing: 1px; }
+.hologram-bar { width: 100%; height: 2px; background: rgba(0, 212, 255, 0.1); position: relative; overflow: hidden; border-radius: 10px; }
+.hologram-bar::after { content: ""; position: absolute; left: -100%; width: 100%; height: 100%; background: #00d4ff; animation: loadingBar 2s infinite; }
+.projector-beam { position: absolute; top: 50%; width: 150px; height: 120%; background: linear-gradient(to right, rgba(0, 212, 255, 0.05), transparent); z-index: -1; pointer-events: none; }
+.scanline { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 50%, rgba(0, 212, 255, 0.03) 51%); background-size: 100% 4px; animation: scanMove 10s linear infinite; pointer-events: none; border-radius: 20px; }
 
 @keyframes scanMove { from { background-position: 0 0; } to { background-position: 0 100%; } }
+@keyframes holo-float { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-8px) scale(1.05); } }
+@keyframes loadingBar { 100% { left: 100%; } }
