@@ -1,6 +1,6 @@
 :root {
     --bg-login: radial-gradient(circle, #1a1a1a 0%, #050505 100%);
-    --accent: #00d4ff; /* Mudei para o azul da imagem 3D */
+    --accent: #00d4ff;
     --text-main: #ffffff;
     --border: #333333;
 }
