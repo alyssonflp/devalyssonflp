@@ -3,7 +3,7 @@
  * Responsável por criar os ícones e conectar com o holograma
  */
 
-import { toggleHologram } from './hologram-engine.js';
+import { toggleHologram } from './hologram.js';
 
 export function initDock() {
     const dockContainer = document.getElementById('terminal-dock');
