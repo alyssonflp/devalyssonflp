@@ -1,10 +1,24 @@
 // =====================================================
-// Simulação de Boot
+// 🚀 Boot Module - Alysson OS
+// Responsável apenas por executar a animação inicial
+// e liberar o sistema principal ao final.
 // =====================================================
 
-window.addEventListener("load", () => {
-    setTimeout(typePassword, 400);
-});
+// Exportamos a função principal do boot.
+// Agora o app.js pode controlar quando ele inicia.
+export function initBoot() {
+
+    // Espera a página carregar completamente
+    window.addEventListener("load", () => {
+        setTimeout(typePassword, 400);
+    });
+
+}
+
+
+// =====================================================
+// Digitação automática da senha fake
+// =====================================================
 
 function typePassword() {
 
@@ -15,13 +29,21 @@ function typePassword() {
     let i = 0;
 
     const interval = setInterval(() => {
+
         input.value += pass[i++];
+
         if (i >= pass.length) {
             clearInterval(interval);
             startProgress();
         }
+
     }, 100);
 }
+
+
+// =====================================================
+// Barra de progresso simulada
+// =====================================================
 
 function startProgress() {
 
@@ -49,25 +71,38 @@ function startProgress() {
         else status.innerText = messages[3];
 
         if (progress >= 100) {
+
             clearInterval(timer);
+
             setTimeout(showDesktop, 400);
+
         }
 
     }, 30);
 }
 
+
+// =====================================================
+// Transição para o Desktop
+// =====================================================
+
 function showDesktop() {
 
     const login = document.getElementById("login-screen");
     const desktop = document.getElementById("desktop-3d");
+
     if (!login || !desktop) return;
 
     login.style.opacity = "0";
     login.style.transition = "opacity 0.6s ease";
 
     setTimeout(() => {
+
         login.style.display = "none";
         desktop.classList.remove("hidden");
+
+        // Aqui chamamos o sistema principal
         window.startOS?.();
+
     }, 600);
-}
+                                 }
