@@ -1,15 +1,16 @@
 // =====================================================
-// 🧠 axiomOS — Estado Global
+// axiomOS - State Global
 // =====================================================
 //
-// Este arquivo guarda o estado central do sistema.
-// Todas as decisões de UI e dados dinâmicos devem
-// referenciar este objeto para manter consistência.
+// Aqui guardamos estados compartilhados do sistema.
+// Todos os módulos podem importar e atualizar.
+// Ex.: monitor rotation, dock ativo, hologramas abertos.
 //
 
-export const OSState = {
-    isStarted: false,         // Sistema já iniciou?
-    currentRotationY: 0,      // Rotação Y do monitor 3D
-    currentRotationX: 0,      // Rotação X do monitor 3D
-    activeHologram: null      // Holograma ativo
+export const state = {
+  isBooting: true,
+  currentRotationY: 0,
+  currentRotationX: 0,
+  dockActive: false,
+  hologramOpen: false,
 };
