@@ -1,40 +1,75 @@
-// js/modules/interface_3d.js
+// =====================================================
+// 🖥 axiomOS — Interface 3D
+// =====================================================
+//
+// Gerencia rotação do terminal 3D com mouse e toque.
+//
 
-// 🖥️ Responsável SOMENTE pela rotação 3D do monitor
-
-import { setRotationY } from '../core/state.js';
-
-let rotationY = 0;
-const monitor = document.querySelector('.main-terminal');
+import { OSState } from '../core/state.js';
 
 export function init3D() {
-
-    if (!monitor) return;
+    const terminal = document.querySelector(".main-terminal");
+    if (!terminal) return;
 
     let isDragging = false;
     let startX = 0;
+    let startY = 0;
 
-    monitor.addEventListener('mousedown', (e) => {
+    // Atualiza a transformação do monitor
+    const updateTransform = (xDeg, yDeg) => {
+        terminal.style.transform = `translate(-50%, -50%) rotateY(${xDeg}deg) rotateX(${yDeg}deg)`;
+    };
+
+    const startDrag = (e) => {
         isDragging = true;
-        startX = e.clientX;
-    });
+        startX = e.pageX || (e.touches ? e.touches[0].pageX : 0);
+        startY = e.pageY || (e.touches ? e.touches[0].pageY : 0);
+        terminal.style.transition = "none";
+        terminal.style.cursor = "grabbing";
+    };
 
-    document.addEventListener('mouseup', () => {
-        isDragging = false;
-    });
-
-    document.addEventListener('mousemove', (e) => {
-
+    const stopDrag = () => {
         if (!isDragging) return;
+        isDragging = false;
+        terminal.style.transition = "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)";
+        terminal.style.cursor = "grab";
+    };
 
-        const delta = e.clientX - startX;
-        rotationY += delta * 0.2;
+    const doDrag = (e) => {
+        if (!isDragging) return;
+        const x = e.pageX || (e.touches ? e.touches[0].pageX : 0);
+        const y = e.pageY || (e.touches ? e.touches[0].pageY : 0);
 
-        monitor.style.transform = `rotateY(${rotationY}deg)`;
+        const deltaX = x - startX;
+        const deltaY = y - startY;
 
-        // Atualiza estado global
-        setRotationY(rotationY);
+        OSState.currentRotationY += deltaX / 5;
+        OSState.currentRotationX -= deltaY / 5;
 
-        startX = e.clientX;
-    });
-}
+        if (OSState.currentRotationY > 80) OSState.currentRotationY = 80;
+        if (OSState.currentRotationY < -80) OSState.currentRotationY = -80;
+        if (OSState.currentRotationX > 25) OSState.currentRotationX = 25;
+        if (OSState.currentRotationX < -25) OSState.currentRotationX = -25;
+
+        updateTransform(OSState.currentRotationY, OSState.currentRotationX);
+        startX = x;
+        startY = y;
+    };
+
+    // Eventos
+    terminal.addEventListener("mousedown", startDrag);
+    window.addEventListener("mousemove", doDrag);
+    window.addEventListener("mouseup", stopDrag);
+
+    terminal.addEventListener("touchstart", startDrag, { passive: false });
+    window.addEventListener("touchmove", (e) => {
+        if (isDragging) {
+            if (e.cancelable) e.preventDefault();
+            doDrag(e);
+        }
+    }, { passive: false });
+    window.addEventListener("touchend", stopDrag);
+
+    // Inicializa posição padrão
+    updateTransform(OSState.currentRotationY, OSState.currentRotationX);
+            }
