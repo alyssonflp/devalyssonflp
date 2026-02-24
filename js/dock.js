@@ -1,4 +1,6 @@
-/* --- JS/DOCK.JS ATUALIZADO --- */
+/**
+ * Módulo do Dock (Painel de Hardware Inferior) - Alysson_OS
+ */
 import { toggleHologram } from './hologram-engine.js';
 
 export function initDock() {
@@ -18,44 +20,47 @@ export function initDock() {
     icons.forEach(item => {
         const iconBtn = document.createElement('div');
         iconBtn.className = 'dock-item';
-        iconBtn.setAttribute('data-label', item.label);
-        // Forçamos a estrutura interna para o Lucide
-        iconBtn.innerHTML = `<i data-lucide="${item.lucide}" style="width:20px; height:20px;"></i>`;
+        iconBtn.setAttribute('data-tooltip', item.label); 
+        iconBtn.innerHTML = `<i data-lucide="${item.lucide}"></i>`;
         
+        iconBtn.onmousedown = (e) => e.preventDefault();
+
         iconBtn.onclick = (e) => {
             e.stopPropagation();
-            document.querySelectorAll('.dock-item').forEach(el => el.classList.remove('is-active'));
+            const input = document.getElementById('terminal-input');
+            
             iconBtn.classList.add('is-active');
-
+            
             simulateTyping(`/${item.name}`, iconBtn, () => {
+                iconBtn.classList.remove('is-typing', 'is-active');
+                
+                // Abre o holograma correspondente
                 const monitor = document.getElementById('desktop-3d');
                 const rotationY = monitor ? parseFloat(monitor.dataset.rotationY) || 0 : 0;
-                if (typeof toggleHologram === 'function') toggleHologram(item.name, rotationY);
-                setTimeout(() => iconBtn.classList.remove('is-active'), 1000);
+                toggleHologram(item.name, rotationY);
             });
         };
+
         dockContainer.appendChild(iconBtn);
     });
 
-    // Tenta renderizar os ícones imediatamente e tenta novamente após 100ms por segurança
-    if (window.lucide) {
-        window.lucide.createIcons();
-        setTimeout(() => window.lucide.createIcons(), 100);
-    }
+    if (window.lucide) window.lucide.createIcons();
 }
 
 async function simulateTyping(command, iconBtn, onFinish) {
     const input = document.getElementById('terminal-input');
     if (!input) return onFinish?.();
+
     input.value = '';
     iconBtn.classList.add('is-typing');
+
     for (const char of command) {
         input.value += char;
         input.dispatchEvent(new Event('input', { bubbles: true }));
-        await new Promise(r => setTimeout(r, 40)); 
+        await new Promise(r => setTimeout(r, 400 / command.length)); // Velocidade adaptativa
     }
+
     await new Promise(r => setTimeout(r, 200));
     input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
-    iconBtn.classList.remove('is-typing');
     if (onFinish) onFinish();
-}
+        }
