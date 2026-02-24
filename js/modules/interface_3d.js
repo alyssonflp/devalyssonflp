@@ -1,108 +1,82 @@
-// =====================================================
-// axiomOS — Módulo Interface 3D
-// =====================================================
-
-// Seleção do terminal principal
-const terminal = document.querySelector(".main-terminal");
-if (!terminal) throw new Error("Terminal não encontrado");
-
-// Estado inicial
-let isDragging = false;
-let currentRotationY = 25; // rotação Y inicial padrão
-let currentRotationX = 10; // rotação X inicial padrão
-let startX = 0;
-let startY = 0;
-
-// Altura inicial do terminal (CSS) usada apenas para referência
-const initialTranslateY = -50; // translateY(-50%) do CSS, mantém centralizado
-
 /**
- * Atualiza a transformação do terminal
- * @param {number} rotY Rotação em Y
- * @param {number} rotX Rotação em X
+ * axiomOS — Módulo Interface 3D
+ * Gerencia rotação do monitor e posição do dock
  */
-const updateTransform = (rotY, rotX) => {
-    terminal.style.transform = `
-        translate(-50%, ${initialTranslateY}%)
-        rotateY(${rotY}deg)
-        rotateX(${rotX}deg)
-    `;
-};
 
-/**
- * Início do arraste (mouse ou touch)
- */
-const startDrag = (e) => {
-    isDragging = true;
-    startX = e.pageX || (e.touches ? e.touches[0].pageX : 0);
-    startY = e.pageY || (e.touches ? e.touches[0].pageY : 0);
-    terminal.style.transition = "none";
-    terminal.style.cursor = "grabbing";
-};
+export function initInterface3D() {
+    const terminal = document.querySelector(".main-terminal");
+    const dock = document.getElementById("terminal-dock");
+    if (!terminal) return;
 
-/**
- * Finaliza arraste
- */
-const stopDrag = () => {
-    if (!isDragging) return;
-    isDragging = false;
-    terminal.style.transition = "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)";
-    terminal.style.cursor = "grab";
-};
+    // Estado inicial do monitor
+    let isDragging = false;
+    let currentRotationY = 25;
+    let currentRotationX = 10;
+    let startX = 0;
+    let startY = 0;
 
-/**
- * Movimento do terminal
- */
-const doDrag = (e) => {
-    if (!isDragging) return;
+    // Atualiza a transformação do monitor e dock
+    const updateTransform = (yDeg, xDeg) => {
+        terminal.style.transform = `translate(-50%, -50%) rotateY(${yDeg}deg) rotateX(${xDeg}deg)`;
+        if (dock) {
+            // Dock acompanha a rotação (sutil)
+            dock.style.transform = `translateX(-50%) translateZ(30px) rotateY(${yDeg}deg)`;
+        }
+    };
 
-    const x = e.pageX || (e.touches ? e.touches[0].pageX : 0);
-    const y = e.pageY || (e.touches ? e.touches[0].pageY : 0);
+    const startDrag = (e) => {
+        isDragging = true;
+        startX = e.pageX || (e.touches ? e.touches[0].pageX : 0);
+        startY = e.pageY || (e.touches ? e.touches[0].pageY : 0);
 
-    const deltaX = x - startX;
-    const deltaY = y - startY;
+        terminal.style.transition = "none";
+        terminal.style.cursor = "grabbing";
+    };
 
-    // Sensibilidade ajustável
-    currentRotationY += deltaX / 5;
-    currentRotationX -= deltaY / 5;
+    const stopDrag = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        terminal.style.transition = "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)";
+        terminal.style.cursor = "grab";
+    };
 
-    // Limites de rotação
-    currentRotationY = Math.max(-80, Math.min(80, currentRotationY));
-    currentRotationX = Math.max(-25, Math.min(25, currentRotationX));
+    const doDrag = (e) => {
+        if (!isDragging) return;
 
+        const x = e.pageX || (e.touches ? e.touches[0].pageX : 0);
+        const y = e.pageY || (e.touches ? e.touches[0].pageY : 0);
+
+        const deltaX = x - startX;
+        const deltaY = y - startY;
+
+        currentRotationY += deltaX / 5;
+        currentRotationX -= deltaY / 5;
+
+        // Limites de rotação
+        currentRotationY = Math.min(80, Math.max(-80, currentRotationY));
+        currentRotationX = Math.min(25, Math.max(-25, currentRotationX));
+
+        updateTransform(currentRotationY, currentRotationX);
+
+        startX = x;
+        startY = y;
+    };
+
+    // Eventos de mouse
+    terminal.addEventListener("mousedown", startDrag);
+    window.addEventListener("mousemove", doDrag);
+    window.addEventListener("mouseup", stopDrag);
+
+    // Eventos touch (mobile/tablet)
+    terminal.addEventListener("touchstart", startDrag, { passive: false });
+    window.addEventListener("touchmove", (e) => {
+        if (isDragging) {
+            if (e.cancelable) e.preventDefault();
+            doDrag(e);
+        }
+    }, { passive: false });
+    window.addEventListener("touchend", stopDrag);
+
+    // Inicializa posição padrão do monitor + dock
     updateTransform(currentRotationY, currentRotationX);
-
-    startX = x;
-    startY = y;
-};
-
-// ===============================
-// Eventos Mouse
-// ===============================
-terminal.addEventListener("mousedown", startDrag);
-window.addEventListener("mousemove", doDrag);
-window.addEventListener("mouseup", stopDrag);
-
-// ===============================
-// Eventos Touch (Mobile/Tablet)
-// ===============================
-terminal.addEventListener("touchstart", startDrag, { passive: false });
-window.addEventListener("touchmove", (e) => {
-    if (isDragging) {
-        if (e.cancelable) e.preventDefault();
-        doDrag(e);
-    }
-}, { passive: false });
-window.addEventListener("touchend", stopDrag);
-
-// ===============================
-// Inicializa a posição padrão do terminal
-// ===============================
-updateTransform(currentRotationY, currentRotationX);
-
-// ===============================
-// Dock agora é totalmente controlado pelo CSS
-// ===============================
-// NÃO é necessário mexer em top/left via JS
-// Apenas certifique-se que o CSS do #terminal-dock esteja correto
-// ===============================
+                             }
