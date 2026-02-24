@@ -5,16 +5,16 @@
 
 let started = false;
 
-// Guarda a rotação atual do monitor 3D
+// Guarda rotação atual do monitor 3D
 window.currentRotationY = 0;
 
 /**
- * Import seguro com cache busting.
- * Isso garante que sempre carregaremos a versão mais recente do módulo.
+ * Import seguro sem cache busting
+ * GitHub Pages pode falhar com query string
  */
 async function safeImport(path) {
     try {
-        return await import(`${path}?t=${Date.now()}`);
+        return await import(path);
     } catch (error) {
         console.warn("⚠️ Falha ao carregar módulo:", path, error);
         return null;
@@ -22,8 +22,7 @@ async function safeImport(path) {
 }
 
 /**
- * Função principal que inicializa todo o sistema.
- * Evita inicialização duplicada.
+ * Inicializa o sistema inteiro
  */
 export async function startOS() {
     if (started) return;
@@ -61,7 +60,7 @@ export async function startOS() {
     }
 
     // =========================
-    // 3️⃣ Terminal (motor principal)
+    // 3️⃣ Terminal
     // =========================
     try {
         await terminalModule?.initTerminal?.();
@@ -73,14 +72,13 @@ export async function startOS() {
     // 4️⃣ Dock
     // =========================
     try {
-        await dockModule?.initDock?.();
+        dockModule?.initDock?.();
 
-        // Se Lucide estiver disponível, renderiza os ícones
+        // Renderiza ícones do Lucide
         if (window.lucide) {
             window.lucide.createIcons();
         }
 
-        // Pequeno delay para ativar animação suave
         setTimeout(() => {
             const dockEl = document.getElementById('terminal-dock');
             if (dockEl) {
@@ -94,7 +92,7 @@ export async function startOS() {
     }
 
     // =========================
-    // Trigger global de holograma
+    // Trigger global do holograma
     // =========================
     window.triggerHologram = (content) => {
         if (hologramModule?.toggleHologram) {
@@ -105,5 +103,5 @@ export async function startOS() {
     };
 }
 
-// Expõe para escopo global
+// Expondo no escopo global
 window.startOS = startOS;
