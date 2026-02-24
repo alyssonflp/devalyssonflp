@@ -1,52 +1,46 @@
 /**
- * =====================================================
- * AxiomOS — Módulo de Interface 3D
- * =====================================================
+ * interface_3d.js
+ * Módulo de Interface 3D - axiomOS
  *
- * Gerencia a rotação, altura e posição do monitor principal,
- * além de posicionar o dock rente à base do monitor.
- *
- * Compatível Desktop + Mobile (touch).
+ * Gerencia a rotação, posição e perspectiva do monitor,
+ * terminal interno e dock.
  */
 
 export function initInterface3D() {
     const terminal = document.querySelector(".main-terminal");
     const dock = document.getElementById("terminal-dock");
-    if (!terminal || !dock) return;
+    if (!terminal) return;
 
-    // === Estado inicial do monitor ===
+    // Estado inicial
     let isDragging = false;
-    let currentRotationY = 25; // posição inicial Y (logo no boot)
-    let currentRotationX = 10; // posição inicial X (logo no boot)
+    let currentRotationY = 25;  // Rotação inicial horizontal
+    let currentRotationX = 10;  // Rotação inicial vertical
     let startX = 0;
     let startY = 0;
 
-    // === Função para atualizar transformação do monitor ===
-    const updateTransform = (xDeg, yDeg) => {
-        terminal.style.transform = `translate(-50%, -50%) rotateY(${xDeg}deg) rotateX(${yDeg}deg)`;
+    // Altura inicial do monitor e dock
+    const initialTranslateY = -40; // Ajuste vertical do monitor
+    const dockOffsetY = 28; // Offset para dock rente à base
+
+    // Aplica transform do monitor
+    const updateTransform = (rotY, rotX) => {
+        terminal.style.transform = `
+            translate(-50%, ${initialTranslateY}%) 
+            rotateY(${rotY}deg) 
+            rotateX(${rotX}deg)
+        `;
+
+        if (dock) {
+            // Posiciona dock na base do monitor
+            const monitorHeight = terminal.offsetHeight || 400;
+            dock.style.bottom = `${dockOffsetY}px`;
+        }
     };
 
-    // === Função para atualizar posição do dock ===
-    const updateDockPosition = () => {
-        const rect = terminal.getBoundingClientRect();
-
-        // Posiciona o dock rente à base do monitor
-        dock.style.position = "absolute";
-        dock.style.top = `${rect.bottom - 5}px`; // 5px acima da base
-        dock.style.left = `${rect.left + rect.width / 2}px`;
-        dock.style.transform = "translateX(-50%)";
-        dock.style.zIndex = 9999;
-    };
-
-    // Inicializa dock na posição correta
-    updateDockPosition();
-
-    // === Drag / Rotação ===
     const startDrag = (e) => {
         isDragging = true;
         startX = e.pageX || (e.touches ? e.touches[0].pageX : 0);
         startY = e.pageY || (e.touches ? e.touches[0].pageY : 0);
-
         terminal.style.transition = "none";
         terminal.style.cursor = "grabbing";
     };
@@ -66,10 +60,10 @@ export function initInterface3D() {
         const deltaX = x - startX;
         const deltaY = y - startY;
 
-        currentRotationY += deltaX / 5; // sensibilidade
+        currentRotationY += deltaX / 5;
         currentRotationX -= deltaY / 5;
 
-        // Travas
+        // Limites de rotação
         if (currentRotationY > 80) currentRotationY = 80;
         if (currentRotationY < -80) currentRotationY = -80;
         if (currentRotationX > 25) currentRotationX = 25;
@@ -79,17 +73,14 @@ export function initInterface3D() {
 
         startX = x;
         startY = y;
-
-        // Atualiza dock enquanto arrasta
-        updateDockPosition();
     };
 
-    // === Eventos Desktop ===
+    // Eventos de mouse
     terminal.addEventListener("mousedown", startDrag);
     window.addEventListener("mousemove", doDrag);
     window.addEventListener("mouseup", stopDrag);
 
-    // === Eventos Mobile / Touch ===
+    // Eventos de touch
     terminal.addEventListener("touchstart", startDrag, { passive: false });
     window.addEventListener("touchmove", (e) => {
         if (isDragging) {
@@ -99,12 +90,15 @@ export function initInterface3D() {
     }, { passive: false });
     window.addEventListener("touchend", stopDrag);
 
-    // === Inicializa transformações iniciais ===
+    // Inicializa posição padrão
     updateTransform(currentRotationY, currentRotationX);
-    updateDockPosition();
 
-    // === Observador de resize para manter dock alinhado ===
-    window.addEventListener("resize", updateDockPosition);
-
-    console.log("🎨 Interface 3D inicializada e dock posicionado rente ao monitor.");
-        }
+    // Força dock ficar sempre visível e rente à base
+    if (dock) {
+        dock.style.position = "absolute";
+        dock.style.left = "50%";
+        dock.style.transform = "translateX(-50%)";
+        dock.style.opacity = "1";
+        dock.style.pointerEvents = "all";
+    }
+                              }
