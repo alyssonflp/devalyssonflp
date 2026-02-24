@@ -1,66 +1,58 @@
 // =====================================================
-// 🎨 axiomOS — Dock Lateral
+// axiomOS - Dock
 // =====================================================
 //
-// Painel com ícones que enviam comandos para o terminal
+// Painel inferior com ícones de acesso rápido.
 //
 
-import { openSection } from '../core/controller.js';
+import { state } from '../core/state.js';
+import { toggleHologram } from './hologram.js';
 
 export function initDock() {
-    const dockContainer = document.getElementById('terminal-dock');
-    if (!dockContainer) return;
+  const dock = document.getElementById("terminal-dock");
+  if (!dock) return;
 
-    const icons = [
-        { name: 'about', lucide: 'user-circle', label: 'About' },
-        { name: 'skills', lucide: 'code-2', label: 'Skills' },
-        { name: 'experience', lucide: 'binary', label: 'Experience' },
-        { name: 'projects', lucide: 'layout-template', label: 'Projects' },
-        { name: 'ia', lucide: 'bot', label: 'I.A' }
-    ];
+  const icons = [
+    { name: 'about', lucide: 'user', label: 'About' },
+    { name: 'skills', lucide: 'cpu', label: 'Skills' },
+    { name: 'projects', lucide: 'folder', label: 'Projects' },
+    { name: 'contact', lucide: 'mail', label: 'Contact' }
+  ];
 
-    dockContainer.innerHTML = '';
+  dock.innerHTML = "";
 
-    icons.forEach(item => {
-        const iconBtn = document.createElement('div');
-        iconBtn.className = 'dock-item';
-        iconBtn.setAttribute('data-label', item.label);
-        iconBtn.innerHTML = `<i data-lucide="${item.lucide}"></i>`;
+  icons.forEach(item => {
+    const btn = document.createElement("div");
+    btn.className = "dock-item";
+    btn.setAttribute("data-tooltip", item.label);
+    btn.innerHTML = `<i data-lucide="${item.lucide}"></i>`;
 
-        iconBtn.onmousedown = (e) => e.preventDefault();
+    btn.onclick = () => {
+      simulateTyping(`/${item.name}`, btn, () => toggleHologram({type:item.name, title:item.label, body:`Conteúdo ${item.label}`}));
+    };
 
-        iconBtn.onclick = (e) => {
-            e.stopPropagation();
-            iconBtn.classList.add('is-active');
+    dock.appendChild(btn);
+  });
 
-            simulateTyping(`/${item.name}`, iconBtn, () => {
-                iconBtn.classList.remove('is-typing', 'is-active');
-                openSection(item.name);
-            });
-        };
+  if(window.lucide) window.lucide.createIcons();
 
-        dockContainer.appendChild(iconBtn);
-    });
-
-    if (window.lucide) window.lucide.createIcons();
-
-    setTimeout(() => dockContainer.classList.add('active'), 500);
+  // Ativa animação
+  setTimeout(() => { dock.classList.add('active'); state.dockActive = true; }, 500);
 }
 
-async function simulateTyping(command, iconBtn, onFinish) {
-    const input = document.getElementById('terminal-input');
-    if (!input) return onFinish?.();
+async function simulateTyping(command, btn, callback) {
+  const input = document.getElementById('terminal-input');
+  if(!input) return callback?.();
+  input.value = '';
+  btn.classList.add('is-typing');
 
-    input.value = '';
-    iconBtn.classList.add('is-typing');
+  for(const char of command){
+    input.value += char;
+    input.dispatchEvent(new Event('input',{bubbles:true}));
+    await new Promise(r=>setTimeout(r, 50));
+  }
 
-    for (const char of command) {
-        input.value += char;
-        input.dispatchEvent(new Event('input', { bubbles: true }));
-        await new Promise(r => setTimeout(r, 400 / command.length));
-    }
-
-    await new Promise(r => setTimeout(r, 200));
-    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
-    if (onFinish) onFinish();
-        }
+  input.dispatchEvent(new KeyboardEvent('keydown',{key:'Enter', bubbles:true}));
+  btn.classList.remove('is-typing');
+  callback?.();
+      }
