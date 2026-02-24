@@ -1,22 +1,32 @@
 // =====================================================
-// Alysson OS - Core do Sistema
+// Alysson OS - Núcleo principal do sistema
+// Responsável por iniciar e conectar todos os módulos
 // =====================================================
 
 let started = false;
-window.currentRotationY = 0; 
 
+// Guarda a rotação atual do monitor 3D
+window.currentRotationY = 0;
+
+/**
+ * Import seguro com cache busting.
+ * Isso garante que sempre carregaremos a versão mais recente do módulo.
+ */
 async function safeImport(path) {
     try {
-        // Cache busting para garantir carregamento da última versão do código
         return await import(`${path}?t=${Date.now()}`);
     } catch (error) {
-        console.warn("Falha ao carregar módulo:", path);
+        console.warn("⚠️ Falha ao carregar módulo:", path, error);
         return null;
     }
 }
 
+/**
+ * Função principal que inicializa todo o sistema.
+ * Evita inicialização duplicada.
+ */
 export async function startOS() {
-    if (started) return; 
+    if (started) return;
     started = true;
 
     console.log("🚀 Alysson OS iniciado");
@@ -27,60 +37,73 @@ export async function startOS() {
     const dockModule = await safeImport("./dock.js");
     const hologramModule = await safeImport("./hologram.js");
 
-    // 1. Inicializa Interface 3D e escuta rotação
+    // =========================
+    // 1️⃣ Interface 3D
+    // =========================
     try {
         interfaceModule?.initInterface3D?.();
+
         document.addEventListener('monitorRotate', (e) => {
             window.currentRotationY = e.detail.rotationY || 0;
         });
-    } catch (e) { console.warn("Erro ao iniciar Interface 3D"); }
 
-    // 2. Inicializa componentes de dados
+    } catch (e) {
+        console.warn("⚠️ Erro ao iniciar Interface 3D", e);
+    }
+
+    // =========================
+    // 2️⃣ Informações do sistema
+    // =========================
     try {
         await infoModule?.initSystemInfo?.();
-    } catch (e) { console.warn("Erro ao iniciar Info Sistema"); }
+    } catch (e) {
+        console.warn("⚠️ Erro ao iniciar Info Sistema", e);
+    }
 
-    // 3. Inicializa o Terminal (Motor principal)
+    // =========================
+    // 3️⃣ Terminal (motor principal)
+    // =========================
     try {
         await terminalModule?.initTerminal?.();
-    } catch (e) { console.warn("Erro ao iniciar Terminal"); }
+    } catch (e) {
+        console.warn("⚠️ Erro ao iniciar Terminal", e);
+    }
 
-    // 4. Inicializa o Dock (Construção e Ativação)
+    // =========================
+    // 4️⃣ Dock
+    // =========================
     try {
         await dockModule?.initDock?.();
-        
-        // Renderiza os ícones do Lucide após injetar no DOM
+
+        // Se Lucide estiver disponível, renderiza os ícones
         if (window.lucide) {
             window.lucide.createIcons();
         }
 
-        /**
-         * ATIVAÇÃO DO DOCK
-         * Delay de 1000ms para aguardar a montagem visual do terminal.
-         * Aciona a animação de fade-in e o flash branco sutil.
-         */
+        // Pequeno delay para ativar animação suave
         setTimeout(() => {
             const dockEl = document.getElementById('terminal-dock');
             if (dockEl) {
                 dockEl.classList.add('active');
-                console.log("🎨 Dock ativado (Estética Minimalista)");
+                console.log("🎨 Dock ativado com sucesso");
             }
-        }, 500); 
+        }, 500);
 
-    } catch (e) { console.warn("Erro ao iniciar Dock"); }
+    } catch (e) {
+        console.warn("⚠️ Erro ao iniciar Dock", e);
+    }
 
-    /**
-     * Trigger Global para Hologramas
-     * Centraliza a projeção 3D baseada na rotação do monitor
-     */
+    // =========================
+    // Trigger global de holograma
+    // =========================
     window.triggerHologram = (content) => {
-        if (hologramModule && hologramModule.toggleHologram) {
+        if (hologramModule?.toggleHologram) {
             hologramModule.toggleHologram(content, window.currentRotationY);
         } else {
-            console.error("Módulo de holograma não disponível.");
+            console.error("❌ Módulo de holograma não disponível.");
         }
     };
 }
 
-// Expõe para o escopo global
+// Expõe para escopo global
 window.startOS = startOS;
