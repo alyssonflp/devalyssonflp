@@ -1,34 +1,30 @@
-/* --- RESET E CONFIGURAÇÃO DO PAINEL INFERIOR --- */
+/* --- CSS/DOCK.CSS ATUALIZADO --- */
 
 #terminal-dock {
-    /* Força o posicionamento para baixo e centralizado */
     position: absolute !important;
-    bottom: -55px !important; /* Ajuste esse valor se ele ficar muito longe ou perto */
+    /* Colamos no fundo. Se ainda houver gap, diminua para -40px ou -35px */
+    bottom: -48px !important; 
     left: 50% !important;
-    right: auto !important; /* Remove o right: 15px anterior */
-    top: auto !important;   /* Remove o top: 50% anterior */
     transform: translateX(-50%) !important;
-    
-    /* Layout Horizontal */
+
+    /* Reset de Dimensões para Barra Horizontal */
+    width: max-content !important; /* Ajusta ao tamanho dos ícones */
+    height: 48px !important;
     display: flex !important;
-    flex-direction: row !important; 
+    flex-direction: row !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 15px !important;
+    gap: 12px !important;
+    padding: 0 15px !important;
+
+    /* Estética de Painel Frontal */
+    background: #0a0a0a !important;
+    border: 2px solid #222 !important;
+    border-top: none !important; /* Remove a borda de cima para "colar" no monitor */
+    border-radius: 0 0 10px 10px !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.8) !important;
     
-    /* Tamanho e Estilo de Barra */
-    width: auto !important;
-    min-width: 250px;
-    height: 45px !important;
-    padding: 0 25px !important;
-    
-    /* Estética de Hardware */
-    background: #0f0f0f !important;
-    border: 2px solid #2a2a2a !important;
-    border-radius: 0 0 12px 12px !important;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.6) !important;
-    
-    z-index: 9999 !important;
+    z-index: 10000 !important;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.5s ease;
@@ -39,35 +35,25 @@
     pointer-events: all !important;
 }
 
-/* Ajuste nos Botões (Para não virarem bolinhas laterais) */
+/* IMPORTANTE: Garante que os ícones apareçam */
 .dock-item {
     width: 32px !important;
     height: 32px !important;
-    margin: 0 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    flex-shrink: 0 !important;
     background: #1a1a1a !important;
     border: 1px solid #333 !important;
-    border-radius: 6px !important; /* Botões levemente quadrados */
-    transition: all 0.2s ease !important;
+    border-radius: 6px !important;
 }
 
-.dock-item:hover {
-    transform: translateY(-3px) !important; /* Pula para cima em direção à tela */
-    border-color: #00d4ff !important;
+.dock-item i, .dock-item svg {
+    width: 18px !important;
+    height: 18px !important;
+    display: block !important; /* Garante visibilidade */
+    color: #00d4ff !important;
 }
 
-/* Ajuste do Tooltip para aparecer ACIMA */
-.dock-item::after {
-    bottom: 45px !important; /* Joga o texto para cima do botão */
-    top: auto !important;
-    right: auto !important;
-    left: 50% !important;
-    transform: translateX(-50%) translateY(10px) !important;
-}
-
-.dock-item:hover:not(.is-typing)::after {
-    opacity: 1 !important;
-    transform: translateX(-50%) translateY(0) !important;
-}
+/* Se o dock sumir, adicione esta regra ao container pai no seu CSS principal: */
+/* #seu-container-do-terminal { overflow: visible !important; } */
