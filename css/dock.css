@@ -1,39 +1,39 @@
-/* --- RESET E BLINDAGEM DO PAINEL HORIZONTAL --- */
+/* --- DOCK: HARDWARE INTERFACE (INFERIOR) --- */
 
-/* Usamos o seletor de ID com !important para garantir prioridade máxima */
 div#terminal-dock {
+    /* 1. Posicionamento Rente à Borda Inferior */
     position: absolute !important;
-    bottom: -48px !important; 
+    bottom: -46px !important; /* Ajuste para colar exatamente na linha preta */
     left: 50% !important;
+    transform: translateX(-50%) !important;
     top: auto !important;
     right: auto !important;
-    transform: translateX(-50%) !important;
 
-    /* Força a barra a ser horizontal e expandir */
+    /* 2. Layout Horizontal (Adeus Bolinha) */
     display: flex !important;
-    flex-direction: row !important; 
-    flex-wrap: nowrap !important;
+    flex-direction: row !important;
     align-items: center !important;
     justify-content: center !important;
+    gap: 20px !important;
     
-    /* Dimensões: Largura automática, não fixa */
-    width: max-content !important; 
-    min-width: 260px !important;
-    height: 48px !important;
-    padding: 0 20px !important;
-    gap: 15px !important;
-
-    /* Estética de Hardware */
-    background: #000000 !important;
+    /* 3. Dimensões e Fundo */
+    width: max-content !important;
+    min-width: 300px !important;
+    height: 46px !important;
+    padding: 0 25px !important;
+    background: #000000 !important; /* Preto para casar com o terminal */
+    
+    /* 4. Bordas e Arredondamento conforme solicitado */
     border: 2px solid #2a2a2a !important;
-    border-top: none !important;
+    border-top: none !important; /* Remove a linha de cima para fundir */
     border-radius: 0 0 15px 15px !important;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.8) !important;
     
+    /* 5. Comportamento e Camada */
     z-index: 99999 !important;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.5s ease !important;
+    transition: opacity 0.5s ease, transform 0.3s ease !important;
+    transform-style: preserve-3d;
 }
 
 div#terminal-dock.active {
@@ -41,60 +41,65 @@ div#terminal-dock.active {
     pointer-events: all !important;
 }
 
-/* Garante que os itens não herdem o tamanho da 'bolinha' */
-#terminal-dock .dock-item {
-    width: 36px !important;
-    height: 36px !important;
-    min-width: 36px !important; /* Impede de esmagar */
+/* Itens do Dock (Botões) */
+.dock-item {
+    width: 35px !important;
+    height: 35px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    background: transparent !important;
-    border: none !important;
+    flex-shrink: 0 !important;
     cursor: pointer !important;
     position: relative !important;
-    flex-shrink: 0 !important; /* Crucial para não virar bolinha */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
 }
 
-/* Cor Branca e Efeito Vermelho */
-#terminal-dock .dock-item i, 
-#terminal-dock .dock-item svg {
-    color: #ffffff !important;
+/* Cor Padrão: BRANCO */
+.dock-item i, .dock-item svg {
     width: 20px !important;
     height: 20px !important;
-    transition: all 0.3s ease !important;
+    color: #ffffff !important;
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
 }
 
-#terminal-dock .dock-item.is-active i {
+/* Efeito ao Clicar: VERMELHO e VIR PARA FRENTE */
+.dock-item.is-active {
+    transform: scale(1.4) translateZ(40px) !important;
+}
+
+.dock-item.is-active i, .dock-item.is-active svg {
     color: #ff0044 !important;
-    filter: drop-shadow(0 0 10px #ff0044) !important;
+    filter: drop-shadow(0 0 12px #ff0044) !important;
 }
 
-#terminal-dock .dock-item.is-active {
-    transform: scale(1.3) translateZ(30px) !important;
+/* Título (Tooltip) que aparece ao Hover */
+.dock-item::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: #ffffff;
+    color: #000000;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    font-weight: bold;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 100000;
 }
 
-/* Tooltip (Título) acima do botão */
-#terminal-dock .dock-item::after {
-    content: attr(data-label) !important;
-    position: absolute !important;
-    bottom: 50px !important;
-    left: 50% !important;
-    transform: translateX(-50%) translateY(10px) !important;
-    background: #ffffff !important;
-    color: #000000 !important;
-    padding: 4px 10px !important;
-    border-radius: 4px !important;
-    font-family: 'Share Tech Mono', monospace !important;
-    font-size: 10px !important;
-    white-space: nowrap !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    transition: all 0.2s ease !important;
+.dock-item:hover:not(.is-typing)::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
 }
 
-#terminal-dock .dock-item:hover:not(.is-typing)::after {
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: translateX(-50%) translateY(0) !important;
+/* Esconde o título durante a digitação */
+.dock-item.is-typing::after {
+    display: none !important;
 }
