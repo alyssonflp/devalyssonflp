@@ -1,88 +1,61 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>axiomOS | v1.0</title>
-
-    <!-- DNS Prefetch -->
-    <link rel="dns-prefetch" href="https://api.ipify.org" />
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AxiomOS | v1.0</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/intro.css" />
-    <link rel="stylesheet" href="css/interface_3d.css" />
-    <link rel="stylesheet" href="css/terminal.css" />
-    <link rel="stylesheet" href="css/dock.css" />
-    <link rel="stylesheet" href="css/hologram.css" />
+    <link rel="stylesheet" href="css/boot.css">
+    <link rel="stylesheet" href="css/interface_3d.css">
+    <link rel="stylesheet" href="css/dock.css">
 
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-
 <body>
-    <!-- ===============================
-         SVG GLOBAL (Efeito Holograma)
-    ================================ -->
-    <svg width="0" height="0" style="position:absolute;" aria-hidden="true">
-        <defs>
-            <filter id="hologram-glow">
-                <feGaussianBlur stdDeviation="1" result="blur" />
-                <feComposite in="SourceGraphic" in2="blur" operator="over" />
-            </filter>
-        </defs>
-    </svg>
 
-    <!-- ===============================
-         TELA DE LOGIN / BOOT
-    ================================ -->
+    <!-- BOOT / INTRO -->
     <section id="login-screen">
         <div class="login-box">
-
             <img src="imagens/alysson.png"
                  class="login-avatar"
                  alt="Alysson"
-                 onerror="this.src='https://ui-avatars.com/api/?name=Alysson+Felipe&background=9333ea&color=fff';" />
-
-            <h2 class="login-username">alyssonfelipe</h2>
-
+                 onerror="this.src='https://ui-avatars.com/api/?name=Alysson+Felipe&background=9333ea&color=fff';">
+            <h2 class="login-username">alyssonflp</h2>
             <div class="login-field">
-                <input type="password" id="pass-input" readonly />
+                <input type="password" id="pass-input" readonly>
             </div>
-
             <div class="boot-loader-container">
                 <div id="boot-progress" class="boot-loader-bar"></div>
             </div>
-
             <div id="boot-status">Inicializando sistema...</div>
-
         </div>
     </section>
 
-    <!-- ===============================
-         DESKTOP 3D
-    ================================ -->
+    <!-- DESKTOP 3D -->
     <main id="desktop-3d" class="hidden">
         <div class="scanline"></div>
 
+        <!-- MONITOR -->
         <section class="main-terminal">
             <article class="terminal-content-wrapper" id="content">
                 <div id="root-terminal"></div>
             </article>
-
-            <div id="info-footer"></div>
-            <div id="terminal-dock"></div>
         </section>
+
+        <!-- DOCK -->
+        <div id="terminal-dock"></div>
     </main>
 
-    <!-- ===============================
-         SCRIPTS PRINCIPAIS
-    ================================ -->
-    <script type="module" src="js/app.js"></script>
+    <!-- JS -->
+    <script type="module" src="js/core/interface_3d.js"></script>
     <script type="module" src="js/core/state.js"></script>
-    <script type="module" src="js/intro/boot.js"></script>
+    <script defer src="js/intro/boot.js"></script>
+    <script type="module" src="js/modules/system-info.js"></script>
+    <script type="module" src="js/modules/terminal.js"></script>
+    <script type="module" src="js/modules/dock.js"></script>
+    <script type="module" src="js/modules/hologram.js"></script>
+
 </body>
-  </html>
+</html>
