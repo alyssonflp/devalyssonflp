@@ -1,5 +1,8 @@
-export async function initSystemInfo() {
+// =====================================================
+// 🌍 axiomOS — System Info
+// =====================================================
 
+export async function initSystemInfo() {
     const footer = document.getElementById("info-footer");
     if (!footer) return;
 
@@ -10,17 +13,14 @@ export async function initSystemInfo() {
 
     try {
         const response = await fetch("/api/ip");
-
-        if (!response.ok) throw new Error("Erro na API");
-
-        const data = await response.json();
-
-        ip = data.ip || ip;
-        country = data.country || "";
-        city = data.city || "";
-        browser = data.userAgent || browser;
-
-    } catch (error) {
+        if (response.ok) {
+            const data = await response.json();
+            ip = data.ip || ip;
+            country = data.country || "";
+            city = data.city || "";
+            browser = data.userAgent || browser;
+        }
+    } catch (err) {
         console.warn("Falha ao buscar IP do backend");
     }
 
