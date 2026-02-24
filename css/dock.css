@@ -1,91 +1,33 @@
-/* ======================================================
-   axiomOS — Dock Integrado ao Terminal
-====================================================== */
+/**
+ * AxiomOS — Módulo Dock Inferior
+ * Integrado à interface 3D
+ */
+export function initDock() {
+    const dock = document.getElementById("terminal-dock");
+    if (!dock) return;
 
-#terminal-dock {
-    position: absolute;       /* Absoluto relativo ao terminal */
-    bottom: 10px;             /* Grudado na base do terminal */
-    left: 50%;                /* Centraliza horizontalmente */
-    transform: translateX(-50%) translateZ(30px); /* Mantém profundidade 3D */
+    const icons = [
+        { name: 'about', lucide: 'user-circle', label: 'About' },
+        { name: 'skills', lucide: 'code-2', label: 'Skills' },
+        { name: 'experience', lucide: 'binary', label: 'Experience' },
+        { name: 'projects', lucide: 'layout-template', label: 'Projects' },
+        { name: 'ia', lucide: 'bot', label: 'I.A' }
+    ];
 
-    width: 280px;
-    height: 60px;
+    dock.innerHTML = '';
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 18px;
+    icons.forEach(item => {
+        const btn = document.createElement('div');
+        btn.className = 'dock-item';
+        btn.innerHTML = `<i data-lucide="${item.lucide}"></i>`;
+        btn.onclick = () => {
+            const input = document.getElementById('terminal-input');
+            if (input) input.value = `/${item.name}`;
+            input?.dispatchEvent(new Event('input', { bubbles: true }));
+            input?.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+        };
+        dock.appendChild(btn);
+    });
 
-    background: linear-gradient(145deg, #0f172a, #111827);
-    border-radius: 16px;
-    border: 1px solid rgba(0, 212, 255, 0.2);
-
-    box-shadow:
-        0 15px 35px rgba(0, 0, 0, 0.6),
-        inset 0 0 12px rgba(0, 212, 255, 0.15);
-
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.5s ease;
-}
-
-/* Ativado pelo JS */
-#terminal-dock.active {
-    opacity: 1;
-    pointer-events: all;
-}
-
-/* Glow inferior */
-#terminal-dock::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 16px;
-    background: linear-gradient(to right, #ff007a, #00d4ff);
-    opacity: 0.15;
-    filter: blur(10px);
-    z-index: -1;
-}
-
-/* ===============================
-   BOTÕES
-================================ */
-
-.dock-item {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: rgba(0, 212, 255, 0.05);
-    border: 1px solid rgba(0, 212, 255, 0.2);
-
-    cursor: pointer;
-    transition: all 0.25s ease;
-}
-
-.dock-item i,
-.dock-item svg {
-    width: 20px !important;
-    height: 20px !important;
-    color: rgba(0, 212, 255, 0.9);
-    stroke-width: 1.8px;
-}
-
-.dock-item:hover {
-    transform: translateY(-4px) scale(1.08);
-    background: rgba(0, 212, 255, 0.2);
-    box-shadow: 0 0 18px rgba(0, 212, 255, 0.6);
-}
-
-.dock-item:hover i,
-.dock-item:hover svg {
-    color: #ffffff;
-}
-
-.dock-item::after {
-    display: none;
-   }
+    if (window.lucide) window.lucide.createIcons();
+           }
