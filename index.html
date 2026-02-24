@@ -9,7 +9,7 @@
     <!-- DNS Prefetch -->
     <link rel="dns-prefetch" href="https://api.ipify.org" />
 
-    <!-- Google Fonts -->
+    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
 
     <!-- CSS -->
@@ -19,13 +19,15 @@
     <link rel="stylesheet" href="css/dock.css" />
     <link rel="stylesheet" href="css/hologram.css" />
 
-    <!-- Lucide Icons (precisa carregar antes do app.js) -->
+    <!-- Lucide (carrega antes do app.js) -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
 
 <body>
 
-    <!-- SVG Filter Global -->
+    <!-- ===============================
+         SVG GLOBAL (efeito holograma)
+    ================================ -->
     <svg width="0" height="0" style="position:absolute;" aria-hidden="true">
         <defs>
             <filter id="hologram-glow">
@@ -42,9 +44,9 @@
         <div class="login-box">
 
             <img src="imagens/alysson.png"
-                class="login-avatar"
-                alt="Alysson"
-                onerror="this.src='https://ui-avatars.com/api/?name=Alysson+Felipe&background=9333ea&color=fff';" />
+                 class="login-avatar"
+                 alt="Alysson"
+                 onerror="this.src='https://ui-avatars.com/api/?name=Alysson+Felipe&background=9333ea&color=fff';" />
 
             <h2 class="login-username">alyssonfelipe</h2>
 
@@ -70,7 +72,7 @@
 
         <section class="main-terminal">
 
-            <!-- Conteúdo principal -->
+            <!-- Terminal principal -->
             <article class="terminal-content-wrapper" id="content">
                 <div id="root-terminal"></div>
             </article>
@@ -78,7 +80,7 @@
             <!-- Informações do sistema -->
             <div id="info-footer"></div>
 
-            <!-- Central de Controle Integrada -->
+            <!-- Dock -->
             <div id="terminal-dock"></div>
 
         </section>
@@ -86,11 +88,9 @@
     </main>
 
     <!-- ===============================
-         SCRIPTS
+         SCRIPT PRINCIPAL (ÚNICO)
     ================================ -->
     <script type="module" src="js/app.js"></script>
-    <script defer src="js/intro.js"></script>
 
 </body>
-
-    </html>
+</html>
