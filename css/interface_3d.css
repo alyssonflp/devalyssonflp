@@ -1,71 +1,89 @@
-/* --- DOCK UNIFICADO NO MONITOR --- */
+/* --- MONITOR PRINCIPAL (REPARADO) --- */
+.main-terminal {
+    width: 650px;
+    height: 400px;
+    position: absolute;
+    top: 43%;
+    left: 50%;
+    border-radius: 40px;
+    transform: translate(-50%, -50%) rotateY(25deg) rotateX(10deg);
+    transform-style: preserve-3d !important;
 
+    background: rgba(10, 15, 30, 0.45);
+    backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), 0 0 15px rgba(0, 212, 255, 0.35);
+    
+    /* MUDANÇA CRÍTICA: */
+    overflow: visible !important; /* Permite que o dock apareça abaixo */
+    display: block !important;    /* Retorna ao padrão para não quebrar o wrapper */
+}
+
+/* Garante que o conteúdo do terminal não vaze pelas bordas arredondadas */
+.terminal-content-wrapper {
+    width: 100%;
+    height: 100%;
+    padding: 25px;
+    color: #ffffff;
+    overflow-y: auto;
+    border-radius: 40px; /* Segue o monitor */
+    position: relative;
+    z-index: 2;
+}
+
+/* --- DOCK HARDWARE (UNIFICADO) --- */
 #terminal-dock {
     position: absolute !important;
-    bottom: -44px !important; /* Colado na moldura preta */
+    bottom: -45px !important; /* Cola na linha preta */
     left: 50% !important;
     transform: translateX(-50%) !important;
     
-    /* Largura compacta para evitar o visual "largo" */
-    width: auto !important;
-    max-width: 280px !important; 
-    height: 44px !important;
+    /* Tamanho Fixo e Compacto para não ficar "Largo" */
+    width: 320px !important; 
+    height: 46px !important;
     
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 12px !important; /* Espaço menor entre ícones */
-    padding: 0 15px !important;
+    gap: 15px !important;
+    padding: 0 10px !important;
 
     background: #000000 !important;
-    border: 2px solid #1a1a1a !important;
+    border: 2px solid #2a2a2a !important;
     border-top: none !important;
     border-radius: 0 0 15px 15px !important;
     
-    box-shadow: 0 10px 20px rgba(0,0,0,0.9) !important;
-    z-index: 1000 !important;
-    opacity: 0;
-    transition: opacity 0.5s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8) !important;
+    z-index: 100 !important;
     
-    /* Isso corrige a distorção da rotação */
+    /* Força a visibilidade após o login */
+    opacity: 1 !important; 
+    pointer-events: all !important;
     transform-style: preserve-3d;
-    backface-visibility: hidden;
 }
 
-#terminal-dock.active {
-    opacity: 1 !important;
-}
-
-/* ÍCONES BRANCOS FORÇADOS */
+/* Botões brancos que saltam em vermelho */
 .dock-item {
-    width: 32px !important;
-    height: 32px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-shrink: 0 !important;
-    cursor: pointer !important;
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
 .dock-item i, .dock-item svg {
-    width: 18px !important;
-    height: 18px !important;
-    color: #ffffff !important; /* Branco puro */
-    stroke: #ffffff !important; /* Garante que o Lucide use branco */
-    display: block !important;
-    visibility: visible !important;
-    z-index: 1001 !important;
+    color: #ffffff !important;
+    width: 20px !important;
+    height: 20px !important;
 }
 
-/* Efeito Vermelho ao Clicar */
-.dock-item.is-active i, .dock-item.is-active svg {
-    color: #ff0033 !important;
-    stroke: #ff0033 !important;
-    filter: drop-shadow(0 0 8px #ff0033) !important;
+.dock-item.is-active i {
+    color: #ff0044 !important;
+    filter: drop-shadow(0 0 10px #ff0044) !important;
 }
 
 .dock-item.is-active {
-    transform: scale(1.2) translateZ(30px) !important;
+    transform: scale(1.3) translateZ(40px) !important;
 }
