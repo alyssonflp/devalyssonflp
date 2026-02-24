@@ -25,7 +25,7 @@
 import { init3D } from './modules/interface_3d.js';
 import { initDock } from './modules/dock.js';
 import { initTerminal } from './modules/terminal.js';
-import { initSystemInfo } from './modules/system-info.js';
+import { initSystemInfo } from './modules/info_sistema.js';
 import { initBoot } from './intro/boot.js';
 
 
