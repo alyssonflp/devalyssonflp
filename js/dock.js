@@ -1,3 +1,4 @@
+/* --- JS/DOCK.JS ATUALIZADO --- */
 import { toggleHologram } from './hologram-engine.js';
 
 export function initDock() {
@@ -18,51 +19,43 @@ export function initDock() {
         const iconBtn = document.createElement('div');
         iconBtn.className = 'dock-item';
         iconBtn.setAttribute('data-label', item.label);
-        iconBtn.innerHTML = `<i data-lucide="${item.lucide}"></i>`;
+        // Forçamos a estrutura interna para o Lucide
+        iconBtn.innerHTML = `<i data-lucide="${item.lucide}" style="width:20px; height:20px;"></i>`;
         
         iconBtn.onclick = (e) => {
             e.stopPropagation();
-            
-            // Ativa o estado visual
             document.querySelectorAll('.dock-item').forEach(el => el.classList.remove('is-active'));
             iconBtn.classList.add('is-active');
 
-            // Simula digitação e abre o holograma
             simulateTyping(`/${item.name}`, iconBtn, () => {
                 const monitor = document.getElementById('desktop-3d');
                 const rotationY = monitor ? parseFloat(monitor.dataset.rotationY) || 0 : 0;
-                
-                toggleHologram(item.name, rotationY);
-                
-                // Feedback: mantém vermelho por 1s após abrir
+                if (typeof toggleHologram === 'function') toggleHologram(item.name, rotationY);
                 setTimeout(() => iconBtn.classList.remove('is-active'), 1000);
             });
         };
-
         dockContainer.appendChild(iconBtn);
     });
 
+    // Tenta renderizar os ícones imediatamente e tenta novamente após 100ms por segurança
     if (window.lucide) {
         window.lucide.createIcons();
+        setTimeout(() => window.lucide.createIcons(), 100);
     }
 }
 
 async function simulateTyping(command, iconBtn, onFinish) {
     const input = document.getElementById('terminal-input');
     if (!input) return onFinish?.();
-
     input.value = '';
     iconBtn.classList.add('is-typing');
-
     for (const char of command) {
         input.value += char;
         input.dispatchEvent(new Event('input', { bubbles: true }));
         await new Promise(r => setTimeout(r, 40)); 
     }
-
     await new Promise(r => setTimeout(r, 200));
     input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
-    
     iconBtn.classList.remove('is-typing');
     if (onFinish) onFinish();
 }
