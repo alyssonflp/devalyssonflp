@@ -1,30 +1,15 @@
-// js/core/state.js
+// =====================================================
+// 🧠 axiomOS — Estado Global
+// =====================================================
+//
+// Este arquivo guarda o estado central do sistema.
+// Todas as decisões de UI e dados dinâmicos devem
+// referenciar este objeto para manter consistência.
+//
 
-// 🧠 Estado central da aplicação
-// Aqui guardamos tudo que pode ser compartilhado entre módulos
-// sem precisar que um importe o outro diretamente.
-
-const state = {
-    currentRotationY: 0,
-    activeSection: null
+export const OSState = {
+    isStarted: false,         // Sistema já iniciou?
+    currentRotationY: 0,      // Rotação Y do monitor 3D
+    currentRotationX: 0,      // Rotação X do monitor 3D
+    activeHologram: null      // Holograma ativo
 };
-
-// 📌 Atualiza a rotação do monitor
-export function setRotationY(value) {
-    state.currentRotationY = value;
-}
-
-// 📌 Retorna rotação atual
-export function getRotationY() {
-    return state.currentRotationY;
-}
-
-// 📌 Define seção ativa
-export function setActiveSection(section) {
-    state.activeSection = section;
-}
-
-// 📌 Retorna seção ativa
-export function getActiveSection() {
-    return state.activeSection;
-}
