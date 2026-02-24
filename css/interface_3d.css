@@ -1,30 +1,17 @@
 /* ======================================================
    ALYSSON OS — INTERFACE 3D ENGINE STYLESHEET
    Versão Profissional Refinada
-   ====================================================== */
-
-
-/* ======================================================
-   FONTE LOCAL — Share Tech Mono
-   Carregamento otimizado
 ====================================================== */
 
-@font-face {
-    font-family: 'Share Tech Mono';
-    src: local('Share Tech Mono'),
-         url('../webfonts/ShareTechMono-Regular.woff2') format('woff2'),
-         url('../webfonts/ShareTechMono-Regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
+/* ======================================================
+   FONTE LOCAL SUBSTITUÍDA POR GOOGLE FONTS
+====================================================== */
 
 body {
     margin: 0;
     font-family: 'Share Tech Mono', monospace;
     background-color: #000;
 }
-
 
 /* ======================================================
    CLASSE DE TRANSIÇÃO GLOBAL
@@ -36,7 +23,6 @@ body {
     pointer-events: none;
     visibility: hidden;
 }
-
 
 /* ======================================================
    AMBIENTE 3D
@@ -55,7 +41,6 @@ body {
     align-items: center;
     user-select: none;
 }
-
 
 /* ======================================================
    MONITOR PRINCIPAL
@@ -86,7 +71,6 @@ body {
     flex-direction: column;
 }
 
-
 /* ======================================================
    BORDA NEON DEGRADÊ
 ====================================================== */
@@ -109,7 +93,6 @@ body {
     pointer-events: none;
 }
 
-
 /* ======================================================
    CONTEÚDO INTERNO
 ====================================================== */
@@ -123,7 +106,6 @@ body {
     overflow-y: auto;
 }
 
-
 /* ======================================================
    FOOTER DE INFORMAÇÕES (LINHA ÚNICA)
 ====================================================== */
@@ -135,7 +117,7 @@ body {
     right: 40px;
 
     display: flex;
-    justify-content: center; /* centraliza linha única */
+    justify-content: center; 
     align-items: center;
 
     font-family: 'Share Tech Mono', monospace;
@@ -150,14 +132,12 @@ body {
     text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
 }
 
-
 /* Linha única do sistema */
 .system-info-line {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
 
 /* ======================================================
    RESPONSIVIDADE
@@ -178,10 +158,8 @@ body {
     }
 }
 
-
-/* Desktop maior */
 @media (min-width: 1200px) {
     #info-footer {
         font-size: 14px;
     }
-                        }
+   }
