@@ -1,4 +1,6 @@
-// js/modules/dock.js
+// ======================================================
+// ALYSSON OS — Dock Module
+// ======================================================
 
 // 🚀 Dock visual inferior
 // Ele NÃO sabe o que é holograma.
@@ -18,15 +20,17 @@ export function initDock() {
         { name: "contact", icon: "mail" }
     ];
 
+    // Limpa dock
     dock.innerHTML = "";
 
     items.forEach(item => {
 
         const button = document.createElement("button");
         button.classList.add("dock-item");
+        button.type = "button";
         button.innerHTML = `<i data-lucide="${item.icon}"></i>`;
 
-        // 🎯 Comunicação limpa com controller
+        // 🎯 Comunicação com controller
         button.addEventListener("click", () => {
             openSection(item.name);
         });
@@ -38,4 +42,7 @@ export function initDock() {
     if (window.lucide) {
         window.lucide.createIcons();
     }
+
+    // 🔥 ATIVA O DOCK (estava faltando isso)
+    dock.classList.add("active");
 }
