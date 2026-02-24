@@ -1,59 +1,99 @@
-/* --- CSS/DOCK.CSS ATUALIZADO --- */
-
 #terminal-dock {
     position: absolute !important;
-    /* Colamos no fundo. Se ainda houver gap, diminua para -40px ou -35px */
-    bottom: -48px !important; 
+    bottom: -48px !important; /* Colado na linha de baixo */
     left: 50% !important;
     transform: translateX(-50%) !important;
-
-    /* Reset de Dimensões para Barra Horizontal */
-    width: max-content !important; /* Ajusta ao tamanho dos ícones */
+    
+    width: max-content !important;
     height: 48px !important;
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 12px !important;
-    padding: 0 15px !important;
+    gap: 15px !important;
+    padding: 0 20px !important;
 
-    /* Estética de Painel Frontal */
-    background: #0a0a0a !important;
+    /* Visual de Hardware Encaixado */
+    background: #000 !important;
     border: 2px solid #222 !important;
-    border-top: none !important; /* Remove a borda de cima para "colar" no monitor */
-    border-radius: 0 0 10px 10px !important;
+    border-top: none !important; /* Fusão com o terminal */
+    border-radius: 0 0 12px 12px !important;
     box-shadow: 0 10px 20px rgba(0,0,0,0.8) !important;
     
-    z-index: 10000 !important;
+    /* Garante que o clique funcione */
+    z-index: 10001 !important;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.5s ease;
+    transform-style: preserve-3d;
 }
 
 #terminal-dock.active {
     opacity: 1 !important;
-    pointer-events: all !important;
+    pointer-events: all !important; /* Habilita o clique aqui */
 }
 
-/* IMPORTANTE: Garante que os ícones apareçam */
 .dock-item {
-    width: 32px !important;
-    height: 32px !important;
+    width: 35px !important;
+    height: 35px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     flex-shrink: 0 !important;
-    background: #1a1a1a !important;
-    border: 1px solid #333 !important;
-    border-radius: 6px !important;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer !important;
+    position: relative;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
 }
 
+/* Cor Padrão: BRANCO */
 .dock-item i, .dock-item svg {
-    width: 18px !important;
-    height: 18px !important;
-    display: block !important; /* Garante visibilidade */
-    color: #00d4ff !important;
+    width: 20px !important;
+    height: 20px !important;
+    color: #ffffff !important;
+    transition: all 0.3s ease !important;
+    pointer-events: none; /* Deixa o clique passar para o botão pai */
 }
 
-/* Se o dock sumir, adicione esta regra ao container pai no seu CSS principal: */
-/* #seu-container-do-terminal { overflow: visible !important; } */
+/* Efeito ao Clicar: VERMELHO e VIR PARA FRENTE */
+.dock-item.is-active i, .dock-item.is-active svg {
+    color: #ff0044 !important;
+    filter: drop-shadow(0 0 10px #ff0044) !important;
+}
+
+.dock-item.is-active {
+    transform: scale(1.3) translateZ(30px) !important;
+}
+
+/* TÍTULO DO ÍCONE (Tooltip) */
+.dock-item::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 55px; /* Aparece dentro da tela do monitor */
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    background: #ffffff;
+    color: #000;
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    z-index: 10002;
+}
+
+.dock-item:hover:not(.is-typing)::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Esconde título enquanto digita */
+.dock-item.is-typing::after {
+    display: none !important;
+}
