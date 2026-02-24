@@ -5,7 +5,7 @@
 import { initInterface3D } from './modules/interface_3d.js';
 import { initDock } from './modules/dock.js';
 import { initTerminal } from './modules/terminal.js';
-import { initSystemInfo } from './core/system-info.js';
+import { initSystemInfo } from './modules/system-info.js';
 import './intro/boot.js';  // Boot separado
 import { state } from './core/state.js';
 import { toggleHologram } from './modules/hologram.js';
