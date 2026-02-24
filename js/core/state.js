@@ -1,16 +1,10 @@
-// =====================================================
-// axiomOS - State Global
-// =====================================================
-//
-// Aqui guardamos estados compartilhados do sistema.
-// Todos os módulos podem importar e atualizar.
-// Ex.: monitor rotation, dock ativo, hologramas abertos.
-//
+/**
+ * state.js - Estado global do AxiomOS
+ * Guarda informações compartilhadas entre módulos.
+ */
 
 export const state = {
-  isBooting: true,
-  currentRotationY: 0,
-  currentRotationX: 0,
-  dockActive: false,
-  hologramOpen: false,
+    started: false,           // Sistema já iniciado
+    currentRotationY: 0,      // Rotação Y do monitor 3D
+    currentRotationX: 0       // Rotação X do monitor 3D
 };
