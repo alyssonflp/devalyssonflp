@@ -22,8 +22,8 @@
     backdrop-filter: blur(15px);
 
     border-radius: 18px;
-    border: 1px solid rgba(0, 0, 0, 0.85);
-
+    /* border removida */
+    /* box-shadow mantido para profundidade */
     box-shadow:
         0 25px 45px rgba(0,0,0,0.85),
         0 0 10px rgba(46, 163, 255, 0.15);
@@ -54,5 +54,3 @@
     color: #2ea3ff;
     text-shadow:
         0 0 6px rgba(46, 163, 255, 0.6),
-        0 0 12px rgba(46, 163, 255, 0.35);
-}
