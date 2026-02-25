@@ -1,7 +1,12 @@
+/* ======================================================
+   ALYSSON OS — DOCK INFERIOR REFINADO
+   Apenas cores e efeitos, layout e tamanho preservados
+====================================================== */
+
 #terminal-dock {
     position: absolute;
     left: 50%;
-    bottom: -52px; /* 🔥 valor negativo agora */
+    bottom: -52px; /* 🔥 valor negativo ajustado */
 
     transform: translateX(-50%) translateZ(60px);
 
@@ -13,15 +18,15 @@
     align-items: center;
     gap: 20px;
 
-    background: rgba(15, 20, 35, 0.9);
+    background: rgba(18, 22, 32, 0.92);
     backdrop-filter: blur(15px);
 
     border-radius: 18px;
-    border: 1px solid rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.85);
 
     box-shadow:
-        0 25px 45px rgba(0,0,0,0.7),
-        0 0 18px rgba(0, 212, 255, 0.4);
+        0 25px 45px rgba(0,0,0,0.85),
+        0 0 10px rgba(46, 163, 255, 0.15);
 }
 
 .dock-item {
@@ -35,12 +40,19 @@
     transition: 0.25s ease;
 }
 
-.dock-item:hover {
-    transform: translateY(-4px);
-}
-
 .dock-item i {
     width: 22px;
     height: 22px;
-    color: #00d4ff;
+    color: #d6dbe3;
+}
+
+.dock-item:hover i {
+    color: #2ea3ff;
+}
+
+.dock-item.active i {
+    color: #2ea3ff;
+    text-shadow:
+        0 0 6px rgba(46, 163, 255, 0.6),
+        0 0 12px rgba(46, 163, 255, 0.35);
 }
