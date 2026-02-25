@@ -1,6 +1,5 @@
 /* ======================================================
    ALYSSON OS — INTERFACE 3D ENGINE STYLESHEET
-   Versão com Central de Controle Integrada
 ====================================================== */
 
 body {
@@ -62,9 +61,6 @@ body {
 
     cursor: grab;
     transition: transform 0.1s ease-out;
-
-    display: flex;
-    flex-direction: column;
 }
 
 /* ===============================
@@ -104,11 +100,12 @@ body {
 
 /* ===============================
    FOOTER SISTEMA
+   (CORRIGIDO — agora fica preso ao monitor)
 ================================ */
 
 #info-footer {
-    position: fixed;
-    bottom: 25px;
+    position: absolute;   /* ← ERA fixed */
+    bottom: 15px;
     left: 40px;
     right: 40px;
 
@@ -119,7 +116,6 @@ body {
     font-size: 11px;
     color: rgba(0, 212, 255, 0.8);
 
-    z-index: 9999;
     pointer-events: none;
 
     text-transform: uppercase;
