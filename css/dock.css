@@ -1,7 +1,7 @@
 #terminal-dock {
     position: absolute;
     left: 50%;
-    bottom: -20px; /* 🔥 compensação visual da borda + sombra */
+    bottom: 10px; /* 🔥 valor positivo agora */
 
     transform: translateX(-50%) translateZ(60px);
 
