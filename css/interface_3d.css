@@ -1,5 +1,6 @@
 /* ======================================================
-   ALYSSON OS — INTERFACE 3D ENGINE STYLESHEET
+   ALYSSON OS — INTERFACE 3D ENGINE STYLESHEET REFINADA
+   Somente cores e efeitos ajustados para profissional
 ====================================================== */
 
 body {
@@ -52,12 +53,12 @@ body {
     transform: translate(-50%, -50%) rotateY(25deg) rotateX(10deg);
     transform-style: preserve-3d;
 
-    background: rgba(10, 15, 30, 0.45);
+    background: rgba(14, 18, 28, 0.55);
     backdrop-filter: blur(20px) saturate(180%);
 
     box-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.35),
-        0 0 15px rgba(0, 212, 255, 0.35);
+        0 30px 70px rgba(0, 0, 0, 0.65),
+        0 0 12px rgba(46, 163, 255, 0.18);
 
     cursor: grab;
     transition: transform 0.1s ease-out;
@@ -73,7 +74,7 @@ body {
     inset: 0;
     border-radius: 40px;
     padding: 2px;
-    background: linear-gradient(135deg, #00d4ff 0%, #ff007a 100%);
+    background: linear-gradient(135deg, #1b2233 0%, #2ea3ff 100%);
 
     -webkit-mask:
         linear-gradient(#fff 0 0) content-box,
@@ -104,7 +105,7 @@ body {
 ================================ */
 
 #info-footer {
-    position: absolute;   /* ← ERA fixed */
+    position: absolute;
     bottom: 15px;
     left: 40px;
     right: 40px;
@@ -114,7 +115,7 @@ body {
     align-items: center;
 
     font-size: 11px;
-    color: rgba(0, 212, 255, 0.8);
+    color: rgba(46, 163, 255, 0.85);
 
     pointer-events: none;
 
@@ -133,7 +134,6 @@ body {
 ================================ */
 
 @media (max-width: 768px) {
-
     .main-terminal {
         width: 92vw;
         height: 48vh;
