@@ -74,16 +74,21 @@ body {
     inset: 0;
     border-radius: 40px;
     padding: 2px;
-    background: linear-gradient(135deg, #1a1d24 0%, #2e3a50 100%);
+   
+    /* Mistura rosa + azul */
+    background: linear-gradient(135deg, #ff69b4 0%, #2ea3ff 100%); /* rosa → azul */
 
     -webkit-mask:
         linear-gradient(#fff 0 0) content-box,
         linear-gradient(#fff 0 0);
-
     -webkit-mask-composite: xor;
     mask-composite: exclude;
 
     pointer-events: none;
+
+    /* brilho leve para neon */
+    box-shadow: 0 0 12px rgba(46, 163, 255, 0.35),
+                0 0 8px rgba(255, 105, 180, 0.2);
 }
 
 /* ===============================
