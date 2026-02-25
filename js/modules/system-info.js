@@ -1,30 +1,63 @@
 // =====================================================
-// axiomOS - System Info
+// axiomOS - System Info Module
 // =====================================================
-//
-// Captura informações do sistema (IP, localização, navegador)
-// e exibe no footer.
-//
 
-export async function initSystemInfo() {
+export function initSystemInfo() {
   const footer = document.getElementById("info-footer");
   if (!footer) return;
 
-  let ip = "Indisponível", city = "", country = "", browser = navigator.userAgent;
+  renderSystemInfo(footer);
+}
 
+async function renderSystemInfo(footer) {
   try {
-    const response = await fetch("https://api.ipify.org?format=json");
-    const data = await response.json();
-    ip = data.ip || ip;
-  } catch {
-    console.warn("Falha ao buscar IP");
+    // 1️⃣ Buscar IP
+    const ipRes = await fetch("https://api.ipify.org?format=json");
+    const ipData = await ipRes.json();
+    const ip = ipData.ip || "Unknown";
+
+    // 2️⃣ Buscar Cidade
+    let city = "Unknown";
+    try {
+      const geoRes = await fetch(`https://ipapi.co/${ip}/json/`);
+      const geoData = await geoRes.json();
+      city = geoData.city || "Unknown";
+    } catch (e) {
+      console.warn("Erro ao buscar cidade:", e);
+    }
+
+    // 3️⃣ Navegador
+    const browser = getBrowserName();
+
+    // 4️⃣ Renderização
+    footer.innerHTML = `
+      <div class="system-info-line">
+        ${ip} &nbsp;&nbsp;|&nbsp;&nbsp; ${city} &nbsp;&nbsp;|&nbsp;&nbsp; ${browser}
+      </div>
+    `;
+  } catch (error) {
+    console.warn("Erro system-info:", error);
+    footer.textContent = "System Info Unavailable";
+  }
+}
+
+// 🔎 Detectar navegador limpo
+function getBrowserName() {
+  if (navigator.userAgentData && navigator.userAgentData.brands) {
+    const brands = navigator.userAgentData.brands;
+    const browser = brands.find(b =>
+      b.brand !== "Not A;Brand" &&
+      b.brand !== "Chromium"
+    );
+    return browser ? browser.brand : brands[0].brand;
   }
 
-  footer.innerHTML = `
-    <div>
-      <strong>IP:</strong> ${ip} <br>
-      <strong>LOC:</strong> ${city} ${country} <br>
-      <strong>BRW:</strong> ${browser}
-    </div>
-  `;
+  const ua = navigator.userAgent;
+
+  if (ua.includes("Firefox")) return "Firefox";
+  if (ua.includes("Edg")) return "Edge";
+  if (ua.includes("Chrome")) return "Chrome";
+  if (ua.includes("Safari")) return "Safari";
+
+  return "Unknown";
 }
