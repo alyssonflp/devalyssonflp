@@ -1,3 +1,27 @@
+/* ======================================================
+   ALYSSON OS — TERMINAL CSS REFINADO
+   Paleta Dracula com variáveis CSS, mantendo layout e estilos
+====================================================== */
+
+/* ===============================
+   VARIÁVEIS DRACULA
+================================ */
+:root {
+    --dracula-bg: #282a36;          /* fundo terminal */
+    --dracula-foreground: #f8f8f2;  /* texto padrão */
+    --dracula-comment: #6272a4;
+    --dracula-cyan: #8be9fd;
+    --dracula-green: #50fa7b;
+    --dracula-orange: #ffb86c;
+    --dracula-pink: #ff79c6;
+    --dracula-purple: #bd93f9;
+    --dracula-red: #ff5555;
+    --dracula-yellow: #f1fa8c;
+}
+
+/* ===============================
+   ROOT TERMINAL
+================================ */
 #root-terminal {
     width: 100%;
     height: 100%;
@@ -7,7 +31,7 @@
     box-sizing: border-box;
     overflow-y: auto; 
     overflow-x: hidden;
-    background: transparent;
+    background: var(--dracula-bg);
     scroll-behavior: smooth;
 }
 
@@ -19,6 +43,9 @@
     border-radius: 10px;
 }
 
+/* ===============================
+   PROMPT
+================================ */
 .prompt-container {
     display: flex;
     align-items: center;
@@ -29,20 +56,10 @@
     margin-bottom: 4px;
 }
 
-.terminal-history {
-    opacity: 0.9;
-    font-size: 13px;
-    animation: fadeIn 0.3s ease;
-}
-
-.prompt-user-white, 
-.prompt-sep, 
-.prompt-path, 
-.prompt-char {
-    color: #ffffff;
-    font-weight: normal;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
-}
+.prompt-user-white { color: var(--dracula-foreground); font-weight: normal; text-shadow: 0 0 5px rgba(255,255,255,0.1);}
+.prompt-sep { color: var(--dracula-purple); }
+.prompt-path { color: var(--dracula-cyan); }
+.prompt-char { color: var(--dracula-foreground); }
 
 .input-wrapper {
     flex: 1;
@@ -56,16 +73,21 @@
     border: none !important;
     outline: none !important;
     box-shadow: none !important;
-    color: #00d4ff;
+    color: var(--dracula-cyan);
     font-family: 'Share Tech Mono', monospace;
     font-size: 13px;
     width: 100%;
     padding: 0;
     margin: 0;
-    caret-color: #ffffff;
+    caret-color: var(--dracula-foreground);
     appearance: none;
 }
 
+#terminal-input::placeholder { color: rgba(248, 248, 242, 0.3); font-style: normal; font-size: 12px; }
+
+/* ===============================
+   TERMINAL OUTPUT
+================================ */
 .terminal-output {
     font-family: 'Share Tech Mono', monospace;
     padding-left: 20px;
@@ -73,16 +95,29 @@
     animation: fadeIn 0.2s ease;
 }
 
-.log-loading { color: rgba(255, 255, 255, 0.4); font-size: 12px; margin: 2px 0; }
-.log-done { color: #00ff41; font-size: 11px; margin-bottom: 8px; }
-.log-error { color: #ff3e3e; font-size: 12px; margin-bottom: 8px; }
-.log-help { color: #00d4ff; font-size: 12px; margin-bottom: 8px; }
+/* logs */
+.log-loading { color: var(--dracula-comment); font-size: 12px; margin: 2px 0; }
+.log-done { color: var(--dracula-green); font-size: 11px; margin-bottom: 8px; }
+.log-error { color: var(--dracula-red); font-size: 12px; margin-bottom: 8px; }
+.log-help { color: var(--dracula-cyan); font-size: 12px; margin-bottom: 8px; }
 
-#terminal-input::placeholder { color: rgba(255, 255, 255, 0.15); font-style: normal; font-size: 12px; }
+/* Exemplo para números e strings automáticos */
+.terminal-output .number { color: var(--dracula-yellow); }
+.terminal-output .string { color: var(--dracula-pink); }
+.terminal-output .keyword { color: var(--dracula-purple); }
 
-@keyframes fadeIn { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: translateY(0); } }
+/* ===============================
+   ANIMAÇÕES
+================================ */
+@keyframes fadeIn { 
+    from { opacity: 0; transform: translateY(2px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
 
+/* ===============================
+   RESPONSIVO
+================================ */
 @media (max-width: 768px) {
     .prompt-container, #terminal-input, .terminal-history { font-size: 11px; }
     .terminal-output { font-size: 10px; }
-   }
+    }
