@@ -1,3 +1,8 @@
+/* ======================================================
+   ALYSSON OS — TERMINAL CSS REFINADO
+   Tema Dracula profissional, layout intacto
+====================================================== */
+
 #root-terminal {
     width: 100%;
     height: 100%;
@@ -5,17 +10,18 @@
     flex-direction: column;
     padding: 15px;
     box-sizing: border-box;
-    overflow-y: auto; 
+    overflow-y: auto;
     overflow-x: hidden;
-    background: transparent;
+    background: #282a36; /* Fundo Dracula */
     scroll-behavior: smooth;
 }
 
 #root-terminal::-webkit-scrollbar {
     width: 4px;
 }
+
 #root-terminal::-webkit-scrollbar-thumb {
-    background: rgba(0, 212, 255, 0.2);
+    background: rgba(46, 163, 255, 0.2); /* Azul suave */
     border-radius: 10px;
 }
 
@@ -35,13 +41,13 @@
     animation: fadeIn 0.3s ease;
 }
 
-.prompt-user-white, 
-.prompt-sep, 
-.prompt-path, 
+.prompt-user-white,
+.prompt-sep,
+.prompt-path,
 .prompt-char {
-    color: #ffffff;
+    color: #f8f8f2; /* Branco Dracula suave */
     font-weight: normal;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
 }
 
 .input-wrapper {
@@ -56,13 +62,13 @@
     border: none !important;
     outline: none !important;
     box-shadow: none !important;
-    color: #00d4ff;
+    color: #50fa7b; /* Verde Dracula para input */
     font-family: 'Share Tech Mono', monospace;
     font-size: 13px;
     width: 100%;
     padding: 0;
     margin: 0;
-    caret-color: #ffffff;
+    caret-color: #ff79c6; /* Rosa destaque cursor */
     appearance: none;
 }
 
@@ -71,18 +77,26 @@
     padding-left: 20px;
     line-height: 1.4;
     animation: fadeIn 0.2s ease;
+    color: #f8f8f2;
 }
 
-.log-loading { color: rgba(255, 255, 255, 0.4); font-size: 12px; margin: 2px 0; }
-.log-done { color: #00ff41; font-size: 11px; margin-bottom: 8px; }
-.log-error { color: #ff3e3e; font-size: 12px; margin-bottom: 8px; }
-.log-help { color: #00d4ff; font-size: 12px; margin-bottom: 8px; }
+.log-loading { color: rgba(248, 248, 242, 0.4); font-size: 12px; margin: 2px 0; }
+.log-done { color: #50fa7b; font-size: 11px; margin-bottom: 8px; }
+.log-error { color: #ff5555; font-size: 12px; margin-bottom: 8px; }
+.log-help { color: #8be9fd; font-size: 12px; margin-bottom: 8px; }
 
-#terminal-input::placeholder { color: rgba(255, 255, 255, 0.15); font-style: normal; font-size: 12px; }
+#terminal-input::placeholder { 
+    color: rgba(248, 248, 242, 0.25); 
+    font-style: normal; 
+    font-size: 12px; 
+}
 
-@keyframes fadeIn { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { 
+    from { opacity: 0; transform: translateY(2px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
 
 @media (max-width: 768px) {
     .prompt-container, #terminal-input, .terminal-history { font-size: 11px; }
     .terminal-output { font-size: 10px; }
-   }
+    }
