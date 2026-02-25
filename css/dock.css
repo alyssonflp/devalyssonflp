@@ -1,7 +1,7 @@
 #terminal-dock {
     position: absolute;
     left: 50%;
-    bottom: -40px; /* 🔥 valor negativo agora */
+    bottom: -50px; /* 🔥 valor negativo agora */
 
     transform: translateX(-50%) translateZ(60px);
 
