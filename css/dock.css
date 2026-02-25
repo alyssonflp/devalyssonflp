@@ -1,33 +1,46 @@
-/**
- * AxiomOS — Módulo Dock Inferior
- * Integrado à interface 3D
- */
-export function initDock() {
-    const dock = document.getElementById("terminal-dock");
-    if (!dock) return;
+#terminal-dock {
+    position: absolute;
+    bottom: -15px; /* SOLDADO NA BASE */
+    left: 50%;
 
-    const icons = [
-        { name: 'about', lucide: 'user-circle', label: 'About' },
-        { name: 'skills', lucide: 'code-2', label: 'Skills' },
-        { name: 'experience', lucide: 'binary', label: 'Experience' },
-        { name: 'projects', lucide: 'layout-template', label: 'Projects' },
-        { name: 'ia', lucide: 'bot', label: 'I.A' }
-    ];
+    transform: translateX(-50%) translateZ(60px);
 
-    dock.innerHTML = '';
+    width: 300px;
+    height: 60px;
 
-    icons.forEach(item => {
-        const btn = document.createElement('div');
-        btn.className = 'dock-item';
-        btn.innerHTML = `<i data-lucide="${item.lucide}"></i>`;
-        btn.onclick = () => {
-            const input = document.getElementById('terminal-input');
-            if (input) input.value = `/${item.name}`;
-            input?.dispatchEvent(new Event('input', { bubbles: true }));
-            input?.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
-        };
-        dock.appendChild(btn);
-    });
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
 
-    if (window.lucide) window.lucide.createIcons();
-           }
+    background: rgba(15, 20, 35, 0.85);
+    backdrop-filter: blur(15px);
+
+    border-radius: 18px;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+
+    box-shadow:
+        0 20px 40px rgba(0,0,0,0.6),
+        0 0 15px rgba(0, 212, 255, 0.4);
+}
+
+.dock-item {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.dock-item:hover {
+    transform: translateY(-4px);
+}
+
+.dock-item i {
+    width: 22px;
+    height: 22px;
+    color: #00d4ff;
+}
