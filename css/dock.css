@@ -1,9 +1,9 @@
 #terminal-dock {
     position: absolute;
-    bottom: -15px; /* SOLDADO NA BASE */
+    bottom: 0; /* agora realmente colado */
     left: 50%;
 
-    transform: translateX(-50%) translateZ(60px);
+    transform: translateX(-50%) translateZ(50px);
 
     width: 300px;
     height: 60px;
