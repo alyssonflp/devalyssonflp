@@ -8,7 +8,7 @@ export function initInterface3D() {
     if (!terminal) return;
 
     let isDragging = false;
-    let rotationY = 25; // posição inicial no boot
+    let rotationY = 25;
     let rotationX = 10;
     let startX = 0;
     let startY = 0;
@@ -30,7 +30,7 @@ export function initInterface3D() {
         if (!isDragging) return;
         isDragging = false;
         terminal.style.transition =
-            "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)";
+            "transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)";
         terminal.style.cursor = "grab";
     };
 
@@ -43,7 +43,6 @@ export function initInterface3D() {
         rotationY += (x - startX) / 5;
         rotationX -= (y - startY) / 5;
 
-        // limites
         rotationY = Math.max(-80, Math.min(80, rotationY));
         rotationX = Math.max(-25, Math.min(25, rotationX));
 
@@ -53,16 +52,13 @@ export function initInterface3D() {
         startY = y;
     };
 
-    // Mouse
     terminal.addEventListener("mousedown", startDrag);
     window.addEventListener("mousemove", doDrag);
     window.addEventListener("mouseup", stopDrag);
 
-    // Touch
     terminal.addEventListener("touchstart", startDrag, { passive: false });
     window.addEventListener("touchmove", doDrag, { passive: false });
     window.addEventListener("touchend", stopDrag);
 
-    // Inicializa posição padrão
     updateTransform(rotationY, rotationX);
             }
