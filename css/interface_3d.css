@@ -8,10 +8,6 @@ body {
     background-color: #000;
 }
 
-/* ===============================
-   UTILITÁRIOS
-================================ */
-
 .hidden {
     display: none !important;
     opacity: 0;
@@ -35,6 +31,7 @@ body {
     justify-content: center;
     align-items: center;
     user-select: none;
+    position: relative; /* 🔥 IMPORTANTE */
 }
 
 /* ===============================
@@ -44,12 +41,14 @@ body {
 .main-terminal {
     width: 650px;
     height: 400px;
-    position: absolute;
-    top: 43%;
-    left: 50%;
+
+    position: relative; /* 🔥 AGORA É O CONTEXTO DO DOCK */
+    top: auto;
+    left: auto;
+
     border-radius: 40px;
 
-    transform: translate(-50%, -50%) rotateY(25deg) rotateX(10deg);
+    transform: rotateY(25deg) rotateX(10deg);
     transform-style: preserve-3d;
 
     background: rgba(10, 15, 30, 0.45);
@@ -61,6 +60,10 @@ body {
 
     cursor: grab;
     transition: transform 0.1s ease-out;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 🔥 garante base correta */
 }
 
 /* ===============================
@@ -100,12 +103,11 @@ body {
 
 /* ===============================
    FOOTER SISTEMA
-   (CORRIGIDO — agora fica preso ao monitor)
 ================================ */
 
 #info-footer {
-    position: absolute;   /* ← ERA fixed */
-    bottom: 15px;
+    position: absolute;
+    bottom: 70px; /* 🔥 sobe para não colidir com dock */
     left: 40px;
     right: 40px;
 
@@ -133,14 +135,13 @@ body {
 ================================ */
 
 @media (max-width: 768px) {
-
     .main-terminal {
         width: 92vw;
         height: 48vh;
     }
 
     #info-footer {
-        bottom: 12px;
+        bottom: 70px;
         left: 15px;
         right: 15px;
         font-size: 8.5px;
@@ -151,4 +152,4 @@ body {
     #info-footer {
         font-size: 14px;
     }
-   }
+}
