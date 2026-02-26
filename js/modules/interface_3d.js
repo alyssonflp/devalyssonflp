@@ -1,13 +1,17 @@
 /**
- * AxiomOS — Módulo de Interface 3D + Hello World
+ * AxiomOS — Módulo de Interface 3D + Hello World animado
+ * Mostra ASCII + mensagem com digitação dentro do monitor
  */
 
 export function initInterface3D() {
     const terminal = document.querySelector(".main-terminal");
     if (!terminal) return;
 
+    const wrapper = terminal.querySelector(".terminal-content-wrapper");
+    if (!wrapper) return;
+
     // ===============================
-    // ROTATION DO MONITOR (seu código existente)
+    // ROTATION DO MONITOR
     // ===============================
     let isDragging = false;
     let rotationY = 25;
@@ -26,7 +30,7 @@ export function initInterface3D() {
         startY = e.pageY || e.touches?.[0].pageY || 0;
         terminal.style.transition = "none";
         terminal.style.cursor = "grabbing";
-        hideWelcome();
+        hideWelcome(); // remove mensagem se interagir
     };
 
     const stopDrag = () => {
@@ -57,79 +61,105 @@ export function initInterface3D() {
     terminal.addEventListener("mousedown", startDrag);
     window.addEventListener("mousemove", doDrag);
     window.addEventListener("mouseup", stopDrag);
-
     terminal.addEventListener("touchstart", startDrag, { passive: false });
     window.addEventListener("touchmove", doDrag, { passive: false });
     window.addEventListener("touchend", stopDrag);
-
     updateTransform(rotationY, rotationX);
 
     // ===============================
-    // HELLO WORLD + MENSAGEM
+    // HELLO WORLD + MENSAGEM COM DIGITAÇÃO
     // ===============================
-    const wrapper = terminal.querySelector(".terminal-content-wrapper");
-    if (!wrapper) return;
+    const welcomeDiv = document.createElement("div");
+    welcomeDiv.style.textAlign = "center";
+    welcomeDiv.style.margin = "0 auto";
+    welcomeDiv.style.whiteSpace = "pre-wrap";
+    welcomeDiv.style.fontFamily = "'Share Tech Mono', monospace";
+    wrapper.appendChild(welcomeDiv);
 
-    const welcomeMessage = document.createElement("div");
-    welcomeMessage.style.width = "100%";
-    welcomeMessage.style.display = "flex";
-    welcomeMessage.style.flexDirection = "column";
-    welcomeMessage.style.alignItems = "center";
-    welcomeMessage.style.justifyContent = "center";
-    welcomeMessage.style.pointerEvents = "auto";
-    welcomeMessage.style.opacity = "1";
-    welcomeMessage.style.transition = "opacity 1s ease-out";
-
-    // ASCII rosa
     const asciiText = document.createElement("pre");
-    asciiText.style.color = "#ff007a"; // rosa do site
-    asciiText.style.fontFamily = "'Share Tech Mono', monospace";
+    asciiText.style.color = "#ff007a"; // rosa
     asciiText.style.fontWeight = "bold";
-    asciiText.style.textAlign = "center";
     asciiText.style.margin = "0";
     asciiText.style.whiteSpace = "pre-wrap";
-    asciiText.textContent = `
-  _   _      _ _        __        __         _     _ 
+
+    const messageText = document.createElement("div");
+    messageText.style.color = "#00ff00"; // verde terminal
+    messageText.style.marginTop = "10px";
+    messageText.style.whiteSpace = "pre-wrap";
+
+    welcomeDiv.appendChild(asciiText);
+    welcomeDiv.appendChild(messageText);
+
+    // Texto linha a linha
+    const asciiLines = [
+`  _   _      _ _        __        __         _     _ 
  | | | | ___| | | ___   \\ \\      / /__  _ __| | __| |
  | |_| |/ _ \\ | |/ _ \\   \\ \\ /\\ / / _ \\| '__| |/ _\` |
  |  _  |  __/ | | (_) |   \\ V  V / (_) | |  | | (_| |
  |_| |_|\\___|_|_|\\___( )   \\_/\\_/ \\___/|_|  |_|\\__,_|
                      |/                                
-    `;
+    `
+    ];
 
-    // Mensagem verde
-    const messageText = document.createElement("div");
-    messageText.style.color = "#00ff00"; // cor do terminal do seu CSS
-    messageText.style.fontFamily = "'Share Tech Mono', monospace";
-    messageText.style.textAlign = "center";
-    messageText.style.marginTop = "10px";
-    messageText.style.whiteSpace = "pre-wrap";
-    messageText.textContent = `
-Olá! Seja bem-vindo ao meu site! 🌟
+    const messageLines = [
+`Olá! Seja bem-vindo ao meu site! 🌟
 Para saber mais sobre mim, clique nos botões abaixo ou digite /help.
-Aqui você vai encontrar um pouco mais sobre mim, fugindo da trivialidade de um linktree.
-    `;
+Aqui você vai encontrar um pouco mais sobre mim, fugindo da trivialidade de um linktree.`
+    ];
 
-    welcomeMessage.appendChild(asciiText);
-    welcomeMessage.appendChild(messageText);
-    wrapper.appendChild(welcomeMessage);
+    let currentLine = 0;
+    let currentChar = 0;
 
-    // Desaparece sozinho após leitura
-    const displayTime = 12000;
-    let hideTimeout = setTimeout(hideWelcome, displayTime);
-
-    function hideWelcome() {
-        if (welcomeMessage) {
-            welcomeMessage.style.opacity = "0";
-            setTimeout(() => welcomeMessage.remove(), 1000);
+    function typeAscii() {
+        if (currentLine < asciiLines.length) {
+            asciiText.textContent += asciiLines[currentLine][currentChar] || '';
+            currentChar++;
+            if (currentChar < asciiLines[currentLine].length) {
+                setTimeout(typeAscii, 10);
+            } else {
+                currentLine++;
+                currentChar = 0;
+                asciiText.textContent += '\n';
+                setTimeout(typeAscii, 10);
+            }
+        } else {
+            currentLine = 0;
+            currentChar = 0;
+            typeMessage();
         }
     }
 
-    // Remove imediatamente se usuário clicar ou digitar
+    function typeMessage() {
+        if (currentLine < messageLines.length) {
+            messageText.textContent += messageLines[currentLine][currentChar] || '';
+            currentChar++;
+            if (currentChar < messageLines[currentLine].length) {
+                setTimeout(typeMessage, 10);
+            } else {
+                currentLine++;
+                currentChar = 0;
+                messageText.textContent += '\n';
+            }
+        }
+    }
+
+    typeAscii();
+
+    // Remove a mensagem após 12s ou interação
+    const timeout = setTimeout(hideWelcome, 12000);
+
+    function hideWelcome() {
+        if (welcomeDiv) {
+            welcomeDiv.style.transition = "opacity 1s";
+            welcomeDiv.style.opacity = "0";
+            setTimeout(() => welcomeDiv.remove(), 1000);
+        }
+    }
+
     ["click","keydown"].forEach(evt => {
         wrapper.addEventListener(evt, () => {
-            clearTimeout(hideTimeout);
+            clearTimeout(timeout);
             hideWelcome();
         });
     });
-        }
+            }
