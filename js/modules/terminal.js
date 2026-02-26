@@ -1,5 +1,5 @@
 // =====================================================
-// axiomOS - Terminal com pré-mensagem, IP e clique para pular
+// axiomOS - Terminal com pré-mensagem neon
 // =====================================================
 
 export async function initTerminal() {
@@ -15,7 +15,7 @@ export async function initTerminal() {
 }
 
 // ===============================
-// FUNÇÃO DE PRÉ-MENSAGEM
+// PRÉ-MENSAGEM COM EFEITO NEON
 // ===============================
 async function showPreMessage(container) {
   const ipInfo = await fetch('/api/get-ip')
@@ -23,56 +23,59 @@ async function showPreMessage(container) {
     .catch(() => ({ ip: 'Indisponível', city: 'Indisponível', userAgent: 'Indisponível' }));
 
   const messages = [
-    { text: `
- _   _      _ _        __        __         _     _ 
-| | | | ___| | | ___   \\ \\      / /__  _ __| | __| |
-| |_| |/ _ \\ | |/ _ \\   \\ \\ /\\ / / _ \\| '__| |/ _\` |
-|  _  |  __/ | | (_) |   \\ V  V / (_) | |  | | (_| |
-|_| |_|\\___|_|_|\\___/     \\_/\\_/ \\___/|_|  |_|\\__,_|
-`, color: '#ff79c6' }, // rosa ASCII
-    { text: 'Olá! Seja bem-vindo ao meu site!', color: '' },
-    { text: 'Para saber mais sobre mim, clique nos botões abaixo ou digite /help.', color: '' },
-    { text: 'Aqui você vai encontrar um pouco mais sobre mim, fugindo da trivialidade de um linktree.', color: '' },
-    { text: `Seu IP: ${ipInfo.ip} | Cidade: ${ipInfo.city} | Navegador: ${ipInfo.userAgent}`, color: '' }
+    { text: " _   _      _ _        __        __         _     _ ", color: '#ff79c6', bold:true },
+    { text: "| | | | ___| | | ___   \\ \\      / /__  _ __| | __| |", color: '#ff79c6', bold:true },
+    { text: "| |_| |/ _ \\ | |/ _ \\   \\ \\ /\\ / / _ \\| '__| |/ _` |", color: '#ff79c6', bold:true },
+    { text: "|  _  |  __/ | | (_) |   \\ V  V / (_) | |  | | (_| |", color: '#ff79c6', bold:true },
+    { text: "|_| |_|\\___|_|_|\\___/     \\_/\\_/ \\___/|_|  |_|\\__,_|", color: '#ff79c6', bold:true },
+    { text: 'Olá! Seja bem-vindo ao meu site!', color: 'var(--dracula-foreground)', bold:false },
+    { text: 'Para saber mais sobre mim, clique nos botões abaixo ou digite /help.', color: 'var(--dracula-foreground)', bold:false },
+    { text: 'Aqui você vai encontrar um pouco mais sobre mim, fugindo da trivialidade de um linktree.', color: 'var(--dracula-foreground)', bold:false },
+    { text: `Seu IP: ${ipInfo.ip} | Cidade: ${ipInfo.city} | Navegador: ${ipInfo.userAgent}`, color: 'var(--dracula-foreground)', bold:false }
   ];
 
   let skip = false;
-  const removeMessage = () => { skip = true; container.innerHTML = ''; };
-  
-  // Remove pré-mensagem ao clicar em qualquer lugar
+  const removeMessage = () => { skip = true; fadeOut(container); };
   container.addEventListener('click', removeMessage, { once: true });
-  
+
   // Auto-remove após 12 segundos
-  const autoRemove = setTimeout(removeMessage, 12000);
+  const autoRemove = setTimeout(() => { skip = true; fadeOut(container); }, 12000);
 
   for(const msg of messages) {
     if(skip) break;
-    await typeLine(container, msg.text, 25, msg.color || 'var(--dracula-foreground)');
-    const lineDiv = document.createElement('div');
-    lineDiv.className = 'terminal-output log-done';
-    container.appendChild(lineDiv);
-    container.scrollTop = container.scrollHeight;
-    await new Promise(r => setTimeout(r, 200)); // pausa entre linhas
+    await typeLine(container, msg.text, 15, msg.color, msg.bold);
   }
 
-  clearTimeout(autoRemove); // limpa o timeout se terminou antes
+  clearTimeout(autoRemove);
 }
 
 // ===============================
-// FUNÇÃO DE DIGITAÇÃO
+// DIGITAÇÃO COM EFEITO NEON
 // ===============================
-function typeLine(container, text, speed=50, color='var(--dracula-foreground)') {
+function typeLine(container, text, speed=50, color='var(--dracula-foreground)', bold=false) {
   return new Promise(resolve => {
     const lineDiv = document.createElement('div');
     lineDiv.className = 'terminal-output log-done';
     lineDiv.style.color = color;
+    lineDiv.style.whiteSpace = 'pre'; // mantém espaçamento do ASCII
+    lineDiv.style.fontWeight = bold ? 'bold' : 'normal';
+
+    // Adiciona neon
+    lineDiv.style.textShadow = `
+      0 0 4px ${color},
+      0 0 8px ${color},
+      0 0 12px ${color},
+      0 0 16px ${color},
+      0 0 20px ${color}
+    `;
+
     container.appendChild(lineDiv);
-    container.scrollTop = container.scrollHeight;
+    container.scrollLeft = container.scrollWidth;
 
     let i = 0;
     const interval = setInterval(() => {
       lineDiv.textContent += text[i];
-      container.scrollTop = container.scrollHeight;
+      container.scrollLeft = container.scrollWidth;
       i++;
       if(i >= text.length) {
         clearInterval(interval);
@@ -80,6 +83,15 @@ function typeLine(container, text, speed=50, color='var(--dracula-foreground)') 
       }
     }, speed);
   });
+}
+
+// ===============================
+// FUNÇÃO FADE-OUT SUAVE
+// ===============================
+function fadeOut(container) {
+  container.style.transition = 'opacity 1s ease';
+  container.style.opacity = 0;
+  setTimeout(() => container.innerHTML='', 1000);
 }
 
 // ===============================
@@ -108,6 +120,9 @@ function createPrompt(container) {
   input.addEventListener('keydown', e => { if(e.key==='Enter') handleCommand(e.target.value.trim().toLowerCase(), container); });
 }
 
+// ===============================
+// HANDLE COMMAND EXISTENTE
+// ===============================
 async function handleCommand(cmd, container) {
   if(!cmd) return;
 
