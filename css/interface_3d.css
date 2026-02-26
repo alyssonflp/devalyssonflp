@@ -1,6 +1,6 @@
 /* ======================================================
    ALYSSON OS — INTERFACE 3D ENGINE STYLESHEET
-   GLASS MIXED PURPLE + CURRENT BACKGROUND
+   ULTRA TRANSPARENT GLASS MODE
 ====================================================== */
 
 body {
@@ -31,7 +31,7 @@ body {
     background-size: cover;
     background-position: center;
     perspective: 1500px;
-    overflow: visible;
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -39,7 +39,7 @@ body {
 }
 
 /* ===============================
-   MONITOR PRINCIPAL — MIX ROXO + AZUL
+   MONITOR PRINCIPAL — ULTRA TRANSPARENTE
 ================================ */
 
 .main-terminal {
@@ -53,28 +53,26 @@ body {
     transform: translate(-50%, -50%) rotateY(25deg) rotateX(10deg);
     transform-style: preserve-3d;
 
-    /* GRADIENTE MULTICAMADA */
-    background:
-        linear-gradient(
-            140deg,
-            rgba(90, 0, 150, 0.18),   /* ROXO PROFUNDO */
-            rgba(0, 200, 255, 0.12),  /* AZUL ATUAL */
-            rgba(20, 0, 40, 0.10)
-        );
+    /* ROXO + AZUL MAIS TRANSPARENTE */
+    background: linear-gradient(
+        140deg,
+        rgba(90, 0, 150, 0.12),
+        rgba(0, 200, 255, 0.08),
+        rgba(20, 0, 40, 0.06)
+    );
 
-    backdrop-filter: blur(60px) saturate(170%) brightness(105%);
-    -webkit-backdrop-filter: blur(60px) saturate(170%) brightness(105%);
+    backdrop-filter: blur(70px) saturate(160%) brightness(105%);
+    -webkit-backdrop-filter: blur(70px) saturate(160%) brightness(105%);
 
-    border: 1px solid rgba(140, 90, 255, 0.22);
+    border: 1px solid rgba(140, 90, 255, 0.18);
 
-    /* SOMBRA CONTROLADA */
+    /* SOMBRA MAIS LEVE */
     box-shadow:
-        0 25px 60px rgba(0, 0, 0, 0.65),
-        inset 0 0 40px rgba(120, 60, 255, 0.06);
+        0 20px 50px rgba(0, 0, 0, 0.55);
 
     cursor: grab;
     transition: transform 0.1s ease-out;
-    overflow: hidden;
+    overflow: visible; /* IMPORTANTE PARA NÃO SUMIR DOCK */
 }
 
 /* ===============================
@@ -111,7 +109,7 @@ body {
 }
 
 /* ===============================
-   REFLEXO SUAVE
+   REFLEXO MUITO SUAVE
 ================================ */
 
 .main-terminal::after {
@@ -119,22 +117,22 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    height: 45%;
+    height: 40%;
     width: 100%;
     border-radius: 40px;
 
     background: linear-gradient(
         to bottom,
-        rgba(255,255,255,0.10),
+        rgba(255,255,255,0.06),
         transparent
     );
 
-    opacity: 0.2;
+    opacity: 0.15;
     pointer-events: none;
 }
 
 /* ===============================
-   ANIMAÇÃO BORDA
+   ANIMAÇÃO DA BORDA
 ================================ */
 
 @keyframes borderFlow {
@@ -172,12 +170,12 @@ body {
     align-items: center;
 
     font-size: 11px;
-    color: rgba(150, 100, 255, 0.9);
+    color: rgba(160, 120, 255, 0.85);
 
     pointer-events: none;
 
     text-transform: uppercase;
-    text-shadow: 0 0 6px rgba(120, 60, 255, 0.4);
+    text-shadow: 0 0 4px rgba(120, 60, 255, 0.3);
 }
 
 .system-info-line {
@@ -209,4 +207,4 @@ body {
     #info-footer {
         font-size: 14px;
     }
-   }
+                         }
