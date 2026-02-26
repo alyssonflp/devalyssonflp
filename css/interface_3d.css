@@ -31,7 +31,7 @@ body {
     background-size: cover;
     background-position: center;
     perspective: 1500px;
-    overflow: hidden;
+    overflow: visible;
     display: flex;
     justify-content: center;
     align-items: center;
