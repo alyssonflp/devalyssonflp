@@ -1,23 +1,22 @@
 /* ======================================================
-   ALYSSON OS — TERMINAL CSS REFINADO
-   Transparente + Paleta Dracula aplicada
-   Cyan padrão atualizado para #0f504e
+   ALYSSON OS — TERMINAL CSS NEON REFINADO
+   Transparente + Paleta Dracula + Glow completo
 ====================================================== */
 
 /* ===============================
    VARIÁVEIS DRACULA
 ================================ */
 :root {
-    --dracula-bg: transparent;       /* fundo transparente */
-    --dracula-foreground: #f8f8f2;  /* texto padrão */
+    --dracula-bg: transparent;        /* fundo transparente */
+    --dracula-foreground: #f8f8f2;   /* texto padrão */
     --dracula-comment: #6272a4;
-    --dracula-cyan: #0f504e;        /* ✅ Atualizado */
+    --dracula-cyan: #0f504e;         /* cyan atualizado */
     --dracula-green: #50fa7b;
     --dracula-orange: #ffb86c;
     --dracula-pink: #ff79c6;
     --dracula-purple: #bd93f9;
     --dracula-red: #ff5555;
-    --dracula-yellow: #f1fa8c;      /* para números */
+    --dracula-yellow: #f1fa8c;       /* para números */
 }
 
 /* ===============================
@@ -30,17 +29,19 @@
     flex-direction: column;
     padding: 15px;
     box-sizing: border-box;
-    overflow-y: auto; 
+    overflow-y: auto;
     overflow-x: hidden;
     background: var(--dracula-bg);
     scroll-behavior: smooth;
+    color: var(--dracula-foreground);
+    text-shadow: 0 0 2px var(--dracula-foreground), 0 0 6px var(--dracula-foreground);
 }
 
 #root-terminal::-webkit-scrollbar {
     width: 4px;
 }
 #root-terminal::-webkit-scrollbar-thumb {
-    background: rgba(0, 212, 255, 0.2);
+    background: rgba(15, 80, 78, 0.5);
     border-radius: 10px;
 }
 
@@ -57,14 +58,22 @@
     margin-bottom: 4px;
 }
 
-.prompt-user-white { 
-    color: var(--dracula-foreground); 
-    font-weight: normal; 
-    text-shadow: 0 0 5px rgba(255,255,255,0.1);
+.prompt-user-white {
+    color: var(--dracula-foreground);
+    text-shadow: 0 0 4px var(--dracula-foreground), 0 0 12px var(--dracula-foreground);
 }
-.prompt-sep { color: var(--dracula-purple); }
-.prompt-path { color: var(--dracula-cyan); }
-.prompt-char { color: var(--dracula-foreground); }
+.prompt-sep {
+    color: var(--dracula-purple);
+    text-shadow: 0 0 4px var(--dracula-purple), 0 0 12px var(--dracula-purple);
+}
+.prompt-path {
+    color: var(--dracula-cyan);
+    text-shadow: 0 0 4px var(--dracula-cyan), 0 0 12px var(--dracula-cyan);
+}
+.prompt-char {
+    color: var(--dracula-foreground);
+    text-shadow: 0 0 4px var(--dracula-foreground), 0 0 12px var(--dracula-foreground);
+}
 
 .input-wrapper {
     flex: 1;
@@ -78,20 +87,21 @@
     border: none !important;
     outline: none !important;
     box-shadow: none !important;
-    color: var(--dracula-cyan);  /* ✅ Atualizado */
+    color: var(--dracula-cyan);
     font-family: 'Share Tech Mono', monospace;
     font-size: 13px;
     width: 100%;
     padding: 0;
     margin: 0;
     caret-color: var(--dracula-foreground);
+    text-shadow: 0 0 4px var(--dracula-cyan), 0 0 12px var(--dracula-cyan);
     appearance: none;
 }
 
-#terminal-input::placeholder { 
-    color: rgba(248, 248, 242, 0.3); 
-    font-style: normal; 
-    font-size: 12px; 
+#terminal-input::placeholder {
+    color: rgba(248, 248, 242, 0.3);
+    font-style: normal;
+    font-size: 12px;
 }
 
 /* ===============================
@@ -104,26 +114,56 @@
     animation: fadeIn 0.2s ease;
 }
 
-/* logs */
-.log-loading { color: var(--dracula-comment); font-size: 12px; margin: 2px 0; }
-.log-done { color: var(--dracula-green); font-size: 11px; margin-bottom: 8px; }
-.log-error { color: var(--dracula-red); font-size: 12px; margin-bottom: 8px; }
-.log-help { color: var(--dracula-cyan); font-size: 12px; margin-bottom: 8px; }
+/* ===============================
+   LOGS COM GLOW
+================================ */
+.log-loading {
+    color: var(--dracula-comment);
+    font-size: 12px;
+    margin: 2px 0;
+    text-shadow: 0 0 3px var(--dracula-comment), 0 0 8px var(--dracula-comment);
+}
+.log-done {
+    color: var(--dracula-green);
+    font-size: 11px;
+    margin-bottom: 8px;
+    text-shadow: 0 0 3px var(--dracula-green), 0 0 8px var(--dracula-green);
+}
+.log-error {
+    color: var(--dracula-red);
+    font-size: 12px;
+    margin-bottom: 8px;
+    text-shadow: 0 0 3px var(--dracula-red), 0 0 8px var(--dracula-red);
+}
+.log-help {
+    color: var(--dracula-cyan);
+    font-size: 12px;
+    margin-bottom: 8px;
+    text-shadow: 0 0 3px var(--dracula-cyan), 0 0 8px var(--dracula-cyan);
+}
 
 /* ===============================
    NÚMEROS, STRINGS, KEYWORDS
-   Para digitar números e destacar corretamente
 ================================ */
-.terminal-output .number { color: var(--dracula-yellow); }
-.terminal-output .string { color: var(--dracula-pink); }
-.terminal-output .keyword { color: var(--dracula-purple); }
+.terminal-output .number {
+    color: var(--dracula-yellow);
+    text-shadow: 0 0 4px var(--dracula-yellow), 0 0 10px var(--dracula-yellow);
+}
+.terminal-output .string {
+    color: var(--dracula-pink);
+    text-shadow: 0 0 4px var(--dracula-pink), 0 0 10px var(--dracula-pink);
+}
+.terminal-output .keyword {
+    color: var(--dracula-purple);
+    text-shadow: 0 0 4px var(--dracula-purple), 0 0 10px var(--dracula-purple);
+}
 
 /* ===============================
    ANIMAÇÕES
 ================================ */
-@keyframes fadeIn { 
-    from { opacity: 0; transform: translateY(2px); } 
-    to { opacity: 1; transform: translateY(0); } 
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(2px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* ===============================
@@ -132,4 +172,4 @@
 @media (max-width: 768px) {
     .prompt-container, #terminal-input, .terminal-history { font-size: 11px; }
     .terminal-output { font-size: 10px; }
-              }
+       }
