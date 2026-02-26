@@ -1,6 +1,6 @@
 /* ======================================================
-   AXIOM OS — CINEMATIC GLASS MODE
-   Ultra transparente + holograma suave
+   AXIOM OS — CINEMATIC GLASS RESPONSIVE
+   Estável + Transparente + Holográfico
 ====================================================== */
 
 body {
@@ -27,21 +27,23 @@ body {
 }
 
 /* ===============================
-   TERMINAL VIDRO CINEMÁTICO
+   TERMINAL VIDRO RESPONSIVO
 ================================ */
 
 .main-terminal {
-    width: 650px;
-    height: 400px;
+
+    width: clamp(320px, 65vw, 700px);
+    aspect-ratio: 16 / 10;
+
     position: absolute;
     top: 38%;
     left: 50%;
+
     border-radius: 42px;
 
     transform: translate(-50%, -50%) rotateY(25deg) rotateX(10deg);
     transform-style: preserve-3d;
 
-    /* MAIS TRANSPARENTE */
     background: rgba(20, 0, 60, 0.05);
 
     backdrop-filter: blur(85px) saturate(200%) contrast(110%);
@@ -58,7 +60,7 @@ body {
 }
 
 /* ===============================
-   CAMADA HOLOGRÁFICA REATIVA
+   CAMADA HOLOGRÁFICA
 ================================ */
 
 .main-terminal::before {
@@ -76,7 +78,7 @@ body {
 }
 
 /* ===============================
-   BORDA ENERGÉTICA SUAVE
+   BORDA ENERGÉTICA
 ================================ */
 
 .main-terminal::after {
@@ -114,7 +116,7 @@ body {
 }
 
 /* ===============================
-   CONTEÚDO (SEM LINHAS)
+   CONTEÚDO
 ================================ */
 
 .terminal-content-wrapper {
@@ -128,7 +130,7 @@ body {
 }
 
 /* ===============================
-   SCAN HOLOGRÁFICO SUAVE
+   SCAN HOLOGRÁFICO
 ================================ */
 
 .terminal-content-wrapper::after {
@@ -153,7 +155,7 @@ body {
 }
 
 /* ===============================
-   LUZ CENTRAL DE VIDRO
+   LUZ CENTRAL
 ================================ */
 
 .terminal-content-wrapper::before {
@@ -176,15 +178,15 @@ body {
 
 #info-footer {
     position: absolute;
-    bottom: 15px;
-    left: 40px;
-    right: 40px;
+    bottom: 12px;
+    left: 20px;
+    right: 20px;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    font-size: 11px;
+    font-size: clamp(8px, 1vw, 13px);
     color: rgba(180, 120, 255, 0.85);
     text-transform: uppercase;
-                        }
+   }
