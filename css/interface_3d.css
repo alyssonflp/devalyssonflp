@@ -1,6 +1,6 @@
 /* ======================================================
    ALYSSON OS — INTERFACE 3D ENGINE STYLESHEET
-   GLASS NEON TRANSPARENT BUILD
+   REAL GLASS + HOLOGRAM MODE
 ====================================================== */
 
 body {
@@ -39,7 +39,7 @@ body {
 }
 
 /* ===============================
-   MONITOR PRINCIPAL
+   MONITOR PRINCIPAL — REAL GLASS
 ================================ */
 
 .main-terminal {
@@ -53,24 +53,26 @@ body {
     transform: translate(-50%, -50%) rotateY(25deg) rotateX(10deg);
     transform-style: preserve-3d;
 
-    /* VIDRO MAIS TRANSPARENTE (AZUL + ROXO) */
-    background: linear-gradient(
-        135deg,
-        rgba(5, 20, 60, 0.45),
-        rgba(60, 0, 120, 0.35)
-    );
+    /* VIDRO REAL MULTICAMADA */
+    background:
+        linear-gradient(
+            145deg,
+            rgba(0, 180, 255, 0.18),
+            rgba(120, 60, 255, 0.12)
+        );
 
-    backdrop-filter: blur(50px) saturate(200%) brightness(110%);
-    -webkit-backdrop-filter: blur(50px) saturate(200%) brightness(110%);
+    backdrop-filter: blur(65px) saturate(220%) brightness(115%) contrast(110%);
+    -webkit-backdrop-filter: blur(65px) saturate(220%) brightness(115%) contrast(110%);
 
-    border: 1px solid rgba(0, 240, 255, 0.18);
+    border: 1px solid rgba(0, 240, 255, 0.25);
 
-    /* GLOW AJUSTADO */
+    /* BLOOM + PROFUNDIDADE */
     box-shadow:
-        0 30px 80px rgba(0, 0, 0, 0.55),
-        0 0 60px rgba(0, 240, 255, 0.35),
-        0 0 160px rgba(120, 60, 255, 0.25),
-        inset 0 0 80px rgba(0, 240, 255, 0.12);
+        0 40px 100px rgba(0, 0, 0, 0.65),
+        0 0 80px rgba(0, 240, 255, 0.35),
+        0 0 200px rgba(120, 60, 255, 0.25),
+        inset 0 0 120px rgba(0, 240, 255, 0.15),
+        inset 0 0 40px rgba(255, 255, 255, 0.08);
 
     cursor: grab;
     transition: transform 0.1s ease-out;
@@ -78,7 +80,7 @@ body {
 }
 
 /* ===============================
-   BORDA NEON ANIMADA
+   BORDA EM MOVIMENTO (VERSÃO ANTIGA RESTAURADA)
 ================================ */
 
 .main-terminal::before {
@@ -89,14 +91,15 @@ body {
     padding: 2px;
 
     background: linear-gradient(
-        90deg,
+        135deg,
+        #381f56,
         #00f0ff,
         #7a5cff,
-        #9d4dff,
-        #00f0ff
+        #ff007a,
+        #381f56
     );
 
-    background-size: 300% 300%;
+    background-size: 400% 400%;
 
     -webkit-mask:
         linear-gradient(#fff 0 0) content-box,
@@ -105,44 +108,41 @@ body {
     -webkit-mask-composite: xor;
     mask-composite: exclude;
 
-    filter: blur(3px);
-    opacity: 0.8;
-
-    animation: neonBorderMove 6s linear infinite;
+    animation: borderFlow 8s ease infinite;
     pointer-events: none;
 }
 
 /* ===============================
-   REFLEXO HOLOGRÁFICO SUPERIOR
+   HOLOGRAPHIC LIGHT REFLECTION
 ================================ */
 
 .main-terminal::after {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    height: 50%;
-    width: 100%;
+    inset: 0;
     border-radius: 40px;
 
-    background: linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0.22),
-        rgba(255, 255, 255, 0.08),
-        transparent
-    );
+    background:
+        linear-gradient(
+            120deg,
+            rgba(255,255,255,0.25) 0%,
+            rgba(255,255,255,0.05) 40%,
+            transparent 60%
+        );
 
-    pointer-events: none;
+    mix-blend-mode: overlay;
     opacity: 0.35;
+    pointer-events: none;
 }
 
 /* ===============================
-   ANIMAÇÃO BORDA
+   ANIMAÇÃO DA BORDA
 ================================ */
 
-@keyframes neonBorderMove {
+@keyframes borderFlow {
     0% { background-position: 0% 50%; }
-    100% { background-position: 300% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 /* ===============================
@@ -174,14 +174,14 @@ body {
     align-items: center;
 
     font-size: 11px;
-    color: rgba(0, 240, 255, 0.9);
+    color: rgba(0, 240, 255, 0.95);
 
     pointer-events: none;
 
     text-transform: uppercase;
     text-shadow:
-        0 0 6px rgba(0, 240, 255, 0.7),
-        0 0 12px rgba(120, 60, 255, 0.5);
+        0 0 8px rgba(0, 240, 255, 0.8),
+        0 0 18px rgba(120, 60, 255, 0.6);
 }
 
 .system-info-line {
@@ -213,4 +213,4 @@ body {
     #info-footer {
         font-size: 14px;
     }
-   }
+}
