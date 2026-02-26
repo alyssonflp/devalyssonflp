@@ -1,6 +1,6 @@
 /* ======================================================
-   AXIOM OS — CINEMATIC GLASS RESPONSIVE
-   Estável + Transparente + Holográfico
+   ALYSSON OS — REACTIVE GLASS ENGINE
+   VERSÃO ESPELHADA CINEMÁTICA
 ====================================================== */
 
 body {
@@ -24,68 +24,77 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    user-select: none;
 }
 
 /* ===============================
-   TERMINAL VIDRO RESPONSIVO
+   TERMINAL VIDRO REATIVO ESPELHADO
 ================================ */
 
 .main-terminal {
-
-    width: clamp(320px, 65vw, 700px);
-    aspect-ratio: 16 / 10;
-
+    width: 650px;
+    height: 400px;
     position: absolute;
     top: 38%;
     left: 50%;
-
-    border-radius: 42px;
+    border-radius: 40px;
 
     transform: translate(-50%, -50%) rotateY(25deg) rotateX(10deg);
     transform-style: preserve-3d;
 
-    background: rgba(20, 0, 60, 0.05);
+    /* MAIS TRANSPARENTE E ESPELHADO */
+    background: rgba(30, 0, 60, 0.06);
 
-    backdrop-filter: blur(85px) saturate(200%) contrast(110%);
-    -webkit-backdrop-filter: blur(85px) saturate(200%) contrast(110%);
+    backdrop-filter: 
+        blur(85px)
+        saturate(200%)
+        contrast(115%)
+        brightness(110%);
 
-    border: 1px solid rgba(140, 90, 255, 0.22);
+    -webkit-backdrop-filter: 
+        blur(85px)
+        saturate(200%)
+        contrast(115%)
+        brightness(110%);
+
+    border: 1px solid rgba(140, 90, 255, 0.28);
 
     box-shadow:
-        0 35px 80px rgba(0, 0, 0, 0.6),
-        inset 0 0 60px rgba(120, 0, 255, 0.04);
+        0 30px 70px rgba(0, 0, 0, 0.65),
+        inset 0 0 90px rgba(120, 0, 255, 0.05);
 
     overflow: visible;
     cursor: grab;
 }
 
 /* ===============================
-   CAMADA HOLOGRÁFICA
+   CAMADA HOLOGRÁFICA REATIVA
 ================================ */
 
 .main-terminal::before {
     content: "";
     position: absolute;
     inset: 0;
-    border-radius: 42px;
+    border-radius: 40px;
 
     background:
-        radial-gradient(circle at 30% 20%, rgba(170, 0, 255, 0.18), transparent 65%),
-        radial-gradient(circle at 80% 70%, rgba(0, 200, 255, 0.14), transparent 65%);
+        radial-gradient(circle at 25% 15%, rgba(170, 0, 255, 0.22), transparent 60%),
+        radial-gradient(circle at 85% 75%, rgba(0, 200, 255, 0.18), transparent 60%),
+        linear-gradient(to bottom, rgba(255,255,255,0.08), transparent 45%);
 
     mix-blend-mode: overlay;
     pointer-events: none;
 }
 
 /* ===============================
-   BORDA ENERGÉTICA
+   BORDA ANIMADA ENERGÉTICA
 ================================ */
 
 .main-terminal::after {
     content: "";
     position: absolute;
     inset: 0;
-    border-radius: 42px;
+    border-radius: 40px;
     padding: 2px;
 
     background: linear-gradient(
@@ -106,7 +115,7 @@ body {
     -webkit-mask-composite: xor;
     mask-composite: exclude;
 
-    animation: borderFlow 12s linear infinite;
+    animation: borderFlow 10s linear infinite;
     pointer-events: none;
 }
 
@@ -122,7 +131,7 @@ body {
 .terminal-content-wrapper {
     width: 100%;
     height: 100%;
-    padding: 30px;
+    padding: 25px;
     color: #ffffff;
     position: relative;
     z-index: 2;
@@ -130,63 +139,42 @@ body {
 }
 
 /* ===============================
-   SCAN HOLOGRÁFICO
-================================ */
-
-.terminal-content-wrapper::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-
-    background: linear-gradient(
-        to bottom,
-        transparent,
-        rgba(120, 0, 255, 0.06),
-        transparent
-    );
-
-    animation: scanMove 8s linear infinite;
-    pointer-events: none;
-}
-
-@keyframes scanMove {
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(100%); }
-}
-
-/* ===============================
-   LUZ CENTRAL
-================================ */
-
-.terminal-content-wrapper::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-
-    background: radial-gradient(
-        circle at center,
-        rgba(0, 200, 255, 0.08),
-        transparent 75%
-    );
-
-    pointer-events: none;
-}
-
-/* ===============================
-   FOOTER
+   FOOTER SISTEMA
 ================================ */
 
 #info-footer {
     position: absolute;
-    bottom: 12px;
-    left: 20px;
-    right: 20px;
+    bottom: 15px;
+    left: 40px;
+    right: 40px;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    font-size: clamp(8px, 1vw, 13px);
-    color: rgba(180, 120, 255, 0.85);
+    font-size: 11px;
+    color: rgba(180, 120, 255, 0.9);
+
+    pointer-events: none;
     text-transform: uppercase;
+}
+
+/* ===============================
+   RESPONSIVO SEM ALTERAR TAMANHO
+   (apenas adapta mobile)
+================================ */
+
+@media (max-width: 768px) {
+
+    .main-terminal {
+        width: 92vw;
+        height: 55vh;
+    }
+
+    #info-footer {
+        font-size: 9px;
+        bottom: 12px;
+        left: 15px;
+        right: 15px;
+    }
    }
