@@ -152,33 +152,4 @@ body {
         font-size: 14px;
     }
 
-   /* ===============================
-   MENSAGEM DE BOAS-VINDAS ANIMADA
-================================ */
-#welcome-message {
-    position: absolute;
-    bottom: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 600px;
-    padding: 20px;
-    background: rgba(10, 15, 30, 0.9);
-    border-radius: 20px;
-    border: 2px solid #ff007a; /* rosa do site */
-    font-family: 'Share Tech Mono', monospace;
-    color: #00ff00; /* verde terminal */
-    white-space: pre-wrap;
-    text-align: center;
-    line-height: 1.2;
-    z-index: 999;
-    box-shadow: 0 0 20px #ff007a;
-    opacity: 1;
-    pointer-events: auto;
 }
-
-#ascii-text {
-    color: #ff007a; /* ASCII em rosa */
-    font-weight: bold;
-}
-       }
