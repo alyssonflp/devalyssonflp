@@ -1,6 +1,5 @@
 /* ======================================================
-   ALYSSON OS — ULTRA REAL GLASS ENGINE
-   Vidro físico realista + roxo reativo
+   ALYSSON OS — ULTRA REAL GLASS (SIZE CONTROLLED)
 ====================================================== */
 
 body {
@@ -34,42 +33,43 @@ body {
 .main-terminal {
     width: 650px;
     height: 400px;
+
     position: absolute;
     top: 38%;
     left: 50%;
+
     border-radius: 40px;
 
     transform: translate(-50%, -50%) rotateY(25deg) rotateX(10deg);
     transform-style: preserve-3d;
 
-    /* BASE QUASE INVISÍVEL */
-    background: rgba(25, 0, 60, 0.045);
+    /* Ultra vidro real */
+    background: rgba(25, 0, 60, 0.04);
 
     backdrop-filter:
-        blur(95px)
-        saturate(220%)
-        contrast(115%)
-        brightness(112%);
+        blur(90px)
+        saturate(210%)
+        contrast(110%)
+        brightness(108%);
 
     -webkit-backdrop-filter:
-        blur(95px)
-        saturate(220%)
-        contrast(115%)
-        brightness(112%);
+        blur(90px)
+        saturate(210%)
+        contrast(110%)
+        brightness(108%);
 
     border: 1px solid rgba(160, 110, 255, 0.22);
 
     box-shadow:
-        0 40px 90px rgba(0, 0, 0, 0.7),
-        inset 0 0 120px rgba(140, 0, 255, 0.04),
-        inset 0 0 25px rgba(255, 255, 255, 0.03);
+        0 35px 80px rgba(0, 0, 0, 0.65),
+        inset 0 0 100px rgba(140, 0, 255, 0.04);
 
     overflow: visible;
     cursor: grab;
 }
 
 /* ===============================
-   REFRAÇÃO + COR REATIVA
+   COR REATIVA + REFRAÇÃO
 ================================ */
 
 .main-terminal::before {
@@ -79,13 +79,13 @@ body {
     border-radius: 40px;
 
     background:
-        radial-gradient(circle at 20% 10%, rgba(180, 0, 255, 0.22), transparent 55%),
-        radial-gradient(circle at 85% 80%, rgba(0, 210, 255, 0.20), transparent 60%),
+        radial-gradient(circle at 20% 10%, rgba(180, 0, 255, 0.18), transparent 60%),
+        radial-gradient(circle at 85% 80%, rgba(0, 210, 255, 0.18), transparent 65%),
         linear-gradient(
-            135deg,
-            rgba(255,255,255,0.10) 0%,
-            rgba(255,255,255,0.02) 40%,
-            transparent 70%
+            120deg,
+            rgba(255,255,255,0.12),
+            rgba(255,255,255,0.03),
+            transparent 50%
         );
 
     mix-blend-mode: overlay;
@@ -93,7 +93,7 @@ body {
 }
 
 /* ===============================
-   REFLEXO ANGULAR REALISTA
+   BORDA ENERGÉTICA ORIGINAL
 ================================ */
 
 .main-terminal::after {
@@ -101,53 +101,33 @@ body {
     position: absolute;
     inset: 0;
     border-radius: 40px;
+    padding: 2px;
 
-    background:
-        linear-gradient(
-            115deg,
-            rgba(255,255,255,0.18) 0%,
-            rgba(255,255,255,0.06) 20%,
-            transparent 40%
-        );
-
-    opacity: 0.25;
-    pointer-events: none;
-}
-
-/* ===============================
-   BORDA ENERGÉTICA SUAVE
-================================ */
-
-.main-terminal {
-    position: absolute;
-}
-
-.main-terminal .glass-border {
-    content: "";
-}
-
-/* Borda animada separada para manter pureza do vidro */
-.main-terminal::marker {}
-
-/* Mantendo sua borda original */
-.main-terminal::before,
-.main-terminal::after {
-    pointer-events: none;
-}
-
-/* ===============================
-   BORDA ENERGÉTICA REAL
-================================ */
-
-.main-terminal {
-    border-image: linear-gradient(
+    background: linear-gradient(
         135deg,
         #381f56,
         #00f0ff,
         #7a5cff,
         #ff007a,
         #381f56
-    ) 1;
+    );
+
+    background-size: 400% 400%;
+
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+
+    animation: borderFlow 10s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes borderFlow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
 }
 
 /* ===============================
@@ -181,4 +161,22 @@ body {
     font-size: 11px;
     color: rgba(190, 140, 255, 0.9);
     text-transform: uppercase;
-                                                }
+}
+
+/* ===============================
+   MOBILE (mantendo proporção)
+================================ */
+
+@media (max-width: 768px) {
+
+    .main-terminal {
+        width: 92vw;
+        height: 55vh;
+    }
+
+    #info-footer {
+        font-size: 9px;
+        left: 15px;
+        right: 15px;
+    }
+                 }
