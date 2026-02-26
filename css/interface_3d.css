@@ -1,6 +1,6 @@
 /* ======================================================
    ALYSSON OS — INTERFACE 3D ENGINE STYLESHEET REFINADA
-   Somente cores e efeitos ajustados para profissional
+   Cores, glow e neon ajustados para profissional
 ====================================================== */
 
 body {
@@ -12,7 +12,6 @@ body {
 /* ===============================
    UTILITÁRIOS
 ================================ */
-
 .hidden {
     display: none !important;
     opacity: 0;
@@ -23,7 +22,6 @@ body {
 /* ===============================
    AMBIENTE 3D
 ================================ */
-
 #desktop-3d {
     width: 100vw;
     height: 100vh;
@@ -41,7 +39,6 @@ body {
 /* ===============================
    MONITOR PRINCIPAL
 ================================ */
-
 .main-terminal {
     width: 650px;
     height: 400px;
@@ -53,7 +50,7 @@ body {
     transform: translate(-50%, -50%) rotateY(25deg) rotateX(10deg);
     transform-style: preserve-3d;
 
-    background: rgba(30, 31, 53, 1);
+    background: rgba(30, 31, 53, 1);  /* preto inspirado no Dracula */
     backdrop-filter: blur(20px) saturate(180%);
 
     box-shadow:
@@ -67,16 +64,15 @@ body {
 /* ===============================
    BORDA NEON
 ================================ */
-
 .main-terminal::before {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: 40px;
     padding: 2px;
-   
-    /* Mistura rosa + azul */
-    background: linear-gradient(135deg, #ff69b4 0%, #2ea3ff 100%); /* rosa → azul */
+
+    /* Mistura rosa do fundo.webp + azul do teclado */
+    background: linear-gradient(135deg, #ff69b4 0%, #2ea3ff 100%);
 
     -webkit-mask:
         linear-gradient(#fff 0 0) content-box,
@@ -86,15 +82,15 @@ body {
 
     pointer-events: none;
 
-    /* brilho leve para neon */
-    box-shadow: 0 0 12px rgba(46, 163, 255, 0.35),
-                0 0 8px rgba(255, 105, 180, 0.2);
+    /* glow sutil para neon */
+    box-shadow: 
+        0 0 15px rgba(46, 163, 255, 0.35),
+        0 0 12px rgba(255, 105, 180, 0.25);
 }
 
 /* ===============================
    CONTEÚDO
 ================================ */
-
 .terminal-content-wrapper {
     width: 100%;
     height: 100%;
@@ -102,13 +98,12 @@ body {
     color: #ffffff;
     z-index: 2;
     overflow-y: auto;
+    text-shadow: 0 0 3px rgba(255,255,255,0.1);
 }
 
 /* ===============================
    FOOTER SISTEMA
-   (CORRIGIDO — agora fica preso ao monitor)
 ================================ */
-
 #info-footer {
     position: absolute;
     bottom: 15px;
@@ -137,7 +132,6 @@ body {
 /* ===============================
    RESPONSIVO
 ================================ */
-
 @media (max-width: 768px) {
     .main-terminal {
         width: 92vw;
@@ -156,4 +150,4 @@ body {
     #info-footer {
         font-size: 14px;
     }
-   }
+                                }
