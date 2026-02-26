@@ -1,6 +1,5 @@
 /**
- * AxiomOS — Módulo de Interface 3D + Boas-vindas ASCII
- * Controla rotação do monitor e mostra mensagem de introdução animada
+ * AxiomOS — Módulo de Interface 3D + Hello World
  */
 
 export function initInterface3D() {
@@ -8,7 +7,7 @@ export function initInterface3D() {
     if (!terminal) return;
 
     // ===============================
-    // ROTATION LOGIC
+    // ROTATION DO MONITOR (seu código existente)
     // ===============================
     let isDragging = false;
     let rotationY = 25;
@@ -27,7 +26,7 @@ export function initInterface3D() {
         startY = e.pageY || e.touches?.[0].pageY || 0;
         terminal.style.transition = "none";
         terminal.style.cursor = "grabbing";
-        hideWelcome(); // Esconde a mensagem se o usuário interagir
+        hideWelcome();
     };
 
     const stopDrag = () => {
@@ -66,78 +65,57 @@ export function initInterface3D() {
     updateTransform(rotationY, rotationX);
 
     // ===============================
-    // WELCOME MESSAGE ASCII
+    // HELLO WORLD + MENSAGEM
     // ===============================
+    const wrapper = terminal.querySelector(".terminal-content-wrapper");
+    if (!wrapper) return;
 
     const welcomeMessage = document.createElement("div");
-    welcomeMessage.style.position = "absolute";
-    welcomeMessage.style.bottom = "50px";
-    welcomeMessage.style.left = "50%";
-    welcomeMessage.style.transform = "translateX(-50%)";
-    welcomeMessage.style.width = "90%";
-    welcomeMessage.style.maxWidth = "600px";
-    welcomeMessage.style.padding = "20px";
-    welcomeMessage.style.background = "rgba(10, 15, 30, 0.9)";
-    welcomeMessage.style.borderRadius = "20px";
-    welcomeMessage.style.border = "2px solid #ff007a"; // rosa do site
-    welcomeMessage.style.fontFamily = "'Share Tech Mono', monospace";
-    welcomeMessage.style.color = "#00ff00"; // verde terminal
-    welcomeMessage.style.whiteSpace = "pre-wrap";
-    welcomeMessage.style.textAlign = "center";
-    welcomeMessage.style.lineHeight = "1.2";
-    welcomeMessage.style.zIndex = "999";
-    welcomeMessage.style.boxShadow = "0 0 20px #ff007a";
+    welcomeMessage.style.width = "100%";
+    welcomeMessage.style.display = "flex";
+    welcomeMessage.style.flexDirection = "column";
+    welcomeMessage.style.alignItems = "center";
+    welcomeMessage.style.justifyContent = "center";
+    welcomeMessage.style.pointerEvents = "auto";
     welcomeMessage.style.opacity = "1";
     welcomeMessage.style.transition = "opacity 1s ease-out";
-    welcomeMessage.style.pointerEvents = "auto";
 
+    // ASCII rosa
     const asciiText = document.createElement("pre");
-    asciiText.style.color = "#ff007a"; // ASCII rosa
+    asciiText.style.color = "#ff007a"; // rosa do site
+    asciiText.style.fontFamily = "'Share Tech Mono', monospace";
     asciiText.style.fontWeight = "bold";
-    welcomeMessage.appendChild(asciiText);
-
-    terminal.appendChild(welcomeMessage);
-
-    const messageLines = [
-`  _   _      _ _        __        __         _     _ 
+    asciiText.style.textAlign = "center";
+    asciiText.style.margin = "0";
+    asciiText.style.whiteSpace = "pre-wrap";
+    asciiText.textContent = `
+  _   _      _ _        __        __         _     _ 
  | | | | ___| | | ___   \\ \\      / /__  _ __| | __| |
  | |_| |/ _ \\ | |/ _ \\   \\ \\ /\\ / / _ \\| '__| |/ _\` |
  |  _  |  __/ | | (_) |   \\ V  V / (_) | |  | | (_| |
  |_| |_|\\___|_|_|\\___( )   \\_/\\_/ \\___/|_|  |_|\\__,_|
                      |/                                
--------------------------------------------------------
+    `;
+
+    // Mensagem verde
+    const messageText = document.createElement("div");
+    messageText.style.color = "#00ff00"; // cor do terminal do seu CSS
+    messageText.style.fontFamily = "'Share Tech Mono', monospace";
+    messageText.style.textAlign = "center";
+    messageText.style.marginTop = "10px";
+    messageText.style.whiteSpace = "pre-wrap";
+    messageText.textContent = `
 Olá! Seja bem-vindo ao meu site! 🌟
+Para saber mais sobre mim, clique nos botões abaixo ou digite /help.
+Aqui você vai encontrar um pouco mais sobre mim, fugindo da trivialidade de um linktree.
+    `;
 
-Para saber mais sobre mim:
-- Clique nos botões abaixo
-- Ou digite /help para ver os comandos disponíveis
+    welcomeMessage.appendChild(asciiText);
+    welcomeMessage.appendChild(messageText);
+    wrapper.appendChild(welcomeMessage);
 
-Aqui você vai encontrar um pouco mais sobre mim,
-fugindo da trivialidade de um linktree convencional.`
-    ];
-
-    const typingSpeed = 10;
-    let currentLine = 0;
-    let currentChar = 0;
-
-    function typeLine() {
-        if (currentLine < messageLines.length) {
-            asciiText.textContent += messageLines[currentLine][currentChar] || '';
-            currentChar++;
-            if (currentChar < messageLines[currentLine].length) {
-                setTimeout(typeLine, typingSpeed);
-            } else {
-                currentLine++;
-                currentChar = 0;
-                asciiText.textContent += '\n';
-                setTimeout(typeLine, typingSpeed);
-            }
-        }
-    }
-
-    typeLine();
-
-    const displayTime = 12000; // 12 segundos
+    // Desaparece sozinho após leitura
+    const displayTime = 12000;
     let hideTimeout = setTimeout(hideWelcome, displayTime);
 
     function hideWelcome() {
@@ -147,10 +125,11 @@ fugindo da trivialidade de um linktree convencional.`
         }
     }
 
+    // Remove imediatamente se usuário clicar ou digitar
     ["click","keydown"].forEach(evt => {
-        terminal.addEventListener(evt, () => {
+        wrapper.addEventListener(evt, () => {
             clearTimeout(hideTimeout);
             hideWelcome();
         });
     });
-            }
+        }
