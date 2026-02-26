@@ -1,75 +1,14 @@
 // =====================================================
-// axiomOS - Terminal com ASCII neon azul
+// axiomOS - Terminal
 // =====================================================
 
 export async function initTerminal() {
   const root = document.getElementById('root-terminal');
   if(!root) return;
   root.innerHTML = '';
-
-  // Exibe a pré-mensagem
-  await showPreMessage(root);
-
-  // Depois, cria o prompt normal
   createPrompt(root);
 }
 
-// ===============================
-// PRÉ-MENSAGEM COM DIGITAÇÃO RÁPIDA E NEON AZUL
-// ===============================
-async function showPreMessage(container) {
-  const messages = [
-    "  _   _      _ _        __        __         _     _  \n",
-    " | | | | ___| | | ___   \\ \\      / /__  _ __| | __| | \n",
-    " | |_| |/ _ \\ | |/ _ \\   \\ \\ /\\ / / _ \\| '__| |/ _` | \n",
-    " |  _  |  __/ | | (_) |   \\ V  V / (_) | |  | | (_| | \n",
-    " |_| |_|\\___|_|_|\\___/     \\_/\\_/ \\___/|_|  |_|\\__,_| \n",
-    "\nOlá! Seja bem-vindo ao meu site!\n",
-    "Para saber mais sobre mim, clique nos botões abaixo ou digite /help.\n",
-    "Aqui você vai encontrar um pouco mais sobre mim, fugindo da trivialidade de um linktree.\n"
-  ];
-
-  let skip = false;
-  const removeMessage = () => { skip = true; container.innerHTML=''; };
-  container.addEventListener('click', removeMessage, { once: true });
-
-  for(const line of messages) {
-    if(skip) break;
-    await typeLine(container, line, 2, '#0f504e'); // digitação ultra-rápida, neon azul
-  }
-}
-
-// ===============================
-// DIGITAÇÃO COM VELOCIDADE AJUSTADA
-// ===============================
-function typeLine(container, text, speed=2, color='#0f504e') {
-  return new Promise(resolve => {
-    const lineDiv = document.createElement('div');
-    lineDiv.className = 'terminal-output log-done';
-    lineDiv.style.color = color;
-    lineDiv.style.whiteSpace = 'pre'; // mantém formatação
-    lineDiv.style.fontWeight = 'bold';
-    lineDiv.style.padding = '0 2px'; // 2px padding de cada lado
-    lineDiv.style.textShadow = `0 0 2px ${color}, 0 0 4px ${color}`; // neon sem brilho exagerado
-    container.appendChild(lineDiv);
-    container.scrollTop = container.scrollHeight;
-
-    let i = 0;
-    const interval = setInterval(() => {
-      lineDiv.textContent += text[i];
-      container.scrollTop = container.scrollHeight;
-      i++;
-      if(i >= text.length) {
-        clearInterval(interval);
-        resolve();
-      }
-    }, speed);
-  });
-}
-
-// ===============================
-// PROMPT EXISTENTE
-// ===============================
 function createPrompt(container) {
   const oldPrompt = document.querySelector('.prompt-container:not(.terminal-history)');
   if(oldPrompt) oldPrompt.remove();
@@ -93,9 +32,6 @@ function createPrompt(container) {
   input.addEventListener('keydown', e => { if(e.key==='Enter') handleCommand(e.target.value.trim().toLowerCase(), container); });
 }
 
-// ===============================
-// HANDLE COMMAND EXISTENTE
-// ===============================
 async function handleCommand(cmd, container) {
   if(!cmd) return;
 
@@ -121,4 +57,4 @@ async function handleCommand(cmd, container) {
   else container.insertBefore(Object.assign(document.createElement('div'), {className:'terminal-output log-error', innerHTML:`> ERRO: ${cmd} não encontrado`}), currentPrompt);
 
   container.scrollTop = container.scrollHeight;
-                                 }
+     }
