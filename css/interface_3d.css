@@ -1,6 +1,6 @@
 /* ======================================================
    ALYSSON OS — INTERFACE 3D ENGINE STYLESHEET
-   REAL GLASS + HOLOGRAM MODE
+   CLEAN REAL GLASS (NO HEAVY GLOW)
 ====================================================== */
 
 body {
@@ -39,7 +39,7 @@ body {
 }
 
 /* ===============================
-   MONITOR PRINCIPAL — REAL GLASS
+   MONITOR PRINCIPAL — VIDRO LIMPO
 ================================ */
 
 .main-terminal {
@@ -53,26 +53,22 @@ body {
     transform: translate(-50%, -50%) rotateY(25deg) rotateX(10deg);
     transform-style: preserve-3d;
 
-    /* VIDRO REAL MULTICAMADA */
-    background:
-        linear-gradient(
-            145deg,
-            rgba(0, 180, 255, 0.18),
-            rgba(120, 60, 255, 0.12)
-        );
+    /* VIDRO MAIS NATURAL */
+    background: linear-gradient(
+        145deg,
+        rgba(0, 180, 255, 0.12),
+        rgba(120, 60, 255, 0.08)
+    );
 
-    backdrop-filter: blur(65px) saturate(220%) brightness(115%) contrast(110%);
-    -webkit-backdrop-filter: blur(65px) saturate(220%) brightness(115%) contrast(110%);
+    backdrop-filter: blur(55px) saturate(160%) brightness(105%);
+    -webkit-backdrop-filter: blur(55px) saturate(160%) brightness(105%);
 
-    border: 1px solid rgba(0, 240, 255, 0.25);
+    border: 1px solid rgba(0, 240, 255, 0.18);
 
-    /* BLOOM + PROFUNDIDADE */
+    /* SOMBRA SUAVE (SEM BLOOM EXAGERADO) */
     box-shadow:
-        0 40px 100px rgba(0, 0, 0, 0.65),
-        0 0 80px rgba(0, 240, 255, 0.35),
-        0 0 200px rgba(120, 60, 255, 0.25),
-        inset 0 0 120px rgba(0, 240, 255, 0.15),
-        inset 0 0 40px rgba(255, 255, 255, 0.08);
+        0 25px 60px rgba(0, 0, 0, 0.6),
+        inset 0 0 40px rgba(255, 255, 255, 0.04);
 
     cursor: grab;
     transition: transform 0.1s ease-out;
@@ -80,7 +76,7 @@ body {
 }
 
 /* ===============================
-   BORDA EM MOVIMENTO (VERSÃO ANTIGA RESTAURADA)
+   BORDA ANIMADA (MANTIDA)
 ================================ */
 
 .main-terminal::before {
@@ -113,25 +109,25 @@ body {
 }
 
 /* ===============================
-   HOLOGRAPHIC LIGHT REFLECTION
+   REFLEXO SUAVE
 ================================ */
 
 .main-terminal::after {
     content: "";
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    height: 45%;
+    width: 100%;
     border-radius: 40px;
 
-    background:
-        linear-gradient(
-            120deg,
-            rgba(255,255,255,0.25) 0%,
-            rgba(255,255,255,0.05) 40%,
-            transparent 60%
-        );
+    background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.12),
+        transparent
+    );
 
-    mix-blend-mode: overlay;
-    opacity: 0.35;
+    opacity: 0.2;
     pointer-events: none;
 }
 
@@ -174,14 +170,12 @@ body {
     align-items: center;
 
     font-size: 11px;
-    color: rgba(0, 240, 255, 0.95);
+    color: rgba(0, 240, 255, 0.9);
 
     pointer-events: none;
 
     text-transform: uppercase;
-    text-shadow:
-        0 0 8px rgba(0, 240, 255, 0.8),
-        0 0 18px rgba(120, 60, 255, 0.6);
+    text-shadow: 0 0 6px rgba(0, 240, 255, 0.4);
 }
 
 .system-info-line {
@@ -213,4 +207,4 @@ body {
     #info-footer {
         font-size: 14px;
     }
-}
+       }
