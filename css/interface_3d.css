@@ -1,6 +1,6 @@
 /* ======================================================
-   ALYSSON OS — INTERFACE 3D ENGINE STYLESHEET
-   ULTRA TRANSPARENT GLASS MODE
+   ALYSSON OS — REACTIVE GLASS ENGINE
+   ROXO DINÂMICO QUE REAGE AO FUNDO
 ====================================================== */
 
 body {
@@ -10,18 +10,7 @@ body {
 }
 
 /* ===============================
-   UTILITÁRIOS
-================================ */
-
-.hidden {
-    display: none !important;
-    opacity: 0;
-    pointer-events: none;
-    visibility: hidden;
-}
-
-/* ===============================
-   AMBIENTE 3D
+   DESKTOP 3D
 ================================ */
 
 #desktop-3d {
@@ -39,7 +28,7 @@ body {
 }
 
 /* ===============================
-   MONITOR PRINCIPAL — ULTRA TRANSPARENTE
+   TERMINAL VIDRO REATIVO
 ================================ */
 
 .main-terminal {
@@ -53,33 +42,43 @@ body {
     transform: translate(-50%, -50%) rotateY(25deg) rotateX(10deg);
     transform-style: preserve-3d;
 
-    /* ROXO + AZUL MAIS TRANSPARENTE */
-    background: linear-gradient(
-        140deg,
-        rgba(90, 0, 150, 0.12),
-        rgba(0, 200, 255, 0.08),
-        rgba(20, 0, 40, 0.06)
-    );
+    /* BASE TRANSPARENTE */
+    background: rgba(30, 0, 60, 0.08);
 
-    backdrop-filter: blur(70px) saturate(160%) brightness(105%);
-    -webkit-backdrop-filter: blur(70px) saturate(160%) brightness(105%);
+    backdrop-filter: blur(65px) saturate(180%) contrast(110%);
+    -webkit-backdrop-filter: blur(65px) saturate(180%) contrast(110%);
 
-    border: 1px solid rgba(140, 90, 255, 0.18);
+    border: 1px solid rgba(140, 90, 255, 0.25);
 
-    /* SOMBRA MAIS LEVE */
-    box-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.55);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
 
+    overflow: visible;
     cursor: grab;
-    transition: transform 0.1s ease-out;
-    overflow: visible; /* IMPORTANTE PARA NÃO SUMIR DOCK */
 }
 
 /* ===============================
-   BORDA ANIMADA (MANTIDA)
+   CAMADA ROXA REATIVA
 ================================ */
 
 .main-terminal::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 40px;
+
+    background:
+        radial-gradient(circle at 30% 20%, rgba(150, 0, 255, 0.25), transparent 60%),
+        radial-gradient(circle at 80% 70%, rgba(0, 200, 255, 0.15), transparent 60%);
+
+    mix-blend-mode: overlay;
+    pointer-events: none;
+}
+
+/* ===============================
+   BORDA ANIMADA ANTIGA (RETORNANDO)
+================================ */
+
+.main-terminal::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -108,33 +107,6 @@ body {
     pointer-events: none;
 }
 
-/* ===============================
-   REFLEXO MUITO SUAVE
-================================ */
-
-.main-terminal::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 40%;
-    width: 100%;
-    border-radius: 40px;
-
-    background: linear-gradient(
-        to bottom,
-        rgba(255,255,255,0.06),
-        transparent
-    );
-
-    opacity: 0.15;
-    pointer-events: none;
-}
-
-/* ===============================
-   ANIMAÇÃO DA BORDA
-================================ */
-
 @keyframes borderFlow {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -150,13 +122,13 @@ body {
     height: 100%;
     padding: 25px;
     color: #ffffff;
+    position: relative;
     z-index: 2;
     overflow-y: auto;
-    position: relative;
 }
 
 /* ===============================
-   FOOTER SISTEMA
+   FOOTER
 ================================ */
 
 #info-footer {
@@ -170,41 +142,8 @@ body {
     align-items: center;
 
     font-size: 11px;
-    color: rgba(160, 120, 255, 0.85);
+    color: rgba(180, 120, 255, 0.9);
 
     pointer-events: none;
-
     text-transform: uppercase;
-    text-shadow: 0 0 4px rgba(120, 60, 255, 0.3);
 }
-
-.system-info-line {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* ===============================
-   RESPONSIVO
-================================ */
-
-@media (max-width: 768px) {
-
-    .main-terminal {
-        width: 92vw;
-        height: 48vh;
-    }
-
-    #info-footer {
-        bottom: 12px;
-        left: 15px;
-        right: 15px;
-        font-size: 8.5px;
-    }
-}
-
-@media (min-width: 1200px) {
-    #info-footer {
-        font-size: 14px;
-    }
-                         }
