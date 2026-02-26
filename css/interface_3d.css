@@ -1,6 +1,6 @@
 /* ======================================================
-   ALYSSON OS — REACTIVE GLASS ENGINE
-   VERSÃO ESPELHADA CINEMÁTICA
+   ALYSSON OS — ULTRA REAL GLASS ENGINE
+   Vidro físico realista + roxo reativo
 ====================================================== */
 
 body {
@@ -28,7 +28,7 @@ body {
 }
 
 /* ===============================
-   TERMINAL VIDRO REATIVO ESPELHADO
+   TERMINAL ULTRA VIDRO REAL
 ================================ */
 
 .main-terminal {
@@ -42,33 +42,34 @@ body {
     transform: translate(-50%, -50%) rotateY(25deg) rotateX(10deg);
     transform-style: preserve-3d;
 
-    /* MAIS TRANSPARENTE E ESPELHADO */
-    background: rgba(30, 0, 60, 0.06);
+    /* BASE QUASE INVISÍVEL */
+    background: rgba(25, 0, 60, 0.045);
 
-    backdrop-filter: 
-        blur(85px)
-        saturate(200%)
+    backdrop-filter:
+        blur(95px)
+        saturate(220%)
         contrast(115%)
-        brightness(110%);
+        brightness(112%);
 
-    -webkit-backdrop-filter: 
-        blur(85px)
-        saturate(200%)
+    -webkit-backdrop-filter:
+        blur(95px)
+        saturate(220%)
         contrast(115%)
-        brightness(110%);
+        brightness(112%);
 
-    border: 1px solid rgba(140, 90, 255, 0.28);
+    border: 1px solid rgba(160, 110, 255, 0.22);
 
     box-shadow:
-        0 30px 70px rgba(0, 0, 0, 0.65),
-        inset 0 0 90px rgba(120, 0, 255, 0.05);
+        0 40px 90px rgba(0, 0, 0, 0.7),
+        inset 0 0 120px rgba(140, 0, 255, 0.04),
+        inset 0 0 25px rgba(255, 255, 255, 0.03);
 
     overflow: visible;
     cursor: grab;
 }
 
 /* ===============================
-   CAMADA HOLOGRÁFICA REATIVA
+   REFRAÇÃO + COR REATIVA
 ================================ */
 
 .main-terminal::before {
@@ -78,16 +79,21 @@ body {
     border-radius: 40px;
 
     background:
-        radial-gradient(circle at 25% 15%, rgba(170, 0, 255, 0.22), transparent 60%),
-        radial-gradient(circle at 85% 75%, rgba(0, 200, 255, 0.18), transparent 60%),
-        linear-gradient(to bottom, rgba(255,255,255,0.08), transparent 45%);
+        radial-gradient(circle at 20% 10%, rgba(180, 0, 255, 0.22), transparent 55%),
+        radial-gradient(circle at 85% 80%, rgba(0, 210, 255, 0.20), transparent 60%),
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.10) 0%,
+            rgba(255,255,255,0.02) 40%,
+            transparent 70%
+        );
 
     mix-blend-mode: overlay;
     pointer-events: none;
 }
 
 /* ===============================
-   BORDA ANIMADA ENERGÉTICA
+   REFLEXO ANGULAR REALISTA
 ================================ */
 
 .main-terminal::after {
@@ -95,33 +101,53 @@ body {
     position: absolute;
     inset: 0;
     border-radius: 40px;
-    padding: 2px;
 
-    background: linear-gradient(
+    background:
+        linear-gradient(
+            115deg,
+            rgba(255,255,255,0.18) 0%,
+            rgba(255,255,255,0.06) 20%,
+            transparent 40%
+        );
+
+    opacity: 0.25;
+    pointer-events: none;
+}
+
+/* ===============================
+   BORDA ENERGÉTICA SUAVE
+================================ */
+
+.main-terminal {
+    position: absolute;
+}
+
+.main-terminal .glass-border {
+    content: "";
+}
+
+/* Borda animada separada para manter pureza do vidro */
+.main-terminal::marker {}
+
+/* Mantendo sua borda original */
+.main-terminal::before,
+.main-terminal::after {
+    pointer-events: none;
+}
+
+/* ===============================
+   BORDA ENERGÉTICA REAL
+================================ */
+
+.main-terminal {
+    border-image: linear-gradient(
         135deg,
         #381f56,
         #00f0ff,
         #7a5cff,
         #ff007a,
         #381f56
-    );
-
-    background-size: 400% 400%;
-
-    -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-
-    animation: borderFlow 10s linear infinite;
-    pointer-events: none;
-}
-
-@keyframes borderFlow {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
+    ) 1;
 }
 
 /* ===============================
@@ -139,7 +165,7 @@ body {
 }
 
 /* ===============================
-   FOOTER SISTEMA
+   FOOTER
 ================================ */
 
 #info-footer {
@@ -153,28 +179,6 @@ body {
     align-items: center;
 
     font-size: 11px;
-    color: rgba(180, 120, 255, 0.9);
-
-    pointer-events: none;
+    color: rgba(190, 140, 255, 0.9);
     text-transform: uppercase;
-}
-
-/* ===============================
-   RESPONSIVO SEM ALTERAR TAMANHO
-   (apenas adapta mobile)
-================================ */
-
-@media (max-width: 768px) {
-
-    .main-terminal {
-        width: 92vw;
-        height: 55vh;
-    }
-
-    #info-footer {
-        font-size: 9px;
-        bottom: 12px;
-        left: 15px;
-        right: 15px;
-    }
-   }
+                                                }
