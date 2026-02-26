@@ -9,9 +9,9 @@
 ================================ */
 :root {
     --dracula-bg: transparent;       /* fundo transparente */
-    --dracula-foreground: #2ea3ff;  /* texto padrão */
+    --dracula-foreground: #f8f8f2;  /* texto padrão */
     --dracula-comment: #6272a4;
-    --dracula-cyan: #0f504e;        /* ✅ Atualizado */
+    --dracula-cyan: #00d4ff;        /* ✅ Atualizado */
     --dracula-green: #50fa7b;
     --dracula-orange: #ffb86c;
     --dracula-pink: #ff79c6;
