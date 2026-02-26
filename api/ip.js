@@ -1,15 +1,31 @@
-export default function handler(req, res) {
+// terminal.js
+const terminalOutput = document.querySelector(".terminal-output");
 
-  const forwarded = req.headers["x-forwarded-for"];
-
-  const ip = forwarded
-    ? forwarded.split(",")[0]
-    : req.socket?.remoteAddress || "Indisponível";
-
-  res.status(200).json({
-    ip: ip,
-    userAgent: req.headers["user-agent"],
-    country: req.headers["x-vercel-ip-country"],
-    city: req.headers["x-vercel-ip-city"]
-  });
+// Função para adicionar linha centralizada no terminal
+function addLine(text) {
+    const line = document.createElement("div");
+    line.style.textAlign = "center";      // centraliza horizontalmente
+    line.style.margin = "6px 0";
+    line.textContent = text;
+    terminalOutput.appendChild(line);
 }
+
+// Busca dados da API
+fetch("/api/ip")
+    .then(res => res.json())
+    .then(data => {
+        // Pega navegador simplificado
+        let browserName = "Desconhecido";
+        const ua = data.userAgent || "";
+        const match = ua.match(/(Chrome|Firefox|Edge|Safari|Opera|Brave)/i);
+        if (match) browserName = match[0];
+
+        // Adiciona linhas centralizadas
+        addLine(`IP: ${data.ip}`);
+        addLine(`Cidade: ${data.city || "Indisponível"}`);
+        addLine(`Navegador: ${browserName}`);
+    })
+    .catch(err => {
+        addLine("Erro ao obter informações de rede.");
+        console.error(err);
+    });
