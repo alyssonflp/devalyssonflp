@@ -1,6 +1,6 @@
 /* ======================================================
    ALYSSON OS — INTERFACE 3D ENGINE STYLESHEET
-   CLEAN REAL GLASS (NO HEAVY GLOW)
+   GLASS MIXED PURPLE + CURRENT BACKGROUND
 ====================================================== */
 
 body {
@@ -39,7 +39,7 @@ body {
 }
 
 /* ===============================
-   MONITOR PRINCIPAL — VIDRO LIMPO
+   MONITOR PRINCIPAL — MIX ROXO + AZUL
 ================================ */
 
 .main-terminal {
@@ -53,22 +53,24 @@ body {
     transform: translate(-50%, -50%) rotateY(25deg) rotateX(10deg);
     transform-style: preserve-3d;
 
-    /* VIDRO MAIS NATURAL */
-    background: linear-gradient(
-        145deg,
-        rgba(0, 180, 255, 0.12),
-        rgba(120, 60, 255, 0.08)
-    );
+    /* GRADIENTE MULTICAMADA */
+    background:
+        linear-gradient(
+            140deg,
+            rgba(90, 0, 150, 0.18),   /* ROXO PROFUNDO */
+            rgba(0, 200, 255, 0.12),  /* AZUL ATUAL */
+            rgba(20, 0, 40, 0.10)
+        );
 
-    backdrop-filter: blur(55px) saturate(160%) brightness(105%);
-    -webkit-backdrop-filter: blur(55px) saturate(160%) brightness(105%);
+    backdrop-filter: blur(60px) saturate(170%) brightness(105%);
+    -webkit-backdrop-filter: blur(60px) saturate(170%) brightness(105%);
 
-    border: 1px solid rgba(0, 240, 255, 0.18);
+    border: 1px solid rgba(140, 90, 255, 0.22);
 
-    /* SOMBRA SUAVE (SEM BLOOM EXAGERADO) */
+    /* SOMBRA CONTROLADA */
     box-shadow:
-        0 25px 60px rgba(0, 0, 0, 0.6),
-        inset 0 0 40px rgba(255, 255, 255, 0.04);
+        0 25px 60px rgba(0, 0, 0, 0.65),
+        inset 0 0 40px rgba(120, 60, 255, 0.06);
 
     cursor: grab;
     transition: transform 0.1s ease-out;
@@ -123,7 +125,7 @@ body {
 
     background: linear-gradient(
         to bottom,
-        rgba(255,255,255,0.12),
+        rgba(255,255,255,0.10),
         transparent
     );
 
@@ -132,7 +134,7 @@ body {
 }
 
 /* ===============================
-   ANIMAÇÃO DA BORDA
+   ANIMAÇÃO BORDA
 ================================ */
 
 @keyframes borderFlow {
@@ -170,12 +172,12 @@ body {
     align-items: center;
 
     font-size: 11px;
-    color: rgba(0, 240, 255, 0.9);
+    color: rgba(150, 100, 255, 0.9);
 
     pointer-events: none;
 
     text-transform: uppercase;
-    text-shadow: 0 0 6px rgba(0, 240, 255, 0.4);
+    text-shadow: 0 0 6px rgba(120, 60, 255, 0.4);
 }
 
 .system-info-line {
@@ -207,4 +209,4 @@ body {
     #info-footer {
         font-size: 14px;
     }
-       }
+   }
