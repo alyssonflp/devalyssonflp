@@ -72,7 +72,7 @@ body {
     padding: 2px;
 
     /* Mistura rosa do fundo.webp + azul do teclado */
-    background: linear-gradient(135deg, #ff69b4 0%, #2ea3ff 100%);
+    background: linear-gradient(135deg, #ff69b4 0%, #00d4ff 100%);
 
     -webkit-mask:
         linear-gradient(#fff 0 0) content-box,
