@@ -1,6 +1,6 @@
 /* ======================================================
    ALYSSON OS — INTERFACE 3D ENGINE STYLESHEET
-   ULTRA GLASS CINEMATIC BUILD
+   GLASS NEON TRANSPARENT BUILD
 ====================================================== */
 
 body {
@@ -39,7 +39,7 @@ body {
 }
 
 /* ===============================
-   MONITOR PRINCIPAL — ULTRA GLASS
+   MONITOR PRINCIPAL
 ================================ */
 
 .main-terminal {
@@ -53,26 +53,24 @@ body {
     transform: translate(-50%, -50%) rotateY(25deg) rotateX(10deg);
     transform-style: preserve-3d;
 
-    /* MULTI-LAYER GLASS */
-    background:
-        linear-gradient(
-            135deg,
-            rgba(10, 25, 60, 0.75),
-            rgba(40, 10, 80, 0.65)
-        );
+    /* VIDRO MAIS TRANSPARENTE (AZUL + ROXO) */
+    background: linear-gradient(
+        135deg,
+        rgba(5, 20, 60, 0.45),
+        rgba(60, 0, 120, 0.35)
+    );
 
-    backdrop-filter: blur(45px) saturate(190%) contrast(115%);
-    -webkit-backdrop-filter: blur(45px) saturate(190%) contrast(115%);
+    backdrop-filter: blur(50px) saturate(200%) brightness(110%);
+    -webkit-backdrop-filter: blur(50px) saturate(200%) brightness(110%);
 
-    border: 1px solid rgba(0, 212, 255, 0.12);
+    border: 1px solid rgba(0, 240, 255, 0.18);
 
-    /* BLOOM SIMULADO EM CAMADAS */
+    /* GLOW AJUSTADO */
     box-shadow:
         0 30px 80px rgba(0, 0, 0, 0.55),
-        0 0 60px rgba(0, 212, 255, 0.35),
-        0 0 180px rgba(122, 92, 255, 0.18),
-        inset 0 0 90px rgba(0, 212, 255, 0.10),
-        inset 0 0 30px rgba(255, 255, 255, 0.05);
+        0 0 60px rgba(0, 240, 255, 0.35),
+        0 0 160px rgba(120, 60, 255, 0.25),
+        inset 0 0 80px rgba(0, 240, 255, 0.12);
 
     cursor: grab;
     transition: transform 0.1s ease-out;
@@ -80,7 +78,7 @@ body {
 }
 
 /* ===============================
-   BORDA ENERGÉTICA ANIMADA
+   BORDA NEON ANIMADA
 ================================ */
 
 .main-terminal::before {
@@ -94,7 +92,7 @@ body {
         90deg,
         #00f0ff,
         #7a5cff,
-        #ff007a,
+        #9d4dff,
         #00f0ff
     );
 
@@ -108,14 +106,14 @@ body {
     mask-composite: exclude;
 
     filter: blur(3px);
-    opacity: 0.75;
+    opacity: 0.8;
 
     animation: neonBorderMove 6s linear infinite;
     pointer-events: none;
 }
 
 /* ===============================
-   REFLEXO SUPERIOR REALISTA
+   REFLEXO HOLOGRÁFICO SUPERIOR
 ================================ */
 
 .main-terminal::after {
@@ -127,13 +125,12 @@ body {
     width: 100%;
     border-radius: 40px;
 
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(255, 255, 255, 0.22),
-            rgba(255, 255, 255, 0.08),
-            transparent
-        );
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.22),
+        rgba(255, 255, 255, 0.08),
+        transparent
+    );
 
     pointer-events: none;
     opacity: 0.35;
@@ -177,14 +174,14 @@ body {
     align-items: center;
 
     font-size: 11px;
-    color: rgba(0, 212, 255, 0.85);
+    color: rgba(0, 240, 255, 0.9);
 
     pointer-events: none;
 
     text-transform: uppercase;
     text-shadow:
-        0 0 6px rgba(0, 212, 255, 0.6),
-        0 0 12px rgba(122, 92, 255, 0.4);
+        0 0 6px rgba(0, 240, 255, 0.7),
+        0 0 12px rgba(120, 60, 255, 0.5);
 }
 
 .system-info-line {
@@ -216,4 +213,4 @@ body {
     #info-footer {
         font-size: 14px;
     }
-           }
+   }
